@@ -24,5 +24,30 @@ namespace Launcher
 		{
 			InitializeComponent();
 		}
+
+		private void CreateNewConfiguration(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void EditConfiguration(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void RemoveConfiguration(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void SwitchToDifferentConfiguration(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
+
+		private void LaunchTheGame(object sender, RoutedEventArgs e)
+		{
+
+		}
 	}
 }
