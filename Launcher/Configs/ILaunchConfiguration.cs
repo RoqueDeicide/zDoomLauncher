@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Launcher.Configs
+{
+	/// <summary>
+	/// Defines common functionality of launch configurations.
+	/// </summary>
+	public interface ILaunchConfiguration
+	{
+		/// <summary>
+		/// When implemented in derived class, gets the command line that can be used to launch the
+		/// game with this configuration.
+		/// </summary>
+		string CommandLine { get; }
+	}
+}

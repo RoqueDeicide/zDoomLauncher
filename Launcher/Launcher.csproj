@@ -68,6 +68,7 @@
     <Compile Include="EditConfigurationWindow.xaml.cs">
       <DependentUpon>EditConfigurationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Configs\ILaunchConfiguration.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
