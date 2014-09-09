@@ -64,7 +64,7 @@
 			<ListBoxItem Content="Startup Screens" Name="StartupScreensItem" Selected="DisableOptionHandler"/>
 			<ListBoxItem Content="Sprite Renaming" Name="SpriteRenamingItem" Selected="DisableOptionHandler"/>
 		</xctk:CheckListBox>
-		<TextBox Height="91" Margin="215,268,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+		<TextBox Height="101" Margin="215,258,4,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
 		<Label Content="Extra Command-Line Options" HorizontalAlignment="Left" Margin="216,232,0,0" VerticalAlignment="Top"/>
 		<Button Content="Launch" HorizontalAlignment="Left" Margin="216,389,0,0" VerticalAlignment="Top" Width="103" Height="23"/>
 
