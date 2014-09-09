@@ -30,23 +30,25 @@ namespace Launcher
 
 		}
 
-		private void EditConfiguration(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void RemoveConfiguration(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void SwitchToDifferentConfiguration(object sender, SelectionChangedEventArgs e)
-		{
-
-		}
-
 		private void LaunchTheGame(object sender, RoutedEventArgs e)
 		{
+
+		}
+		private void SaveConfiguration(object sender, RoutedEventArgs e)
+		{
+			throw new NotImplementedException();
+		}
+		private void OpenConfiguration(object sender, RoutedEventArgs e)
+		{
+			throw new NotImplementedException();
+		}
+		private void CloseWindow(object sender, RoutedEventArgs e)
+		{
+			throw new NotImplementedException();
+		}
+		private void DisableOptionHandler(object sender, RoutedEventArgs e)
+		{
+			
 
 		}
 	}
