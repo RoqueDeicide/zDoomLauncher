@@ -44,15 +44,11 @@
 			<ComboBoxItem Content="Double" Tag="1" ToolTip="Force renderer to use pixel doubling."/>
 			<ComboBoxItem Content="Quad" Tag="2" ToolTip="Force renderer to use pixel quadrupling."/>
 		</ComboBox>
-		<Label Content="Color Mode" HorizontalAlignment="Left" Margin="215,82,0,0" VerticalAlignment="Top"/>
-		<ComboBox HorizontalAlignment="Left" Margin="215,108,0,0" VerticalAlignment="Top" Width="104">
-			<ComboBoxItem Content="8-Bits Per Pixel" IsSelected="True" Tag="0"/>
-		</ComboBox>
-		<Label Content="Width" HorizontalAlignment="Left" Margin="215,135,0,0" VerticalAlignment="Top"/>
+		<Label Content="Width" HorizontalAlignment="Left" Margin="215,77,0,0" VerticalAlignment="Top"/>
 
-		<xctk:IntegerUpDown HorizontalAlignment="Left" Margin="216,161,0,0" VerticalAlignment="Top" Width="103" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360"/>
-		<xctk:IntegerUpDown HorizontalAlignment="Left" Margin="216,207,0,0" VerticalAlignment="Top" Width="103" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360"/>
-		<Label Content="Height" HorizontalAlignment="Left" Margin="215,181,0,0" VerticalAlignment="Top"/>
+		<xctk:IntegerUpDown x:Name="WidthValueField" HorizontalAlignment="Left" Margin="215,103,0,0" VerticalAlignment="Top" Width="103" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360" ValueChanged="UpdateVideoMode" RenderTransformOrigin="0.495,0.45"/>
+		<xctk:IntegerUpDown x:Name="HeightValueField" HorizontalAlignment="Left" Margin="216,149,0,0" VerticalAlignment="Top" Width="103" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360" ValueChanged="UpdateVideoMode"/>
+		<Label Content="Height" HorizontalAlignment="Left" Margin="216,123,0,0" VerticalAlignment="Top"/>
 		<Label Content="Disable" HorizontalAlignment="Left" Margin="324,29,0,0" VerticalAlignment="Top" Width="102"/>
 		<xctk:CheckListBox HorizontalAlignment="Left" Height="130" Margin="324,55,0,0" VerticalAlignment="Top" Width="127">
 			<ListBoxItem Content="Autoload Files" Name="AutoLoadItem" Selected="DisableOptionHandler"/>
@@ -64,9 +60,9 @@
 			<ListBoxItem Content="Startup Screens" Name="StartupScreensItem" Selected="DisableOptionHandler"/>
 			<ListBoxItem Content="Sprite Renaming" Name="SpriteRenamingItem" Selected="DisableOptionHandler"/>
 		</xctk:CheckListBox>
-		<TextBox Height="101" Margin="215,258,4,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-		<Label Content="Extra Command-Line Options" HorizontalAlignment="Left" Margin="216,232,0,0" VerticalAlignment="Top"/>
-		<Button Content="Launch" HorizontalAlignment="Left" Margin="216,389,0,0" VerticalAlignment="Top" Width="103" Height="23"/>
+		<TextBox Height="148" Margin="0,211,4,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateExtraOptions" HorizontalAlignment="Right" Width="236"/>
+		<Label Content="Extra Command-Line Options" HorizontalAlignment="Left" Margin="216,185,0,0" VerticalAlignment="Top"/>
+		<Button Content="Launch" Margin="216,389,4,0" VerticalAlignment="Top" Height="23"/>
 
 	</Grid>
 </Window>

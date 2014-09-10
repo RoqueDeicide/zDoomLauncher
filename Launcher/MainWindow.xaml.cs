@@ -51,5 +51,15 @@ namespace Launcher
 			
 
 		}
+
+		private void UpdateExtraOptions(object sender, TextChangedEventArgs e)
+		{
+
+		}
+
+		private void UpdateVideoMode(object sender, RoutedPropertyChangedEventArgs<object> e)
+		{
+
+		}
 	}
 }

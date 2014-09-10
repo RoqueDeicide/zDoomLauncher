@@ -54,10 +54,6 @@ namespace Launcher.Configs
 		/// </summary>
 		public PixelMode PixelMode { get; set; }
 		/// <summary>
-		/// Number of bits per pixel.
-		/// </summary>
-		public ColorMode ColorMode { get; set; }
-		/// <summary>
 		/// Width of the window in pixels.
 		/// </summary>
 		public int? Width { get; set; }
@@ -192,14 +188,6 @@ namespace Launcher.Configs
 					}
 				}
 				// Graphics.
-				switch (this.ColorMode)
-				{
-					case ColorMode.Bits8:
-						line.Append(" -bits 8");
-						break;
-					default:
-						throw new ArgumentOutOfRangeException();
-				}
 				switch (this.PixelMode)
 				{
 					case PixelMode.NoChange:
@@ -350,16 +338,6 @@ namespace Launcher.Configs
 		/// Quadruples picture size dimensions by enabling pixel quadrupling.
 		/// </summary>
 		Quad
-	}
-	/// <summary>
-	/// Enumeration of color modes.
-	/// </summary>
-	public enum ColorMode
-	{
-		/// <summary>
-		/// 8-bit color mode.
-		/// </summary>
-		Bits8
 	}
 	/// <summary>
 	/// Enumeration of flags that, when set, instruct zDoom to disable certain functions.
