@@ -83,7 +83,7 @@ namespace Launcher
 				this.config = new LaunchConfiguration();
 			}
 			// Set the title of the window.
-			this.Title = this.file != null ? "zDoom Launcher" : this.file;
+			this.Title = this.file ?? "zDoom Launcher";
 			// Set up the list of IWADs.
 			this.SetupIwads();
 			// Ignore block map?
