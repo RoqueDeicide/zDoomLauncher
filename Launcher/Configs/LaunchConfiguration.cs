@@ -129,11 +129,10 @@ namespace Launcher.Configs
 			get
 			{
 				StringBuilder line = new StringBuilder();
-				line.Append("zdoom.exe");
 				// IWAD.
 				if (this.IwadPath != null)
 				{
-					line.Append(" -iwad ");
+					line.Append("-iwad ");
 					line.Append(this.IwadPath);
 				}
 				// Config file.
@@ -320,6 +319,32 @@ namespace Launcher.Configs
 			}
 		}
 		#endregion
+		#region Construction
+		/// <summary>
+		/// Creates default configuration.
+		/// </summary>
+		public LaunchConfiguration()
+		{
+			this.IwadPath = "";
+			this.ConfigFile = "";
+			this.ExtraFiles = new List<string>();
+			this.IgnoreBlockMap = false;
+			this.SaveDirectory = "";
+			this.StartUpFileKind = StartupFile.None;
+			this.AutoStartFile = "";
+			this.ExtraOptions = "";
+			this.Width = null;
+			this.Height = null;
+			this.PixelMode = PixelMode.NoChange;
+			this.DisableFlags = DisableOptions.EnableAll;
+			this.FastMonsters = false;
+			this.NoMonsters = false;
+			this.RespawningMonsters = false;
+			this.TimeLimit = null;
+			this.TurboMode = null;
+			this.Difficulty = null;
+		}
+		#endregion
 	}
 	/// <summary>
 	/// Enumeration of pixel modes.
@@ -345,6 +370,10 @@ namespace Launcher.Configs
 	[Flags]
 	public enum DisableOptions
 	{
+		/// <summary>
+		/// When set everything should be enabled.
+		/// </summary>
+		EnableAll = 0,
 		/// <summary>
 		/// When set instructs zDoom to disable CD audio.
 		/// </summary>
@@ -387,6 +416,10 @@ namespace Launcher.Configs
 	/// </summary>
 	public enum StartupFile
 	{
+		/// <summary>
+		/// Nothing is done automatically at the start.
+		/// </summary>
+		None,
 		/// <summary>
 		/// Save game.
 		/// </summary>
