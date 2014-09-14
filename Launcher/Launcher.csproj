@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="Configs\ILaunchConfiguration.cs" />
     <Compile Include="Configs\LaunchConfiguration.cs" />
+    <Compile Include="GeneralExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
