@@ -1,1 +1,2 @@
 D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\bin\Debug\Launcher.exe.config
+D:\Games\Brutal Doom\Launcher.exe.config
