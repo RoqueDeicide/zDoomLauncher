@@ -1,2 +1,14 @@
 D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\bin\Debug\Launcher.exe.config
 D:\Games\Brutal Doom\Launcher.exe.config
+D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\Launcher.csprojResolveAssemblyReference.cache
+D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\MainWindow.baml
+D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\MainWindow.g.cs
+D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\App.g.cs
+D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\Launcher_MarkupCompile.cache
+D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\Launcher.g.resources
+D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\Launcher.Properties.Resources.resources
+D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\Launcher.csproj.GenerateResource.Cache
+D:\Games\Brutal Doom\Launcher.exe
+D:\Games\Brutal Doom\Launcher.pdb
+D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\Launcher.exe
+D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\Launcher.pdb

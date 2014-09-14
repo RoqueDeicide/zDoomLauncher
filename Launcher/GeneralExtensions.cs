@@ -111,18 +111,6 @@ namespace Launcher
 			return indexes;
 		}
 		/// <summary>
-		/// Determines whether this string can be used as a name for flow node or a port.
-		/// </summary>
-		/// <param name="text">String.</param>
-		/// <returns>True, if this string can be used as a name for flow node or a port.</returns>
-		public static bool IsValidFlowGraphName(this string text)
-		{
-			return
-				!(String.IsNullOrWhiteSpace(text)
-				|| Regex.IsMatch(text, VariousConstants.InvalidXmlCharsPattern)
-				|| text.Any(Char.IsWhiteSpace));
-		}
-		/// <summary>
 		/// Finds zero-based indexes of all occurrences of given substring in the text using the
 		/// invariant culture.
 		/// </summary>
