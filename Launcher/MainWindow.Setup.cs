@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using Launcher.Configs;
 using Ookii.Dialogs.Wpf;
 
@@ -24,90 +26,51 @@ namespace Launcher
 		private void SetupExtraFiles()
 		{
 			// Clear the list before adding files from the configuration.
-			this.ExtraFilesListView.Items.Clear();
+			this.ExtraFilesListBox.Items.Clear();
 			// Fill the list.
 			for (int i = 0; i < this.config.ExtraFiles.Count; i++)
 			{
 				// Add the item to the list.
-				this.ExtraFilesListView.Items.Add
-				(
-					this.CreateExtraFileListItem(this.config.ExtraFiles[i], i)
-				);
+				this.AddExtraFileToList(this.config.ExtraFiles[i]);
 			}
-			// Add "Add" button to the end of extras.
-			Button addExtraButton = new Button
+			this.AddMoreExtrasItem.Click += (sender, args) =>
 			{
-				Content = "Add"
-			};
-			addExtraButton.Click += (sender, args) =>
-			{
-				if (this.selectExtraFilesDialog.ShowDialog(this) == true)
+				if (this.selectExtraFilesDialog.ShowDialog() == true)
 				{
-					// Add files that are not IWADs to the list of extras.
-					string[] files = this.selectExtraFilesDialog.FileNames;
-					for (int i = 0; i < files.Length; i++)
+					foreach (string fileName in this.selectExtraFilesDialog.FileNames)
 					{
-						// Add the file to the list.
-						this.config.ExtraFiles.Add(files[i]);
-						this.ExtraFilesListView.Items.Insert
-						(
-							// Put the item before the add button.
-							this.ExtraFilesListView.Items.Count - 2,
-							this.CreateExtraFileListItem
-							(
-								files[i],
-								this.config.ExtraFiles.Count
-							)
-						);
+						this.AddExtraFileToList(fileName);
 					}
 				}
 			};
-			this.ExtraFilesListView.Items.Add
-			(
-				new
+			this.DeleteSelectedExtrasItem.Click += (sender, args) =>
+			{
+				foreach
+				(
+					ListBoxItem selectedItem
+						in
+						this.ExtraFilesListBox.SelectedItems.OfType<ListBoxItem>()
+				)
 				{
-					FileName = addExtraButton,
-					Type = ""
+					// Remove file from configuration.
+					this.config.ExtraFiles.Remove((string)selectedItem.Tag);
+					// Remove the item itself.
+					this.ExtraFilesListBox.Items.Remove(selectedItem);
 				}
-			);
+			};
 		}
-		private object CreateExtraFileListItem(string extraFile, int i)
+		private void AddExtraFileToList(string fileName)
 		{
-			// Type column.
-			string type;
-			switch (Path.GetExtension(extraFile))
-			{
-				case ".bex":
-				case ".deh":
-					type = "Patch";
-					break;
-				case ".wad":
-					type = "PWAD";
-					break;
-				default:
-					type = "Unknown";
-					break;
-			}
-			// File name column.
-			StackPanel fileNamePanel = new StackPanel();
-			Button removeExtraButton = new Button
-			{
-				Content = 'x'
-			};
-			int i1 = i;
-			removeExtraButton.Click += (sender, args) =>
-			{
-				this.ExtraFilesListView.Items.RemoveAt(i1);
-				this.config.ExtraFiles.RemoveAt(i1);
-			};
-			fileNamePanel.Children.Add(removeExtraButton);
-			fileNamePanel.Children.Add(new TextBlock(new Run(Path.GetFileName(extraFile))));
-			// Add the item to the list.
-			return new
-			{
-				FileName = fileNamePanel,
-				Type = type
-			};
+			this.ExtraFilesListBox.Items
+				.Add
+				(
+					new ListBoxItem
+					{
+						Content = Path.GetFileName(fileName),
+						Tag = fileName
+					}
+				);
+			this.config.ExtraFiles.Add(fileName);
 		}
 		private void SetupPixelMode()
 		{
@@ -329,6 +292,16 @@ namespace Launcher
 					this.demoSaveSelectionMenu.IsOpen = true;
 				}
 			};
+		}
+		private void AddMoreExtrasItem_OnClick(object sender, RoutedEventArgs e)
+		{
+// 			if (this.selectExtraFilesDialog.ShowDialog() == true)
+// 			{
+// 				foreach (string fileName in this.selectExtraFilesDialog.FileNames)
+// 				{
+// 					this.AddExtraFileToList(fileName);
+// 				}
+// 			}
 		}
 	}
 }

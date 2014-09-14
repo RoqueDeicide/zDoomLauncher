@@ -26,7 +26,7 @@ namespace Launcher
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class MainWindow
 	{
 		private static readonly SortedList<string, string> supportedIwads = new SortedList<string, string>
 		{
@@ -128,6 +128,7 @@ namespace Launcher
 			{
 				this.config = null;
 				this.file = this.saveConfigurationDialog.FileName;
+				this.SetupInterface();
 			}
 		}
 		private void SaveConfiguration(object sender, RoutedEventArgs e)
@@ -140,6 +141,7 @@ namespace Launcher
 			{
 				this.config = LaunchConfiguration.Load(this.openConfigurationDialog.FileName);
 				this.file = this.openConfigurationDialog.FileName;
+				this.SetupInterface();
 			}
 		}
 		private void CloseWindow(object sender, RoutedEventArgs e)
