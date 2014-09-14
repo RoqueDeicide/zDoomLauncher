@@ -62,7 +62,7 @@
 			<ListBoxItem Content="Startup Screens" Name="StartupScreensItem" Selected="DisableOptionHandler" Tag="32"/>
 			<ListBoxItem Content="Sprite Renaming" Name="SpriteRenamingItem" Selected="DisableOptionHandler" Tag="64"/>
 		</xctk:CheckListBox>
-		<TextBox x:Name="ExtraOptionsTextBox" Height="148" Margin="0,211,4,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Right" Width="236"/>
+		<TextBox x:Name="ExtraOptionsTextBox" Height="148" Margin="215,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="236"/>
 		<Label Content="Extra Command-Line Options" HorizontalAlignment="Left" Margin="216,185,0,0" VerticalAlignment="Top"/>
 		<Button Content="Launch" Margin="216,389,4,0" VerticalAlignment="Top" Height="23" Click="LaunchTheGame"/>
 		<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="215,87,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the width of the picture."/>
