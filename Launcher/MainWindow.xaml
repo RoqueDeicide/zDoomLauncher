@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="Launcher.MainWindow"
-        Title="zDoom Launcher" Height="569.187" Width="464.699" Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}">
+        Title="zDoom Launcher" Height="536.187" Width="464.699" Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}">
 	<Grid Margin="0,0,2,0">
 		<Menu Height="24" VerticalAlignment="Top">
 			<MenuItem Header="Configurations">
@@ -16,53 +16,57 @@
 		</Menu>
 		<Label Content="IWAD" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top"/>
 		<ComboBox HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="200" x:Name="IwadComboBox"/>
-		<ListView HorizontalAlignment="Left" Margin="10,108,0,180" Width="200" x:Name="ExtraFilesListView">
+		<ListView HorizontalAlignment="Left" Margin="10,108,0,0" Width="200" x:Name="ExtraFilesListView" Height="252" VerticalAlignment="Top">
 			<ListView.View>
 				<GridView>
-					<GridViewColumn Header="File Name" Width="150"/>
-					<GridViewColumn Header="Type" Width="40"/>
+					<GridViewColumn Header="File Name" Width="150" DisplayMemberBinding="{Binding FileName}"/>
+					<GridViewColumn Header="Type" Width="40" DisplayMemberBinding="{Binding Type}"/>
 				</GridView>
 			</ListView.View>
 		</ListView>
 		<Label Content="Extra Files" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top"/>
-		<GroupBox Header="Start With" HorizontalAlignment="Left" Margin="10,417,0,0" VerticalAlignment="Top" Width="200" Height="112">
+		<GroupBox Header="Start With" HorizontalAlignment="Left" Margin="10,417,0,0" VerticalAlignment="Top" Width="441" Height="83">
 			<Grid Margin="0,0,-2,-2">
-				<RadioButton Content="Load" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="44"/>
-				<TextBox x:Name="LoadGameTextBox" Height="23" Margin="60,7,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-				<RadioButton Content="Demo" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top"/>
-				<RadioButton Content="Map" HorizontalAlignment="Left" Margin="10,63,0,0" VerticalAlignment="Top"/>
-				<TextBox x:Name="PlayDemoTextBox" Height="23" Margin="60,35,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-				<TextBox x:Name="StartMapTextBox" Height="23" Margin="60,63,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+				<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="44"/>
+				<TextBox x:Name="LoadGameTextBox" Height="23" Margin="60,7,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Path to the save file."/>
+				<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top"/>
+				<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top"/>
+				<TextBox x:Name="PlayDemoTextBox" Height="23" Margin="60,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Path to the demo file."/>
+				<TextBox x:Name="StartMapTextBox" Height="23" Margin="245,7,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Name of the map use m# for games with no episodes, and use e#m# for games with them."/>
+				<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="200,38,0,0" VerticalAlignment="Top" IsChecked="True"/>
 			</Grid>
 		</GroupBox>
-		<TextBox HorizontalAlignment="Left" Height="23" Margin="10,389,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+		<TextBox x:Name="SaveDirectoryTextBox" HorizontalAlignment="Left" Height="23" Margin="10,389,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
 		<Label Content="Save Directory" HorizontalAlignment="Left" Margin="10,363,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.474,0.538" Width="120"/>
-		<CheckBox Content="Ignore Block Map" HorizontalAlignment="Left" Margin="99,87,0,0" VerticalAlignment="Top" Width="111"/>
+		<CheckBox x:Name="IgnoreBlockMapIndicator" Content="Ignore Block Map" HorizontalAlignment="Left" Margin="99,87,0,0" VerticalAlignment="Top" Width="111"/>
 		<Label Content="Pixel Mode" HorizontalAlignment="Left" Margin="215,29,0,0" VerticalAlignment="Top" Width="74"/>
-		<ComboBox HorizontalAlignment="Left" Margin="215,55,0,0" VerticalAlignment="Top" Width="104">
-			<ComboBoxItem Content="Single" IsSelected="True" Tag="0" ToolTip="Nothing special is set to happen."/>
-			<ComboBoxItem Content="Double" Tag="1" ToolTip="Force renderer to use pixel doubling."/>
-			<ComboBoxItem Content="Quad" Tag="2" ToolTip="Force renderer to use pixel quadrupling."/>
+		<ComboBox HorizontalAlignment="Left" Margin="215,55,0,0" VerticalAlignment="Top" Width="104" Name="PixelModeComboBox">
+			<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen." Name="SinglePixelComboBoxItem"/>
+			<ComboBoxItem Content="Double" Tag="1" ToolTip="Force renderer to use pixel doubling." Name="DoublePixelComboBoxItem"/>
+			<ComboBoxItem Content="Quad" Tag="2" ToolTip="Force renderer to use pixel quadrupling." Name="QuadPixelComboBoxItem"/>
 		</ComboBox>
-		<Label Content="Width" HorizontalAlignment="Left" Margin="215,77,0,0" VerticalAlignment="Top"/>
 
-		<xctk:IntegerUpDown x:Name="WidthValueField" HorizontalAlignment="Left" Margin="215,103,0,0" VerticalAlignment="Top" Width="103" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360" ValueChanged="UpdateVideoMode" RenderTransformOrigin="0.495,0.45"/>
-		<xctk:IntegerUpDown x:Name="HeightValueField" HorizontalAlignment="Left" Margin="216,149,0,0" VerticalAlignment="Top" Width="103" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360" ValueChanged="UpdateVideoMode"/>
-		<Label Content="Height" HorizontalAlignment="Left" Margin="216,123,0,0" VerticalAlignment="Top"/>
+		<xctk:IntegerUpDown x:Name="WidthValueField" HorizontalAlignment="Left" Margin="215,103,0,0" VerticalAlignment="Top" Width="103" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360" RenderTransformOrigin="0.495,0.45"/>
+		<xctk:IntegerUpDown x:Name="HeightValueField" HorizontalAlignment="Left" Margin="216,149,0,0" VerticalAlignment="Top" Width="103" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360"/>
 		<Label Content="Disable" HorizontalAlignment="Left" Margin="324,29,0,0" VerticalAlignment="Top" Width="102"/>
-		<xctk:CheckListBox HorizontalAlignment="Left" Height="130" Margin="324,55,0,0" VerticalAlignment="Top" Width="127">
-			<ListBoxItem Content="Autoload Files" Name="AutoLoadItem" Selected="DisableOptionHandler"/>
-			<ListBoxItem Content="CD Audio" Name="CDAudioItem" Selected="DisableOptionHandler"/>
-			<ListBoxItem Content="Idling" Name="IdlingItem" Selected="DisableOptionHandler"/>
-			<ListBoxItem Content="Sound Effects" Name="SfxItem" Selected="DisableOptionHandler"/>
-			<ListBoxItem Content="Music" Name="MusicItem" Selected="DisableOptionHandler"/>
-			<ListBoxItem Content="JoyStick" Name="JoyStickItem" Selected="DisableOptionHandler"/>
-			<ListBoxItem Content="Startup Screens" Name="StartupScreensItem" Selected="DisableOptionHandler"/>
-			<ListBoxItem Content="Sprite Renaming" Name="SpriteRenamingItem" Selected="DisableOptionHandler"/>
+		<xctk:CheckListBox x:Name="DisableFlagsList" HorizontalAlignment="Left" Height="130" Margin="324,55,0,0" VerticalAlignment="Top" Width="127" ValueMemberPath="Level" 
+                            SelectedMemberPath="IsSelected"
+                            SelectedValue="{Binding SelectedValue}"
+                            SelectedItemsOverride="{Binding SelectedItems}">
+			<ListBoxItem Content="Auto-Load Files" Name="AutoLoadItem" Selected="DisableOptionHandler" Tag="128"/>
+			<ListBoxItem Content="CD Audio" Name="CDAudioItem" Selected="DisableOptionHandler" Tag="1"/>
+			<ListBoxItem Content="Idling" Name="IdlingItem" Selected="DisableOptionHandler" Tag="2"/>
+			<ListBoxItem Content="Sound Effects" Name="SfxItem" Selected="DisableOptionHandler" Tag="16"/>
+			<ListBoxItem Content="Music" Name="MusicItem" Selected="DisableOptionHandler" Tag="8"/>
+			<ListBoxItem Content="JoyStick" Name="JoyStickItem" Selected="DisableOptionHandler" Tag="4"/>
+			<ListBoxItem Content="Startup Screens" Name="StartupScreensItem" Selected="DisableOptionHandler" Tag="32"/>
+			<ListBoxItem Content="Sprite Renaming" Name="SpriteRenamingItem" Selected="DisableOptionHandler" Tag="64"/>
 		</xctk:CheckListBox>
-		<TextBox Height="148" Margin="0,211,4,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateExtraOptions" HorizontalAlignment="Right" Width="236"/>
+		<TextBox x:Name="ExtraOptionsTextBox" Height="148" Margin="0,211,4,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Right" Width="236"/>
 		<Label Content="Extra Command-Line Options" HorizontalAlignment="Left" Margin="216,185,0,0" VerticalAlignment="Top"/>
-		<Button Content="Launch" Margin="216,389,4,0" VerticalAlignment="Top" Height="23"/>
+		<Button Content="Launch" Margin="216,389,4,0" VerticalAlignment="Top" Height="23" Click="LaunchTheGame"/>
+		<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="215,87,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the width of the picture."/>
+		<CheckBox x:Name="HeightCheckBox" Content="Height" HorizontalAlignment="Left" Margin="215,133,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the height of the picture."/>
 
 	</Grid>
 </Window>
