@@ -130,13 +130,13 @@ namespace Launcher.Configs
 			{
 				StringBuilder line = new StringBuilder();
 				// IWAD.
-				if (this.IwadPath != null)
+				if (!String.IsNullOrWhiteSpace(this.IwadPath))
 				{
 					line.Append("-iwad ");
 					line.Append(this.IwadPath);
 				}
 				// Config file.
-				if (this.ConfigFile != null)
+				if (!String.IsNullOrWhiteSpace(this.ConfigFile))
 				{
 					line.Append(" -config ");
 					line.Append(this.ConfigFile);
@@ -220,7 +220,7 @@ namespace Launcher.Configs
 					line.Append(" -savedir ");
 					line.Append(this.SaveDirectory);
 				}
-				if (this.AutoStartFile != null)
+				if (!String.IsNullOrWhiteSpace(this.AutoStartFile))
 				{
 					switch (this.StartUpFileKind)
 					{
@@ -310,7 +310,7 @@ namespace Launcher.Configs
 					line.Append(" -nostartup");
 				}
 				// Last thing.
-				if (this.ExtraOptions != null)
+				if (!String.IsNullOrWhiteSpace(this.ExtraOptions))
 				{
 					line.Append(" ");
 					line.Append(this.ExtraOptions);
