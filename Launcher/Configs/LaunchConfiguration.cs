@@ -134,7 +134,7 @@ namespace Launcher.Configs
 				if (!String.IsNullOrWhiteSpace(this.IwadPath))
 				{
 					line.Append("-iwad ");
-					line.Append(this.IwadPath);
+					line.Append(Path.GetFileName(this.IwadPath));
 				}
 				// Config file.
 				if (!String.IsNullOrWhiteSpace(this.ConfigFile))
@@ -147,22 +147,25 @@ namespace Launcher.Configs
 				{
 					// Wads.
 					var wads =
-						this.ExtraFiles.Where(x => Path.GetExtension(x) == ".wad").GetEnumerator();
-					wads.Reset();
+						this.ExtraFiles
+						.Where
+						(
+							x => Path.GetExtension(x) != ".bex" && Path.GetExtension(x) != ".deh"
+						)
+						.GetEnumerator();
 					if (wads.MoveNext())
 					{
 						line.Append(" -file ");
-						line.Append(wads.Current);
+						line.Append(Path.GetFileName(wads.Current));
 						while (wads.MoveNext())
 						{
 							line.Append(" ");
-							line.Append(wads.Current);
+							line.Append(Path.GetFileName(wads.Current));
 						}
 					}
 					// Patches.
 					var bexPatches =
 						this.ExtraFiles.Where(x => Path.GetExtension(x) == ".bex").GetEnumerator();
-					bexPatches.Reset();
 					if (bexPatches.MoveNext())
 					{
 						line.Append(" -bex ");
@@ -175,7 +178,6 @@ namespace Launcher.Configs
 					}
 					var dehPatches =
 						this.ExtraFiles.Where(x => Path.GetExtension(x) == ".deh").GetEnumerator();
-					dehPatches.Reset();
 					if (dehPatches.MoveNext())
 					{
 						line.Append(" -deh ");
