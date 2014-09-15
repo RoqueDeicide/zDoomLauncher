@@ -25,52 +25,11 @@ namespace Launcher
 		}
 		private void SetupExtraFiles()
 		{
-			// Clear the list before adding files from the configuration.
-			this.ExtraFilesListBox.Items.Clear();
-			// Fill the list.
-			for (int i = 0; i < this.config.ExtraFiles.Count; i++)
+			foreach (CheckBox item in this.ExtraFilesListBox.Items.Cast<CheckBox>().Where
+				(item => this.config.ExtraFiles.Contains((string)item.Content)))
 			{
-				// Add the item to the list.
-				this.AddExtraFileToList(this.config.ExtraFiles[i]);
+				item.IsChecked = true;
 			}
-			this.AddMoreExtrasItem.Click += (sender, args) =>
-			{
-				if (this.selectExtraFilesDialog.ShowDialog() == true)
-				{
-					foreach (string fileName in this.selectExtraFilesDialog.FileNames)
-					{
-						this.AddExtraFileToList(fileName);
-					}
-				}
-			};
-			this.DeleteSelectedExtrasItem.Click += (sender, args) =>
-			{
-				foreach
-				(
-					ListBoxItem selectedItem
-						in
-						this.ExtraFilesListBox.SelectedItems.OfType<ListBoxItem>()
-				)
-				{
-					// Remove file from configuration.
-					this.config.ExtraFiles.Remove((string)selectedItem.Tag);
-					// Remove the item itself.
-					this.ExtraFilesListBox.Items.Remove(selectedItem);
-				}
-			};
-		}
-		private void AddExtraFileToList(string fileName)
-		{
-			this.ExtraFilesListBox.Items
-				.Add
-				(
-					new ListBoxItem
-					{
-						Content = Path.GetFileName(fileName),
-						Tag = fileName
-					}
-				);
-			this.config.ExtraFiles.Add(fileName);
 		}
 		private void SetupPixelMode()
 		{
@@ -88,16 +47,6 @@ namespace Launcher
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
-			this.PixelModeComboBox.SelectionChanged +=
-				(sender, args) =>
-				{
-					if (this.PixelModeComboBox.SelectedItem != null)
-					{
-						// Update configuration with a new selection.
-						ComboBoxItem item = (ComboBoxItem)this.PixelModeComboBox.SelectedItem;
-						this.config.PixelMode = (PixelMode)(int)item.Tag;
-					}
-				};
 		}
 		private void SetupResolution()
 		{
@@ -111,26 +60,6 @@ namespace Launcher
 				HeightCheckBox.IsChecked = true;
 				HeightValueField.Value = this.config.Height.Value;
 			}
-			// Update resolution when value is changed.
-			this.WidthValueField.ValueChanged += (sender, args) =>
-			{
-				this.config.Width =
-					(this.WidthCheckBox.IsChecked == true) ? this.WidthValueField.Value : null;
-			};
-			this.HeightValueField.ValueChanged += (sender, args) =>
-			{
-				this.config.Height =
-					(this.HeightCheckBox.IsChecked == true) ? this.HeightValueField.Value : null;
-			};
-			// Nullify resolution, if it has been checked, otherwise give it existing value.
-			this.WidthCheckBox.Checked +=
-				(sender, args) => this.config.Width = this.WidthValueField.Value;
-			this.WidthCheckBox.Unchecked +=
-				(sender, args) => this.config.Width = null;
-			this.HeightCheckBox.Checked +=
-				(sender, args) => this.config.Height = this.HeightValueField.Value;
-			this.HeightCheckBox.Unchecked +=
-				(sender, args) => this.config.Height = null;
 		}
 		private void SetupDisableOptions()
 		{
@@ -153,23 +82,6 @@ namespace Launcher
 				this.StartupScreensItem.IsSelected =
 					this.config.DisableFlags.HasFlag(DisableOptions.StartupScreens);
 			}
-			this.DisableFlagsList.ItemSelectionChanged += (sender, args) =>
-			{
-				ListBoxItem selectedItem = args.Item as ListBoxItem;
-				if (selectedItem != null)
-				{
-					if (args.IsSelected)
-					{
-						// Set the flag.
-						this.config.DisableFlags |= (DisableOptions)(int)selectedItem.Tag;
-					}
-					else
-					{
-						// Remove the flag.
-						this.config.DisableFlags &= (DisableOptions)~((int)selectedItem.Tag);
-					}
-				}
-			};
 		}
 		private void SetupStartUp()
 		{
@@ -190,118 +102,22 @@ namespace Launcher
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
-			this.LoadNothingIndicator.Checked +=
-				(sender, args) => this.config.StartUpFileKind = StartupFile.None;
-			this.LoadSaveIndicator.Checked +=
-				(sender, args) => this.config.StartUpFileKind = StartupFile.SaveGame;
-			this.LoadDemoIndicator.Checked +=
-				(sender, args) => this.config.StartUpFileKind = StartupFile.Demo;
-			this.LoadMapIndicator.Checked +=
-				(sender, args) => this.config.StartUpFileKind = StartupFile.Map;
-			this.LoadGameTextBox.TextChanged += (sender, args) =>
-			{
-				if (this.LoadSaveIndicator.IsChecked == true)
-				{
-					this.config.AutoStartFile = this.LoadGameTextBox.Text;
-				}
-			};
-			this.PlayDemoTextBox.TextChanged += (sender, args) =>
-			{
-				if (this.LoadDemoIndicator.IsChecked == true)
-				{
-					this.config.AutoStartFile = this.PlayDemoTextBox.Text;
-				}
-			};
-			this.StartMapTextBox.TextChanged += (sender, args) =>
-			{
-				if (this.LoadMapIndicator.IsChecked == true)
-				{
-					this.config.AutoStartFile = this.StartMapTextBox.Text;
-				}
-			};
-			// Add context menus for save-game and demo selection.
-			this.demoSaveSelectionMenu = new ContextMenu();
-			MenuItem selectFileMenuItem = new MenuItem { Header = "Select The File" };
-			selectFileMenuItem.Click += (sender, args) =>
-			{
-				TextBox textBox = this.demoSaveSelectionMenu.PlacementTarget as TextBox;
-				if (textBox != null)
-				{
-					VistaOpenFileDialog dialog = new VistaOpenFileDialog
-					{
-						AddExtension = true,
-						CheckFileExists = true,
-						FilterIndex = 0,
-						InitialDirectory = AppDomain.CurrentDomain.BaseDirectory
-					};
-					if (textBox.Name == "PlayDemoTextBox")
-					{
-						// Select the demo.
-						dialog.Title = @"Select the demo file to play";
-						dialog.DefaultExt = ".lmp";
-						dialog.Filter = @"Demo files (*.lmp)|*.lmp|All files (*.*)|*.*";
-					}
-					if (textBox.Name == "LoadGameTextBox")
-					{
-						// Select the save game.
-						dialog.Title = @"Select the save game file to load";
-						dialog.DefaultExt = ".zds";
-						dialog.Filter = @"zDoom save game files (*.zds)|*.zds|All files (*.*)|*.*";
-					}
-					if (dialog.ShowDialog(this) == true)
-					{
-						if (dialog.DefaultExt == ".lmp")
-						{
-							this.PlayDemoTextBox.Text = dialog.FileName;
-						}
-						else
-						{
-							this.LoadGameTextBox.Text = dialog.FileName;
-						}
-					}
-				}
-			};
-			this.demoSaveSelectionMenu.Items.Add(selectFileMenuItem);
-			this.PlayDemoTextBox.MouseRightButtonDown += (sender, args) =>
-			{
-				// Record when the click started.
-				this.lastRightClickTime = args.Timestamp;
-			};
-			this.PlayDemoTextBox.MouseRightButtonUp += (sender, args) =>
-			{
-				// Ignore the click if it was too long.
-				if (args.Timestamp - this.lastRightClickTime < 1000)
-				{
-					// Open the context menu.
-					this.demoSaveSelectionMenu.PlacementTarget = this.PlayDemoTextBox;
-					this.demoSaveSelectionMenu.IsOpen = true;
-				}
-			};
-			this.LoadGameTextBox.MouseRightButtonDown += (sender, args) =>
-			{
-				// Record when the click started.
-				this.lastRightClickTime = args.Timestamp;
-			};
-			this.LoadGameTextBox.MouseRightButtonUp += (sender, args) =>
-			{
-				// Ignore the click if it was too long.
-				if (args.Timestamp - this.lastRightClickTime < 1000)
-				{
-					// Open the context menu.
-					this.demoSaveSelectionMenu.PlacementTarget = this.LoadGameTextBox;
-					this.demoSaveSelectionMenu.IsOpen = true;
-				}
-			};
 		}
-		private void AddMoreExtrasItem_OnClick(object sender, RoutedEventArgs e)
+		private void SetupGamePlay()
 		{
-// 			if (this.selectExtraFilesDialog.ShowDialog() == true)
-// 			{
-// 				foreach (string fileName in this.selectExtraFilesDialog.FileNames)
-// 				{
-// 					this.AddExtraFileToList(fileName);
-// 				}
-// 			}
+			this.NoMonstersIndicator.IsChecked = this.config.NoMonsters;
+			this.FastMonstersIndicator.IsChecked = this.config.FastMonsters;
+			this.RespawningMonstersIndicator.IsChecked = this.config.RespawningMonsters;
+			this.TurboIndicator.IsChecked = this.config.TurboMode.HasValue;
+			if (this.config.TurboMode.HasValue)
+			{
+				this.TurboValueField.Value = this.config.TurboMode.Value;
+			}
+			this.TimeLimitIndicator.IsChecked = this.config.TimeLimit.HasValue;
+			if (this.config.TimeLimit.HasValue)
+			{
+				this.TimeLimitValueField.Value = (byte?)this.config.TimeLimit.Value;
+			}
 		}
 	}
 }

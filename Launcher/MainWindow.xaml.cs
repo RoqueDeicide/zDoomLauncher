@@ -30,25 +30,31 @@ namespace Launcher
 	{
 		private LaunchConfiguration config;
 		private string file;
-		private VistaOpenFileDialog selectExtraFilesDialog;
 		private VistaOpenFileDialog openConfigurationDialog;
 		private VistaSaveFileDialog saveConfigurationDialog;
+		
 		private ContextMenu demoSaveSelectionMenu;
 		// Time stamps for context menu opening.
 		private int lastRightClickTime;
 		public MainWindow()
 		{
-			InitializeComponent();
+			this.resetting = true;
 
 			this.config = new LaunchConfiguration();
-			this.file = null;
+			this.file = "DefaultConfigFile.lcf";
+			
+			InitializeComponent();
+
 			this.InitializeDialogs();
-			this.InitializeIwads();
+			this.InitializeLoadableFiles();
+			this.InitializeContextMenus();
+			this.InitializeSomeEventHandlers();
 			this.SetupInterface();
 		}
 		#region Setting Up
 		private void SetupInterface()
 		{
+			this.resetting = true;
 			if (this.config == null)
 			{
 				this.config = new LaunchConfiguration();
@@ -59,16 +65,10 @@ namespace Launcher
 			this.SetupIwads();
 			// Ignore block map?
 			this.IgnoreBlockMapIndicator.IsChecked = this.config.IgnoreBlockMap;
-			this.IgnoreBlockMapIndicator.Checked +=
-				(sender, args) => this.config.IgnoreBlockMap = true;
-			this.IgnoreBlockMapIndicator.Unchecked +=
-				(sender, args) => this.config.IgnoreBlockMap = false;
 			// Set up a list of extra files.
 			this.SetupExtraFiles();
 			// Save directory.
 			this.SaveDirectoryTextBox.Text = this.config.SaveDirectory;
-			this.SaveDirectoryTextBox.TextChanged += (sender, args) =>
-				this.config.SaveDirectory = this.SaveDirectoryTextBox.Text;
 			// Pixel mode.
 			this.SetupPixelMode();
 			// Custom resolution.
@@ -79,14 +79,9 @@ namespace Launcher
 			this.SetupStartUp();
 			// Some extras.
 			this.ExtraOptionsTextBox.Text = this.config.ExtraOptions;
-			this.ExtraOptionsTextBox.TextChanged += (sender, args) =>
-				this.config.ExtraOptions = this.ExtraOptionsTextBox.Text;
-		}
-		private static IEnumerable<string> FindSupportedIwads()
-		{
-			// Scan for IWADs in the app folder.
-			string currentFolder = AppDomain.CurrentDomain.BaseDirectory;
-			return supportedIwads.Keys.Where(x => File.Exists(PathIO.Combine(currentFolder, x)));
+			// Gameplay.
+			this.SetupGamePlay();
+			this.resetting = false;
 		}
 		#endregion
 		private void LaunchTheGame(object sender, RoutedEventArgs e)

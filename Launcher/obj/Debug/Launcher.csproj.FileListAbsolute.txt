@@ -12,3 +12,5 @@ D:\Games\Brutal Doom\Launcher.exe
 D:\Games\Brutal Doom\Launcher.pdb
 D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\Launcher.exe
 D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\Launcher.pdb
+D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\CommandLineWindow.baml
+D:\Dropbox\GameDevelopment\DoomLauncher\Launcher\obj\Debug\CommandLineWindow.g.cs

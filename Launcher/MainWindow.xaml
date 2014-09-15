@@ -19,21 +19,21 @@
 		<Label Content="Extra Files" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top"/>
 		<GroupBox Header="Start With" Margin="10,319,10,0" VerticalAlignment="Top" Height="83">
 			<Grid Margin="0,0,-2,-2">
-				<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="44"/>
-				<TextBox x:Name="LoadGameTextBox" Height="23" Margin="60,3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Path to the save file."/>
-				<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top"/>
-				<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="209,7,0,0" VerticalAlignment="Top"/>
-				<TextBox x:Name="PlayDemoTextBox" Height="23" Margin="60,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Path to the demo file."/>
-				<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="209,35,0,0" VerticalAlignment="Top" IsChecked="True"/>
-				<xctk:ByteUpDown x:Name="EpisodeValueField" HorizontalAlignment="Left" Margin="305,3,0,0" VerticalAlignment="Top" Height="23" DefaultValue="0" DisplayDefaultValueOnEmptyText="True"/>
+				<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="44" Checked="SwitchToSave"/>
+				<TextBox x:Name="LoadGameTextBox" Height="23" Margin="60,3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile"/>
+				<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Checked="SwitchToDemo"/>
+				<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="209,7,0,0" VerticalAlignment="Top" Checked="SwitchToMap"/>
+				<TextBox x:Name="PlayDemoTextBox" Height="23" Margin="60,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Path to the demo file." TextChanged="UpdateDemoFile"/>
+				<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="209,35,0,0" VerticalAlignment="Top" IsChecked="True" Checked="SwitchToNothing"/>
+				<xctk:ByteUpDown x:Name="EpisodeValueField" HorizontalAlignment="Left" Margin="305,3,0,0" VerticalAlignment="Top" Height="23" DefaultValue="0" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateEpisodeIndex"/>
 				<Label Content="Episode" HorizontalAlignment="Left" Margin="254,4,0,0" VerticalAlignment="Top"/>
 				<Label Content="Map" HorizontalAlignment="Left" Margin="351,3,0,0" VerticalAlignment="Top"/>
-				<xctk:ByteUpDown x:Name="EpisodeValueField_Copy" HorizontalAlignment="Left" Margin="385,3,0,0" VerticalAlignment="Top" Height="23" DefaultValue="0" DisplayDefaultValueOnEmptyText="True"/>
+				<xctk:ByteUpDown x:Name="MapValueField" HorizontalAlignment="Left" Margin="385,3,0,0" VerticalAlignment="Top" Height="23" DefaultValue="0" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateMapIndex"/>
 			</Grid>
 		</GroupBox>
-		<TextBox x:Name="SaveDirectoryTextBox" HorizontalAlignment="Left" Height="23" Margin="11,433,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+		<TextBox x:Name="SaveDirectoryTextBox" HorizontalAlignment="Left" Height="23" Margin="11,433,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" TextChanged="UpdateSaveDirectory"/>
 		<Label Content="Save Directory" HorizontalAlignment="Left" Margin="11,407,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.474,0.538" Width="120"/>
-		<CheckBox x:Name="IgnoreBlockMapIndicator" Content="Ignore Block Map" HorizontalAlignment="Left" Margin="364,298,0,0" VerticalAlignment="Top" Width="111"/>
+		<CheckBox x:Name="IgnoreBlockMapIndicator" Content="Ignore Block Map" HorizontalAlignment="Left" Margin="364,298,0,0" VerticalAlignment="Top" Width="111" Checked="EnableIgnoreBlockMap" Unchecked="DisableIgnoreBlockMap"/>
 		<Label Content="Pixel Mode" HorizontalAlignment="Left" Margin="285,271,0,0" VerticalAlignment="Top" Width="74"/>
 		<ComboBox HorizontalAlignment="Left" Margin="364,271,0,0" VerticalAlignment="Top" Width="127" Name="PixelModeComboBox">
 			<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen." Name="SinglePixelComboBoxItem"/>
@@ -44,7 +44,7 @@
 		<xctk:CheckListBox x:Name="DisableFlagsList" HorizontalAlignment="Left" Height="130" Margin="364,55,0,0" VerticalAlignment="Top" Width="127" ValueMemberPath="Level" 
                             SelectedMemberPath="IsSelected"
                             SelectedValue="{Binding SelectedValue}"
-                            SelectedItemsOverride="{Binding SelectedItems}">
+                            SelectedItemsOverride="{Binding SelectedItems}" ItemSelectionChanged="UpdateDisableOptions">
 			<ListBoxItem Content="Auto-Load Files" Name="AutoLoadItem" Selected="DisableOptionHandler" Tag="128"/>
 			<ListBoxItem Content="CD Audio" Name="CDAudioItem" Selected="DisableOptionHandler" Tag="1"/>
 			<ListBoxItem Content="Idling" Name="IdlingItem" Selected="DisableOptionHandler" Tag="2"/>
@@ -54,39 +54,33 @@
 			<ListBoxItem Content="Startup Screens" Name="StartupScreensItem" Selected="DisableOptionHandler" Tag="32"/>
 			<ListBoxItem Content="Sprite Renaming" Name="SpriteRenamingItem" Selected="DisableOptionHandler" Tag="64"/>
 		</xctk:CheckListBox>
-		<TextBox x:Name="ExtraOptionsTextBox" Height="87" Margin="11,482,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400"/>
+		<TextBox x:Name="ExtraOptionsTextBox" Height="87" Margin="11,482,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" TextChanged="UpdateExtraOptions"/>
 		<Label Content="Extra Command-Line Options" HorizontalAlignment="Left" Margin="11,456,0,0" VerticalAlignment="Top"/>
 		<Button Content="Launch" Margin="416,546,4,0" VerticalAlignment="Top" Height="23" Click="LaunchTheGame"/>
-		<ListBox x:Name="ExtraFilesListBox" HorizontalAlignment="Left" Height="211" Margin="10,103,0,0" VerticalAlignment="Top" Width="200" SelectionMode="Extended" ToolTip="A list of extra files to load when loading zDoom. Use context menu to edit the list.">
-			<ListBox.ContextMenu>
-				<ContextMenu>
-					<MenuItem Name="AddMoreExtrasItem" Header="Add Files"/>
-					<MenuItem Name="DeleteSelectedExtrasItem" Header="Delete Selected"/>
-				</ContextMenu>
-			</ListBox.ContextMenu>
+		<ListBox x:Name="ExtraFilesListBox" HorizontalAlignment="Left" Height="211" Margin="10,103,0,0" VerticalAlignment="Top" Width="200" SelectionMode="Extended" ToolTip="A list of extra files to load when loading zDoom.">
 		</ListBox>
-		<TextBox x:Name="SaveDirectoryTextBox_Copy" HorizontalAlignment="Left" Height="23" Margin="252,433,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235"/>
+		<TextBox x:Name="ConfigFileTextBox" HorizontalAlignment="Left" Height="23" Margin="252,433,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" TextChanged="UpdateConfigFile"/>
 		<Label Content="zDoom Configuration File" HorizontalAlignment="Left" Margin="252,407,0,0" VerticalAlignment="Top" Width="153"/>
 		<GroupBox Header="Custom Resolution" HorizontalAlignment="Left" Margin="216,190,0,0" VerticalAlignment="Top" Width="275" Height="76">
 			<Grid Margin="0,0,-2,-2">
-				<xctk:IntegerUpDown x:Name="HeightValueField" HorizontalAlignment="Left" Margin="152,0,0,10" VerticalAlignment="Bottom" Width="103" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360"/>
-				<CheckBox x:Name="HeightCheckBox" Content="Height" HorizontalAlignment="Left" Margin="152,0,0,35" VerticalAlignment="Bottom" ToolTip="Check this to be able to change the height of the picture."/>
-				<xctk:IntegerUpDown x:Name="WidthValueField" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="103" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360" RenderTransformOrigin="0.495,0.45"/>
-				<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="10,0,0,35" VerticalAlignment="Bottom" ToolTip="Check this to be able to change the width of the picture."/>
+				<xctk:IntegerUpDown x:Name="HeightValueField" HorizontalAlignment="Left" Margin="152,0,0,10" VerticalAlignment="Bottom" Width="103" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360" ValueChanged="UpdateHeightValue"/>
+				<CheckBox x:Name="HeightCheckBox" Content="Height" HorizontalAlignment="Left" Margin="152,0,0,35" VerticalAlignment="Bottom" ToolTip="Check this to be able to change the height of the picture." Checked="EnableHeightField" Unchecked="DisableHeightField"/>
+				<xctk:IntegerUpDown x:Name="WidthValueField" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="103" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360" RenderTransformOrigin="0.495,0.45" ValueChanged="UpdateWidthValue"/>
+				<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="10,0,0,35" VerticalAlignment="Bottom" ToolTip="Check this to be able to change the width of the picture." Checked="EnableWidthField" Unchecked="DisableWidthField"/>
 			</Grid>
 		</GroupBox>
 		<ListBox HorizontalAlignment="Left" Height="58" Margin="216,55,0,0" VerticalAlignment="Top" Width="143">
-			<CheckBox Content="No Monsters"/>
-			<CheckBox Content="Fast Monsters"/>
-			<CheckBox Content="Respawning Monsters"/>
+			<CheckBox x:Name="NoMonstersIndicator" Content="No Monsters" Checked="DisableMonsters" Unchecked="EnableMonsters"/>
+			<CheckBox x:Name="FastMonstersIndicator" Content="Fast Monsters" Checked="EnableFastMonsters" Unchecked="DisableFastMonsters"/>
+			<CheckBox x:Name="RespawningMonstersIndicator" Content="Respawning Monsters" Checked="EnableRespawn" Unchecked="DisableRespawn"/>
 		</ListBox>
 		<Label Content="Game-Play Options" HorizontalAlignment="Left" Margin="216,29,0,0" VerticalAlignment="Top"/>
-		<CheckBox x:Name="TurboIndicator" Content="Turbo" HorizontalAlignment="Left" Margin="216,122,0,0" VerticalAlignment="Top"/>
-		<xctk:ByteUpDown x:Name="TurboValueField" HorizontalAlignment="Left" Margin="269,118,0,0" VerticalAlignment="Top" Width="90" Minimum="10" DefaultValue="100" DisplayDefaultValueOnEmptyText="True"/>
-		<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" HorizontalAlignment="Left" Margin="216,143,0,0" VerticalAlignment="Top"/>
-		<xctk:ByteUpDown x:Name="TimeLimitValueField" HorizontalAlignment="Left" Margin="295,138,0,0" VerticalAlignment="Top" Width="64" DefaultValue="20" DisplayDefaultValueOnEmptyText="True"/>
-		<xctk:ByteUpDown HorizontalAlignment="Left" Margin="295,158,0,0" VerticalAlignment="Top" Width="64" Maximum="15" DisplayDefaultValueOnEmptyText="True" DefaultValue="0"/>
-		<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="216,162,0,0" VerticalAlignment="Top"/>
+		<CheckBox x:Name="TurboIndicator" Content="Turbo" HorizontalAlignment="Left" Margin="216,122,0,0" VerticalAlignment="Top" Checked="EnableTurbo" Unchecked="DisableTurbo"/>
+		<xctk:ByteUpDown x:Name="TurboValueField" HorizontalAlignment="Left" Margin="269,118,0,0" VerticalAlignment="Top" Width="90" Minimum="10" DefaultValue="100" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateTurboField"/>
+		<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" HorizontalAlignment="Left" Margin="216,143,0,0" VerticalAlignment="Top" Checked="EnableTimeLimit" Unchecked="DisableTimeLimit"/>
+		<xctk:ByteUpDown x:Name="TimeLimitValueField" HorizontalAlignment="Left" Margin="295,138,0,0" VerticalAlignment="Top" Width="64" DefaultValue="20" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateTimeLimitField"/>
+		<xctk:ByteUpDown x:Name="DifficultyValueField" HorizontalAlignment="Left" Margin="295,158,0,0" VerticalAlignment="Top" Width="64" Maximum="15" DisplayDefaultValueOnEmptyText="True" DefaultValue="0" ValueChanged="UpdateCustomDifficultyField"/>
+		<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="216,162,0,0" VerticalAlignment="Top" Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty"/>
 		<Button Content="Test" HorizontalAlignment="Left" Margin="416,519,0,0" VerticalAlignment="Top" Width="75" Click="ShowCommandLine"/>
 
 	</Grid>
