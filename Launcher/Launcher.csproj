@@ -85,6 +85,7 @@
     <Compile Include="Configs\ILaunchConfiguration.cs" />
     <Compile Include="Configs\LaunchConfiguration.cs" />
     <Compile Include="GeneralExtensions.cs" />
+    <Compile Include="Iwads.cs" />
     <Compile Include="MainWindow.Initialization.cs" />
     <Compile Include="MainWindow.Setup.cs" />
     <Compile Include="MainWindow.xaml.cs">
