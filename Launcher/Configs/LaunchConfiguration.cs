@@ -12,6 +12,7 @@ namespace Launcher.Configs
 	/// <summary>
 	/// Represents a launch configuration.
 	/// </summary>
+	[Serializable]
 	public class LaunchConfiguration : ILaunchConfiguration
 	{
 		#region Files
