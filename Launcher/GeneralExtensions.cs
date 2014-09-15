@@ -122,6 +122,75 @@ namespace Launcher
 			return AllIndexesOf(text, substring, StringComparison.InvariantCulture);
 		}
 		/// <summary>
+		/// Changes a number with a specified index in the text.
+		/// </summary>
+		/// <param name="text">  Text.</param>
+		/// <param name="index"> 
+		/// Zero-based index of the number that we need in a sequence of numbers in the text.
+		/// </param>
+		/// <param name="number">New value to assign.</param>
+		/// <returns>Text with a new number.</returns>
+		public static string ChangeNumber(this string text, int index, int number)
+		{
+			// Find the number with specified index.
+			int currentCharacterIndex = 0;		// Index of the character we are currently processing.
+			bool goingThroughTheNumber = false;	// Was the previous character a digit?
+			int currentNumberIndex = -1;		// Index of the number in a string.
+			int currentNumberStart = -1;		// Index of the first digit of current/last number.
+			bool foundOurNumber = false;		// Did we find the number we needed?
+			while (currentCharacterIndex < text.Length)
+			{
+				// Check the current character. If its a digit, then we are going through or into a
+				// number, otherwise we either finished going through the number or we are going
+				// through the plain text.
+				if (Char.IsDigit(text[currentCharacterIndex]))
+				{
+					if (!goingThroughTheNumber)
+					{
+						// Found another number.
+
+						// Save its beginning.
+						currentNumberStart = currentCharacterIndex;
+						if (++currentNumberIndex == index)
+						{
+							// Found our number. So lets find its end.
+							foundOurNumber = true;
+						}
+					}
+					goingThroughTheNumber = true;
+				}
+				else
+				{
+					if (goingThroughTheNumber)
+					{
+						// End the number.
+						goingThroughTheNumber = false;
+						if (foundOurNumber)
+						{
+							// End the search as we have found the end of the number we needed.
+							break;
+						}
+					}
+				}
+				// Advance to the next character.
+				currentCharacterIndex++;
+			}
+			if (!foundOurNumber)
+			{
+				throw new Exception("Unable to find the number with the specified index.");
+			}
+			// Extract the number and split the string in two.
+			StringBuilder builder = new StringBuilder(text.Length + 20);
+			// Add the first half to the resultant string.
+			builder.Append(text.Substring(0, currentNumberStart));
+			// Add the string representation of the new number to the string.
+			builder.Append(number);
+			// Add the last half.
+			builder.Append(text.Substring(currentCharacterIndex));
+
+			return builder.ToString();
+		}
+		/// <summary>
 		/// Gets file that contains the assembly.
 		/// </summary>
 		/// <param name="assembly">Assembly.</param>
