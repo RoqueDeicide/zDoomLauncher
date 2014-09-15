@@ -1,0 +1,9 @@
+﻿<Window x:Class="Launcher.CommandLineWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Test Command Line" Height="300" Width="300">
+	<Grid>
+		<TextBox x:Name="CommandLineTextBox" Margin="10" TextWrapping="Wrap"/>
+
+	</Grid>
+</Window>
