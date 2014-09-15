@@ -87,6 +87,7 @@
 		<xctk:ByteUpDown x:Name="TimeLimitValueField" HorizontalAlignment="Left" Margin="295,138,0,0" VerticalAlignment="Top" Width="64" DefaultValue="20" DisplayDefaultValueOnEmptyText="True"/>
 		<xctk:ByteUpDown HorizontalAlignment="Left" Margin="295,158,0,0" VerticalAlignment="Top" Width="64" Maximum="15" DisplayDefaultValueOnEmptyText="True" DefaultValue="0"/>
 		<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="216,162,0,0" VerticalAlignment="Top"/>
+		<Button Content="Test" HorizontalAlignment="Left" Margin="416,519,0,0" VerticalAlignment="Top" Width="75" Click="ShowCommandLine"/>
 
 	</Grid>
 </Window>

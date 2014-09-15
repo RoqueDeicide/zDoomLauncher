@@ -123,5 +123,10 @@ namespace Launcher
 		{
 			// I'll keep this here for now, in case ItemSelectionChanged handler doesn't work.
 		}
+
+		private void ShowCommandLine(object sender, RoutedEventArgs e)
+		{
+			new CommandLineWindow(this.config.CommandLine).Show();
+		}
 	}
 }

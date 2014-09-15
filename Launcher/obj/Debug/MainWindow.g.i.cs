@@ -588,6 +588,13 @@ namespace Launcher {
             return;
             case 43:
             this.DifficultyIndicator = ((System.Windows.Controls.CheckBox)(target));
+            case 48:
+            
+            #line 90 "..\..\MainWindow.xaml"
+            ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.ShowCommandLine);
+            
+            #line default
+            #line hidden
             return;
             }
             this._contentLoaded = true;
