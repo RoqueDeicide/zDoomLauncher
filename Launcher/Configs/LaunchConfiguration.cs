@@ -216,7 +216,7 @@ namespace Launcher.Configs
 				{
 					line.Append(" -blockmap");
 				}
-				if (this.SaveDirectory != null)
+				if (!String.IsNullOrWhiteSpace(this.SaveDirectory))
 				{
 					line.Append(" -savedir ");
 					line.Append(this.SaveDirectory);
