@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -140,6 +141,28 @@ namespace Launcher.Databases
 		/// </summary>
 		public Database(string xmlExt, string binExt)
 		{
+			Contract.Requires
+			(
+				!String.IsNullOrWhiteSpace(xmlExt)
+				&&
+				xmlExt.All(Char.IsLetterOrDigit),
+				"Invalid extension for XML files: extension must not be null or empty and must" +
+				" only contain letters and/or digits."
+			);
+			Contract.Requires
+			(
+				!String.IsNullOrWhiteSpace(xmlExt)
+				&&
+				xmlExt.All(Char.IsLetterOrDigit),
+				"Invalid extension for binary files: extension must not be null or empty and " +
+				"must only contain letters and/or digits."
+			);
+			Contract.Requires
+			(
+				xmlExt != binExt,
+				"Extensions for XML and binary files must be different."
+			);
+
 			this.TopLevelEntries = new SortedList<string, DatabaseEntry>();
 			this.BinaryFileExtension = binExt;
 			this.XmlFileExtension = xmlExt;
