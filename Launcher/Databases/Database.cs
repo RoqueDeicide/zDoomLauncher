@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using Launcher.Annotations;
 using Launcher.Extensions;
 
 namespace Launcher.Databases
@@ -60,10 +61,12 @@ namespace Launcher.Databases
 		/// Gets the list of attributes that designate registered
 		/// classes derived from <see cref="DatabaseEntryContent" />.
 		/// </summary>
+		[NotNull]
 		public static List<EntryContentAttribute> RegisteredContentTypes;
 		static DatabaseGlobals()
 		{
-			DatabaseGlobals.RegisteredContentTypes = new List<EntryContentAttribute>
+			DatabaseGlobals.RegisteredContentTypes = new List<EntryContentAttribute>();
+			DatabaseGlobals.RegisteredContentTypes.AddRange
 			(
 				AppDomain
 					.CurrentDomain
@@ -715,7 +718,7 @@ namespace Launcher.Databases
 			this.TypeName = name;
 			this.AttributedClass = type;
 			this.TypeHash = name.GetHashCode();
-			EntryContentAttribute other = DatabaseGlobals.RegisteredContentTypes.Find(x => x.TypeHash == this.TypeHash);
+			EntryContentAttribute other = DatabaseGlobals.RegisteredContentTypes.FirstOrDefault(x => x.TypeHash == this.TypeHash);
 			if (other != null)
 			{
 				throw new Exception(String.Format("Unable to register database entry content type with name that has the same hash value as one of the existing ones. New name = {0}, old name = {1}", this.TypeName, other.TypeName));
