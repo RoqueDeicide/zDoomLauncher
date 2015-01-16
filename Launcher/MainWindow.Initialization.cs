@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -35,6 +36,10 @@ namespace Launcher
 		}
 		private void InitializeLoadableFiles()
 		{
+			// Initialize IWAD combo-box.
+			Iwads.FindSupportedIwads(this.zDoomFolder)
+				 .Select<string, object>(iwadFile => new ComboBoxItem { Content = iwadFile })
+				 .Foreach(comboItem => this.IwadComboBox.Items.Add(comboItem));
 			List<string> extras = new List<string>(50);
 			// Get the list of files from base directory.
 			extras.AddRange(MainWindow.GetLoadableFiles(this.zDoomFolder));

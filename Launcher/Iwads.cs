@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Launcher.Logging;
 
 namespace Launcher
 {
@@ -60,13 +61,20 @@ namespace Launcher
 		/// <summary>
 		/// Finds IWAD files this launcher can load, that are also present in the base directory.
 		/// </summary>
+		/// <param name="folder">A folder where to search for IWAD files.</param>
 		/// <returns>A list of IWAD file names.</returns>
-		public static IEnumerable<string> FindSupportedIwads()
+		public static IEnumerable<string> FindSupportedIwads(string folder)
 		{
-			// Scan for IWADs in the app folder.
-			string currentFolder = AppDomain.CurrentDomain.BaseDirectory;
-			return
-				Iwads.SupportedIwads.Keys.Where(x => File.Exists(Path.Combine(currentFolder, x)));
+			// Scan for IWADs in the given folder.
+			return Iwads.SupportedIwads.Keys.Where(x =>
+			{
+				if (File.Exists(Path.Combine(folder, x)))
+				{
+					Log.Message("Found {0}.", x.ToLowerInvariant());
+					return true;
+				}
+				return false;
+			});
 		}
 	}
 }

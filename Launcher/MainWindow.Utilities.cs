@@ -12,7 +12,18 @@ namespace Launcher
 		private bool EpisodicIwadIsSelected()
 		{
 			ComboBoxItem selectedIwad = this.IwadComboBox.SelectedItem as ComboBoxItem;
-			return selectedIwad != null && Iwads.EpisodicIwads.Contains((string)selectedIwad.Tag);
+			return
+				selectedIwad != null
+				&&
+				Iwads.EpisodicIwads.Any
+				(
+					iwadName =>
+						iwadName.Equals
+						(
+							(string)selectedIwad.Tag,
+							StringComparison.InvariantCultureIgnoreCase
+						)
+				);
 		}
 		private static IEnumerable<string> GetLoadableFiles(string folder)
 		{
@@ -27,8 +38,11 @@ namespace Launcher
 				.Where
 				(
 					x =>
-						x.EndsWith("wad", StringComparison.InvariantCultureIgnoreCase) ||
+						x.EndsWith("wad", StringComparison.InvariantCultureIgnoreCase)
+						||
 						x.EndsWith("pk3", StringComparison.InvariantCultureIgnoreCase)
+						&&
+						!Iwads.SupportedIwads.Any(pair=>pair.Key.Equals(x, StringComparison.InvariantCultureIgnoreCase))
 				)
 				.Select(Path.GetFileName);
 		}

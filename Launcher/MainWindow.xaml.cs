@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Launcher.Configs;
-
+using Launcher.Logging;
 using Ookii.Dialogs.Wpf;
 using Xceed.Wpf.Toolkit;
 using MessageBox = System.Windows.MessageBox;
@@ -163,6 +163,22 @@ namespace Launcher
 		private void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			this.SaveAppConfiguration();
+		}
+
+		private void IwadSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			ComboBoxItem item = this.IwadComboBox.SelectedItem as ComboBoxItem;
+			if (item == null)
+			{
+				return;
+			}
+
+			string selectedIwad = (string)item.Content;
+			if (selectedIwad != PathIO.GetFileName(this.config.IwadPath))
+			{
+				Log.Message("Selected {0}", selectedIwad);
+				this.config.IwadPath = PathIO.Combine(this.zDoomFolder, selectedIwad);
+			}
 		}
 	}
 }

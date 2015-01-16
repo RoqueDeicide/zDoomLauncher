@@ -17,8 +17,16 @@ namespace Launcher
 		{
 			ComboBoxItem iwadItem =
 				this.IwadComboBox.Items
-				.OfType<ComboBoxItem>()
-				.FirstOrDefault(x => (string)x.Content == Path.GetFileName(this.config.IwadPath));
+					.OfType<ComboBoxItem>()
+					.FirstOrDefault
+					(
+						x =>
+						((string)x.Content).Equals
+						(
+							Path.GetFileName(this.config.IwadPath),
+							StringComparison.InvariantCultureIgnoreCase
+						)
+					);
 			if (iwadItem != null)
 			{
 				iwadItem.IsSelected = true;
