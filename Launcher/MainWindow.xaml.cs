@@ -38,7 +38,7 @@ namespace Launcher
 
 			this.SelectZDoomInstallationFolder(this, null);
 
-			if (this.file != null)
+			if (this.file != null && File.Exists(this.file))
 			{
 				this.config = LaunchConfiguration.Load(this.file);
 			}
