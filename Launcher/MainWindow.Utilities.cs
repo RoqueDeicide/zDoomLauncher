@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls;
+using Launcher.Logging;
 
 namespace Launcher
 {
@@ -15,6 +16,7 @@ namespace Launcher
 		}
 		private static IEnumerable<string> GetLoadableFiles(string folder)
 		{
+			Log.Message("Looking for loadable files in {0}", folder);
 			return
 				Directory.EnumerateFiles
 				(

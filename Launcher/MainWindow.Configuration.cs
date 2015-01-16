@@ -4,6 +4,7 @@
 using System;
 using System.IO;
 using Launcher.Databases;
+using Launcher.Logging;
 
 namespace Launcher
 {
@@ -52,7 +53,9 @@ namespace Launcher
 		{
 			if (File.Exists("Zdl.config"))
 			{
+				Log.Message("Loading configuration file.");
 				Database appConfigurationDatabase = new Database("config", "binaryConfig");
+				appConfigurationDatabase.Load("Zdl.config");
 				if (appConfigurationDatabase.Contains("LastLaunchConfigurationFile", false))
 				{
 					string entryText =
@@ -77,6 +80,10 @@ namespace Launcher
 							? null
 							: entryText;
 				}
+			}
+			else
+			{
+				Log.Message("No application configuration file was found.");
 			}
 		}
 	}
