@@ -17,8 +17,8 @@
 			</MenuItem>
 		</Menu>
 		<Label Content="IWAD" HorizontalAlignment="Left" Margin="11,64,0,0" VerticalAlignment="Top"/>
-		<ComboBox HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" Width="200" x:Name="IwadComboBox"/>
-		<Label Content="Extra Files" HorizontalAlignment="Left" Margin="11,112,0,0" VerticalAlignment="Top"/>
+		<ComboBox HorizontalAlignment="Left" Margin="53,68,0,0" VerticalAlignment="Top" Width="157" x:Name="IwadComboBox"/>
+		<Label Content="Extra Files" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top"/>
 		<GroupBox Header="Start With" Margin="10,319,10,0" VerticalAlignment="Top" Height="83">
 			<Grid Margin="0,0,-2,-2">
 				<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="44" Checked="SwitchToSave"/>
@@ -60,7 +60,7 @@
 		<TextBox x:Name="ExtraOptionsTextBox" Height="87" Margin="11,482,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" TextChanged="UpdateExtraOptions"/>
 		<Label Content="Extra Command-Line Options" HorizontalAlignment="Left" Margin="11,456,0,0" VerticalAlignment="Top"/>
 		<Button Content="Launch" Margin="416,546,4,0" VerticalAlignment="Top" Height="23" Click="LaunchTheGame"/>
-		<ListBox x:Name="ExtraFilesListBox" HorizontalAlignment="Left" Height="176" Margin="10,138,0,0" VerticalAlignment="Top" Width="200" SelectionMode="Extended" ToolTip="A list of extra files to load when loading zDoom.">
+		<ListBox x:Name="ExtraFilesListBox" HorizontalAlignment="Left" Height="198" Margin="10,116,0,0" VerticalAlignment="Top" Width="200" SelectionMode="Extended" ToolTip="A list of extra files to load when loading zDoom.">
 		</ListBox>
 		<TextBox x:Name="ConfigFileTextBox" HorizontalAlignment="Left" Height="23" Margin="252,433,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" TextChanged="UpdateConfigFile"/>
 		<Label Content="zDoom Configuration File" HorizontalAlignment="Left" Margin="252,407,0,0" VerticalAlignment="Top" Width="153"/>
