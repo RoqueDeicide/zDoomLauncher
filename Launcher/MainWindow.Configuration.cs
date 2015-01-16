@@ -3,6 +3,7 @@
 
 using System;
 using System.IO;
+using System.Xml;
 using Launcher.Databases;
 using Launcher.Logging;
 
@@ -51,39 +52,46 @@ namespace Launcher
 
 		private void LoadAppConfiguration()
 		{
-			if (File.Exists("Zdl.config"))
+			try
 			{
-				Log.Message("Loading configuration file.");
-				Database appConfigurationDatabase = new Database("config", "binaryConfig");
-				appConfigurationDatabase.Load("Zdl.config");
-				if (appConfigurationDatabase.Contains("LastLaunchConfigurationFile", false))
+				if (File.Exists("Zdl.config"))
 				{
-					string entryText =
-						appConfigurationDatabase["LastLaunchConfigurationFile"]
-							.GetContent<TextContent>()
-							.Text;
-					this.file =
-						entryText == "Nothing" && File.Exists(entryText)
-							? null
-							: entryText;
+					Log.Message("Loading configuration file.");
+					Database appConfigurationDatabase = new Database("config", "binaryConfig");
+					appConfigurationDatabase.Load("Zdl.config");
+					if (appConfigurationDatabase.Contains("LastLaunchConfigurationFile", false))
+					{
+						string entryText =
+							appConfigurationDatabase["LastLaunchConfigurationFile"]
+								.GetContent<TextContent>()
+								.Text;
+						this.file =
+							entryText == "Nothing" && File.Exists(entryText)
+								? null
+								: entryText;
+					}
+					if (appConfigurationDatabase.Contains("zDoomInstallationFolder", false))
+					{
+						string entryText =
+							appConfigurationDatabase["zDoomInstallationFolder"]
+								.GetContent<TextContent>()
+								.Text;
+						this.zDoomFolder =
+							entryText == "Nothing"
+							&&
+							File.Exists(Path.Combine(this.zDoomFolder, "zdoom.exe"))
+								? null
+								: entryText;
+					}
 				}
-				if (appConfigurationDatabase.Contains("zDoomInstallationFolder", false))
+				else
 				{
-					string entryText =
-						appConfigurationDatabase["zDoomInstallationFolder"]
-							.GetContent<TextContent>()
-							.Text;
-					this.zDoomFolder =
-						entryText == "Nothing"
-						&&
-						File.Exists(Path.Combine(this.zDoomFolder, "zdoom.exe"))
-							? null
-							: entryText;
+					Log.Message("No application configuration file was found.");
 				}
 			}
-			else
+			catch (XmlException)
 			{
-				Log.Message("No application configuration file was found.");
+				Log.Warning("Unable to load application configuration file. Ignoring.");
 			}
 		}
 	}
