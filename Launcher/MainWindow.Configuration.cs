@@ -17,7 +17,7 @@ namespace Launcher
 			(
 				new DatabaseEntry
 				(
-					"Last Launch Configuration File",
+					"LastLaunchConfigurationFile",
 					new TextContent
 					(
 						String.IsNullOrWhiteSpace(this.file)
@@ -25,6 +25,22 @@ namespace Launcher
 						File.Exists(this.file)
 							? "Nothing"
 							: this.file
+					)
+				)
+			);
+
+			appConfigurationDatabase.AddEntry
+			(
+				new DatabaseEntry
+				(
+					"zDoomInstallationFolder",
+					new TextContent
+					(
+						String.IsNullOrWhiteSpace(this.zDoomFolder)
+						&&
+						File.Exists(Path.Combine(this.zDoomFolder, "zdoom.exe"))
+							? "Nothing"
+							: this.zDoomFolder
 					)
 				)
 			);
@@ -37,14 +53,27 @@ namespace Launcher
 			if (File.Exists("Zdl.config"))
 			{
 				Database appConfigurationDatabase = new Database("config", "binaryConfig");
-				if (appConfigurationDatabase.Contains("Last Launch Configuration File", false))
+				if (appConfigurationDatabase.Contains("LastLaunchConfigurationFile", false))
 				{
 					string entryText =
-						appConfigurationDatabase["Last Launch Configuration File"]
+						appConfigurationDatabase["LastLaunchConfigurationFile"]
 							.GetContent<TextContent>()
 							.Text;
 					this.file =
 						entryText == "Nothing" && File.Exists(entryText)
+							? null
+							: entryText;
+				}
+				if (appConfigurationDatabase.Contains("zDoomInstallationFolder", false))
+				{
+					string entryText =
+						appConfigurationDatabase["zDoomInstallationFolder"]
+							.GetContent<TextContent>()
+							.Text;
+					this.zDoomFolder =
+						entryText == "Nothing"
+						&&
+						File.Exists(Path.Combine(this.zDoomFolder, "zdoom.exe"))
 							? null
 							: entryText;
 				}

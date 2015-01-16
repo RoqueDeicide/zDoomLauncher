@@ -19,6 +19,7 @@ using Launcher.Configs;
 
 using Ookii.Dialogs.Wpf;
 using Xceed.Wpf.Toolkit;
+using MessageBox = System.Windows.MessageBox;
 using PathIO = System.IO.Path;
 
 namespace Launcher
@@ -33,6 +34,8 @@ namespace Launcher
 			this.resetting = true;
 
 			this.LoadAppConfiguration();
+
+			this.SelectZDoomInstallationFolder(this, null);
 
 			if (this.file != null)
 			{
@@ -89,7 +92,7 @@ namespace Launcher
 		#endregion
 		private void LaunchTheGame(object sender, RoutedEventArgs e)
 		{
-			Process.Start("zdoom.exe", this.config.CommandLine);
+			Process.Start(PathIO.Combine(this.zDoomFolder, "zdoom.exe"), this.config.CommandLine);
 		}
 		private void CreateNewConfiguration(object sender, RoutedEventArgs e)
 		{
@@ -127,6 +130,38 @@ namespace Launcher
 		private void ShowCommandLine(object sender, RoutedEventArgs e)
 		{
 			new CommandLineWindow(this.config.CommandLine).Show();
+		}
+
+		private void SelectZDoomInstallationFolder(object sender, RoutedEventArgs e)
+		{
+			if (this.zDoomFolder == null)
+			{
+				VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog
+				{
+					Description = @"Select folder with zdoom.exe",
+					UseDescriptionForTitle = true,
+					ShowNewFolderButton = false
+				};
+
+				while
+				(
+					!
+					(
+						dialog.ShowDialog() == true
+						&&
+						File.Exists(PathIO.Combine(dialog.SelectedPath, "zdoom.exe"))
+					)
+					&&
+					MessageBox.Show
+					(
+						"Select another folder? It needs to contain zdoom.exe file.",
+						"No folder or invalid one was chosen",
+						MessageBoxButton.YesNo,
+						MessageBoxImage.Question
+					) == MessageBoxResult.Yes)
+				{
+				}
+			}
 		}
 	}
 }

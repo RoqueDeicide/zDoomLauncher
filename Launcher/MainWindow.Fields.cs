@@ -6,6 +6,8 @@ namespace Launcher
 {
 	public partial class MainWindow
 	{
+		// zDoom installation directory.
+		private string zDoomFolder;
 		// ZDoom launch configuration.
 		private LaunchConfiguration config;
 		// File that stores the launch configuration configuration.
