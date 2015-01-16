@@ -37,7 +37,7 @@ namespace Launcher
 		{
 			List<string> extras = new List<string>(50);
 			// Get the list of files from base directory.
-			extras.AddRange(MainWindow.GetLoadableFiles(AppDomain.CurrentDomain.BaseDirectory));
+			extras.AddRange(MainWindow.GetLoadableFiles(this.zDoomFolder));
 			// Get the files from DOOMWADDIR environment variable.
 			string doomWadVar = Environment.GetEnvironmentVariable("DOOMWADDIR");
 			if (!String.IsNullOrWhiteSpace(doomWadVar))
