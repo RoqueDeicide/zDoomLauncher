@@ -29,22 +29,13 @@ namespace Launcher
 		{
 			Log.Message("Looking for loadable files in {0}", folder);
 			return
-				Directory.EnumerateFiles
-				(
-					folder,
-					"*.*",
-					SearchOption.TopDirectoryOnly
-				)
-				.Where
-				(
-					x =>
-						x.EndsWith("wad", StringComparison.InvariantCultureIgnoreCase)
-						||
-						x.EndsWith("pk3", StringComparison.InvariantCultureIgnoreCase)
-						&&
-						!Iwads.SupportedIwads.Any(pair=>pair.Key.Equals(x, StringComparison.InvariantCultureIgnoreCase))
-				)
-				.Select(Path.GetFileName);
+				from file in Directory.EnumerateFiles(folder, "*.*", SearchOption.TopDirectoryOnly)
+				select Path.GetFileName(file) into fileName
+				where fileName != null
+				let extension = Path.GetExtension(fileName).ToLowerInvariant()
+				where extension == ".wad" || extension == ".pk3"
+				where !Iwads.SupportedIwads.Keys.Contains(fileName.ToLowerInvariant())
+				select fileName;
 		}
 	}
 }
