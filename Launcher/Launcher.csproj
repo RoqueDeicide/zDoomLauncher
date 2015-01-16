@@ -91,6 +91,9 @@
     </Compile>
     <Compile Include="Configs\ILaunchConfiguration.cs" />
     <Compile Include="Configs\LaunchConfiguration.cs" />
+    <Compile Include="Databases\ContentTypes.cs" />
+    <Compile Include="Databases\Database.cs" />
+    <Compile Include="Extensions\BinaryIOExtension.cs" />
     <Compile Include="GeneralExtensions.cs" />
     <Compile Include="Iwads.cs" />
     <Compile Include="MainWindow.EventHandlers.cs" />
