@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using Launcher.Configs;
+using Launcher.Logging;
 using Ookii.Dialogs.Wpf;
 
 namespace Launcher
@@ -63,23 +64,24 @@ namespace Launcher
 		}
 		private void SetupDisableOptions()
 		{
+			Log.Message("Setting up a list of options that can be disabled.");
 			if (this.config.DisableFlags != DisableOptions.EnableAll)
 			{
-				this.AutoLoadItem.IsSelected =
+				this.AutoLoadItem.IsChecked =
 					this.config.DisableFlags.HasFlag(DisableOptions.AutoLoad);
-				this.CDAudioItem.IsSelected =
+				this.CDAudioItem.IsChecked =
 					this.config.DisableFlags.HasFlag(DisableOptions.CompactDiskAudio);
-				this.IdlingItem.IsSelected =
+				this.IdlingItem.IsChecked =
 					this.config.DisableFlags.HasFlag(DisableOptions.Idling);
-				this.JoyStickItem.IsSelected =
+				this.JoyStickItem.IsChecked =
 					this.config.DisableFlags.HasFlag(DisableOptions.JoyStick);
-				this.MusicItem.IsSelected =
+				this.MusicItem.IsChecked =
 					this.config.DisableFlags.HasFlag(DisableOptions.Music);
-				this.SfxItem.IsSelected =
+				this.SfxItem.IsChecked =
 					this.config.DisableFlags.HasFlag(DisableOptions.SoundEffects);
-				this.SpriteRenamingItem.IsSelected =
+				this.SpriteRenamingItem.IsChecked =
 					this.config.DisableFlags.HasFlag(DisableOptions.SpriteRenaming);
-				this.StartupScreensItem.IsSelected =
+				this.StartupScreensItem.IsChecked =
 					this.config.DisableFlags.HasFlag(DisableOptions.StartupScreens);
 			}
 		}

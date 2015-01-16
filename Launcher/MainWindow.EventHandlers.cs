@@ -56,28 +56,39 @@ namespace Launcher
 
 		#endregion
 		#region Disables
-		private void UpdateDisableOptions(object sender, ItemSelectionChangedEventArgs e)
+		private void EnableOption(object sender, RoutedEventArgs e)
 		{
-			ListBoxItem selectedItem = e.Item as ListBoxItem;
-			if (selectedItem != null)
+			CheckBox item = sender as CheckBox;
+			if (item == null)
 			{
-				IConvertible convertibleFlag = selectedItem.Tag as IConvertible;
-				if (convertibleFlag == null)
-				{
-					return;
-				}
-				int flag = convertibleFlag.ToInt32(CultureInfo.InvariantCulture);
-				if (e.IsSelected)
-				{
-					// Set the flag.
-					this.config.DisableFlags |= (DisableOptions)flag;
-				}
-				else
-				{
-					// Remove the flag.
-					this.config.DisableFlags &= (DisableOptions)~flag;
-				}
+				return;
 			}
+
+			IConvertible convertibleFlag = item.Tag as IConvertible;
+			if (convertibleFlag == null)
+			{
+				return;
+			}
+			int flag = convertibleFlag.ToInt32(CultureInfo.InvariantCulture);
+			// Set the flag.
+			this.config.DisableFlags |= (DisableOptions)flag;
+		}
+		private void DisableOption(object sender, RoutedEventArgs e)
+		{
+			CheckBox item = sender as CheckBox;
+			if (item == null)
+			{
+				return;
+			}
+
+			IConvertible convertibleFlag = item.Tag as IConvertible;
+			if (convertibleFlag == null)
+			{
+				return;
+			}
+			int flag = convertibleFlag.ToInt32(CultureInfo.InvariantCulture);
+			// Remove the flag.
+			this.config.DisableFlags &= (DisableOptions)~flag;
 		}
 		#endregion
 		#region GamePlay

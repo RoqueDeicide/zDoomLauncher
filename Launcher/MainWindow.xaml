@@ -46,20 +46,16 @@
 			<ComboBoxItem Content="Quad" Tag="2" ToolTip="Force renderer to use pixel quadrupling." Name="QuadPixelComboBoxItem"/>
 		</ComboBox>
 		<Label Content="Disable" HorizontalAlignment="Left" Margin="364,29,0,0" VerticalAlignment="Top" Width="102"/>
-		<xctk:CheckListBox x:Name="DisableFlagsList" HorizontalAlignment="Left" Height="130" Margin="364,55,0,0" VerticalAlignment="Top" Width="127" ValueMemberPath="Level" 
-                            SelectedMemberPath="IsSelected"
-                            SelectedValue="{Binding SelectedValue}"
-                            SelectedItemsOverride="{Binding SelectedItems}" ItemSelectionChanged="UpdateDisableOptions"
-						    d:DataContext="{d:DesignInstance Type=xctk:CheckListBox}">
-			<ListBoxItem Content="Auto-Load Files" Name="AutoLoadItem" Selected="DisableOptionHandler" Tag="128"/>
-			<ListBoxItem Content="CD Audio" Name="CDAudioItem" Selected="DisableOptionHandler" Tag="1"/>
-			<ListBoxItem Content="Idling" Name="IdlingItem" Selected="DisableOptionHandler" Tag="2"/>
-			<ListBoxItem Content="Sound Effects" Name="SfxItem" Selected="DisableOptionHandler" Tag="16"/>
-			<ListBoxItem Content="Music" Name="MusicItem" Selected="DisableOptionHandler" Tag="8"/>
-			<ListBoxItem Content="JoyStick" Name="JoyStickItem" Selected="DisableOptionHandler" Tag="4"/>
-			<ListBoxItem Content="Startup Screens" Name="StartupScreensItem" Selected="DisableOptionHandler" Tag="32"/>
-			<ListBoxItem Content="Sprite Renaming" Name="SpriteRenamingItem" Selected="DisableOptionHandler" Tag="64"/>
-		</xctk:CheckListBox>
+		<ListBox x:Name="DisableFlagsList" HorizontalAlignment="Left" Height="130" Margin="364,55,0,0" VerticalAlignment="Top" Width="127">
+			<CheckBox Content="Auto-Load Files" Name="AutoLoadItem" Checked="EnableOption" Unchecked="DisableOption" Tag="128"/>
+			<CheckBox Content="CD Audio" Name="CDAudioItem" Checked="EnableOption" Unchecked="DisableOption" Tag="1"/>
+			<CheckBox Content="Idling" Name="IdlingItem" Checked="EnableOption" Unchecked="DisableOption" Tag="2"/>
+			<CheckBox Content="Sound Effects" Name="SfxItem" Checked="EnableOption" Unchecked="DisableOption" Tag="16"/>
+			<CheckBox Content="Music" Name="MusicItem" Checked="EnableOption" Unchecked="DisableOption" Tag="8"/>
+			<CheckBox Content="JoyStick" Name="JoyStickItem" Checked="EnableOption" Unchecked="DisableOption" Tag="4"/>
+			<CheckBox Content="Startup Screens" Name="StartupScreensItem" Checked="EnableOption" Unchecked="DisableOption" Tag="32"/>
+			<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Checked="EnableOption" Unchecked="DisableOption" Tag="64"/>
+		</ListBox>
 		<TextBox x:Name="ExtraOptionsTextBox" Height="87" Margin="11,482,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" TextChanged="UpdateExtraOptions"/>
 		<Label Content="Extra Command-Line Options" HorizontalAlignment="Left" Margin="11,456,0,0" VerticalAlignment="Top"/>
 		<Button Content="Launch" Margin="416,546,4,0" VerticalAlignment="Top" Height="23" Click="LaunchTheGame"/>

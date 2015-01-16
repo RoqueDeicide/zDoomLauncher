@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -121,10 +122,6 @@ namespace Launcher
 			this.SaveAppConfiguration();
 
 			this.Close();
-		}
-		private void DisableOptionHandler(object sender, RoutedEventArgs e)
-		{
-			// I'll keep this here for now, in case ItemSelectionChanged handler doesn't work.
 		}
 
 		private void ShowCommandLine(object sender, RoutedEventArgs e)
