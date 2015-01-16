@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,7 +21,8 @@ namespace Launcher
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">Collection itself.</param>
 		/// <returns>
-		/// True, if <paramref name="collection"/> is null or number its elements is equal to zero.
+		/// True, if <paramref name="collection"/> is null or number its elements is equal
+		/// to zero.
 		/// </returns>
 		public static bool IsNullOrEmpty<T>(this ICollection<T> collection)
 		{
@@ -31,18 +33,20 @@ namespace Launcher
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">  Collection itself.</param>
-		/// <param name="minimalCount">Minimal number of elements that must be inside the collection.</param>
+		/// <param name="minimalCount">
+		/// Minimal number of elements that must be inside the collection.
+		/// </param>
 		/// <returns>
-		/// True, if <paramref name="collection"/> is null, or it contains smaller number elements
-		/// then one defined by <paramref name="minimalCount"/> .
+		/// True, if <paramref name="collection"/> is null, or it contains smaller number
+		/// elements then one defined by <paramref name="minimalCount"/> .
 		/// </returns>
 		public static bool IsNullOrTooSmall<T>(this ICollection<T> collection, int minimalCount)
 		{
 			return collection == null || collection.Count < minimalCount;
 		}
 		/// <summary>
-		/// Creates a string that is a list of text representation of all elements of the collection
-		/// separated by a comma.
+		/// Creates a string that is a list of text representation of all elements of the
+		/// collection separated by a comma.
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">Collection.</param>
@@ -52,8 +56,8 @@ namespace Launcher
 			return ContentsToString(collection, ",");
 		}
 		/// <summary>
-		/// Creates a string that is a list of text representation of all elements of the collection
-		/// separated by a comma.
+		/// Creates a string that is a list of text representation of all elements of the
+		/// collection separated by a comma.
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">Collection.</param>
@@ -74,8 +78,8 @@ namespace Launcher
 			return builder.ToString();
 		}
 		/// <summary>
-		/// Creates a string that is a list of text representation of all elements of the collection
-		/// separated by a comma.
+		/// Creates a string that is a list of text representation of all elements of the
+		/// collection separated by a comma.
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">Collection.</param>
@@ -111,8 +115,8 @@ namespace Launcher
 			return indexes;
 		}
 		/// <summary>
-		/// Finds zero-based indexes of all occurrences of given substring in the text using the
-		/// invariant culture.
+		/// Finds zero-based indexes of all occurrences of given substring in the text
+		/// using the invariant culture.
 		/// </summary>
 		/// <param name="text">     Text to look for substrings in.</param>
 		/// <param name="substring">Piece of text to look for.</param>
@@ -126,7 +130,8 @@ namespace Launcher
 		/// </summary>
 		/// <param name="text">  Text.</param>
 		/// <param name="index"> 
-		/// Zero-based index of the number that we need in a sequence of numbers in the text.
+		/// Zero-based index of the number that we need in a sequence of numbers in the
+		/// text.
 		/// </param>
 		/// <param name="number">New value to assign.</param>
 		/// <returns>Text with a new number.</returns>
@@ -140,9 +145,9 @@ namespace Launcher
 			bool foundOurNumber = false;		// Did we find the number we needed?
 			while (currentCharacterIndex < text.Length)
 			{
-				// Check the current character. If its a digit, then we are going through or into a
-				// number, otherwise we either finished going through the number or we are going
-				// through the plain text.
+				// Check the current character. If its a digit, then we are going through
+				// or into a number, otherwise we either finished going through the number
+				// or we are going through the plain text.
 				if (Char.IsDigit(text[currentCharacterIndex]))
 				{
 					if (!goingThroughTheNumber)
@@ -167,7 +172,8 @@ namespace Launcher
 						goingThroughTheNumber = false;
 						if (foundOurNumber)
 						{
-							// End the search as we have found the end of the number we needed.
+							// End the search as we have found the end of the number we
+							// needed.
 							break;
 						}
 					}
@@ -198,6 +204,66 @@ namespace Launcher
 		public static string GetLocation(this Assembly assembly)
 		{
 			return Uri.UnescapeDataString(new UriBuilder(assembly.CodeBase).Path);
+		}
+		/// <summary>
+		/// Performs an action for each element in the collection.
+		/// </summary>
+		/// <typeparam name="T">Type of elements in the collection.</typeparam>
+		/// <param name="collection">Collection to act upon.</param>
+		/// <param name="action">    
+		/// Action to perform for each element in the collection.
+		/// </param>
+		public static void Foreach<T>(this IEnumerable<T> collection, Action<T> action)
+		{
+			foreach (T item in collection)
+			{
+				action(item);
+			}
+		}
+		/// <summary>
+		/// Performs an action for each element in the collection.
+		/// </summary>
+		/// <param name="collection">Collection to act upon.</param>
+		/// <param name="action">    
+		/// Action to perform for each element in the collection.
+		/// </param>
+		public static void Foreach(this IEnumerable collection, Action<object> action)
+		{
+			foreach (object item in collection)
+			{
+				action(item);
+			}
+		}
+		/// <summary>
+		/// Performs an action for each element in the collection.
+		/// </summary>
+		/// <typeparam name="T">Type of elements in the collection.</typeparam>
+		/// <typeparam name="TResult">Ignored.</typeparam>
+		/// <param name="collection">Collection to act upon.</param>
+		/// <param name="action">    
+		/// Action to perform for each element in the collection.
+		/// </param>
+		public static void Foreach<T, TResult>(this IEnumerable<T> collection, Func<T, TResult> action)
+		{
+			foreach (T item in collection)
+			{
+				action(item);
+			}
+		}
+		/// <summary>
+		/// Performs an action for each element in the collection.
+		/// </summary>
+		/// <typeparam name="TResult">Ignored.</typeparam>
+		/// <param name="collection">Collection to act upon.</param>
+		/// <param name="action">    
+		/// Action to perform for each element in the collection.
+		/// </param>
+		public static void Foreach<TResult>(this IEnumerable collection, Func<object, TResult> action)
+		{
+			foreach (object item in collection)
+			{
+				action(item);
+			}
 		}
 	}
 	/// <summary>
