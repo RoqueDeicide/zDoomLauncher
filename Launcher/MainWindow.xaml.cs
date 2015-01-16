@@ -32,8 +32,17 @@ namespace Launcher
 		{
 			this.resetting = true;
 
-			this.config = new LaunchConfiguration();
-			this.file = "DefaultConfigFile.lcf";
+			this.LoadAppConfiguration();
+
+			if (this.file != null)
+			{
+				this.config = LaunchConfiguration.Load(this.file);
+			}
+			else
+			{
+				this.config = new LaunchConfiguration();
+				this.file = "DefaultConfigFile.lcf";
+			}
 			
 			InitializeComponent();
 
@@ -106,6 +115,8 @@ namespace Launcher
 		}
 		private void CloseWindow(object sender, RoutedEventArgs e)
 		{
+			this.SaveAppConfiguration();
+
 			this.Close();
 		}
 		private void DisableOptionHandler(object sender, RoutedEventArgs e)

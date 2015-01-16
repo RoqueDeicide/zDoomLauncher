@@ -96,6 +96,7 @@
     <Compile Include="Extensions\BinaryIOExtension.cs" />
     <Compile Include="GeneralExtensions.cs" />
     <Compile Include="Iwads.cs" />
+    <Compile Include="MainWindow.Configuration.cs" />
     <Compile Include="MainWindow.EventHandlers.cs" />
     <Compile Include="MainWindow.Fields.cs" />
     <Compile Include="MainWindow.Initialization.cs" />
