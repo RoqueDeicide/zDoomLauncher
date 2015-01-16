@@ -15,6 +15,10 @@ namespace Launcher.Configs
 	[Serializable]
 	public class LaunchConfiguration : ILaunchConfiguration
 	{
+		/// <summary>
+		/// Gets or sets the name of this configuration.
+		/// </summary>
+		public string Name { get; set; }
 		#region Files
 		/// <summary>
 		/// Path to IWAD file to use.
@@ -328,6 +332,7 @@ namespace Launcher.Configs
 		/// </summary>
 		public LaunchConfiguration()
 		{
+			this.Name = "Default Configuration";
 			this.IwadPath = "";
 			this.ConfigFile = "";
 			this.ExtraFiles = new List<string>();

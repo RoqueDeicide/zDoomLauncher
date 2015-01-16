@@ -277,5 +277,10 @@ namespace Launcher
 		{
 			this.config.ExtraOptions = this.ExtraOptionsTextBox.Text;
 		}
+
+		private void ConfigurationNameChanged(object sender, TextChangedEventArgs e)
+		{
+			this.config.Name = this.ConfigurationNameTextBox.Text;
+		}
 	}
 }
