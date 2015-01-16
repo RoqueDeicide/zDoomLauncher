@@ -78,7 +78,8 @@ namespace Launcher.Databases
 		/// <param name="element"><see cref="XmlElement"/> that contains data.</param>
 		public override void FromXml(XmlElement element)
 		{
-			this.Text = element.SelectSingleNode("./text()").Value;
+			XmlNode xmlTextNode = element.SelectSingleNode("./text()");
+			if (xmlTextNode != null) this.Text = xmlTextNode.Value;
 		}
 		#endregion
 		#region Equating
