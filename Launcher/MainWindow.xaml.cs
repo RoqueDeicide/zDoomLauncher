@@ -158,6 +158,7 @@ namespace Launcher
 					) == MessageBoxResult.Yes)
 				{
 				}
+				this.zDoomFolder = dialog.SelectedPath;
 			}
 		}
 	}
