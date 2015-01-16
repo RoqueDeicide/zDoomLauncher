@@ -240,7 +240,9 @@ namespace Launcher.Databases
 				File.Create(file).Close();
 			}
 			//
-			string extension = System.IO.Path.GetExtension(file).Substring(1);
+			string rawExtension = System.IO.Path.GetExtension(file);
+			string extension = rawExtension != null ? rawExtension.Substring(1) : null;
+			//
 			if (extension == this.BinaryFileExtension)
 			{
 				this.SaveBinary(file);
@@ -265,7 +267,9 @@ namespace Launcher.Databases
 				throw new FileNotFoundException("Database.Load: File does not exist.");
 			}
 			//
-			string extension = System.IO.Path.GetExtension(file).Substring(1);
+			string rawExtension = System.IO.Path.GetExtension(file);
+			string extension = rawExtension != null ? rawExtension.Substring(1) : null;
+			//
 			if (extension == this.BinaryFileExtension)
 			{
 				this.LoadBinary(file);
