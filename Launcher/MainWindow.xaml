@@ -1,7 +1,9 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="Launcher.MainWindow"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Launcher.MainWindow"
         Title="zDoom Launcher" Height="610.187" Width="505.699" Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}">
 	<Grid Margin="0,0,2,0">
 		<Menu Height="24" VerticalAlignment="Top">
@@ -44,7 +46,8 @@
 		<xctk:CheckListBox x:Name="DisableFlagsList" HorizontalAlignment="Left" Height="130" Margin="364,55,0,0" VerticalAlignment="Top" Width="127" ValueMemberPath="Level" 
                             SelectedMemberPath="IsSelected"
                             SelectedValue="{Binding SelectedValue}"
-                            SelectedItemsOverride="{Binding SelectedItems}" ItemSelectionChanged="UpdateDisableOptions">
+                            SelectedItemsOverride="{Binding SelectedItems}" ItemSelectionChanged="UpdateDisableOptions"
+						    d:DataContext="{d:DesignInstance Type=xctk:CheckListBox}">
 			<ListBoxItem Content="Auto-Load Files" Name="AutoLoadItem" Selected="DisableOptionHandler" Tag="128"/>
 			<ListBoxItem Content="CD Audio" Name="CDAudioItem" Selected="DisableOptionHandler" Tag="1"/>
 			<ListBoxItem Content="Idling" Name="IdlingItem" Selected="DisableOptionHandler" Tag="2"/>
@@ -76,12 +79,12 @@
 		</ListBox>
 		<Label Content="Game-Play Options" HorizontalAlignment="Left" Margin="216,29,0,0" VerticalAlignment="Top"/>
 		<CheckBox x:Name="TurboIndicator" Content="Turbo" HorizontalAlignment="Left" Margin="216,122,0,0" VerticalAlignment="Top" Checked="EnableTurbo" Unchecked="DisableTurbo"/>
-		<xctk:ByteUpDown x:Name="TurboValueField" HorizontalAlignment="Left" Margin="269,118,0,0" VerticalAlignment="Top" Width="90" Minimum="10" DefaultValue="100" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateTurboField"/>
+		<xctk:ByteUpDown x:Name="TurboValueField" HorizontalAlignment="Left" Margin="295,118,0,0" VerticalAlignment="Top" Width="64" Minimum="10" DefaultValue="100" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateTurboField"/>
 		<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" HorizontalAlignment="Left" Margin="216,143,0,0" VerticalAlignment="Top" Checked="EnableTimeLimit" Unchecked="DisableTimeLimit"/>
 		<xctk:ByteUpDown x:Name="TimeLimitValueField" HorizontalAlignment="Left" Margin="295,138,0,0" VerticalAlignment="Top" Width="64" DefaultValue="20" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateTimeLimitField"/>
 		<xctk:ByteUpDown x:Name="DifficultyValueField" HorizontalAlignment="Left" Margin="295,158,0,0" VerticalAlignment="Top" Width="64" Maximum="15" DisplayDefaultValueOnEmptyText="True" DefaultValue="0" ValueChanged="UpdateCustomDifficultyField"/>
 		<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="216,162,0,0" VerticalAlignment="Top" Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty"/>
-		<Button Content="Test" HorizontalAlignment="Left" Margin="416,519,0,0" VerticalAlignment="Top" Width="75" Click="ShowCommandLine"/>
+		<Button Content="Test" Margin="416,519,5,0" VerticalAlignment="Top" Click="ShowCommandLine"/>
 
 	</Grid>
 </Window>
