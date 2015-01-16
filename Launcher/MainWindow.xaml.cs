@@ -28,14 +28,6 @@ namespace Launcher
 	/// </summary>
 	public partial class MainWindow
 	{
-		private LaunchConfiguration config;
-		private string file;
-		private VistaOpenFileDialog openConfigurationDialog;
-		private VistaSaveFileDialog saveConfigurationDialog;
-		
-		private ContextMenu demoSaveSelectionMenu;
-		// Time stamps for context menu opening.
-		private int lastRightClickTime;
 		public MainWindow()
 		{
 			this.resetting = true;
