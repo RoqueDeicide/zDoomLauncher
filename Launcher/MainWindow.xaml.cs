@@ -119,8 +119,6 @@ namespace Launcher
 		}
 		private void CloseWindow(object sender, RoutedEventArgs e)
 		{
-			this.SaveAppConfiguration();
-
 			this.Close();
 		}
 
@@ -160,6 +158,11 @@ namespace Launcher
 				}
 				this.zDoomFolder = dialog.SelectedPath;
 			}
+		}
+
+		private void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			this.SaveAppConfiguration();
 		}
 	}
 }
