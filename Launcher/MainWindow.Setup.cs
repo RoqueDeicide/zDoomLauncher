@@ -15,21 +15,21 @@ namespace Launcher
 	{
 		private void SetupIwads()
 		{
-			ComboBoxItem iwadItem =
-				this.IwadComboBox.Items
-					.OfType<ComboBoxItem>()
-					.FirstOrDefault
-					(
-						x =>
-						((string)x.Content).Equals
-						(
-							Path.GetFileName(this.config.IwadPath),
-							StringComparison.InvariantCultureIgnoreCase
-						)
-					);
-			if (iwadItem != null)
+			var foundIwads = (from ComboBoxItem comboItem in this.IwadComboBox.Items
+							  select (string)comboItem.Content).ToList();
+			string iwadFile = Path.GetFileName(this.config.IwadPath);
+			int foundIwadIndex =
+				foundIwads.FindIndex
+				(
+					iwad => iwad.Equals(iwadFile, StringComparison.InvariantCultureIgnoreCase)
+				);
+			if (foundIwadIndex != -1)
 			{
-				iwadItem.IsSelected = true;
+				this.IwadComboBox.SelectedValue = foundIwads[foundIwadIndex];
+			}
+			else
+			{
+				this.IwadComboBox.SelectedItem = null;
 			}
 		}
 		private void SetupExtraFiles()

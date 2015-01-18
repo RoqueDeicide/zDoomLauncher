@@ -20,7 +20,7 @@
 			</MenuItem>
 		</Menu>
 		<Label Content="IWAD" HorizontalAlignment="Left" Margin="11,64,0,0" VerticalAlignment="Top"/>
-		<ComboBox HorizontalAlignment="Left" Margin="53,68,0,0" VerticalAlignment="Top" Width="157" x:Name="IwadComboBox" SelectionChanged="IwadSelectionChanged"/>
+		<ComboBox HorizontalAlignment="Left" Margin="53,68,0,0" VerticalAlignment="Top" Width="157" x:Name="IwadComboBox" SelectionChanged="IwadSelectionChanged" SelectedValuePath="Content"/>
 		<Label Content="Extra Files" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top"/>
 		<GroupBox Header="Start With" Margin="10,319,0,0" VerticalAlignment="Top" Height="83" HorizontalAlignment="Left" Width="500">
 			<Grid Margin="0,0,-2,-2">
