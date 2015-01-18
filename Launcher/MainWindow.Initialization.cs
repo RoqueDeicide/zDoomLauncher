@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Controls;
 using Launcher.Configs;
+using Launcher.Logging;
 using Ookii.Dialogs.Wpf;
 
 namespace Launcher
@@ -37,9 +38,14 @@ namespace Launcher
 		private void InitializeLoadableFiles()
 		{
 			// Initialize IWAD combo-box.
-			Iwads.FindSupportedIwads(this.zDoomFolder)
-				 .Select<string, object>(iwadFile => new ComboBoxItem { Content = iwadFile })
-				 .Foreach(comboItem => this.IwadComboBox.Items.Add(comboItem));
+			foreach
+			(
+				var iwadItem in from iwad in Iwads.FindSupportedIwads(this.zDoomFolder)
+								select new ComboBoxItem { Content = iwad }
+			)
+			{
+				this.IwadComboBox.Items.Add(iwadItem);
+			}
 			List<string> extras = new List<string>(50);
 			// Get the list of files from base directory.
 			extras.AddRange(MainWindow.GetLoadableFiles(this.zDoomFolder));
