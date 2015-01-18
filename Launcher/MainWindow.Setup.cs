@@ -34,10 +34,9 @@ namespace Launcher
 		}
 		private void SetupExtraFiles()
 		{
-			foreach (CheckBox item in this.ExtraFilesListBox.Items.Cast<CheckBox>().Where
-				(item => this.config.ExtraFiles.Contains((string)item.Content)))
+			foreach (CheckBox item in this.ExtraFilesListBox.Items)
 			{
-				item.IsChecked = true;
+				item.IsChecked = this.config.ExtraFiles.Contains((string)item.Content);
 			}
 		}
 		private void SetupPixelMode()
