@@ -185,6 +185,7 @@
     <Compile Include="Iwads.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="MainWindow.Configuration.cs" />
+    <Compile Include="MainWindow.Constants.cs" />
     <Compile Include="MainWindow.EventHandlers.cs" />
     <Compile Include="MainWindow.Fields.cs" />
     <Compile Include="MainWindow.Initialization.cs" />

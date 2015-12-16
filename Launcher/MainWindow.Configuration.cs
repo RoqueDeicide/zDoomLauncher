@@ -13,13 +13,14 @@ namespace Launcher
 	{
 		private void SaveAppConfiguration()
 		{
-			Database appConfigurationDatabase = new Database("config", "binaryConfig");
+			Database appConfigurationDatabase = new Database(AppConfigurationXmlExtension,
+															 AppConfigurationBinaryExtension);
 
 			appConfigurationDatabase.AddEntry
 			(
 				new DatabaseEntry
 				(
-					"LastLaunchConfigurationFile",
+					LastConfigurationFileEntryName,
 					new TextContent
 					(
 						String.IsNullOrWhiteSpace(this.file)
@@ -35,7 +36,7 @@ namespace Launcher
 			(
 				new DatabaseEntry
 				(
-					"zDoomInstallationFolder",
+					GameFolderEntryName,
 					new TextContent
 					(
 						String.IsNullOrWhiteSpace(this.zDoomFolder)
@@ -47,22 +48,23 @@ namespace Launcher
 				)
 			);
 
-			appConfigurationDatabase.Save("Zdl.config");
+			appConfigurationDatabase.Save(AppConfigurationFileName);
 		}
 
 		private void LoadAppConfiguration()
 		{
 			try
 			{
-				if (File.Exists("Zdl.config"))
+				if (File.Exists(AppConfigurationFileName))
 				{
 					Log.Message("Loading configuration file.");
-					Database appConfigurationDatabase = new Database("config", "binaryConfig");
-					appConfigurationDatabase.Load("Zdl.config");
-					if (appConfigurationDatabase.Contains("LastLaunchConfigurationFile", false))
+					Database appConfigurationDatabase = new Database(AppConfigurationXmlExtension,
+																	 AppConfigurationBinaryExtension);
+					appConfigurationDatabase.Load(AppConfigurationFileName);
+					if (appConfigurationDatabase.Contains(LastConfigurationFileEntryName, false))
 					{
 						string entryText =
-							appConfigurationDatabase["LastLaunchConfigurationFile"]
+							appConfigurationDatabase[LastConfigurationFileEntryName]
 								.GetContent<TextContent>()
 								.Text;
 						this.file =
@@ -70,10 +72,10 @@ namespace Launcher
 								? null
 								: entryText;
 					}
-					if (appConfigurationDatabase.Contains("zDoomInstallationFolder", false))
+					if (appConfigurationDatabase.Contains(GameFolderEntryName, false))
 					{
 						string entryText =
-							appConfigurationDatabase["zDoomInstallationFolder"]
+							appConfigurationDatabase[GameFolderEntryName]
 								.GetContent<TextContent>()
 								.Text;
 						this.zDoomFolder =
