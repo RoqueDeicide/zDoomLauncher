@@ -47,9 +47,10 @@ namespace Launcher
 				this.config = new LaunchConfiguration();
 				this.file = "DefaultConfigFile.lcf";
 			}
-			
+
 			InitializeComponent();
 
+			this.RefreshExeFiles(this, null);
 			this.InitializeDialogs();
 			this.InitializeLoadableFiles();
 			this.InitializeContextMenus();
@@ -93,7 +94,23 @@ namespace Launcher
 		#endregion
 		private void LaunchTheGame(object sender, RoutedEventArgs e)
 		{
-			Process.Start(PathIO.Combine(this.zDoomFolder, "zdoom.exe"), this.config.CommandLine);
+			this.Launch(this.currentExeFile);
+		}
+
+		private void Launch(string appFileName)
+		{
+			string appFile = PathIO.Combine(this.zDoomFolder, appFileName);
+			if (File.Exists(appFile))
+			{
+				Process.Start(appFile, this.config.CommandLine);
+			}
+			else
+			{
+				string errorText =
+					String.Format("Unable to find {0} in {1}", appFileName, this.zDoomFolder);
+				Log.Error(errorText);
+				MessageBox.Show(errorText, "Cannot launch the game", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+			}
 		}
 		private void CreateNewConfiguration(object sender, RoutedEventArgs e)
 		{
@@ -144,12 +161,12 @@ namespace Launcher
 					(
 						dialog.ShowDialog() == true
 						&&
-						File.Exists(PathIO.Combine(dialog.SelectedPath, "zdoom.exe"))
+						Directory.EnumerateFiles(dialog.SelectedPath, "*.exe").Any()
 					)
 					&&
 					MessageBox.Show
 					(
-						"Select another folder? It needs to contain zdoom.exe file.",
+						"Valid folder needs to contain at least one .exe file.",
 						"No folder or invalid one was chosen",
 						MessageBoxButton.YesNo,
 						MessageBoxImage.Question
@@ -158,6 +175,8 @@ namespace Launcher
 				}
 				this.zDoomFolder = dialog.SelectedPath;
 			}
+
+			this.RefreshExeFiles(this, null);
 		}
 
 		private void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -178,6 +197,51 @@ namespace Launcher
 			{
 				Log.Message("Selected {0}", selectedIwad);
 				this.config.IwadPath = PathIO.Combine(this.zDoomFolder, selectedIwad);
+			}
+		}
+
+		private void RefreshExeFiles(object sender, RoutedEventArgs e)
+		{
+			if (this.zDoomFolder == null || this.ExeFileNameComboBox == null)
+			{
+				return;
+			}
+
+			this.ExeFileNameComboBox.Items.Clear();
+
+			var exeFiles = from exeFile in Directory.EnumerateFiles(this.zDoomFolder, "*.exe")
+						   select new ComboBoxItem
+						   {
+							   Content = PathIO.GetFileName(exeFile)
+						   };
+			
+			foreach (var comboBoxItem in exeFiles)
+			{
+				this.ExeFileNameComboBox.Items.Add(comboBoxItem);
+			}
+
+			string currentExeFileFullName = PathIO.Combine(this.zDoomFolder, this.currentExeFile ?? "");
+
+			if (this.currentExeFile == null || !File.Exists(currentExeFileFullName))
+			{
+				// Clear the selected item on ExeFileNameComboBox.
+				this.ExeFileNameComboBox.SelectedItem = null;
+				this.currentExeFile = null;
+			}
+			if (this.currentExeFile != null && File.Exists(currentExeFileFullName))
+			{
+				// Select the file in the combo box.
+				this.ExeFileNameComboBox.SelectedValue = this.currentExeFile;
+			}
+		}
+
+		private void ExeFileSelected(object sender, SelectionChangedEventArgs e)
+		{
+			// Update the field.
+			ComboBoxItem selectedItem = this.ExeFileNameComboBox.SelectedItem as ComboBoxItem;
+			if (selectedItem != null)
+			{
+				this.currentExeFile = selectedItem.Content as string;
 			}
 		}
 	}

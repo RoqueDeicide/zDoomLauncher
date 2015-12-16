@@ -10,8 +10,10 @@ namespace Launcher
 		private string zDoomFolder;
 		// ZDoom launch configuration.
 		private LaunchConfiguration config;
-		// File that stores the launch configuration configuration.
+		// File that stores the launch configuration.
 		private string file;
+		// Name of the file to execute when launching.
+		private string currentExeFile;
 		// Open and save dialogs.
 		private VistaOpenFileDialog openConfigurationDialog;
 		private VistaSaveFileDialog saveConfigurationDialog;

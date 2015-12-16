@@ -40,10 +40,22 @@ namespace Launcher
 					new TextContent
 					(
 						String.IsNullOrWhiteSpace(this.zDoomFolder)
-						&&
-						File.Exists(Path.Combine(this.zDoomFolder, "zdoom.exe"))
 							? "Nothing"
 							: this.zDoomFolder
+					)
+				)
+			);
+
+			appConfigurationDatabase.AddEntry
+			(
+				new DatabaseEntry
+				(
+					LastExeFileEntryName,
+					new TextContent
+					(
+						string.IsNullOrWhiteSpace(this.currentExeFile)
+							? "Nothing"
+							: this.currentExeFile
 					)
 				)
 			);
@@ -80,8 +92,17 @@ namespace Launcher
 								.Text;
 						this.zDoomFolder =
 							entryText == "Nothing"
-							&&
-							File.Exists(Path.Combine(this.zDoomFolder, "zdoom.exe"))
+								? null
+								: entryText;
+					}
+					if (appConfigurationDatabase.Contains(LastExeFileEntryName, false))
+					{
+						string entryText =
+							appConfigurationDatabase[LastExeFileEntryName]
+								.GetContent<TextContent>()
+								.Text;
+						this.currentExeFile =
+							entryText == "Nothing"
 								? null
 								: entryText;
 					}

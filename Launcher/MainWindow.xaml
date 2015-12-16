@@ -4,7 +4,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Launcher.MainWindow"
-        Title="zDoom Launcher" Height="610.187" Width="531.699" Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" Closing="MainWindowClosing">
+        Title="zDoom Launcher" Height="604.187" Width="531.699" Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" Closing="MainWindowClosing">
 	<Grid Margin="0,0,2,0">
 		<Menu Height="24" VerticalAlignment="Top">
 			<MenuItem Header="Configurations">
@@ -56,9 +56,8 @@
 			<CheckBox Content="Startup Screens" Name="StartupScreensItem" Checked="EnableOption" Unchecked="DisableOption" Tag="32"/>
 			<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Checked="EnableOption" Unchecked="DisableOption" Tag="64"/>
 		</ListBox>
-		<TextBox x:Name="ExtraOptionsTextBox" Height="87" Margin="11,482,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" TextChanged="UpdateExtraOptions"/>
+		<TextBox x:Name="ExtraOptionsTextBox" Height="78" Margin="11,482,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="253" TextChanged="UpdateExtraOptions"/>
 		<Label Content="Extra Command-Line Options" HorizontalAlignment="Left" Margin="11,456,0,0" VerticalAlignment="Top"/>
-		<Button Content="Launch" Margin="416,546,0,0" VerticalAlignment="Top" Height="23" Click="LaunchTheGame" HorizontalAlignment="Left" Width="94"/>
 		<ListBox x:Name="ExtraFilesListBox" HorizontalAlignment="Left" Height="198" Margin="10,116,0,0" VerticalAlignment="Top" Width="200" SelectionMode="Extended" ToolTip="A list of extra files to load when loading zDoom.">
 		</ListBox>
 		<TextBox x:Name="ConfigFileTextBox" HorizontalAlignment="Left" Height="23" Margin="275,433,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" TextChanged="UpdateConfigFile"/>
@@ -83,9 +82,13 @@
 		<xctk:ByteUpDown x:Name="TimeLimitValueField" HorizontalAlignment="Left" Margin="295,138,0,0" VerticalAlignment="Top" Width="64" DefaultValue="20" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateTimeLimitField"/>
 		<xctk:ByteUpDown x:Name="DifficultyValueField" HorizontalAlignment="Left" Margin="295,158,0,0" VerticalAlignment="Top" Width="64" Maximum="15" DisplayDefaultValueOnEmptyText="True" DefaultValue="0" ValueChanged="UpdateCustomDifficultyField"/>
 		<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="216,162,0,0" VerticalAlignment="Top" Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty"/>
-		<Button Content="Test" Margin="416,519,0,0" VerticalAlignment="Top" Click="ShowCommandLine" HorizontalAlignment="Left" Width="94"/>
+		<Button Content="Test" Margin="275,537,0,0" VerticalAlignment="Top" Click="ShowCommandLine" HorizontalAlignment="Left" Width="94"/>
 		<Label Content="Name" HorizontalAlignment="Left" Margin="11,29,0,0" VerticalAlignment="Top"/>
 		<TextBox x:Name="ConfigurationNameTextBox" HorizontalAlignment="Left" Height="23" Margin="53,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" TextChanged="ConfigurationNameChanged"/>
+		<Button Content="Launch" Margin="416,536,0,0" VerticalAlignment="Top" Height="23" Click="LaunchTheGame" HorizontalAlignment="Left" Width="94"/>
+		<Label Content="Executable File Name" HorizontalAlignment="Left" Margin="275,456,0,0" VerticalAlignment="Top" Width="153" ToolTip="Name of the executable file that represents the source port to use. Currently only useful for choosing between zDoom, gzDoom and compatible ones."/>
+		<ComboBox HorizontalAlignment="Left" Margin="275,482,0,0" VerticalAlignment="Top" Width="136" x:Name="ExeFileNameComboBox" IsReadOnly="True" ToolTip="This list can be refreshed with a &quot;Refresh&quot; button." SelectionChanged="ExeFileSelected" SelectedValuePath="Content"/>
+		<Button Content="Refresh" Margin="416,481,0,0" VerticalAlignment="Top" Height="23" Click="RefreshExeFiles" HorizontalAlignment="Left" Width="94"/>
 
 	</Grid>
 </Window>

@@ -12,5 +12,7 @@
 		private const string GameFolderEntryName = "zDoomInstallationFolder";
 		// Name of the application configuration entry that contains the full name of the file that contains last used launch configuration.
 		private const string LastConfigurationFileEntryName = "LastLaunchConfigurationFile";
+		// Name of the application configuration entry that contains the name of the last used executable file.
+		private const string LastExeFileEntryName = "LastExeFile";
 	}
 }
