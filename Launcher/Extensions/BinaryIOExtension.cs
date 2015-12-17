@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 
 namespace Launcher.Extensions
@@ -23,6 +24,8 @@ namespace Launcher.Extensions
 		/// <param name="s">       Text to write.</param>
 		/// <param name="encoding">Encoding to use.</param>
 		/// <returns>A number of written bytes.</returns>
+		/// <exception cref="IOException">An I/O error occurs. </exception>
+		/// <exception cref="ObjectDisposedException">The stream is closed. </exception>
 		public static long WriteLongString(this BinaryWriter writer, string s, Encoding encoding)
 		{
 			byte[] bytesOfText = encoding.GetBytes(s);
@@ -41,6 +44,8 @@ namespace Launcher.Extensions
 		/// </param>
 		/// <param name="encoding">Encoding to use to parse bytes.</param>
 		/// <returns>Number of read bytes.</returns>
+		/// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
+		/// <exception cref="IOException">An I/O error occurs. </exception>
 		public static long ReadLongString(this BinaryReader reader, out string s, Encoding encoding)
 		{
 			long numberOfBytes = reader.ReadInt64();
@@ -60,6 +65,8 @@ namespace Launcher.Extensions
 		/// </param>
 		/// <param name="encoding">Encoding to use to parse bytes.</param>
 		/// <returns>Read text.</returns>
+		/// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
+		/// <exception cref="IOException">An I/O error occurs. </exception>
 		public static string ReadLongString(this BinaryReader reader, Encoding encoding)
 		{
 			long numberOfBytes = reader.ReadInt64();

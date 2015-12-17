@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Launcher.Configs;
-using Xceed.Wpf.Toolkit.Primitives;
 
 namespace Launcher
 {
@@ -53,7 +51,6 @@ namespace Launcher
 		}
 		#endregion
 		#region Pixel Mode
-
 		#endregion
 		#region Disables
 		private void EnableOption(object sender, RoutedEventArgs e)
@@ -92,7 +89,6 @@ namespace Launcher
 		}
 		#endregion
 		#region GamePlay
-		//
 		private void DisableMonsters(object sender, RoutedEventArgs e)
 		{
 			this.config.NoMonsters = true;
@@ -101,7 +97,7 @@ namespace Launcher
 		{
 			this.config.NoMonsters = false;
 		}
-		//
+
 		private void EnableFastMonsters(object sender, RoutedEventArgs e)
 		{
 			this.config.FastMonsters = true;
@@ -110,7 +106,7 @@ namespace Launcher
 		{
 			this.config.FastMonsters = true;
 		}
-		//
+
 		private void EnableRespawn(object sender, RoutedEventArgs e)
 		{
 			this.config.RespawningMonsters = true;
@@ -119,7 +115,7 @@ namespace Launcher
 		{
 			this.config.RespawningMonsters = true;
 		}
-		//
+
 		private void EnableTurbo(object sender, RoutedEventArgs e)
 		{
 			this.config.TurboMode = this.TurboValueField.Value;
@@ -135,7 +131,7 @@ namespace Launcher
 				this.config.TurboMode = this.TurboValueField.Value;
 			}
 		}
-		//
+
 		private void EnableTimeLimit(object sender, RoutedEventArgs e)
 		{
 			this.config.TimeLimit = this.TimeLimitValueField.Value;
@@ -151,7 +147,7 @@ namespace Launcher
 				this.config.TimeLimit = this.TimeLimitValueField.Value;
 			}
 		}
-		//
+
 		private void EnableCustomDifficulty(object sender, RoutedEventArgs e)
 		{
 			this.config.Difficulty = this.DifficultyValueField.Value;
@@ -195,7 +191,7 @@ namespace Launcher
 				this.config.AutoStartFile = this.LoadGameTextBox.Text;
 			}
 		}
-		//
+
 		private void SwitchToDemo(object sender, RoutedEventArgs e)
 		{
 			this.config.StartUpFileKind = StartupFile.Demo;
@@ -208,7 +204,7 @@ namespace Launcher
 				this.config.AutoStartFile = this.PlayDemoTextBox.Text;
 			}
 		}
-		//
+
 		private void SwitchToMap(object sender, RoutedEventArgs e)
 		{
 			if (this.MapValueField == null || this.EpisodeValueField == null)
@@ -219,21 +215,21 @@ namespace Launcher
 			if (this.EpisodicIwadIsSelected())
 			{
 				this.config.AutoStartFile =
-					String.Format
-					(
-						"{0} {1}",
-						this.EpisodeValueField.Value,
-						this.MapValueField.Value
-					);
+					string.Format
+						(
+						 "{0} {1}",
+						 this.EpisodeValueField.Value,
+						 this.MapValueField.Value
+						);
 			}
 			else
 			{
 				this.config.AutoStartFile =
-					String.Format
-					(
-						"{0}",
-						this.MapValueField.Value
-					);
+					string.Format
+						(
+						 "{0}",
+						 this.MapValueField.Value
+						);
 			}
 		}
 		private void UpdateEpisodeIndex(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -258,22 +254,21 @@ namespace Launcher
 				// ReSharper disable PossibleInvalidOperationException
 				this.config.AutoStartFile =
 					this.config.AutoStartFile.ChangeNumber
-					(
-						(this.EpisodicIwadIsSelected())
-							? 1
-							: 0,
-						this.MapValueField.Value.Value
-					);
+						(
+						 (this.EpisodicIwadIsSelected())
+							 ? 1
+							 : 0,
+						 this.MapValueField.Value.Value
+						);
 				// ReSharper restore PossibleInvalidOperationException
 			}
 		}
-		//
+
 		private void SwitchToNothing(object sender, RoutedEventArgs e)
 		{
 			this.config.StartUpFileKind = StartupFile.None;
 		}
 		#endregion
-
 		private void UpdateSaveDirectory(object sender, TextChangedEventArgs e)
 		{
 			this.config.SaveDirectory = this.SaveDirectoryTextBox.Text;

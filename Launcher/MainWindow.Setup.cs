@@ -1,13 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
 using Launcher.Configs;
 using Launcher.Logging;
-using Ookii.Dialogs.Wpf;
 
 namespace Launcher
 {
@@ -19,10 +15,8 @@ namespace Launcher
 							  select (string)comboItem.Content).ToList();
 			string iwadFile = Path.GetFileName(this.config.IwadPath);
 			int foundIwadIndex =
-				foundIwads.FindIndex
-				(
-					iwad => iwad.Equals(iwadFile, StringComparison.InvariantCultureIgnoreCase)
-				);
+				foundIwads.FindIndex(iwad => iwad.Equals(iwadFile,
+														 StringComparison.InvariantCultureIgnoreCase));
 			if (foundIwadIndex != -1)
 			{
 				this.IwadComboBox.SelectedValue = foundIwads[foundIwadIndex];
@@ -60,13 +54,13 @@ namespace Launcher
 		{
 			if (this.config.Width.HasValue)
 			{
-				WidthCheckBox.IsChecked = true;
-				WidthValueField.Value = this.config.Width.Value;
+				this.WidthCheckBox.IsChecked = true;
+				this.WidthValueField.Value = this.config.Width.Value;
 			}
 			if (this.config.Height.HasValue)
 			{
-				HeightCheckBox.IsChecked = true;
-				HeightValueField.Value = this.config.Height.Value;
+				this.HeightCheckBox.IsChecked = true;
+				this.HeightValueField.Value = this.config.Height.Value;
 			}
 		}
 		private void SetupDisableOptions()
@@ -97,16 +91,16 @@ namespace Launcher
 			switch (this.config.StartUpFileKind)
 			{
 				case StartupFile.None:
-					LoadNothingIndicator.IsChecked = true;
+					this.LoadNothingIndicator.IsChecked = true;
 					break;
 				case StartupFile.SaveGame:
-					LoadSaveIndicator.IsChecked = true;
+					this.LoadSaveIndicator.IsChecked = true;
 					break;
 				case StartupFile.Demo:
-					LoadDemoIndicator.IsChecked = true;
+					this.LoadDemoIndicator.IsChecked = true;
 					break;
 				case StartupFile.Map:
-					LoadMapIndicator.IsChecked = true;
+					this.LoadMapIndicator.IsChecked = true;
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

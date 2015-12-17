@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls;
 using Launcher.Configs;
-using Launcher.Logging;
 using Ookii.Dialogs.Wpf;
 
 namespace Launcher
@@ -39,21 +37,21 @@ namespace Launcher
 		{
 			// Initialize IWAD combo-box.
 			foreach
-			(
+				(
 				var iwadItem in from iwad in Iwads.FindSupportedIwads(this.zDoomFolder)
-								select new ComboBoxItem { Content = iwad }
-			)
+								select new ComboBoxItem {Content = iwad}
+				)
 			{
 				this.IwadComboBox.Items.Add(iwadItem);
 			}
 			List<string> extras = new List<string>(50);
 			// Get the list of files from base directory.
-			extras.AddRange(MainWindow.GetLoadableFiles(this.zDoomFolder));
+			extras.AddRange(GetLoadableFiles(this.zDoomFolder));
 			// Get the files from DOOMWADDIR environment variable.
 			string doomWadVar = Environment.GetEnvironmentVariable("DOOMWADDIR");
-			if (!String.IsNullOrWhiteSpace(doomWadVar))
+			if (!string.IsNullOrWhiteSpace(doomWadVar))
 			{
-				extras.AddRange(MainWindow.GetLoadableFiles(doomWadVar));
+				extras.AddRange(GetLoadableFiles(doomWadVar));
 			}
 			// Put iwads into separate list.
 			List<string> iwads = extras.Where(Iwads.SupportedIwads.ContainsKey).ToList();
@@ -84,7 +82,7 @@ namespace Launcher
 				string extra1 = extra;
 				extraBox.Checked += (sender, args) =>
 				{
-					if (resetting)
+					if (this.resetting)
 					{
 						return;
 					}
@@ -92,7 +90,7 @@ namespace Launcher
 				};
 				extraBox.Unchecked += (sender, args) =>
 				{
-					if (resetting)
+					if (this.resetting)
 					{
 						return;
 					}
@@ -105,7 +103,7 @@ namespace Launcher
 		{
 			// Context menu for selecting save-game or demo file.
 			this.demoSaveSelectionMenu = new ContextMenu();
-			MenuItem selectFileMenuItem = new MenuItem { Header = "Select The File" };
+			MenuItem selectFileMenuItem = new MenuItem {Header = "Select The File"};
 			selectFileMenuItem.Click += (sender, args) =>
 			{
 				TextBox textBox = this.demoSaveSelectionMenu.PlacementTarget as TextBox;

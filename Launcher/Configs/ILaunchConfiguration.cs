@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Launcher.Configs
 {
@@ -16,8 +12,8 @@ namespace Launcher.Configs
 		/// </summary>
 		string Name { get; set; }
 		/// <summary>
-		/// When implemented in derived class, gets the command line that can be used to launch the
-		/// game with this configuration.
+		/// When implemented in derived class, gets the command line that can be used to launch the game
+		/// with this configuration.
 		/// </summary>
 		string CommandLine { get; }
 	}

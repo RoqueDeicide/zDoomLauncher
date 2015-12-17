@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls;
+using Launcher.Databases;
 using Launcher.Logging;
 
 namespace Launcher
@@ -15,15 +16,9 @@ namespace Launcher
 			return
 				selectedIwad != null
 				&&
-				Iwads.EpisodicIwads.Any
-				(
-					iwadName =>
-						iwadName.Equals
-						(
-							(string)selectedIwad.Tag,
-							StringComparison.InvariantCultureIgnoreCase
-						)
-				);
+				Iwads.EpisodicIwads.Any(iwadName =>
+											iwadName.Equals((string)selectedIwad.Tag,
+															StringComparison.InvariantCultureIgnoreCase));
 		}
 		private static IEnumerable<string> GetLoadableFiles(string folder)
 		{
@@ -36,6 +31,10 @@ namespace Launcher
 				where extension == ".wad" || extension == ".pk3"
 				where !Iwads.SupportedIwads.Keys.Contains(fileName.ToLowerInvariant())
 				select fileName;
+		}
+		private static TextContent ToEntryContent(bool condition, string text)
+		{
+			return new TextContent(condition ? text : "Nothing");
 		}
 	}
 }

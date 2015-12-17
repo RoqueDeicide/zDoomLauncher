@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security;
 using System.Text;
-using System.Windows.Documents;
 
 namespace Launcher.Configs
 {
@@ -33,7 +34,8 @@ namespace Launcher.Configs
 		/// </summary>
 		public string ConfigFile { get; set; }
 		/// <summary>
-		/// Indicates whether zDoom needs to ignore block map data supplied by the map, and generate it instead.
+		/// Indicates whether zDoom needs to ignore block map data supplied by the map, and generate it
+		/// instead.
 		/// </summary>
 		public bool IgnoreBlockMap { get; set; }
 		/// <summary>
@@ -47,7 +49,7 @@ namespace Launcher.Configs
 		/// <summary>
 		/// Indicates nature of <see cref="AutoStartFile"/>.
 		/// </summary>
-		public StartupFile StartUpFileKind{ get; set; }
+		public StartupFile StartUpFileKind { get; set; }
 		/// <summary>
 		/// Text that is appended to the command line at the end.
 		/// </summary>
@@ -75,7 +77,8 @@ namespace Launcher.Configs
 		#endregion
 		#region GamePlay
 		/// <summary>
-		/// Indicates whether zDoom has to make monsters fast regardless whether the game runs on Nightmare or not.
+		/// Indicates whether zDoom has to make monsters fast regardless whether the game runs on Nightmare
+		/// or not.
 		/// </summary>
 		public bool FastMonsters { get; set; }
 		/// <summary>
@@ -83,7 +86,8 @@ namespace Launcher.Configs
 		/// </summary>
 		public bool NoMonsters { get; set; }
 		/// <summary>
-		/// Indicates whether zDoom has to make monsters respawn regardless whether the game runs on Nightmare or not.
+		/// Indicates whether zDoom has to make monsters respawn regardless whether the game runs on
+		/// Nightmare or not.
 		/// </summary>
 		public bool RespawningMonsters { get; set; }
 		/// <summary>
@@ -91,7 +95,8 @@ namespace Launcher.Configs
 		/// </summary>
 		public int? TimeLimit { get; set; }
 		/// <summary>
-		/// Sets the movement speed of the player to specified value that is a percentage of normal movement speed.
+		/// Sets the movement speed of the player to specified value that is a percentage of normal
+		/// movement speed.
 		/// </summary>
 		public byte? TurboMode { get; set; }
 		/// <summary>
@@ -104,6 +109,29 @@ namespace Launcher.Configs
 		/// Saves this configuration to the file.
 		/// </summary>
 		/// <param name="file">Path to the file.</param>
+		/// <exception cref="FileNotFoundException">
+		/// The file cannot be found, such as when mode is FileMode.Truncate or FileMode.Open, and the file
+		/// specified by path does not exist. The file must already exist in these modes.
+		/// </exception>
+		/// <exception cref="IOException">
+		/// An I/O error, such as specifying FileMode.CreateNew when the file specified by path already
+		/// exists, occurred. -or-The system is running Windows 98 or Windows 98 Second Edition and share
+		/// is set to FileShare.Delete.-or-The stream has been closed.
+		/// </exception>
+		/// <exception cref="SecurityException">
+		/// The caller does not have the required permission.
+		/// </exception>
+		/// <exception cref="DirectoryNotFoundException">
+		/// The specified path is invalid, such as being on an unmapped drive.
+		/// </exception>
+		/// <exception cref="UnauthorizedAccessException">
+		/// The access requested is not permitted by the operating system for the specified path, such as
+		/// when access is Write or ReadWrite and the file or directory is set for read-only access.
+		/// </exception>
+		/// <exception cref="SerializationException">
+		/// An error has occurred during serialization, such as if an object in the graph parameter is not
+		/// marked as serializable.
+		/// </exception>
 		public void Save(string file)
 		{
 			using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -116,6 +144,30 @@ namespace Launcher.Configs
 		/// Loads this configuration from the file.
 		/// </summary>
 		/// <param name="file">Path to the file.</param>
+		/// <exception cref="FileNotFoundException">
+		/// The file cannot be found, such as when mode is FileMode.Truncate or FileMode.Open, and the file
+		/// specified by path does not exist. The file must already exist in these modes.
+		/// </exception>
+		/// <exception cref="IOException">
+		/// An I/O error, such as specifying FileMode.CreateNew when the file specified by path already
+		/// exists, occurred. -or-The system is running Windows 98 or Windows 98 Second Edition and share
+		/// is set to FileShare.Delete.-or-The stream has been closed.
+		/// </exception>
+		/// <exception cref="SecurityException">
+		/// The caller does not have the required permission.
+		/// </exception>
+		/// <exception cref="DirectoryNotFoundException">
+		/// The specified path is invalid, such as being on an unmapped drive.
+		/// </exception>
+		/// <exception cref="UnauthorizedAccessException">
+		/// The access requested is not permitted by the operating system for the specified path, such as
+		/// when access is Write or ReadWrite and the file or directory is set for read-only access.
+		/// </exception>
+		/// <exception cref="SerializationException">
+		/// The serializationStream supports seeking, but its length is 0. -or-The target type is a
+		/// <see cref="T:System.Decimal"/>, but the value is out of range of the
+		/// <see cref="T:System.Decimal"/> type.
+		/// </exception>
 		public static LaunchConfiguration Load(string file)
 		{
 			using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -129,19 +181,20 @@ namespace Launcher.Configs
 		/// <summary>
 		/// Gets command line that can be used to launch zDoom with this configuration.
 		/// </summary>
+		/// <exception cref="ArgumentOutOfRangeException">Unknown enumeration value.</exception>
 		public string CommandLine
 		{
 			get
 			{
 				StringBuilder line = new StringBuilder();
 				// IWAD.
-				if (!String.IsNullOrWhiteSpace(this.IwadPath))
+				if (!string.IsNullOrWhiteSpace(this.IwadPath))
 				{
 					line.Append("-iwad ");
 					line.Append(Path.GetFileName(this.IwadPath));
 				}
 				// Config file.
-				if (!String.IsNullOrWhiteSpace(this.ConfigFile))
+				if (!string.IsNullOrWhiteSpace(this.ConfigFile))
 				{
 					line.Append(" -config ");
 					line.Append(this.ConfigFile);
@@ -152,11 +205,8 @@ namespace Launcher.Configs
 					// Wads.
 					var wads =
 						this.ExtraFiles
-						.Where
-						(
-							x => Path.GetExtension(x) != ".bex" && Path.GetExtension(x) != ".deh"
-						)
-						.GetEnumerator();
+							.Where(x => Path.GetExtension(x) != ".bex" && Path.GetExtension(x) != ".deh")
+							.GetEnumerator();
 					if (wads.MoveNext())
 					{
 						line.Append(" -file ");
@@ -222,12 +272,12 @@ namespace Launcher.Configs
 				{
 					line.Append(" -blockmap");
 				}
-				if (!String.IsNullOrWhiteSpace(this.SaveDirectory))
+				if (!string.IsNullOrWhiteSpace(this.SaveDirectory))
 				{
 					line.Append(" -savedir ");
 					line.Append(this.SaveDirectory);
 				}
-				if (!String.IsNullOrWhiteSpace(this.AutoStartFile))
+				if (!string.IsNullOrWhiteSpace(this.AutoStartFile))
 				{
 					switch (this.StartUpFileKind)
 					{
@@ -317,7 +367,7 @@ namespace Launcher.Configs
 					line.Append(" -nostartup");
 				}
 				// Last thing.
-				if (!String.IsNullOrWhiteSpace(this.ExtraOptions))
+				if (!string.IsNullOrWhiteSpace(this.ExtraOptions))
 				{
 					line.Append(" ");
 					line.Append(this.ExtraOptions);
@@ -387,7 +437,8 @@ namespace Launcher.Configs
 		/// </summary>
 		CompactDiskAudio = 1,
 		/// <summary>
-		/// When set instructs zDoom to disable function that lowers zDoom process priority when player alt-tabs away.
+		/// When set instructs zDoom to disable function that lowers zDoom process priority when player
+		/// alt-tabs away.
 		/// </summary>
 		Idling = 2,
 		/// <summary>
@@ -411,7 +462,8 @@ namespace Launcher.Configs
 		/// </summary>
 		StartupScreens = 32,
 		/// <summary>
-		/// When set instructs zDoom to disable sprite renaming used in user-created files for Heretic, Hexen or Strife.
+		/// When set instructs zDoom to disable sprite renaming used in user-created files for Heretic,
+		/// Hexen or Strife.
 		/// </summary>
 		SpriteRenaming = 64,
 		/// <summary>

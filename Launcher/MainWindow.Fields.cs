@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using Launcher.Configs;
 using Ookii.Dialogs.Wpf;
 

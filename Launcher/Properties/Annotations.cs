@@ -1,12 +1,19 @@
 ﻿using System;
 
 #pragma warning disable 1591
+
 // ReSharper disable UnusedMember.Global
+
 // ReSharper disable UnusedParameter.Local
+
 // ReSharper disable MemberCanBePrivate.Global
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+
 // ReSharper disable IntroduceOptionalParameters.Global
+
 // ReSharper disable MemberCanBeProtected.Global
+
 // ReSharper disable InconsistentNaming
 
 namespace Launcher.Annotations
@@ -25,7 +32,7 @@ namespace Launcher.Annotations
   [AttributeUsage(
     AttributeTargets.Method | AttributeTargets.Parameter |
     AttributeTargets.Property | AttributeTargets.Delegate |
-    AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    AttributeTargets.Field)]
   public sealed class CanBeNullAttribute : Attribute { }
 
   /// <summary>
@@ -39,7 +46,7 @@ namespace Launcher.Annotations
   [AttributeUsage(
     AttributeTargets.Method | AttributeTargets.Parameter |
     AttributeTargets.Property | AttributeTargets.Delegate |
-    AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    AttributeTargets.Field)]
   public sealed class NotNullAttribute : Attribute { }
 
   /// <summary>
@@ -55,8 +62,7 @@ namespace Launcher.Annotations
   /// }
   /// </code></example>
   [AttributeUsage(
-    AttributeTargets.Constructor | AttributeTargets.Method,
-    AllowMultiple = false, Inherited = true)]
+    AttributeTargets.Constructor | AttributeTargets.Method)]
   public sealed class StringFormatMethodAttribute : Attribute
   {
     /// <param name="formatParameterName">
@@ -64,7 +70,7 @@ namespace Launcher.Annotations
     /// </param>
     public StringFormatMethodAttribute(string formatParameterName)
     {
-      FormatParameterName = formatParameterName;
+	    this.FormatParameterName = formatParameterName;
     }
 
     public string FormatParameterName { get; private set; }
@@ -81,7 +87,7 @@ namespace Launcher.Annotations
   ///     throw new ArgumentNullException("par"); // Warning: Cannot resolve symbol
   /// }
   /// </code></example>
-  [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+  [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class InvokerParameterNameAttribute : Attribute { }
 
   /// <summary>
@@ -120,13 +126,13 @@ namespace Launcher.Annotations
   /// <item><c>SetProperty(ref myField, value, "Property")</c></item>
   /// </list>
   /// </example>
-  [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+  [AttributeUsage(AttributeTargets.Method)]
   public sealed class NotifyPropertyChangedInvocatorAttribute : Attribute
   {
     public NotifyPropertyChangedInvocatorAttribute() { }
     public NotifyPropertyChangedInvocatorAttribute(string parameterName)
     {
-      ParameterName = parameterName;
+	    this.ParameterName = parameterName;
     }
 
     public string ParameterName { get; private set; }
@@ -174,7 +180,7 @@ namespace Launcher.Annotations
   /// public bool TryParse(string s, out Person result)
   /// </code></item>
   /// </list></examples>
-  [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+  [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
   public sealed class ContractAnnotationAttribute : Attribute
   {
     public ContractAnnotationAttribute([NotNull] string contract)
@@ -182,8 +188,8 @@ namespace Launcher.Annotations
 
     public ContractAnnotationAttribute([NotNull] string contract, bool forceFullStates)
     {
-      Contract = contract;
-      ForceFullStates = forceFullStates;
+	    this.Contract = contract;
+	    this.ForceFullStates = forceFullStates;
     }
 
     public string Contract { get; private set; }
@@ -199,13 +205,13 @@ namespace Launcher.Annotations
   ///   private string str = "my string"; // Warning: Localizable string
   /// }
   /// </code></example>
-  [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
+  [AttributeUsage(AttributeTargets.All)]
   public sealed class LocalizationRequiredAttribute : Attribute
   {
     public LocalizationRequiredAttribute() : this(true) { }
     public LocalizationRequiredAttribute(bool required)
     {
-      Required = required;
+	    this.Required = required;
     }
 
     public bool Required { get; private set; }
@@ -232,7 +238,7 @@ namespace Launcher.Annotations
   /// </code></example>
   [AttributeUsage(
     AttributeTargets.Interface | AttributeTargets.Class |
-    AttributeTargets.Struct, AllowMultiple = false, Inherited = true)]
+    AttributeTargets.Struct)]
   public sealed class CannotApplyEqualityOperatorAttribute : Attribute { }
 
   /// <summary>
@@ -245,13 +251,13 @@ namespace Launcher.Annotations
   /// [Component] // ComponentAttribute requires implementing IComponent interface
   /// public class MyComponent : IComponent { }
   /// </code></example>
-  [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+  [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
   [BaseTypeRequired(typeof(Attribute))]
   public sealed class BaseTypeRequiredAttribute : Attribute
   {
     public BaseTypeRequiredAttribute([NotNull] Type baseType)
     {
-      BaseType = baseType;
+	    this.BaseType = baseType;
     }
 
     [NotNull] public Type BaseType { get; private set; }
@@ -262,7 +268,7 @@ namespace Launcher.Annotations
   /// (e.g. via reflection, in external library), so this symbol
   /// will not be marked as unused (as well as by other usage inspections)
   /// </summary>
-  [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
+  [AttributeUsage(AttributeTargets.All)]
   public sealed class UsedImplicitlyAttribute : Attribute
   {
     public UsedImplicitlyAttribute()
@@ -277,8 +283,8 @@ namespace Launcher.Annotations
     public UsedImplicitlyAttribute(
       ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
     {
-      UseKindFlags = useKindFlags;
-      TargetFlags = targetFlags;
+	    this.UseKindFlags = useKindFlags;
+	    this.TargetFlags = targetFlags;
     }
 
     public ImplicitUseKindFlags UseKindFlags { get; private set; }
@@ -290,7 +296,7 @@ namespace Launcher.Annotations
   /// to not mark symbols marked with such attributes as unused
   /// (as well as by other usage inspections)
   /// </summary>
-  [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+  [AttributeUsage(AttributeTargets.Class)]
   public sealed class MeansImplicitUseAttribute : Attribute
   {
     public MeansImplicitUseAttribute() 
@@ -305,8 +311,8 @@ namespace Launcher.Annotations
     public MeansImplicitUseAttribute(
       ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
     {
-      UseKindFlags = useKindFlags;
-      TargetFlags = targetFlags;
+	    this.UseKindFlags = useKindFlags;
+	    this.TargetFlags = targetFlags;
     }
 
     [UsedImplicitly] public ImplicitUseKindFlags UseKindFlags { get; private set; }
@@ -353,10 +359,13 @@ namespace Launcher.Annotations
   [MeansImplicitUse]
   public sealed class PublicAPIAttribute : Attribute
   {
-    public PublicAPIAttribute() { }
+	  public PublicAPIAttribute()
+	  {
+		  this.Comment = "";
+	  }
     public PublicAPIAttribute([NotNull] string comment)
     {
-      Comment = comment;
+	    this.Comment = comment;
     }
 
     [NotNull] public string Comment { get; private set; }
@@ -369,7 +378,7 @@ namespace Launcher.Annotations
   /// If the parameter is an enumerable, indicates that it is enumerated
   /// while the method is executed
   /// </summary>
-  [AttributeUsage(AttributeTargets.Parameter, Inherited = true)]
+  [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class InstantHandleAttribute : Attribute { }
 
   /// <summary>
@@ -383,7 +392,7 @@ namespace Launcher.Annotations
   ///   Multiply(a, b); // Waring: Return value of pure method is not used
   /// }
   /// </code></example>
-  [AttributeUsage(AttributeTargets.Method, Inherited = true)]
+  [AttributeUsage(AttributeTargets.Method)]
   public sealed class PureAttribute : Attribute { }
 
   /// <summary>
@@ -394,10 +403,13 @@ namespace Launcher.Annotations
   [AttributeUsage(AttributeTargets.Parameter)]
   public class PathReferenceAttribute : Attribute
   {
-    public PathReferenceAttribute() { }
+	  public PathReferenceAttribute()
+	  {
+		  this.BasePath = "";
+	  }
     public PathReferenceAttribute([PathReference] string basePath)
     {
-      BasePath = basePath;
+	    this.BasePath = basePath;
     }
 
     [NotNull] public string BasePath { get; private set; }
@@ -450,10 +462,13 @@ namespace Launcher.Annotations
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcActionAttribute : Attribute
   {
-    public AspMvcActionAttribute() { }
+	  public AspMvcActionAttribute()
+	  {
+		  this.AnonymousProperty = "";
+	  }
     public AspMvcActionAttribute([NotNull] string anonymousProperty)
     {
-      AnonymousProperty = anonymousProperty;
+	    this.AnonymousProperty = anonymousProperty;
     }
 
     [NotNull] public string AnonymousProperty { get; private set; }
@@ -467,10 +482,13 @@ namespace Launcher.Annotations
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class AspMvcAreaAttribute : PathReferenceAttribute
   {
-    public AspMvcAreaAttribute() { }
+	  public AspMvcAreaAttribute()
+	  {
+		  this.AnonymousProperty = "";
+	  }
     public AspMvcAreaAttribute([NotNull] string anonymousProperty)
     {
-      AnonymousProperty = anonymousProperty;
+	    this.AnonymousProperty = anonymousProperty;
     }
 
     [NotNull] public string AnonymousProperty { get; private set; }
@@ -486,10 +504,13 @@ namespace Launcher.Annotations
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcControllerAttribute : Attribute
   {
-    public AspMvcControllerAttribute() { }
+	  public AspMvcControllerAttribute()
+	  {
+		  this.AnonymousProperty = "";
+	  }
     public AspMvcControllerAttribute([NotNull] string anonymousProperty)
     {
-      AnonymousProperty = anonymousProperty;
+	    this.AnonymousProperty = anonymousProperty;
     }
 
     [NotNull] public string AnonymousProperty { get; private set; }
@@ -577,13 +598,16 @@ namespace Launcher.Annotations
 
   [AttributeUsage(
     AttributeTargets.Parameter | AttributeTargets.Property |
-    AttributeTargets.Field, Inherited = true)]
+    AttributeTargets.Field)]
   public sealed class HtmlElementAttributesAttribute : Attribute
   {
-    public HtmlElementAttributesAttribute() { }
+	  public HtmlElementAttributesAttribute()
+	  {
+		  this.Name = "";
+	  }
     public HtmlElementAttributesAttribute([NotNull] string name)
     {
-      Name = name;
+	    this.Name = name;
     }
 
     [NotNull] public string Name { get; private set; }
@@ -591,12 +615,12 @@ namespace Launcher.Annotations
 
   [AttributeUsage(
     AttributeTargets.Parameter | AttributeTargets.Field |
-    AttributeTargets.Property, Inherited = true)]
+    AttributeTargets.Property)]
   public sealed class HtmlAttributeValueAttribute : Attribute
   {
     public HtmlAttributeValueAttribute([NotNull] string name)
     {
-      Name = name;
+	    this.Name = name;
     }
 
     [NotNull] public string Name { get; private set; }
@@ -609,6 +633,6 @@ namespace Launcher.Annotations
   /// Use this attribute for custom wrappers similar to 
   /// <c>System.Web.WebPages.WebPageBase.RenderSection(String)</c>
   /// </summary>
-  [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method, Inherited = true)]
+  [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class RazorSectionAttribute : Attribute { }
 }

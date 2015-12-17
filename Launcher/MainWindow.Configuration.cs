@@ -1,5 +1,4 @@
-﻿
-// App configuration.
+﻿// App configuration.
 
 using System;
 using System.IO;
@@ -16,49 +15,18 @@ namespace Launcher
 			Database appConfigurationDatabase = new Database(AppConfigurationXmlExtension,
 															 AppConfigurationBinaryExtension);
 
-			appConfigurationDatabase.AddEntry
-			(
-				new DatabaseEntry
-				(
-					LastConfigurationFileEntryName,
-					new TextContent
-					(
-						String.IsNullOrWhiteSpace(this.file)
-						&&
-						File.Exists(this.file)
-							? "Nothing"
-							: this.file
-					)
-				)
-			);
+			var content = ToEntryContent(string.IsNullOrWhiteSpace(this.file) && File.Exists(this.file),
+										 this.file);
+			var entry = new DatabaseEntry(LastConfigurationFileEntryName, content);
+			appConfigurationDatabase.AddEntry(entry);
 
-			appConfigurationDatabase.AddEntry
-			(
-				new DatabaseEntry
-				(
-					GameFolderEntryName,
-					new TextContent
-					(
-						String.IsNullOrWhiteSpace(this.zDoomFolder)
-							? "Nothing"
-							: this.zDoomFolder
-					)
-				)
-			);
+			content = ToEntryContent(string.IsNullOrWhiteSpace(this.zDoomFolder), this.zDoomFolder);
+			entry = new DatabaseEntry(GameFolderEntryName, content);
+			appConfigurationDatabase.AddEntry(entry);
 
-			appConfigurationDatabase.AddEntry
-			(
-				new DatabaseEntry
-				(
-					LastExeFileEntryName,
-					new TextContent
-					(
-						string.IsNullOrWhiteSpace(this.currentExeFile)
-							? "Nothing"
-							: this.currentExeFile
-					)
-				)
-			);
+			content = ToEntryContent(string.IsNullOrWhiteSpace(this.currentExeFile), this.currentExeFile);
+			entry = new DatabaseEntry(LastExeFileEntryName, content);
+			appConfigurationDatabase.AddEntry(entry);
 
 			appConfigurationDatabase.Save(AppConfigurationFileName);
 		}
