@@ -15,16 +15,16 @@ namespace Launcher
 			Database appConfigurationDatabase = new Database(AppConfigurationXmlExtension,
 															 AppConfigurationBinaryExtension);
 
-			var content = ToEntryContent(string.IsNullOrWhiteSpace(this.file) && File.Exists(this.file),
+			var content = ToEntryContent(!string.IsNullOrWhiteSpace(this.file) && File.Exists(this.file),
 										 this.file);
 			var entry = new DatabaseEntry(LastConfigurationFileEntryName, content);
 			appConfigurationDatabase.AddEntry(entry);
 
-			content = ToEntryContent(string.IsNullOrWhiteSpace(this.zDoomFolder), this.zDoomFolder);
+			content = ToEntryContent(!string.IsNullOrWhiteSpace(this.zDoomFolder), this.zDoomFolder);
 			entry = new DatabaseEntry(GameFolderEntryName, content);
 			appConfigurationDatabase.AddEntry(entry);
 
-			content = ToEntryContent(string.IsNullOrWhiteSpace(this.currentExeFile), this.currentExeFile);
+			content = ToEntryContent(!string.IsNullOrWhiteSpace(this.currentExeFile), this.currentExeFile);
 			entry = new DatabaseEntry(LastExeFileEntryName, content);
 			appConfigurationDatabase.AddEntry(entry);
 
