@@ -36,8 +36,9 @@ namespace Launcher
 			{
 				return;
 			}
-			this.config.Width =
-				(this.WidthCheckBox.IsChecked == true) ? this.WidthValueField.Value : null;
+			this.config.Width = (this.WidthCheckBox.IsChecked == true)
+				? this.WidthValueField.Value
+				: null;
 		}
 
 		private void UpdateHeightValue(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -46,8 +47,9 @@ namespace Launcher
 			{
 				return;
 			}
-			this.config.Height =
-				(this.HeightCheckBox.IsChecked == true) ? this.HeightValueField.Value : null;
+			this.config.Height = (this.HeightCheckBox.IsChecked == true)
+				? this.HeightValueField.Value
+				: null;
 		}
 		#endregion
 		#region Pixel Mode
@@ -214,53 +216,38 @@ namespace Launcher
 			this.config.StartUpFileKind = StartupFile.Map;
 			if (this.EpisodicIwadIsSelected())
 			{
-				this.config.AutoStartFile =
-					string.Format
-						(
-						 "{0} {1}",
-						 this.EpisodeValueField.Value,
-						 this.MapValueField.Value
-						);
+				this.config.AutoStartFile = string.Format("{0} {1}",
+														  this.EpisodeValueField.Value,
+														  this.MapValueField.Value);
 			}
 			else
 			{
-				this.config.AutoStartFile =
-					string.Format
-						(
-						 "{0}",
-						 this.MapValueField.Value
-						);
+				this.config.AutoStartFile = string.Format("{0}", this.MapValueField.Value);
 			}
 		}
 		private void UpdateEpisodeIndex(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
+			var episodeValue = this.EpisodeValueField.Value;
+
 			if (this.LoadMapIndicator != null &&
 				this.LoadMapIndicator.IsChecked == true &&
-				this.EpisodeValueField.Value.HasValue &&
+				episodeValue != null &&
 				this.EpisodicIwadIsSelected())
 			{
-// ReSharper disable PossibleInvalidOperationException
-				this.config.AutoStartFile =
-					this.config.AutoStartFile.ChangeNumber(0, this.EpisodeValueField.Value.Value);
-// ReSharper restore PossibleInvalidOperationException
+				this.config.AutoStartFile = this.config.AutoStartFile.ChangeNumber(0, episodeValue.Value);
 			}
 		}
 		private void UpdateMapIndex(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
+			var mapValue = this.MapValueField.Value;
+
 			if (this.LoadMapIndicator != null &&
 				this.LoadMapIndicator.IsChecked == true &&
-				this.MapValueField.Value.HasValue)
+				mapValue != null)
 			{
-				// ReSharper disable PossibleInvalidOperationException
 				this.config.AutoStartFile =
-					this.config.AutoStartFile.ChangeNumber
-						(
-						 (this.EpisodicIwadIsSelected())
-							 ? 1
-							 : 0,
-						 this.MapValueField.Value.Value
-						);
-				// ReSharper restore PossibleInvalidOperationException
+					this.config.AutoStartFile.ChangeNumber((this.EpisodicIwadIsSelected()) ? 1 : 0,
+														   mapValue.Value);
 			}
 		}
 
