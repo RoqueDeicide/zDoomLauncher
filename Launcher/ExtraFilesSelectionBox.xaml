@@ -10,7 +10,7 @@
 			<RowDefinition/>
 			<RowDefinition Height="35*"/>
 		</Grid.RowDefinitions>
-		<ScrollViewer Grid.Row="0">
+		<ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Visible">
 			<Grid x:Name="ExtraFilesGrid" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="20"/>
@@ -19,7 +19,7 @@
 				</Grid.ColumnDefinitions>
 			</Grid>
 		</ScrollViewer>
-		<ScrollViewer Margin="0,4,0,0" Grid.Row="2">
+		<ScrollViewer Margin="0,4,0,0" Grid.Row="2" HorizontalScrollBarVisibility="Visible">
 			<Grid x:Name="FilesSelectionGrid" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="20"/>
