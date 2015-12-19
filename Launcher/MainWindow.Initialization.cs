@@ -96,7 +96,6 @@ namespace Launcher
 					}
 					this.config.ExtraFiles.Remove(extra1);
 				};
-				this.ExtraFilesListBox.Items.Add(extraBox);
 			}
 		}
 		private void InitializeContextMenus()

@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:prog="clr-namespace:Launcher"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Launcher.MainWindow"
-        Title="zDoom Launcher" Height="604.187" Width="531.699" Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" Closing="MainWindowClosing">
+        Title="zDoom Launcher" Height="521.187" Width="674.699" Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" Closing="MainWindowClosing">
 	<Grid Margin="0,0,2,0">
 		<Menu Height="24" VerticalAlignment="Top">
 			<MenuItem Header="Configurations">
@@ -21,26 +22,23 @@
 		</Menu>
 		<Label Content="IWAD" HorizontalAlignment="Left" Margin="11,64,0,0" VerticalAlignment="Top"/>
 		<ComboBox HorizontalAlignment="Left" Margin="53,68,0,0" VerticalAlignment="Top" Width="157" x:Name="IwadComboBox" SelectionChanged="IwadSelectionChanged" SelectedValuePath="Content"/>
-		<Label Content="Extra Files" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top"/>
-		<GroupBox Header="Start With" Margin="10,319,0,0" VerticalAlignment="Top" Height="83" HorizontalAlignment="Left" Width="500">
+		<GroupBox Header="Start With" Margin="215,204,0,0" VerticalAlignment="Top" Height="86" HorizontalAlignment="Left" Width="443">
 			<Grid Margin="0,0,-2,-2">
 				<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="44" Checked="SwitchToSave"/>
 				<TextBox x:Name="LoadGameTextBox" Height="23" Margin="60,3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile"/>
 				<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Checked="SwitchToDemo"/>
-				<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="209,7,0,0" VerticalAlignment="Top" Checked="SwitchToMap"/>
+				<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="206,6,0,0" VerticalAlignment="Top" Checked="SwitchToMap"/>
 				<TextBox x:Name="PlayDemoTextBox" Height="23" Margin="60,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Path to the demo file." TextChanged="UpdateDemoFile"/>
 				<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="209,35,0,0" VerticalAlignment="Top" IsChecked="True" Checked="SwitchToNothing"/>
-				<xctk:ByteUpDown x:Name="EpisodeValueField" HorizontalAlignment="Left" Margin="305,3,0,0" VerticalAlignment="Top" Height="23" DefaultValue="0" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateEpisodeIndex"/>
-				<Label Content="Episode" HorizontalAlignment="Left" Margin="254,4,0,0" VerticalAlignment="Top"/>
-				<Label Content="Map" HorizontalAlignment="Left" Margin="351,3,0,0" VerticalAlignment="Top"/>
-				<xctk:ByteUpDown x:Name="MapValueField" HorizontalAlignment="Left" Margin="385,3,0,0" VerticalAlignment="Top" Height="23" DefaultValue="0" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateMapIndex"/>
+				<xctk:ByteUpDown x:Name="EpisodeValueField" HorizontalAlignment="Left" Margin="297,3,0,0" VerticalAlignment="Top" Height="23" DefaultValue="0" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateEpisodeIndex"/>
+				<Label Content="Episode" HorizontalAlignment="Left" Margin="246,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,0.538"/>
+				<Label Content="Map" HorizontalAlignment="Left" Margin="343,1,0,0" VerticalAlignment="Top"/>
+				<xctk:ByteUpDown x:Name="MapValueField" HorizontalAlignment="Left" Margin="377,3,0,0" VerticalAlignment="Top" Height="23" DefaultValue="0" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateMapIndex"/>
 			</Grid>
 		</GroupBox>
-		<TextBox x:Name="SaveDirectoryTextBox" HorizontalAlignment="Left" Height="23" Margin="11,433,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="253" TextChanged="UpdateSaveDirectory"/>
-		<Label Content="Save Directory" HorizontalAlignment="Left" Margin="11,407,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.474,0.538" Width="120"/>
-		<CheckBox x:Name="IgnoreBlockMapIndicator" Content="Ignore Block Map" HorizontalAlignment="Left" Margin="364,298,0,0" VerticalAlignment="Top" Width="111" Checked="EnableIgnoreBlockMap" Unchecked="DisableIgnoreBlockMap"/>
-		<Label Content="Pixel Mode" HorizontalAlignment="Left" Margin="285,271,0,0" VerticalAlignment="Top" Width="74"/>
-		<ComboBox HorizontalAlignment="Left" Margin="364,271,0,0" VerticalAlignment="Top" Width="146" Name="PixelModeComboBox">
+		<CheckBox x:Name="IgnoreBlockMapIndicator" Content="Ignore Block Map" HorizontalAlignment="Left" Margin="215,183,0,0" VerticalAlignment="Top" Width="111" Checked="EnableIgnoreBlockMap" Unchecked="DisableIgnoreBlockMap"/>
+		<Label Content="Pixel Mode" HorizontalAlignment="Left" Margin="516,152,0,0" VerticalAlignment="Top" Width="74"/>
+		<ComboBox HorizontalAlignment="Left" Margin="513,178,0,0" VerticalAlignment="Top" Width="146" Name="PixelModeComboBox">
 			<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen." Name="SinglePixelComboBoxItem"/>
 			<ComboBoxItem Content="Double" Tag="1" ToolTip="Force renderer to use pixel doubling." Name="DoublePixelComboBoxItem"/>
 			<ComboBoxItem Content="Quad" Tag="2" ToolTip="Force renderer to use pixel quadrupling." Name="QuadPixelComboBoxItem"/>
@@ -56,18 +54,12 @@
 			<CheckBox Content="Startup Screens" Name="StartupScreensItem" Checked="EnableOption" Unchecked="DisableOption" Tag="32"/>
 			<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Checked="EnableOption" Unchecked="DisableOption" Tag="64"/>
 		</ListBox>
-		<TextBox x:Name="ExtraOptionsTextBox" Height="78" Margin="11,482,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="253" TextChanged="UpdateExtraOptions"/>
-		<Label Content="Extra Command-Line Options" HorizontalAlignment="Left" Margin="11,456,0,0" VerticalAlignment="Top"/>
-		<ListBox x:Name="ExtraFilesListBox" HorizontalAlignment="Left" Height="198" Margin="10,116,0,0" VerticalAlignment="Top" Width="200" SelectionMode="Extended" ToolTip="A list of extra files to load when loading zDoom.">
-		</ListBox>
-		<TextBox x:Name="ConfigFileTextBox" HorizontalAlignment="Left" Height="23" Margin="275,433,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" TextChanged="UpdateConfigFile"/>
-		<Label Content="zDoom Configuration File" HorizontalAlignment="Left" Margin="275,407,0,0" VerticalAlignment="Top" Width="153"/>
-		<GroupBox Header="Custom Resolution" HorizontalAlignment="Left" Margin="216,190,0,0" VerticalAlignment="Top" Width="294" Height="76">
+		<GroupBox Header="Custom Resolution" HorizontalAlignment="Left" Margin="515,31,0,0" VerticalAlignment="Top" Width="144" Height="119">
 			<Grid Margin="0,0,-2,-2">
-				<xctk:IntegerUpDown x:Name="HeightValueField" HorizontalAlignment="Left" Margin="152,0,0,10" VerticalAlignment="Bottom" Width="125" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360" ValueChanged="UpdateHeightValue"/>
-				<CheckBox x:Name="HeightCheckBox" Content="Height" HorizontalAlignment="Left" Margin="152,0,0,35" VerticalAlignment="Bottom" ToolTip="Check this to be able to change the height of the picture." Checked="EnableHeightField" Unchecked="DisableHeightField"/>
-				<xctk:IntegerUpDown x:Name="WidthValueField" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="125" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360" RenderTransformOrigin="0.495,0.45" ValueChanged="UpdateWidthValue"/>
-				<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="10,0,0,35" VerticalAlignment="Bottom" ToolTip="Check this to be able to change the width of the picture." Checked="EnableWidthField" Unchecked="DisableWidthField"/>
+				<xctk:IntegerUpDown x:Name="HeightValueField" HorizontalAlignment="Left" Margin="10,0,0,7" VerticalAlignment="Bottom" Width="111" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360" ValueChanged="UpdateHeightValue"/>
+				<CheckBox x:Name="HeightCheckBox" Content="Height" HorizontalAlignment="Left" Margin="10,0,0,32" VerticalAlignment="Bottom" ToolTip="Check this to be able to change the height of the picture." Checked="EnableHeightField" Unchecked="DisableHeightField"/>
+				<xctk:IntegerUpDown x:Name="WidthValueField" HorizontalAlignment="Left" Margin="10,0,0,53" VerticalAlignment="Bottom" Width="111" ToolTip="Width of the image." DefaultValue="1280" Maximum="3840" Minimum="360" RenderTransformOrigin="0.495,0.45" ValueChanged="UpdateWidthValue"/>
+				<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="10,0,0,73" VerticalAlignment="Bottom" ToolTip="Check this to be able to change the width of the picture." Checked="EnableWidthField" Unchecked="DisableWidthField"/>
 			</Grid>
 		</GroupBox>
 		<ListBox HorizontalAlignment="Left" Height="58" Margin="216,55,0,0" VerticalAlignment="Top" Width="143">
@@ -82,13 +74,24 @@
 		<xctk:ByteUpDown x:Name="TimeLimitValueField" HorizontalAlignment="Left" Margin="295,138,0,0" VerticalAlignment="Top" Width="64" DefaultValue="20" DisplayDefaultValueOnEmptyText="True" ValueChanged="UpdateTimeLimitField"/>
 		<xctk:ByteUpDown x:Name="DifficultyValueField" HorizontalAlignment="Left" Margin="295,158,0,0" VerticalAlignment="Top" Width="64" Maximum="15" DisplayDefaultValueOnEmptyText="True" DefaultValue="0" ValueChanged="UpdateCustomDifficultyField"/>
 		<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="216,162,0,0" VerticalAlignment="Top" Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty"/>
-		<Button Content="Test" Margin="275,537,0,0" VerticalAlignment="Top" Click="ShowCommandLine" HorizontalAlignment="Left" Width="94"/>
 		<Label Content="Name" HorizontalAlignment="Left" Margin="11,29,0,0" VerticalAlignment="Top"/>
 		<TextBox x:Name="ConfigurationNameTextBox" HorizontalAlignment="Left" Height="23" Margin="53,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" TextChanged="ConfigurationNameChanged"/>
-		<Button Content="Launch" Margin="416,536,0,0" VerticalAlignment="Top" Height="23" Click="LaunchTheGame" HorizontalAlignment="Left" Width="94"/>
-		<Label Content="Executable File Name" HorizontalAlignment="Left" Margin="275,456,0,0" VerticalAlignment="Top" Width="153" ToolTip="Name of the executable file that represents the source port to use. Currently only useful for choosing between zDoom, gzDoom and compatible ones."/>
-		<ComboBox HorizontalAlignment="Left" Margin="275,482,0,0" VerticalAlignment="Top" Width="136" x:Name="ExeFileNameComboBox" IsReadOnly="True" ToolTip="This list can be refreshed with a &quot;Refresh&quot; button." SelectionChanged="ExeFileSelected" SelectedValuePath="Content"/>
-		<Button Content="Refresh" Margin="416,481,0,0" VerticalAlignment="Top" Height="23" Click="RefreshExeFiles" HorizontalAlignment="Left" Width="94"/>
+		<Grid HorizontalAlignment="Left" Height="158" Margin="215,319,0,0" VerticalAlignment="Top" Width="443">
+			<Label Content="Save Directory" VerticalAlignment="Top" RenderTransformOrigin="0.474,0.538" Margin="-3,0,326,0"/>
+			<TextBox x:Name="SaveDirectoryTextBox" Height="23" Margin="0,26,249,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateSaveDirectory"/>
+			<Label Content="Extra Command-Line Options" Margin="0,49,280,0" VerticalAlignment="Top"/>
+			<Label Content="zDoom Configuration File" Margin="199,0,91,0" VerticalAlignment="Top"/>
+			<TextBox x:Name="ConfigFileTextBox" Height="23" Margin="199,26,9,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateConfigFile"/>
+			<Label Content="Executable File Name" Margin="199,49,91,0" VerticalAlignment="Top" ToolTip="Name of the executable file that represents the source port to use. Currently only useful for choosing between zDoom, gzDoom and compatible ones."/>
+			<ComboBox Margin="199,75,108,0" VerticalAlignment="Top" x:Name="ExeFileNameComboBox" IsReadOnly="True" ToolTip="This list can be refreshed with a &quot;Refresh&quot; button." SelectionChanged="ExeFileSelected" SelectedValuePath="Content"/>
+			<Button Content="Refresh" Margin="340,75,9,0" VerticalAlignment="Top" Height="23" Click="RefreshExeFiles"/>
+			<TextBox x:Name="ExtraOptionsTextBox" Height="78" Margin="-3,75,249,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateExtraOptions"/>
+			<Button Content="Test" Margin="199,131,150,0" VerticalAlignment="Top" Click="ShowCommandLine"/>
+			<Button Content="Launch" Margin="340,130,9,0" VerticalAlignment="Top" Height="23" Click="LaunchTheGame"/>
+		</Grid>
+		<GroupBox Header="Extra Files" HorizontalAlignment="Left" Margin="0,90,0,0" VerticalAlignment="Top" Width="210" Height="387">
+			<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="0,0,0,-2" Height="Auto" />
+		</GroupBox>
 
 	</Grid>
 </Window>

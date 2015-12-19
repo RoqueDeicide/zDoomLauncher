@@ -28,10 +28,8 @@ namespace Launcher
 		}
 		private void SetupExtraFiles()
 		{
-			foreach (CheckBox item in this.ExtraFilesListBox.Items)
-			{
-				item.IsChecked = this.config.ExtraFiles.Contains((string)item.Content);
-			}
+			this.ExtraFilesBox.GameFolder = this.zDoomFolder;
+			this.ExtraFilesBox.SelectedFiles = this.config.ExtraFiles;
 		}
 		private void SetupPixelMode()
 		{
