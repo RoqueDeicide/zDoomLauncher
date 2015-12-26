@@ -50,6 +50,33 @@ namespace Launcher
 
 			this.SelectZDoomInstallationFolder(this, null);
 
+			try
+			{
+				Log.Message("Getting command line arguments.");
+
+				string[] args = Environment.GetCommandLineArgs();
+
+				Log.Message("Checking arguments.");
+
+				if (args.Length > 1 && File.Exists(args[1]))
+				{
+					Log.Message("File [{0}] from first slot has been selected.", args[1]);
+
+					this.file = args[1];
+				}
+				else if (args.Length > 2 && args[1] == "-file" && File.Exists(args[2]))
+				{
+					Log.Message("File [{0}] from second slot has been selected.", args[2]);
+
+					this.file = args[2];
+				}
+
+				Log.Message("Done with arguments.");
+			}
+			catch (NotSupportedException)
+			{
+			}
+
 			if (this.file != null && File.Exists(this.file))
 			{
 				this.config = LaunchConfiguration.Load(this.file);
