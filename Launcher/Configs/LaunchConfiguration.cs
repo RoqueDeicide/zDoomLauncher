@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -191,13 +192,13 @@ namespace Launcher.Configs
 				if (!string.IsNullOrWhiteSpace(this.IwadPath))
 				{
 					line.Append("-iwad ");
-					line.Append(Path.GetFileName(this.IwadPath));
+					line.Append(GetValidPath(this.IwadPath, true));
 				}
 				// Config file.
 				if (!string.IsNullOrWhiteSpace(this.ConfigFile))
 				{
 					line.Append(" -config ");
-					line.Append(this.ConfigFile);
+					line.Append(GetValidPath(this.ConfigFile, false));
 				}
 				// Extras.
 				if (this.ExtraFiles.Count > 0)
@@ -210,11 +211,11 @@ namespace Launcher.Configs
 					if (wads.MoveNext())
 					{
 						line.Append(" -file ");
-						line.Append(Path.GetFileName(wads.Current));
+						line.Append(GetValidPath(wads.Current, true));
 						while (wads.MoveNext())
 						{
 							line.Append(" ");
-							line.Append(Path.GetFileName(wads.Current));
+							line.Append(GetValidPath(wads.Current, true));
 						}
 					}
 					// Patches.
@@ -223,11 +224,11 @@ namespace Launcher.Configs
 					if (bexPatches.MoveNext())
 					{
 						line.Append(" -bex ");
-						line.Append(bexPatches.Current);
+						line.Append(GetValidPath(bexPatches.Current, true));
 						while (bexPatches.MoveNext())
 						{
 							line.Append(" ");
-							line.Append(bexPatches.Current);
+							line.Append(GetValidPath(bexPatches.Current, true));
 						}
 					}
 					var dehPatches =
@@ -235,11 +236,11 @@ namespace Launcher.Configs
 					if (dehPatches.MoveNext())
 					{
 						line.Append(" -deh ");
-						line.Append(dehPatches.Current);
+						line.Append(GetValidPath(dehPatches.Current, true));
 						while (dehPatches.MoveNext())
 						{
 							line.Append(" ");
-							line.Append(dehPatches.Current);
+							line.Append(GetValidPath(dehPatches.Current, true));
 						}
 					}
 				}
@@ -401,6 +402,14 @@ namespace Launcher.Configs
 			this.TimeLimit = null;
 			this.TurboMode = null;
 			this.Difficulty = null;
+		}
+		#endregion
+		#region Utilities
+		// Creates a string that represents a path to the file that is properly recognized by the command line interpreter.
+		private static string GetValidPath(string file, bool shorten)
+		{
+			var path = shorten ? Path.GetFileName(file) : file;
+			return path != null && path.Any(char.IsWhiteSpace) ? "\"" + path + "\"" : path;
 		}
 		#endregion
 	}
