@@ -11,7 +11,7 @@ namespace Launcher
 	{
 		private const string FontAddRemoveButtons = "Webdings";
 		// Creates a Button object that, when pressed, add an extra file to the selection.
-		//
+		// 
 		// index -> Zero-based index of the extra file in the main list.
 		private Button CreateAddFileButton(int index)
 		{
@@ -56,7 +56,7 @@ namespace Launcher
 			button.Visibility = System.Windows.Visibility.Hidden;
 		}
 		// Creates a Button object that, when pressed, removes an extra file from the selection.
-		//
+		// 
 		// index -> Zero-based index of the extra file in the main list.
 		private Button CreateRemoveFileButton(int index)
 		{
@@ -147,8 +147,8 @@ namespace Launcher
 						this.FilesSelectionGrid.RowDefinitions.Count);
 		}
 		// Creates a Button object that, when pressed, moves selected file up.
-		//
-		// index          -> Zero-based index of the file in the main list, used in removal of the selection.
+		// 
+		// index -> Zero-based index of the file in the main list, used in removal of the selection.
 		// selectionIndex -> Zero-based index of the file in the selection list.
 		private Button CreateMoveUpButton(int index, int selectionIndex)
 		{
@@ -209,8 +209,8 @@ namespace Launcher
 			this.SelectedFiles[upperRowIndex] = temp;
 		}
 		// Creates a Button object that, when pressed, moves selected file up.
-		//
-		// index          -> Zero-based index of the file in the main list, used in removal of the selection.
+		// 
+		// index -> Zero-based index of the file in the main list, used in removal of the selection.
 		// selectionIndex -> Zero-based index of the file in the selection list.
 		private Button CreateMoveDownButton(int index, int selectionIndex)
 		{
