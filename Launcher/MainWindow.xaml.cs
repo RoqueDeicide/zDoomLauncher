@@ -50,6 +50,11 @@ namespace Launcher
 
 			this.SelectZDoomInstallationFolder(this, null);
 
+			if (this.zDoomFolder == null)
+			{
+				return;
+			}
+
 			try
 			{
 				Log.Message("Getting command line arguments.");
@@ -194,14 +199,25 @@ namespace Launcher
 					ShowNewFolderButton = false
 				};
 
-				while (!(dialog.ShowDialog() == true && Directory.EnumerateFiles(dialog.SelectedPath, "*.exe").Any())
-					   &&
-					   MessageBox.Show("Valid folder needs to contain at least one .exe file.",
+				while (true)
+				{
+					if (dialog.ShowDialog() == true && Directory.EnumerateFiles(dialog.SelectedPath, "*.exe").Any())
+					{
+						break;
+					}
+
+					if (MessageBox.Show("Valid folder needs to contain at least one .exe file.",
 									   "No folder or invalid one was chosen",
 									   MessageBoxButton.YesNo,
-									   MessageBoxImage.Question) == MessageBoxResult.Yes)
-				{
+									   MessageBoxImage.Question) != MessageBoxResult.Yes)
+					{
+						Log.Warning("No folder was selected. Closing.");
+
+						this.Close();
+						return;
+					}
 				}
+
 				this.zDoomFolder = dialog.SelectedPath;
 			}
 
