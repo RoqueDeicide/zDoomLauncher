@@ -46,6 +46,7 @@ namespace Launcher.Databases
 		/// Writes binary representation of this content to the stream.
 		/// </summary>
 		/// <param name="bw"><see cref="BinaryWriter"/> object that provides access to the stream.</param>
+		/// <exception cref="IOException">An I/O error occurs. </exception>
 		public override void ToBinary(BinaryWriter bw)
 		{
 			bw.WriteLongString(this.Text, Encoding.UTF8);
@@ -54,6 +55,8 @@ namespace Launcher.Databases
 		/// Reads binary data from the stream and converts it to format of this content.
 		/// </summary>
 		/// <param name="br"><see cref="BinaryReader"/> object that provides access to the stream.</param>
+		/// <exception cref="EndOfStreamException">The end of the stream is reached. </exception>
+		/// <exception cref="IOException">An I/O error occurs. </exception>
 		public override void FromBinary(BinaryReader br)
 		{
 			br.ReadLongString(Encoding.UTF8);

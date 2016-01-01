@@ -21,11 +21,11 @@ namespace Launcher
 	{
 		public CommandLineWindow()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 		}
 		public CommandLineWindow(string line)
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 			this.CommandLineTextBox.Text = line;
 		}
 	}
