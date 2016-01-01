@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Launcher.Configs;
@@ -253,6 +254,13 @@ namespace Launcher
 
 		private void SwitchToNothing(object sender, RoutedEventArgs e)
 		{
+			// This check is needed for the case of the window getting closed before constructor is
+			// complete.
+			if (this.config == null)
+			{
+				return;
+			}
+
 			this.config.StartUpFileKind = StartupFile.None;
 		}
 		#endregion
