@@ -10,6 +10,8 @@ namespace Launcher
 	public partial class ExtraFilesSelectionBox
 	{
 		private const string FontAddRemoveButtons = "Webdings";
+		private const string TickSymbol = "\u0061";
+		private const string CrossSymbol = "\u0072";
 		// Creates a Button object that, when pressed, add an extra file to the selection.
 		// 
 		// index -> Zero-based index of the extra file in the main list.
@@ -19,7 +21,7 @@ namespace Launcher
 			{
 				FontFamily = new FontFamily(FontAddRemoveButtons),
 				FontSize = 12,
-				Content = "\u0061",
+				Content = TickSymbol,
 				Margin = new Thickness(0)
 			};
 
@@ -64,7 +66,7 @@ namespace Launcher
 			{
 				FontFamily = new FontFamily(FontAddRemoveButtons),
 				FontSize = 12,
-				Content = "\u0072",
+				Content = CrossSymbol,
 				Margin = new Thickness(0),
 				Visibility = System.Windows.Visibility.Hidden
 			};
@@ -121,7 +123,13 @@ namespace Launcher
 
 			int selectionRowIndex = Grid.GetRow(moveButton);
 
-			this.SelectedFiles.RemoveAt(selectionRowIndex);
+			var files = this.SelectedFiles;
+			// routedEventArgs is only null, if this method was called not via Click event, but when
+			// clearing the selection when selection list is already clear.
+			if (files != null && routedEventArgs != null)
+			{
+				files.RemoveAt(selectionRowIndex);
+			}
 
 			// Remove elements from the row and move everything below the row up.
 			for (int i = 0; i < this.FilesSelectionGrid.Children.Count; i++)
@@ -191,8 +199,8 @@ namespace Launcher
 			UIElement[] thisRowElements = thisRowEnum.ToArray();
 
 			var upperRowEnum = from UIElement child in this.FilesSelectionGrid.Children
-							  where Grid.GetRow(child) == upperRowIndex
-							  select child;
+							   where Grid.GetRow(child) == upperRowIndex
+							   select child;
 			UIElement[] upperRowElements = upperRowEnum.ToArray();
 
 			foreach (UIElement element in upperRowElements)
@@ -204,9 +212,12 @@ namespace Launcher
 				Grid.SetRow(element, upperRowIndex);
 			}
 
-			string temp = this.SelectedFiles[thisRowIndex];
-			this.SelectedFiles[thisRowIndex] = this.SelectedFiles[upperRowIndex];
-			this.SelectedFiles[upperRowIndex] = temp;
+			var files = this.SelectedFiles;
+			if (files == null) return;
+
+			string temp = files[thisRowIndex];
+			files[thisRowIndex] = files[upperRowIndex];
+			files[upperRowIndex] = temp;
 		}
 		// Creates a Button object that, when pressed, moves selected file up.
 		// 
@@ -266,9 +277,12 @@ namespace Launcher
 				Grid.SetRow(element, lowerRowIndex);
 			}
 
-			string temp = this.SelectedFiles[thisRowIndex];
-			this.SelectedFiles[thisRowIndex] = this.SelectedFiles[lowerRowIndex];
-			this.SelectedFiles[lowerRowIndex] = temp;
+			var files = this.SelectedFiles;
+			if (files == null) return;
+
+			string temp = files[thisRowIndex];
+			files[thisRowIndex] = files[lowerRowIndex];
+			files[lowerRowIndex] = temp;
 		}
 	}
 }
