@@ -99,6 +99,39 @@ namespace Launcher
 
 		private void ClearSelection()
 		{
+			// Look through the selection list to find which files are selected.
+			var selectedFiles = from selectionText in this.FilesSelectionGrid.Children.OfType<TextBlock>()
+								let run = selectionText.Inlines.FirstInline as Run
+								where run != null
+								select run.Text;
+
+			// Find the files and execute the event handlers on "deselect" buttons.
+			var deselectionButtons =
+				from selectedFile in selectedFiles
+				select this.ExtraFilesGrid.Children
+						   .OfType<TextBlock>()
+						   .FirstOrDefault(x => x.Inlines.FirstInline is Run &&
+												((Run)x.Inlines.FirstInline).Text == selectedFile)
+				into mainListFile
+				where mainListFile != null
+				select Grid.GetRow(mainListFile)
+				into index
+				select
+					this.ExtraFilesGrid.Children.OfType<Button>()
+						.FirstOrDefault(x => Grid.GetRow(x) == index && x.Content.Equals(CrossSymbol));
+
+			foreach (Button removeButton in deselectionButtons.ToList())
+			{
+				this.RemoveFileFromSelection(removeButton, null);
+			}
+
+			if (this.FilesSelectionGrid.RowDefinitions.Count == 1)
+			{
+				return;
+			}
+
+			// Clear off all stragglers.
+
 			this.FilesSelectionGrid.Children.Clear();
 			this.FilesSelectionGrid.RowDefinitions.Clear();
 			// Add the ending filler row to the selection grid.
