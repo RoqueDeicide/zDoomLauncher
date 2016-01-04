@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Launcher.Annotations;
 using Launcher.Logging;
 
 namespace Launcher
@@ -13,16 +14,19 @@ namespace Launcher
 		private const string TickSymbol = "\u0061";
 		private const string CrossSymbol = "\u0072";
 		// Creates a Button object that, when pressed, add an extra file to the selection.
-		// 
-		// index -> Zero-based index of the extra file in the main list.
-		private Button CreateAddFileButton(int index)
+		//
+		//index -> Zero-based index of the extra file in the main list.
+		//file -> An object that consolidates all relevant data pertaining to the file.
+		[NotNull]
+		private Button CreateAddFileButton(int index, LoadableFile file)
 		{
 			Button button = new Button
 			{
 				FontFamily = new FontFamily(FontAddRemoveButtons),
 				FontSize = 12,
 				Content = TickSymbol,
-				Margin = new Thickness(0)
+				Margin = new Thickness(0),
+				Tag = file
 			};
 
 			// Assign the button to the left-most column.
@@ -47,20 +51,22 @@ namespace Launcher
 			// Add the file to the selection list.
 			this.AddFileSelectionRow(index, routedEventArgs != null);
 
-			Button removeButton = button.Tag as Button;
-			if (removeButton != null)
+			LoadableFile file = button.Tag as LoadableFile;
+			if (file != null)
 			{
-				// Reveal the button.
-				removeButton.Visibility = System.Windows.Visibility.Visible;
+				// Reveal the "deselect" button.
+				file.DeselectButton.Visibility = System.Windows.Visibility.Visible;
 			}
 
-			// Hide the "add file" button.
+			// Hide the "select" button.
 			button.Visibility = System.Windows.Visibility.Hidden;
 		}
 		// Creates a Button object that, when pressed, removes an extra file from the selection.
-		// 
-		// index -> Zero-based index of the extra file in the main list.
-		private Button CreateRemoveFileButton(int index)
+		//
+		//index -> Zero-based index of the extra file in the main list.
+		//file -> An object that consolidates all relevant data pertaining to the file.
+		[NotNull]
+		private Button CreateRemoveFileButton(int index, LoadableFile file)
 		{
 			Button button = new Button
 			{
@@ -68,7 +74,8 @@ namespace Launcher
 				FontSize = 12,
 				Content = CrossSymbol,
 				Margin = new Thickness(0),
-				Visibility = System.Windows.Visibility.Hidden
+				Visibility = System.Windows.Visibility.Hidden,
+				Tag = file
 			};
 
 			// Assign the button to the second column from the left.
@@ -94,34 +101,32 @@ namespace Launcher
 				return;
 			}
 
-			int index = Grid.GetRow(button);
-
 			// Hide the button.
 			button.Visibility = System.Windows.Visibility.Hidden;
 
-			// Unhide the "add" button.
-			Button addButton = button.Tag as Button;
-			if (addButton != null)
+			// Unhide the "select" button.
+			LoadableFile file = button.Tag as LoadableFile;
+			if (file == null)
 			{
-				addButton.Visibility = System.Windows.Visibility.Visible;
+				throw new Exception("Loadable file object wasn't bound to the deselect button.");
 			}
+
+			file.SelectButton.Visibility = System.Windows.Visibility.Visible;
 
 			// Find and remove the row.
 
 			// Remove the elements.
-			var buttonsInTheRow = from UIElement child in this.FilesSelectionGrid.Children
-								  where child is Button && ((Button)child).Tag.Equals(index)
-								  select child as Button;
-
-			Button moveButton = buttonsInTheRow.FirstOrDefault();
-
-			if (moveButton == null)
+			if (file.MoveUpButton == null)
 			{
 				// This is another case of the button getting pressed with the file not being selected.
 				return;
 			}
 
-			int selectionRowIndex = Grid.GetRow(moveButton);
+			int selectionRowIndex = Grid.GetRow(file.MoveUpButton);
+
+			this.FilesSelectionGrid.Children.Remove(file.MoveUpButton);
+			this.FilesSelectionGrid.Children.Remove(file.MoveDownButton);
+			this.FilesSelectionGrid.Children.Remove(file.SelectionListText);
 
 			var files = this.SelectedFiles;
 			// routedEventArgs is only null, if this method was called not via Click event, but when
@@ -131,17 +136,12 @@ namespace Launcher
 				files.RemoveAt(selectionRowIndex);
 			}
 
-			// Remove elements from the row and move everything below the row up.
+			// Move elements below the row one row up.
 			for (int i = 0; i < this.FilesSelectionGrid.Children.Count; i++)
 			{
 				UIElement element = this.FilesSelectionGrid.Children[i];
 				int currentRowIndex = Grid.GetRow(element);
-				if (currentRowIndex == selectionRowIndex)
-				{
-					// Remove the element on the row.
-					this.FilesSelectionGrid.Children.RemoveAt(i--);
-				}
-				else if (currentRowIndex > selectionRowIndex)
+				if (currentRowIndex > selectionRowIndex)
 				{
 					// Move elements up one row.
 					Grid.SetRow(element, currentRowIndex - 1);
@@ -155,10 +155,11 @@ namespace Launcher
 						this.FilesSelectionGrid.RowDefinitions.Count);
 		}
 		// Creates a Button object that, when pressed, moves selected file up.
-		// 
-		// index -> Zero-based index of the file in the main list, used in removal of the selection.
-		// selectionIndex -> Zero-based index of the file in the selection list.
-		private Button CreateMoveUpButton(int index, int selectionIndex)
+		//
+		//file -> An object that consolidates all relevant data pertaining to the file.
+		//selectionIndex -> Zero-based index of the file in the selection list.
+		[NotNull]
+		private Button CreateMoveUpButton(LoadableFile file, int selectionIndex)
 		{
 			Button button = new Button
 			{
@@ -166,7 +167,7 @@ namespace Launcher
 				FontSize = 12,
 				Content = "\u25b2",
 				Margin = new Thickness(0),
-				Tag = index
+				Tag = file
 			};
 
 			Grid.SetRow(button, selectionIndex);
@@ -220,10 +221,11 @@ namespace Launcher
 			files[upperRowIndex] = temp;
 		}
 		// Creates a Button object that, when pressed, moves selected file up.
-		// 
-		// index -> Zero-based index of the file in the main list, used in removal of the selection.
-		// selectionIndex -> Zero-based index of the file in the selection list.
-		private Button CreateMoveDownButton(int index, int selectionIndex)
+		//
+		//file -> An object that consolidates all relevant data pertaining to the file.
+		//selectionIndex -> Zero-based index of the file in the selection list.
+		[NotNull]
+		private Button CreateMoveDownButton(LoadableFile file, int selectionIndex)
 		{
 			Button button = new Button
 			{
@@ -231,7 +233,7 @@ namespace Launcher
 				FontSize = 12,
 				Content = "\u25bc",
 				Margin = new Thickness(0),
-				Tag = index
+				Tag = file
 			};
 
 			Grid.SetRow(button, selectionIndex);

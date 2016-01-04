@@ -165,7 +165,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExtraFilesSelectionBox.xaml">
+    <Page Include="ExtraFilesControl\ExtraFilesSelectionBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,10 +185,11 @@
     <Compile Include="Databases\ContentTypes.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Extensions\BinaryIOExtension.cs" />
-    <Compile Include="ExtraFilesSelectionBox.Buttons.cs" />
-    <Compile Include="ExtraFilesSelectionBox.xaml.cs">
+    <Compile Include="ExtraFilesControl\ExtraFilesSelectionBox.Buttons.cs" />
+    <Compile Include="ExtraFilesControl\ExtraFilesSelectionBox.xaml.cs">
       <DependentUpon>ExtraFilesSelectionBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExtraFilesControl\LoadableFile.cs" />
     <Compile Include="GeneralExtensions.cs" />
     <Compile Include="Iwads.cs" />
     <Compile Include="Logging\Log.cs" />
@@ -233,6 +234,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

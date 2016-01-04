@@ -16,8 +16,7 @@ namespace Launcher
 	public partial class ExtraFilesSelectionBox
 	{
 		private string gameFolder;
-		private readonly List<string> extraFiles;
-		private readonly List<Button> extraFilesAddButtons;
+		private readonly List<LoadableFile> extraFiles;
 		private List<string> selectedFiles;
 		/// <summary>
 		/// Gets or sets the folder where to look for the files.
@@ -73,14 +72,14 @@ namespace Launcher
 				{
 					string currentSelectedFile = this.selectedFiles[i];
 
-					int fileIndex = this.extraFiles.IndexOf(currentSelectedFile);
-					if (fileIndex < 0)
+					LoadableFile file = this.extraFiles.Find(x => x.FileName == currentSelectedFile);
+					if (file == null)
 					{
 						this.selectedFiles.RemoveAt(i--);
 					}
 					else
 					{
-						this.AddFileToSelection(this.extraFilesAddButtons[fileIndex], null);
+						this.AddFileToSelection(file.SelectButton, null);
 					}
 				}
 			}
@@ -90,8 +89,7 @@ namespace Launcher
 		/// </summary>
 		public ExtraFilesSelectionBox()
 		{
-			this.extraFiles = new List<string>(50);
-			this.extraFilesAddButtons = new List<Button>(50);
+			this.extraFiles = new List<LoadableFile>(50);
 			this.selectedFiles = null;
 
 			this.InitializeComponent();
@@ -157,20 +155,22 @@ namespace Launcher
 				return;
 			}
 
+			List<string> extraFiles = new List<string>(50);
+
 			// Get the list of files from base directory.
-			this.extraFiles.AddRange(GetLoadableFiles(this.gameFolder));
+			extraFiles.AddRange(GetLoadableFiles(this.gameFolder));
 
 			// Get the files from DOOMWADDIR environment variable.
 			string doomWadVar = Environment.GetEnvironmentVariable("DOOMWADDIR");
 			if (!string.IsNullOrWhiteSpace(doomWadVar))
 			{
-				this.extraFiles.AddRange(GetLoadableFiles(doomWadVar));
+				extraFiles.AddRange(GetLoadableFiles(doomWadVar));
 			}
 
 			// Add the file rows to the main list.
-			for (int i = 0; i < this.extraFiles.Count; i++)
+			for (int i = 0; i < extraFiles.Count; i++)
 			{
-				this.AddExtraFileRow(i);
+				this.AddExtraFileRow(i, extraFiles[i]);
 			}
 
 			// Add the row after last one that fills the rest of the grid.
@@ -179,26 +179,31 @@ namespace Launcher
 				Height = new GridLength(1, GridUnitType.Star)
 			});
 		}
-		private void AddExtraFileRow(int index)
+		private void AddExtraFileRow(int index, string filePath)
 		{
-			Button addFile = this.CreateAddFileButton(index);
-			Button removeFile = this.CreateRemoveFileButton(index);
-			addFile.Tag = removeFile;
-			removeFile.Tag = addFile;
-			this.ExtraFilesGrid.Children.Add(addFile);
-			this.ExtraFilesGrid.Children.Add(removeFile);
-			this.extraFilesAddButtons.Add(addFile);
+			// Create an object that will hold references to all objects relevant to the file.
+			LoadableFile file = new LoadableFile
+			{
+				FileName = filePath
+			};
+			file.SelectButton = this.CreateAddFileButton(index, file);
+			file.DeselectButton = this.CreateRemoveFileButton(index, file);
 
 			// The text.
-			TextBlock block = new TextBlock(new Run(this.extraFiles[index]));
+			TextBlock block = new TextBlock(new Run(file.FileName));
 			Grid.SetColumn(block, 2);
 			Grid.SetRow(block, index);
 			this.ExtraFilesGrid.RowDefinitions.Add(new RowDefinition
 			{
 				Height = new GridLength(20, GridUnitType.Pixel)
 			});
+			file.MainListText = block;
 
-			this.ExtraFilesGrid.Children.Add(block);
+			this.ExtraFilesGrid.Children.Add(file.SelectButton);
+			this.ExtraFilesGrid.Children.Add(file.DeselectButton);
+			this.ExtraFilesGrid.Children.Add(file.MainListText);
+
+			this.extraFiles.Add(file);
 		}
 		private void AddFileSelectionRow(int index, bool addToMainList = true)
 		{
@@ -207,11 +212,11 @@ namespace Launcher
 				return;
 			}
 
-			string selectedFile = this.extraFiles[index];
+			LoadableFile selectedFile = this.extraFiles[index];
 
 			if (addToMainList)
 			{
-				this.SelectedFiles.Add(selectedFile);
+				this.SelectedFiles.Add(selectedFile.FileName);
 			}
 
 			int selectionIndex = this.FilesSelectionGrid.RowDefinitions.Count - 1;
@@ -223,15 +228,18 @@ namespace Launcher
 			});
 
 			// Add buttons.
-			this.FilesSelectionGrid.Children.Add(this.CreateMoveUpButton(index, selectionIndex));
-			this.FilesSelectionGrid.Children.Add(this.CreateMoveDownButton(index, selectionIndex));
+			selectedFile.MoveUpButton = this.CreateMoveUpButton(selectedFile, selectionIndex);
+			selectedFile.MoveDownButton = this.CreateMoveDownButton(selectedFile, selectionIndex);
 
 			// The text.
-			TextBlock block = new TextBlock(new Run(selectedFile));
+			TextBlock block = new TextBlock(new Run(selectedFile.FileName));
 			Grid.SetColumn(block, 2);
 			Grid.SetRow(block, selectionIndex);
+			selectedFile.SelectionListText = block;
 
-			this.FilesSelectionGrid.Children.Add(block);
+			this.FilesSelectionGrid.Children.Add(selectedFile.MoveUpButton);
+			this.FilesSelectionGrid.Children.Add(selectedFile.MoveDownButton);
+			this.FilesSelectionGrid.Children.Add(selectedFile.SelectionListText);
 		}
 		private static IEnumerable<string> GetLoadableFiles(string folder)
 		{
