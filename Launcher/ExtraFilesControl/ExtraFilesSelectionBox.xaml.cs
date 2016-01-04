@@ -231,8 +231,21 @@ namespace Launcher
 			selectedFile.MoveUpButton = this.CreateMoveUpButton(selectedFile, selectionIndex);
 			selectedFile.MoveDownButton = this.CreateMoveDownButton(selectedFile, selectionIndex);
 
+			// The context menu for the text.
+			MenuItem contextMenuItem = new MenuItem
+			{
+				Header = "Deselect",
+				Tag = selectedFile
+			};
+			contextMenuItem.Click += this.RemoveFileFromSelection;
+			ContextMenu contextMenu = new ContextMenu();
+			contextMenu.Items.Add(contextMenuItem);
+
 			// The text.
-			TextBlock block = new TextBlock(new Run(selectedFile.FileName));
+			TextBlock block = new TextBlock(new Run(selectedFile.FileName))
+			{
+				ContextMenu = contextMenu
+			};
 			Grid.SetColumn(block, 2);
 			Grid.SetRow(block, selectionIndex);
 			selectedFile.SelectionListText = block;

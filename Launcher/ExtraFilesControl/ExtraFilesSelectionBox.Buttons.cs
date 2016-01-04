@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -89,28 +90,26 @@ namespace Launcher
 		}
 		private void RemoveFileFromSelection(object sender, RoutedEventArgs routedEventArgs)
 		{
-			Button button = sender as Button;
-			if (button == null)
+			FrameworkElement element = sender as FrameworkElement;
+			if (element == null)
 			{
 				return;
 			}
 
-			if (button.Visibility == System.Windows.Visibility.Hidden)
+			if (element.Visibility == System.Windows.Visibility.Hidden)
 			{
 				// Just in case.
 				return;
 			}
 
-			// Hide the button.
-			button.Visibility = System.Windows.Visibility.Hidden;
+			LoadableFile file = element.Tag as LoadableFile;
 
 			// Unhide the "select" button.
-			LoadableFile file = button.Tag as LoadableFile;
-			if (file == null)
-			{
-				throw new Exception("Loadable file object wasn't bound to the deselect button.");
-			}
+			Debug.Assert(file != null, "Loadable file object wasn't bound to the deselect button or a context menu item.");
 
+			// Hide the "deselect" button.
+			file.DeselectButton.Visibility = System.Windows.Visibility.Hidden;
+			// Reveal the "select" button.
 			file.SelectButton.Visibility = System.Windows.Visibility.Visible;
 
 			// Find and remove the row.
@@ -139,12 +138,12 @@ namespace Launcher
 			// Move elements below the row one row up.
 			for (int i = 0; i < this.FilesSelectionGrid.Children.Count; i++)
 			{
-				UIElement element = this.FilesSelectionGrid.Children[i];
-				int currentRowIndex = Grid.GetRow(element);
+				UIElement gridElement = this.FilesSelectionGrid.Children[i];
+				int currentRowIndex = Grid.GetRow(gridElement);
 				if (currentRowIndex > selectionRowIndex)
 				{
 					// Move elements up one row.
-					Grid.SetRow(element, currentRowIndex - 1);
+					Grid.SetRow(gridElement, currentRowIndex - 1);
 				}
 			}
 
