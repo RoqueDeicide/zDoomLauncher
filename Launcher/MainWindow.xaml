@@ -19,6 +19,11 @@
 			<MenuItem Header="Source Port">
 				<MenuItem Header="Set Installation Directory" Click="SelectZDoomInstallationFolder"/>
 			</MenuItem>
+			<MenuItem Header="Help">
+				<MenuItem Header="Help" HorizontalAlignment="Left" Width="145"/>
+				<Separator HorizontalAlignment="Left" Width="145"/>
+				<MenuItem Header="About" HorizontalAlignment="Left" Width="145" Click="OpenAboutWindow"/>
+			</MenuItem>
 		</Menu>
 		<Label Content="IWAD" HorizontalAlignment="Left" Margin="11,64,0,0" VerticalAlignment="Top"/>
 		<ComboBox HorizontalAlignment="Left" Margin="53,68,0,0" VerticalAlignment="Top" Width="157" x:Name="IwadComboBox" SelectionChanged="IwadSelectionChanged" SelectedValuePath="Content"/>
