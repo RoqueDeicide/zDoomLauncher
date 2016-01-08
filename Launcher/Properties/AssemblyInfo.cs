@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Launcher")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A main program for the zDoom Launcher.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Launcher")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyProduct("zDoom Launcher")]
+[assembly: AssemblyCopyright("Copyright © RoqueDeicide")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -39,7 +39,6 @@ using System.Windows;
 	//(used if a resource is not found in the page, 
 	// app, or any theme specific resource dictionaries)
 )]
-
 
 // Version information for an assembly consists of the following four values:
 //
