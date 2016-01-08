@@ -19,6 +19,7 @@ namespace Launcher
 	public partial class MainWindow
 	{
 		private AboutWindow aboutWindow;
+		private HelpWindow helpWindow;
 		/// <exception cref="FileNotFoundException">
 		/// The file cannot be found, such as when mode is FileMode.Truncate or FileMode.Open, and the file
 		/// specified by path does not exist. The file must already exist in these modes.
@@ -299,6 +300,16 @@ namespace Launcher
 			}
 
 			this.aboutWindow.Show();
+		}
+
+		private void OpenHelpWindow(object sender, RoutedEventArgs e)
+		{
+			if (this.helpWindow == null)
+			{
+				this.helpWindow = new HelpWindow();
+			}
+
+			this.helpWindow.Show();
 		}
 	}
 }

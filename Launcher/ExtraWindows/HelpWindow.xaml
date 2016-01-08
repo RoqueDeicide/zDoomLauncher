@@ -1,0 +1,293 @@
+﻿<Window x:Class="Launcher.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Help" Height="600" Width="500">
+    <Grid>
+		<FlowDocumentScrollViewer>
+			<FlowDocument>
+				<Paragraph>
+					<Bold>
+						<Italic>Help Contents</Italic>
+					</Bold>
+				</Paragraph>
+				<Paragraph>
+					<Bold>Main menu</Bold>
+				</Paragraph>
+				<Paragraph>
+					<Italic>Configurations</Italic>
+				</Paragraph>
+				<Table>
+					<Table.Columns>
+						<TableColumn Width="60"/>
+						<TableColumn Width="350*"/>
+					</Table.Columns>
+					<TableRowGroup>
+						<TableRow>
+							<TableCell>
+								<Paragraph>New</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>Clears the interface, allowing a new configuration to be created and saved to a different file.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Save</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>Saves current configuration into the binary file.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Open</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>Opens an existing configuration file.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Close</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>Closes the window.</Paragraph>
+							</TableCell>
+						</TableRow>
+					</TableRowGroup>
+				</Table>
+				<Paragraph>
+					<Italic>Source Port</Italic>
+				</Paragraph>
+				<Table>
+					<Table.Columns>
+						<TableColumn Width="190"/>
+						<TableColumn Width="300*"/>
+					</Table.Columns>
+					<TableRowGroup>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Set Installation Directory</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>Sets the path to the directory where the launcher needs to look for executable files, IWADs and other extra files.</Paragraph>
+							</TableCell>
+						</TableRow>
+					</TableRowGroup>
+				</Table>
+				<Paragraph>
+					<Italic>Help</Italic>
+				</Paragraph>
+				<Table>
+					<Table.Columns>
+						<TableColumn Width="60"/>
+						<TableColumn Width="200*"/>
+					</Table.Columns>
+					<TableRowGroup>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Help</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>Opens this window.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>About</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>Opens the window that displays some basic information about this program.</Paragraph>
+							</TableCell>
+						</TableRow>
+					</TableRowGroup>
+				</Table>
+				<Paragraph>
+					<Bold>Main window controls</Bold>
+				</Paragraph>
+				<Paragraph>
+					<Italic>Name field</Italic>
+				</Paragraph>
+				<Paragraph>Specifies the name of the configuration.</Paragraph>
+				<Paragraph>
+					<Italic>IWAD</Italic> box
+				</Paragraph>
+				<Paragraph>Specifies which IWAD file to use.</Paragraph>
+				<Paragraph>
+					<Italic>Extra Files</Italic>
+				</Paragraph>
+				<Paragraph>These 2 lists control which additional files have to be loaded with the IWAD.</Paragraph>
+				<Paragraph>The above list displays all loadable files within the Installation Directory. Below list displays all loadable files that were selected to be loaded with the IWAD.</Paragraph>
+				<Paragraph>To select the file, click the "Tick" button to the left of the name of the file. To deselect the file either press the "Cross" button next to the selected file or press "Deselect" button in the context menu that can be opened by right-clicking on the file name in the below list.</Paragraph>
+				<Paragraph>Order of files in the below list can be changed by clicking the buttons to the left from their names. The order of selected files is important since content loaded from the file will override any matching content from above files.</Paragraph>
+				<Paragraph>Recommended order of files: PWADs with maps, PWADS with music, PWADS with gameplay changes (like Brutal Doom or Project Brutality), PWADS with HUDs, etc.</Paragraph>
+				<Paragraph>
+					<Italic>Game-Play Options</Italic>
+				</Paragraph>
+					<Table>
+					<Table.Columns>
+						<TableColumn Width="170" />
+						<TableColumn Width="300*" />
+					</Table.Columns>
+					<TableRowGroup>
+						<TableRow>
+							<TableCell>
+								<Paragraph>No Monsters</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>When checked, disables the spawning of monsters in the game.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Fast Monsters</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>When checked, makes all monsters in the game move faster like on "Nightmare" difficulty.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Respawning Monsters</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>When checked, makes all monsters in the game respawn like on "Nightmare" difficulty.</Paragraph>
+							</TableCell>
+						</TableRow>
+					</TableRowGroup>
+				</Table>
+				<Paragraph>
+					<Italic>Turbo</Italic>
+				</Paragraph>
+				<Paragraph>When checked, sets the speed of the game to the percentage specified by the field to the right from the check box.</Paragraph>
+				<Paragraph>
+					<Italic>Time-Limit</Italic>
+				</Paragraph>
+				<Paragraph>When checked, sets the time limit int the game to the number of minutes specified by the field to the right from the check box.</Paragraph>
+				<Paragraph>
+					<Italic>Difficulty</Italic>
+				</Paragraph>
+				<Paragraph>When checked, sets the difficulty of the game to the one specified by the zero-based index specified by the field to the right from the check box.</Paragraph>
+				<Paragraph>
+					<Italic>Ignore Block Map</Italic>
+				</Paragraph>
+				<Paragraph>When checked, instructs the game to ignore the block map information stored by loaded maps.</Paragraph>
+				<Paragraph>
+					<Italic>Disable</Italic>
+				</Paragraph>
+				<Table>
+					<Table.Columns>
+						<TableColumn Width="125"/>
+						<TableColumn Width="400*"/>
+					</Table.Columns>
+					<TableRowGroup>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Auto-Load Files</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>When checked, disables auto-loading of files specified by the "AutoLoad" section of the zDoom .ini file.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>CD Audio</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>When checked, disables the CD audio.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Idling</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>When checked, disables automatic reduction of the process priority when player Alt-Tabs out of the game.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Sound Effects</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>When checked, disables all in-game sounds (music and effects).</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Music</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>When checked, disables the in-game music.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>JoyStick</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>When checked, disables the joy-stick support.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>StartUp Screens</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>When checked, disables the startup screens used by Heretic, Hexen and Strife.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Sprite Renaming</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>When checked, disables sprite renaming. Unless you are playing a mod for Heretic, Hexen or Strife that replaced a few select sprites, you do not need this.</Paragraph>
+							</TableCell>
+						</TableRow>
+					</TableRowGroup>
+				</Table>
+				<Paragraph>
+					<Italic>Custom Resolution</Italic>
+				</Paragraph>
+				<Paragraph>Custom resolution can be specified by checking either "Width" or "Height" or both check-boxes and specifying the respective dimensions in respective fields.</Paragraph>
+				<Paragraph>
+					<Italic>Pixel Mode</Italic>
+				</Paragraph>
+				<Paragraph>Pixel mode specifies whether pixels should be: left unchanged, doubled or quadrupled by increasing the resolution respectively and smoothing the image.</Paragraph>
+				<Paragraph>
+					<Italic>Start With</Italic>
+				</Paragraph>
+				<Paragraph>You can instruct the game to start something immediately upon load. It can be a save game, a demo or a map.</Paragraph>
+				<Paragraph>
+					<Italic>Save directory</Italic>
+				</Paragraph>
+				<Paragraph>Specifies the path to the directory where to store the save-game files.</Paragraph>
+				<Paragraph>
+					<Italic>zDoom Configuration File</Italic>
+				</Paragraph>
+				<Paragraph>Specifies the path to the configuration file to use for the source port.</Paragraph>
+				<Paragraph>
+					<Italic>Extra Command-Line Options</Italic>
+				</Paragraph>
+				<Paragraph>Specifies the text that must be appended to the command line when launching the source port.</Paragraph>
+				<Paragraph>
+					<Italic>Executable File Name</Italic>
+				</Paragraph>
+				<Paragraph>Specifies the name of the executable file to use as a source port.</Paragraph>
+				<Paragraph>
+					<Italic>Refresh</Italic> button
+				</Paragraph>
+				<Paragraph>When clicked on, refreshes the list of executable files.</Paragraph>
+				<Paragraph>
+					<Italic>Test</Italic> button
+				</Paragraph>
+				<Paragraph>When clicked on, shows a window that shows the command line that will be used to launch the source port.</Paragraph>
+				<Paragraph>
+					<Italic>Launch</Italic> button
+				</Paragraph>
+				<Paragraph>When clicked on, launches the source port with specified configuration.</Paragraph>
+			</FlowDocument>
+		</FlowDocumentScrollViewer>
+	</Grid>
+</Window>

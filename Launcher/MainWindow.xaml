@@ -20,7 +20,7 @@
 				<MenuItem Header="Set Installation Directory" Click="SelectZDoomInstallationFolder"/>
 			</MenuItem>
 			<MenuItem Header="Help">
-				<MenuItem Header="Help" HorizontalAlignment="Left" Width="145"/>
+				<MenuItem Header="Help" HorizontalAlignment="Left" Width="145" Click="OpenHelpWindow"/>
 				<Separator HorizontalAlignment="Left" Width="145"/>
 				<MenuItem Header="About" HorizontalAlignment="Left" Width="145" Click="OpenAboutWindow"/>
 			</MenuItem>
