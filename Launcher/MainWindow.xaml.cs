@@ -309,5 +309,11 @@ namespace Launcher
 		{
 			this.RefreshIwads();
 		}
+		private void RefreshEverything(object sender, RoutedEventArgs e)
+		{
+			this.RefreshExeFiles(this.ExeFilesRefreshButton, e);
+			this.RefreshExtraFiles(this.ExtraFilesRefreshButton, e);
+			this.RefreshIwadFiles(this.IwadRefreshButton, e);
+		}
 	}
 }
