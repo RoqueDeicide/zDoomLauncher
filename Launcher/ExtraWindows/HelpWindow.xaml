@@ -73,6 +73,14 @@
 								<Paragraph>Sets the path to the directory where the launcher needs to look for executable files, IWADs and other extra files.</Paragraph>
 							</TableCell>
 						</TableRow>
+						<TableRow>
+							<TableCell>
+								<Paragraph>Refresh All Files</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>Rescans the contents of the currently selected folder, updating the IWAD selection box, .exe file selection box and extra loadable files selection control.</Paragraph>
+							</TableCell>
+						</TableRow>
 					</TableRowGroup>
 				</Table>
 				<Paragraph>
@@ -112,7 +120,7 @@
 				<Paragraph>
 					<Italic>IWAD</Italic> box
 				</Paragraph>
-				<Paragraph>Specifies which IWAD file to use.</Paragraph>
+				<Paragraph>Specifies which IWAD file to use. Can be refreshed by clicking on the button to the right.</Paragraph>
 				<Paragraph>
 					<Italic>Extra Files</Italic>
 				</Paragraph>
@@ -121,6 +129,7 @@
 				<Paragraph>To select the file, click the "Tick" button to the left of the name of the file. To deselect the file either press the "Cross" button next to the selected file or press "Deselect" button in the context menu that can be opened by right-clicking on the file name in the below list.</Paragraph>
 				<Paragraph>Order of files in the below list can be changed by clicking the buttons to the left from their names. The order of selected files is important since content loaded from the file will override any matching content from above files.</Paragraph>
 				<Paragraph>Recommended order of files: PWADs with maps, PWADS with music, PWADS with gameplay changes (like Brutal Doom or Project Brutality), PWADS with HUDs, etc.</Paragraph>
+				<Paragraph>Both lists can be refreshed by clicking on the button to the right from the "Extra Files" label.</Paragraph>
 				<Paragraph>
 					<Italic>Game-Play Options</Italic>
 				</Paragraph>
@@ -274,11 +283,7 @@
 				<Paragraph>
 					<Italic>Executable File Name</Italic>
 				</Paragraph>
-				<Paragraph>Specifies the name of the executable file to use as a source port.</Paragraph>
-				<Paragraph>
-					<Italic>Refresh</Italic> button
-				</Paragraph>
-				<Paragraph>When clicked on, refreshes the list of executable files.</Paragraph>
+				<Paragraph>Specifies the name of the executable file to use as a source port. Can be refreshed by clicking on the button to the left.</Paragraph>
 				<Paragraph>
 					<Italic>Test</Italic> button
 				</Paragraph>
