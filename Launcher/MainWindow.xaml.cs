@@ -304,5 +304,10 @@ namespace Launcher
 			this.ExtraFilesBox.GameFolder = this.zDoomFolder;
 			this.ExtraFilesBox.SelectedFiles = this.config.ExtraFiles;
 		}
+
+		private void RefreshIwadFiles(object sender, RoutedEventArgs e)
+		{
+			this.RefreshIwads();
+		}
 	}
 }
