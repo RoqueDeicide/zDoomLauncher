@@ -311,5 +311,18 @@ namespace Launcher
 
 			this.helpWindow.Show();
 		}
+
+		private void RefreshExtraFiles(object sender, RoutedEventArgs e)
+		{
+			if (this.config == null || this.config.ExtraFiles == null ||
+				this.ExtraFilesBox == null || this.zDoomFolder == null)
+			{
+				return;
+			}
+
+			// This just triggers a refresh of extra files.
+			this.ExtraFilesBox.GameFolder = this.zDoomFolder;
+			this.ExtraFilesBox.SelectedFiles = this.config.ExtraFiles;
+		}
 	}
 }

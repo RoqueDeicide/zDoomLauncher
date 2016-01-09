@@ -93,6 +93,7 @@
 		<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="515,55,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the width of the picture." Checked="EnableWidthField" Unchecked="DisableWidthField"/>
 		<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="11,122,0,10" Height="Auto" HorizontalAlignment="Left" Width="198" />
 		<Label Content="Extra Files" HorizontalAlignment="Left" Margin="11,95,0,0" VerticalAlignment="Top" Width="102"/>
+		<Button Content="q" Margin="0,96,456,0" VerticalAlignment="Top" Height="23" Click="RefreshExtraFiles" HorizontalAlignment="Right" Width="26" FontFamily="Webdings" FontSize="20"/>
 
 	</Grid>
 </Window>
