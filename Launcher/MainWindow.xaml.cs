@@ -95,8 +95,8 @@ namespace Launcher
 			this.InitializeComponent();
 
 			this.RefreshExeFiles(this, null);
+			this.RefreshIwads();
 			this.InitializeDialogs();
-			this.InitializeLoadableFiles();
 			this.InitializeContextMenus();
 			this.InitializeSomeEventHandlers();
 			this.SetupInterface();
@@ -113,7 +113,7 @@ namespace Launcher
 			// Set the name of the configuration in the text box.
 			this.ConfigurationNameTextBox.Text = this.config.Name;
 			// Set up the list of IWADs.
-			this.SetupIwads();
+			this.RefreshIwads();
 			// Ignore block map?
 			this.IgnoreBlockMapIndicator.IsChecked = this.config.IgnoreBlockMap;
 			// Set up a list of extra files.
@@ -225,22 +225,6 @@ namespace Launcher
 		private void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			this.SaveAppConfiguration();
-		}
-
-		private void IwadSelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			ComboBoxItem item = this.IwadComboBox.SelectedItem as ComboBoxItem;
-			if (item == null)
-			{
-				return;
-			}
-
-			string selectedIwad = (string)item.Content;
-			if (selectedIwad != PathIO.GetFileName(this.config.IwadPath))
-			{
-				Log.Message("Selected {0}", selectedIwad);
-				this.config.IwadPath = PathIO.Combine(this.zDoomFolder, selectedIwad);
-			}
 		}
 
 		private void RefreshExeFiles(object sender, RoutedEventArgs e)

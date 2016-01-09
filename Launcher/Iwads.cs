@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security;
 using Launcher.Logging;
 
 namespace Launcher
@@ -63,10 +64,26 @@ namespace Launcher
 		/// <returns>A list of IWAD file names.</returns>
 		public static IEnumerable<string> FindSupportedIwads(string folder)
 		{
-			// Scan for IWADs in the given folder.
+			// Get the files from DOOMWADDIR environment variable.
+			string doomWadVar = null;
+			try
+			{
+				doomWadVar = Environment.GetEnvironmentVariable("DOOMWADDIR");
+			}
+			catch (ArgumentNullException)
+			{
+			}
+			catch (SecurityException)
+			{
+			}
+			bool doomWadVarAvailable = !string.IsNullOrWhiteSpace(doomWadVar);
+
+			// Scan for IWADs in the given folder (and in the DOOMWADDIR folder).
 			return SupportedIwads.Keys.Where(x =>
 			{
-				if (File.Exists(Path.Combine(folder, x)))
+				if (File.Exists(Path.Combine(folder, x)) ||
+					doomWadVarAvailable && doomWadVar != null /*kinda redundant*/ &&
+					File.Exists(Path.Combine(doomWadVar, x)))
 				{
 					Log.Message("Found {0}.", x.ToLowerInvariant());
 					return true;

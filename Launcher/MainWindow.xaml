@@ -26,7 +26,7 @@
 			</MenuItem>
 		</Menu>
 		<Label Content="IWAD" HorizontalAlignment="Left" Margin="11,64,0,0" VerticalAlignment="Top"/>
-		<ComboBox HorizontalAlignment="Left" Margin="53,68,0,0" VerticalAlignment="Top" Width="157" x:Name="IwadComboBox" SelectionChanged="IwadSelectionChanged" SelectedValuePath="Content"/>
+		<ComboBox HorizontalAlignment="Left" Margin="53,68,0,0" VerticalAlignment="Top" Width="125" x:Name="IwadComboBox" />
 		<GroupBox Header="Start With" Margin="215,204,4,0" VerticalAlignment="Top" Height="86">
 			<Grid Margin="0,0,-2,-2">
 				<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Width="44" Checked="SwitchToSave"/>

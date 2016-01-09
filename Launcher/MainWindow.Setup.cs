@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using Launcher.Configs;
 using Launcher.Logging;
@@ -9,22 +11,57 @@ namespace Launcher
 {
 	public partial class MainWindow
 	{
-		private void SetupIwads()
+		private void RefreshIwads()
 		{
-			var foundIwads = (from ComboBoxItem comboItem in this.IwadComboBox.Items
-							  select (string)comboItem.Content).ToList();
+			if (this.IwadComboBox == null)
+			{
+				return;
+			}
+
+			// Clear the combo box.
+			this.IwadComboBox.Items.Clear();
+
+			// Fill the combo box with found IWADs.
+			if (this.zDoomFolder == null)
+			{
+				return;
+			}
+
+			this.IwadComboBox.SelectedItem = null;
+
 			string iwadFile = Path.GetFileName(this.config.IwadPath);
-			int foundIwadIndex =
-				foundIwads.FindIndex(iwad => iwad.Equals(iwadFile,
-														 StringComparison.InvariantCultureIgnoreCase));
-			if (foundIwadIndex != -1)
+
+			foreach (string iwad in Iwads.FindSupportedIwads(this.zDoomFolder))
 			{
-				this.IwadComboBox.SelectedValue = foundIwads[foundIwadIndex];
+				ComboBoxItem iwadItem = new ComboBoxItem
+				{
+					Content = Iwads.SupportedIwads[iwad],
+					Tag = iwad
+				};
+				iwadItem.Selected += this.SelectTheIwad;
+
+				int currentItemIndex = this.IwadComboBox.Items.Count;
+				this.IwadComboBox.Items.Add(iwadItem);
+
+				// Select the item, if it is supposed to be selected in the configuration.
+				if (iwad.Equals(iwadFile, StringComparison.InvariantCultureIgnoreCase))
+				{
+					this.IwadComboBox.SelectedIndex = currentItemIndex;
+				}
 			}
-			else
+		}
+		private void SelectTheIwad(object sender, RoutedEventArgs routedEventArgs)
+		{
+			ComboBoxItem item = sender as ComboBoxItem;
+			if (item == null)
 			{
-				this.IwadComboBox.SelectedItem = null;
+				return;
 			}
+
+			string selectedIwad = item.Tag as string;
+			Debug.Assert(selectedIwad != null, "Path to the IWAD was not assigned to respective combo box item.");
+
+			this.config.IwadPath = selectedIwad;
 		}
 		private void SetupExtraFiles()
 		{
