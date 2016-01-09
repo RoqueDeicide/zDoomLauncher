@@ -26,11 +26,6 @@ namespace Launcher
 			get { return this.gameFolder; }
 			set
 			{
-				if (this.gameFolder == value)
-				{
-					return;
-				}
-
 				this.gameFolder = value;
 
 				this.ClearFiles();
