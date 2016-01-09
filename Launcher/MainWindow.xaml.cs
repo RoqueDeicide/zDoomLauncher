@@ -46,8 +46,6 @@ namespace Launcher
 		/// </exception>
 		public MainWindow()
 		{
-			this.resetting = true;
-
 			this.LoadAppConfiguration();
 
 			this.SelectZDoomInstallationFolder(this, null);
@@ -106,7 +104,6 @@ namespace Launcher
 		#region Setting Up
 		private void SetupInterface()
 		{
-			this.resetting = true;
 			if (this.config == null)
 			{
 				this.config = new LaunchConfiguration();
@@ -135,7 +132,6 @@ namespace Launcher
 			this.ExtraOptionsTextBox.Text = this.config.ExtraOptions;
 			// Gameplay.
 			this.SetupGamePlay();
-			this.resetting = false;
 		}
 		#endregion
 		private void LaunchTheGame(object sender, RoutedEventArgs e)

@@ -11,7 +11,6 @@ namespace Launcher
 {
 	public partial class MainWindow
 	{
-		private bool resetting;
 		private void InitializeDialogs()
 		{
 			// Initialize dialogs.
