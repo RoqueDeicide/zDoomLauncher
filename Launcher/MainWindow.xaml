@@ -83,7 +83,7 @@
 			<TextBox x:Name="ConfigFileTextBox" Height="23" Margin="0,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateConfigFile"/>
 			<Label Content="Executable File Name" Margin="0,103,119,0" VerticalAlignment="Top" ToolTip="Name of the executable file that represents the source port to use. Currently only useful for choosing between zDoom, gzDoom and compatible ones." HorizontalAlignment="Right" Width="125"/>
 			<ComboBox Margin="0,129,0,0" x:Name="ExeFileNameComboBox" IsReadOnly="True" ToolTip="This list can be refreshed with a &quot;Refresh&quot; button." SelectionChanged="ExeFileSelected" SelectedValuePath="Content" HorizontalAlignment="Right" Width="213" Height="23" VerticalAlignment="Top"/>
-			<Button x:Name="ExeFilesRefreshButton" Content="q" Margin="0,129,218,0" VerticalAlignment="Top" Height="23" Click="RefreshExeFiles" HorizontalAlignment="Right" Width="26" FontFamily="Webdings" FontSize="20"/>
+			<Button x:Name="ExeFilesRefreshButton" Margin="0,129,218,0" VerticalAlignment="Top" Height="23" Click="RefreshExeFiles" HorizontalAlignment="Right" Width="26" Style="{DynamicResource RefreshButtonStyle}" />
 			<TextBox x:Name="ExtraOptionsTextBox" Margin="0,129,249,3" TextWrapping="Wrap" TextChanged="UpdateExtraOptions"/>
 			<Button Content="Test" Margin="0,0,147,2" Click="ShowCommandLine" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97"/>
 			<Button Content="Launch" Margin="0,0,0,2" Click="LaunchTheGame" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97"/>
@@ -95,8 +95,8 @@
 		<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="515,55,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the width of the picture." Checked="EnableWidthField" Unchecked="DisableWidthField"/>
 		<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="11,122,0,10" Height="Auto" HorizontalAlignment="Left" Width="198" />
 		<Label Content="Extra Files" HorizontalAlignment="Left" Margin="11,95,0,0" VerticalAlignment="Top" Width="102"/>
-		<Button x:Name="ExtraFilesRefreshButton" Content="q" Margin="183,96,0,0" VerticalAlignment="Top" Height="23" Click="RefreshExtraFiles" HorizontalAlignment="Left" Width="26" FontFamily="Webdings" FontSize="20"/>
-		<Button x:Name="IwadRefreshButton" Content="q" Margin="183,68,0,0" VerticalAlignment="Top" Height="22" Click="RefreshIwadFiles" HorizontalAlignment="Left" Width="26" FontFamily="Webdings" FontSize="20"/>
+		<Button x:Name="ExtraFilesRefreshButton" Margin="183,96,0,0" VerticalAlignment="Top" Height="23" Click="RefreshExtraFiles" HorizontalAlignment="Left" Width="26" Style="{DynamicResource RefreshButtonStyle}" />
+		<Button x:Name="IwadRefreshButton" Margin="183,68,0,0" VerticalAlignment="Top" Height="22" Click="RefreshIwadFiles" HorizontalAlignment="Left" Width="26" Style="{DynamicResource RefreshButtonStyle}" />
 
 	</Grid>
 </Window>
