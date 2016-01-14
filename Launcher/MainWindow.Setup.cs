@@ -119,6 +119,7 @@ namespace Launcher
 					this.config.DisableFlags.HasFlag(DisableOptions.SpriteRenaming);
 				this.StartupScreensItem.IsChecked =
 					this.config.DisableFlags.HasFlag(DisableOptions.StartupScreens);
+				this.IgnoreBlockMapItem.IsChecked = this.config.IgnoreBlockMap;
 			}
 		}
 		private void SetupStartUp()
@@ -154,7 +155,7 @@ namespace Launcher
 			this.TimeLimitIndicator.IsChecked = this.config.TimeLimit.HasValue;
 			if (this.config.TimeLimit.HasValue)
 			{
-				this.TimeLimitValueField.Value = (byte?)this.config.TimeLimit.Value;
+				this.TimeLimitValueField.Value = this.config.TimeLimit.Value;
 			}
 		}
 	}

@@ -31,26 +31,26 @@ namespace Launcher
 			this.config.Width = null;
 		}
 
-		private void UpdateWidthValue(object sender, RoutedPropertyChangedEventArgs<object> e)
+		private void UpdateWidthValue(object sender, int oldValue, int newValue)
 		{
 			if (this.WidthCheckBox == null)
 			{
 				return;
 			}
 			this.config.Width = (this.WidthCheckBox.IsChecked == true)
-				? this.WidthValueField.Value
-				: null;
+				? newValue
+				: (int?)null;
 		}
 
-		private void UpdateHeightValue(object sender, RoutedPropertyChangedEventArgs<object> e)
+		private void UpdateHeightValue(object sender, int oldValue, int newValue)
 		{
 			if (this.HeightCheckBox == null)
 			{
 				return;
 			}
 			this.config.Height = (this.HeightCheckBox.IsChecked == true)
-				? this.HeightValueField.Value
-				: null;
+				? newValue
+				: (int?)null;
 		}
 		#endregion
 		#region Pixel Mode
@@ -121,17 +121,17 @@ namespace Launcher
 
 		private void EnableTurbo(object sender, RoutedEventArgs e)
 		{
-			this.config.TurboMode = this.TurboValueField.Value;
+			this.config.TurboMode = (byte?)this.TurboValueField.Value;
 		}
 		private void DisableTurbo(object sender, RoutedEventArgs e)
 		{
 			this.config.TurboMode = null;
 		}
-		private void UpdateTurboField(object sender, RoutedPropertyChangedEventArgs<object> e)
+		private void UpdateTurboField(object sender, int oldValue, int newValue)
 		{
 			if (this.TurboIndicator != null && this.TurboIndicator.IsChecked == true)
 			{
-				this.config.TurboMode = this.TurboValueField.Value;
+				this.config.TurboMode = (byte?)newValue;
 			}
 		}
 
@@ -143,11 +143,11 @@ namespace Launcher
 		{
 			this.config.TimeLimit = null;
 		}
-		private void UpdateTimeLimitField(object sender, RoutedPropertyChangedEventArgs<object> e)
+		private void UpdateTimeLimitField(object sender, int oldValue, int newValue)
 		{
 			if (this.TimeLimitIndicator != null && this.TimeLimitIndicator.IsChecked == true)
 			{
-				this.config.TimeLimit = this.TimeLimitValueField.Value;
+				this.config.TimeLimit = newValue;
 			}
 		}
 
@@ -159,11 +159,11 @@ namespace Launcher
 		{
 			this.config.Difficulty = null;
 		}
-		private void UpdateCustomDifficultyField(object sender, RoutedPropertyChangedEventArgs<object> e)
+		private void UpdateCustomDifficultyField(object sender, int oldValue, int newValue)
 		{
 			if (this.DifficultyIndicator != null && this.DifficultyIndicator.IsChecked == true)
 			{
-				this.config.Difficulty = this.DifficultyValueField.Value;
+				this.config.Difficulty = newValue;
 			}
 		}
 		#endregion
@@ -226,29 +226,25 @@ namespace Launcher
 				this.config.AutoStartFile = string.Format("{0}", this.MapValueField.Value);
 			}
 		}
-		private void UpdateEpisodeIndex(object sender, RoutedPropertyChangedEventArgs<object> e)
+		private void UpdateEpisodeIndex(object sender, int oldValue, int newValue)
 		{
-			var episodeValue = this.EpisodeValueField.Value;
+			var episodeValue = newValue;
 
-			if (this.LoadMapIndicator != null &&
-				this.LoadMapIndicator.IsChecked == true &&
-				episodeValue != null &&
+			if (this.LoadMapIndicator != null && this.LoadMapIndicator.IsChecked == true &&
 				this.EpisodicIwadIsSelected())
 			{
-				this.config.AutoStartFile = this.config.AutoStartFile.ChangeNumber(0, episodeValue.Value);
+				this.config.AutoStartFile = this.config.AutoStartFile.ChangeNumber(0, episodeValue);
 			}
 		}
-		private void UpdateMapIndex(object sender, RoutedPropertyChangedEventArgs<object> e)
+		private void UpdateMapIndex(object sender, int oldValue, int newValue)
 		{
-			var mapValue = this.MapValueField.Value;
+			var mapValue = newValue;
 
-			if (this.LoadMapIndicator != null &&
-				this.LoadMapIndicator.IsChecked == true &&
-				mapValue != null)
+			if (this.LoadMapIndicator != null && this.LoadMapIndicator.IsChecked == true)
 			{
 				this.config.AutoStartFile =
 					this.config.AutoStartFile.ChangeNumber((this.EpisodicIwadIsSelected()) ? 1 : 0,
-														   mapValue.Value);
+														   mapValue);
 			}
 		}
 

@@ -114,8 +114,6 @@ namespace Launcher
 			this.ConfigurationNameTextBox.Text = this.config.Name;
 			// Set up the list of IWADs.
 			this.RefreshIwads();
-			// Ignore block map?
-			this.IgnoreBlockMapIndicator.IsChecked = this.config.IgnoreBlockMap;
 			// Set up a list of extra files.
 			this.SetupExtraFiles();
 			// Save directory.
