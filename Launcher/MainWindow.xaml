@@ -33,10 +33,10 @@
 		<GroupBox Header="Start With" Margin="215,204,4,0" VerticalAlignment="Top" Height="86">
 			<Grid Margin="0,0,-2,-2">
 				<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Width="44" Checked="SwitchToSave"/>
-				<TextBox x:Name="LoadGameTextBox" Height="23" Margin="60,3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile"/>
+				<TextBox x:Name="LoadGameTextBox" Height="23" Margin="60,3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile" BorderBrush="{DynamicResource DefaultTextBoxBorder}"/>
 				<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Checked="SwitchToDemo"/>
 				<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="206,9,0,0" VerticalAlignment="Top" Checked="SwitchToMap"/>
-				<TextBox x:Name="PlayDemoTextBox" Height="23" Margin="60,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Path to the demo file." TextChanged="UpdateDemoFile"/>
+				<TextBox x:Name="PlayDemoTextBox" Height="23" Margin="60,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="135" ToolTip="Path to the demo file." TextChanged="UpdateDemoFile" BorderBrush="{DynamicResource DefaultTextBoxBorder}"/>
 				<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="206,38,0,0" VerticalAlignment="Top" IsChecked="True" Checked="SwitchToNothing"/>
 				<prog:NumberBox x:Name="EpisodeValueField" HorizontalAlignment="Left" Margin="297,6,0,0" VerticalAlignment="Top" Height="23" Value="0" ValueChanged="UpdateEpisodeIndex"/>
 				<Label Content="Episode" HorizontalAlignment="Left" Margin="246,4,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,0.538"/>
@@ -75,17 +75,17 @@
 		<prog:NumberBox x:Name="DifficultyValueField" HorizontalAlignment="Left" Margin="295,170,0,0" VerticalAlignment="Top" Width="64" Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField" Height="24"/>
 		<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="216,172,0,0" VerticalAlignment="Top" Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty"/>
 		<Label Content="Name" HorizontalAlignment="Left" Margin="11,29,0,0" VerticalAlignment="Top"/>
-		<TextBox x:Name="ConfigurationNameTextBox" HorizontalAlignment="Left" Height="23" Margin="53,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="156" TextChanged="ConfigurationNameChanged"/>
+		<TextBox x:Name="ConfigurationNameTextBox" HorizontalAlignment="Left" Height="23" Margin="53,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="156" TextChanged="ConfigurationNameChanged" BorderBrush="{DynamicResource DefaultTextBoxBorder}"/>
 		<Grid Margin="215,290,4,7">
 			<Label Content="Save Directory" VerticalAlignment="Top" RenderTransformOrigin="0.474,0.538" Margin="-3,0,0,0" HorizontalAlignment="Left" Width="123"/>
-			<TextBox x:Name="SaveDirectoryTextBox" Height="23" Margin="0,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateSaveDirectory"/>
+			<TextBox x:Name="SaveDirectoryTextBox" Height="23" Margin="0,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateSaveDirectory" BorderBrush="{DynamicResource DefaultTextBoxBorder}"/>
 			<Label Content="Extra Command-Line Options" Margin="0,103,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="166"/>
 			<Label Content="zDoom Configuration File" Margin="0,49,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="156"/>
-			<TextBox x:Name="ConfigFileTextBox" Height="23" Margin="0,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateConfigFile"/>
+			<TextBox x:Name="ConfigFileTextBox" Height="23" Margin="0,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateConfigFile" BorderBrush="{DynamicResource DefaultTextBoxBorder}" />
 			<Label Content="Executable File Name" Margin="0,103,119,0" VerticalAlignment="Top" ToolTip="Name of the executable file that represents the source port to use. Currently only useful for choosing between zDoom, gzDoom and compatible ones." HorizontalAlignment="Right" Width="125"/>
 			<ComboBox Margin="0,129,0,0" x:Name="ExeFileNameComboBox" IsReadOnly="True" ToolTip="This list can be refreshed with a &quot;Refresh&quot; button." SelectionChanged="ExeFileSelected" SelectedValuePath="Content" HorizontalAlignment="Right" Width="213" Height="23" VerticalAlignment="Top"/>
 			<Button x:Name="ExeFilesRefreshButton" Margin="0,129,218,0" VerticalAlignment="Top" Height="23" Click="RefreshExeFiles" HorizontalAlignment="Right" Width="26" Style="{DynamicResource RefreshButtonStyle}" />
-			<TextBox x:Name="ExtraOptionsTextBox" Margin="0,129,249,3" TextWrapping="Wrap" TextChanged="UpdateExtraOptions"/>
+			<TextBox x:Name="ExtraOptionsTextBox" Margin="0,129,249,3" TextWrapping="Wrap" TextChanged="UpdateExtraOptions" BorderBrush="{DynamicResource DefaultTextBoxBorder}"/>
 			<Button Content="Test" Margin="0,0,147,2" Click="ShowCommandLine" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97"/>
 			<Button Content="Launch" Margin="0,0,0,2" Click="LaunchTheGame" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97"/>
 		</Grid>
@@ -94,7 +94,7 @@
 		<CheckBox x:Name="HeightCheckBox" Content="Height" HorizontalAlignment="Left" Margin="515,104,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the height of the picture." Checked="EnableHeightField" Unchecked="DisableHeightField"/>
 		<prog:NumberBox x:Name="WidthValueField" Margin="515,74,4,0" VerticalAlignment="Top" ToolTip="Width of the image." Value="1280" Maximum="3840" Minimum="360" RenderTransformOrigin="0.495,0.45" ValueChanged="UpdateWidthValue" Height="25"/>
 		<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="515,55,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the width of the picture." Checked="EnableWidthField" Unchecked="DisableWidthField"/>
-		<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="11,122,0,10" Height="Auto" HorizontalAlignment="Left" Width="198" />
+		<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="11,122,0,10" Height="Auto" HorizontalAlignment="Left" Width="198" BorderBrush="{DynamicResource DefaultTextBoxBorder}" />
 		<Label Content="Extra Files" HorizontalAlignment="Left" Margin="11,95,0,0" VerticalAlignment="Top" Width="102"/>
 		<Button x:Name="ExtraFilesRefreshButton" Margin="183,96,0,0" VerticalAlignment="Top" Height="23" Click="RefreshExtraFiles" HorizontalAlignment="Left" Width="26" Style="{DynamicResource RefreshButtonStyle}" />
 		<Button x:Name="IwadRefreshButton" Margin="183,68,0,0" VerticalAlignment="Top" Height="22" Click="RefreshIwadFiles" HorizontalAlignment="Left" Width="26" Style="{DynamicResource RefreshButtonStyle}" />

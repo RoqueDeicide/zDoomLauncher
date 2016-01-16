@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Launcher.ExtraFilesSelectionBox"
+﻿<UserControl x:Name="userControl" x:Class="Launcher.ExtraFilesSelectionBox"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,26 +7,30 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="54*"/>
-			<RowDefinition/>
-			<RowDefinition Height="35*"/>
+			<RowDefinition Height="2*"/>
+			<RowDefinition Height="34*"/>
 		</Grid.RowDefinitions>
-		<ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Visible">
-			<Grid x:Name="ExtraFilesGrid" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="20"/>
-					<ColumnDefinition Width="20"/>
-					<ColumnDefinition/>
-				</Grid.ColumnDefinitions>
-			</Grid>
-		</ScrollViewer>
-		<ScrollViewer Margin="0,4,0,0" Grid.Row="2" HorizontalScrollBarVisibility="Visible">
-			<Grid x:Name="FilesSelectionGrid" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="20"/>
-					<ColumnDefinition Width="20"/>
-					<ColumnDefinition Width="266*"/>
-				</Grid.ColumnDefinitions>
-			</Grid>
-		</ScrollViewer>
+		<Border Grid.Row="0" BorderThickness="1" BorderBrush="{Binding BorderBrush, ElementName=userControl}">
+			<ScrollViewer HorizontalScrollBarVisibility="Visible">
+				<Grid x:Name="ExtraFilesGrid" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="20"/>
+						<ColumnDefinition Width="20"/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+				</Grid>
+			</ScrollViewer>
+		</Border>
+		<Border Grid.Row="2" BorderBrush="{Binding BorderBrush, ElementName=userControl}" BorderThickness="1">
+			<ScrollViewer HorizontalScrollBarVisibility="Visible">
+				<Grid x:Name="FilesSelectionGrid" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="20"/>
+						<ColumnDefinition Width="20"/>
+						<ColumnDefinition Width="266*"/>
+					</Grid.ColumnDefinitions>
+				</Grid>
+			</ScrollViewer>
+		</Border>
 	</Grid>
 </UserControl>
