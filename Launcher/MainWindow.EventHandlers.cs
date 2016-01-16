@@ -31,7 +31,7 @@ namespace Launcher
 			this.config.Width = null;
 		}
 
-		private void UpdateWidthValue(object sender, int oldValue, int newValue)
+		private void UpdateWidthValue(object sender, int? oldValue, int? newValue)
 		{
 			if (this.WidthCheckBox == null)
 			{
@@ -39,10 +39,10 @@ namespace Launcher
 			}
 			this.config.Width = (this.WidthCheckBox.IsChecked == true)
 				? newValue
-				: (int?)null;
+				: null;
 		}
 
-		private void UpdateHeightValue(object sender, int oldValue, int newValue)
+		private void UpdateHeightValue(object sender, int? oldValue, int? newValue)
 		{
 			if (this.HeightCheckBox == null)
 			{
@@ -50,7 +50,7 @@ namespace Launcher
 			}
 			this.config.Height = (this.HeightCheckBox.IsChecked == true)
 				? newValue
-				: (int?)null;
+				: null;
 		}
 		#endregion
 		#region Pixel Mode
