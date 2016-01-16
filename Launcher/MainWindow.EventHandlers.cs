@@ -127,7 +127,7 @@ namespace Launcher
 		{
 			this.config.TurboMode = null;
 		}
-		private void UpdateTurboField(object sender, int oldValue, int newValue)
+		private void UpdateTurboField(object sender, int? oldValue, int? newValue)
 		{
 			if (this.TurboIndicator != null && this.TurboIndicator.IsChecked == true)
 			{
@@ -143,7 +143,7 @@ namespace Launcher
 		{
 			this.config.TimeLimit = null;
 		}
-		private void UpdateTimeLimitField(object sender, int oldValue, int newValue)
+		private void UpdateTimeLimitField(object sender, int? oldValue, int? newValue)
 		{
 			if (this.TimeLimitIndicator != null && this.TimeLimitIndicator.IsChecked == true)
 			{
@@ -159,7 +159,7 @@ namespace Launcher
 		{
 			this.config.Difficulty = null;
 		}
-		private void UpdateCustomDifficultyField(object sender, int oldValue, int newValue)
+		private void UpdateCustomDifficultyField(object sender, int? oldValue, int? newValue)
 		{
 			if (this.DifficultyIndicator != null && this.DifficultyIndicator.IsChecked == true)
 			{
@@ -226,25 +226,26 @@ namespace Launcher
 				this.config.AutoStartFile = string.Format("{0}", this.MapValueField.Value);
 			}
 		}
-		private void UpdateEpisodeIndex(object sender, int oldValue, int newValue)
+		private void UpdateEpisodeIndex(object sender, int? oldValue, int? newValue)
 		{
 			var episodeValue = newValue;
 
 			if (this.LoadMapIndicator != null && this.LoadMapIndicator.IsChecked == true &&
-				this.EpisodicIwadIsSelected())
+				this.EpisodicIwadIsSelected() && episodeValue != null)
 			{
-				this.config.AutoStartFile = this.config.AutoStartFile.ChangeNumber(0, episodeValue);
+				this.config.AutoStartFile = this.config.AutoStartFile.ChangeNumber(0, (int)episodeValue);
 			}
 		}
-		private void UpdateMapIndex(object sender, int oldValue, int newValue)
+		private void UpdateMapIndex(object sender, int? oldValue, int? newValue)
 		{
 			var mapValue = newValue;
 
-			if (this.LoadMapIndicator != null && this.LoadMapIndicator.IsChecked == true)
+			if (this.LoadMapIndicator != null && this.LoadMapIndicator.IsChecked == true &&
+				mapValue != null)
 			{
 				this.config.AutoStartFile =
 					this.config.AutoStartFile.ChangeNumber((this.EpisodicIwadIsSelected()) ? 1 : 0,
-														   mapValue);
+														   (int)mapValue);
 			}
 		}
 
