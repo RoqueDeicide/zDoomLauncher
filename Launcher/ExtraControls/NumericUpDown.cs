@@ -5,14 +5,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Launcher.Logging;
 
 namespace Launcher
 {
 	/// <summary>
 	/// Defines a signature of methods that can handle <see cref="NumericUpDown.ValueChanged"/>
 	/// </summary>
-	/// <param name="sender">An object that raised the event.</param>
+	/// <param name="sender">  An object that raised the event.</param>
 	/// <param name="oldValue">Old value.</param>
 	/// <param name="newValue">New value.</param>
 	public delegate void NumericUpDownValueChangedHandler(object sender, int? oldValue, int? newValue);
@@ -45,13 +44,15 @@ namespace Launcher
 			DependencyProperty.Register("Maximum", typeof(int?), typeof(NumericUpDown),
 										new PropertyMetadata(default(int)));
 		/// <summary>
-		/// A dependency property that represents the number that can added to and subtracted from the value of the number box by clicking on buttons.
+		/// A dependency property that represents the number that can added to and subtracted from the
+		/// value of the number box by clicking on buttons.
 		/// </summary>
 		public static readonly DependencyProperty StepProperty =
 			DependencyProperty.Register("Step", typeof(int), typeof(NumericUpDown),
 										new PropertyMetadata(default(int)));
 		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when they are moused over.
+		/// A dependency property that represents the brush that is used to render the spinner buttons when
+		/// they are moused over.
 		/// </summary>
 		public static readonly DependencyProperty HighlightedBrushProperty =
 			DependencyProperty.Register("HighlightedBrush", typeof(Brush), typeof(NumericUpDown),
@@ -59,7 +60,8 @@ namespace Launcher
 											(default(Brush),
 											 FrameworkPropertyMetadataOptions.AffectsRender));
 		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when they are pressed.
+		/// A dependency property that represents the brush that is used to render the spinner buttons when
+		/// they are pressed.
 		/// </summary>
 		public static readonly DependencyProperty PressedBrushProperty =
 			DependencyProperty.Register("PressedBrush", typeof(Brush), typeof(NumericUpDown),
@@ -67,7 +69,8 @@ namespace Launcher
 											(default(Brush),
 											 FrameworkPropertyMetadataOptions.AffectsRender));
 		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when they are disabled.
+		/// A dependency property that represents the brush that is used to render the spinner buttons when
+		/// they are disabled.
 		/// </summary>
 		public static readonly DependencyProperty DisabledBrushProperty =
 			DependencyProperty.Register("DisabledBrush", typeof(Brush), typeof(NumericUpDown),
@@ -75,7 +78,8 @@ namespace Launcher
 											(default(Brush),
 											 FrameworkPropertyMetadataOptions.AffectsRender));
 		/// <summary>
-		/// A dependency property that represents the number to default the value to when incrementing or decrementing value that was previously equal to null.
+		/// A dependency property that represents the number to default the value to when incrementing or
+		/// decrementing value that was previously equal to null.
 		/// </summary>
 		public static readonly DependencyProperty RestartPositionProperty =
 			DependencyProperty.Register("RestartPosition", typeof(int?), typeof(NumericUpDown),
@@ -102,7 +106,7 @@ namespace Launcher
 				}
 
 				this.SetValue(ValueProperty, value);
-			
+
 				this.OnValueChanged(oldValue, value);
 			}
 		}
@@ -123,7 +127,8 @@ namespace Launcher
 			set { this.SetValue(MaximumProperty, value); }
 		}
 		/// <summary>
-		/// Gets or sets the number that can added to and subtracted from the value of the number box by clicking on buttons.
+		/// Gets or sets the number that can added to and subtracted from the value of the number box by
+		/// clicking on buttons.
 		/// </summary>
 		public int Step
 		{
@@ -155,7 +160,8 @@ namespace Launcher
 			set { this.SetValue(DisabledBrushProperty, value); }
 		}
 		/// <summary>
-		/// Gets or sets the number to default the value to when incrementing or decrementing value that was previously equal to null.
+		/// Gets or sets the number to default the value to when incrementing or decrementing value that
+		/// was previously equal to null.
 		/// </summary>
 		public int? RestartPosition
 		{
@@ -179,7 +185,8 @@ namespace Launcher
 		#endregion
 		#region Interface
 		/// <summary>
-		/// Invoked whenever application code or internal processes call <see cref="M:System.Windows.FrameworkElement.ApplyTemplate"/>.
+		/// Invoked whenever application code or internal processes call
+		/// <see cref="M:System.Windows.FrameworkElement.ApplyTemplate"/>.
 		/// </summary>
 		public override void OnApplyTemplate()
 		{
@@ -264,8 +271,10 @@ namespace Launcher
 
 			int newValue;
 			// Set the value to null, if current text is empty or is equal to minus sign.
-			//
-			// Equality to minus sign is used here to allow the user to enter negative values without having to write a number and then add minus sign to it (Only relevant when negative values are supported).
+			// 
+			// Equality to minus sign is used here to allow the user to enter negative values without
+			// having to write a number and then add minus sign to it (Only relevant when negative values
+			// are supported).
 			if (string.IsNullOrWhiteSpace(currentText) ||
 				(currentText == "-" && (this.Minimum ?? int.MinValue) < 0))
 			{
@@ -317,7 +326,7 @@ namespace Launcher
 			if (value == null)
 			{
 				this.Value = null;
-				return;				// Nothing else needed, since null can only be passed via text manipulation.
+				return; // Nothing else needed, since null can only be passed via text manipulation.
 			}
 
 			int newValue = value.Value;
@@ -326,7 +335,8 @@ namespace Launcher
 											   this.Minimum ?? int.MinValue,
 											   this.Maximum ?? int.MaxValue);
 
-			// Update text only if new text value has to be clamped, or if the update was caused by (de/in)crement.
+			// Update text only if new text value has to be clamped, or if the update was caused by
+			// (de/in)crement.
 			if (clampedValue != newValue || updateText)
 			{
 				this.ignoreTextUpdate = true;

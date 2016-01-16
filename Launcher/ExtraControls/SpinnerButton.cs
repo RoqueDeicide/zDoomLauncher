@@ -1,27 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Launcher
 {
 	/// <summary>
-	/// Represents a single button in <see cref="SpinnerButtons"/>.
+	/// Represents a single button in <see cref="NumericUpDown"/> control.
 	/// </summary>
 	public class SpinnerButton : Button
 	{
 		/// <summary>
-		/// A dependency property that represents the value that indicates whether this button is pointing upwards.
+		/// A dependency property that represents the value that indicates whether this button is pointing
+		/// upwards.
 		/// </summary>
 		public static readonly DependencyProperty IsUpProperty =
 			DependencyProperty.Register("IsUp", typeof(bool), typeof(SpinnerButton),
@@ -29,7 +21,8 @@ namespace Launcher
 											(default(bool),
 											 FrameworkPropertyMetadataOptions.AffectsRender));
 		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when they are moused over.
+		/// A dependency property that represents the brush that is used to render the spinner buttons when
+		/// they are moused over.
 		/// </summary>
 		public static readonly DependencyProperty HighlightedBrushProperty =
 			DependencyProperty.Register("HighlightedBrush", typeof(Brush), typeof(SpinnerButton),
@@ -37,7 +30,8 @@ namespace Launcher
 											(default(Brush),
 											 FrameworkPropertyMetadataOptions.AffectsRender));
 		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when they are pressed.
+		/// A dependency property that represents the brush that is used to render the spinner buttons when
+		/// they are pressed.
 		/// </summary>
 		public static readonly DependencyProperty PressedBrushProperty =
 			DependencyProperty.Register("PressedBrush", typeof(Brush), typeof(SpinnerButton),
@@ -45,7 +39,8 @@ namespace Launcher
 											(default(Brush),
 											 FrameworkPropertyMetadataOptions.AffectsRender));
 		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when they are disabled.
+		/// A dependency property that represents the brush that is used to render the spinner buttons when
+		/// they are disabled.
 		/// </summary>
 		public static readonly DependencyProperty DisabledBrushProperty =
 			DependencyProperty.Register("DisabledBrush", typeof(Brush), typeof(SpinnerButton),
@@ -53,7 +48,8 @@ namespace Launcher
 											(default(Brush),
 											 FrameworkPropertyMetadataOptions.AffectsRender));
 		/// <summary>
-		/// A dependency property that represents the collection of points that form a polygon that is displayed by the button.
+		/// A dependency property that represents the collection of points that form a polygon that is
+		/// displayed by the button.
 		/// </summary>
 		public static readonly DependencyProperty GeometryProperty =
 			DependencyProperty.Register("Geometry", typeof(PointCollection), typeof(SpinnerButton),
