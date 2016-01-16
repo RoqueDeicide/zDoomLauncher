@@ -4,7 +4,9 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:prog="clr-namespace:Launcher"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Launcher.MainWindow"
-        Title="zDoom Launcher" Height="536.854" Width="674.699" Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" Closing="MainWindowClosing">
+        Title="zDoom Launcher" Height="540" Width="675" MinHeight="540" MinWidth="675"
+		Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}"
+		Closing="MainWindowClosing">
 	<Grid Margin="0,0,2,0">
 		<Menu Height="24" VerticalAlignment="Top">
 			<MenuItem Header="Configurations">
