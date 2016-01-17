@@ -107,10 +107,9 @@ namespace Launcher
 					return;
 				}
 
-				this.downButton.IsEnabled = value != (this.Minimum ?? int.MinValue);
-				this.upButton.IsEnabled = value != (this.Maximum ?? int.MaxValue);
-
 				this.SetValue(ValueProperty, value);
+
+				this.UpdateButtons();
 
 				this.OnValueChanged(oldValue, value);
 			}
@@ -121,7 +120,12 @@ namespace Launcher
 		public int? Minimum
 		{
 			get { return (int?)this.GetValue(MinimumProperty); }
-			set { this.SetValue(MinimumProperty, value); }
+			set
+			{
+				this.SetValue(MinimumProperty, value);
+
+				this.UpdateButtons();
+			}
 		}
 		/// <summary>
 		/// Gets or sets the maximal value of this number box.
@@ -129,7 +133,12 @@ namespace Launcher
 		public int? Maximum
 		{
 			get { return (int?)this.GetValue(MaximumProperty); }
-			set { this.SetValue(MaximumProperty, value); }
+			set
+			{
+				this.SetValue(MaximumProperty, value);
+
+				this.UpdateButtons();
+			}
 		}
 		/// <summary>
 		/// Gets or sets the number that can added to and subtracted from the value of the number box by
@@ -226,9 +235,13 @@ namespace Launcher
 				this.ignoreTextUpdate = true;
 				this.valueBox.Text = this.Value == null ? "" : this.Value.ToString();
 
-				this.downButton.IsEnabled = this.Value != (this.Minimum ?? int.MinValue);
-				this.upButton.IsEnabled = this.Value != (this.Maximum ?? int.MaxValue);
+				this.UpdateButtons();
 			};
+		}
+		private void UpdateButtons()
+		{
+			this.downButton.IsEnabled = this.Value != (this.Minimum ?? int.MinValue);
+			this.upButton.IsEnabled = this.Value != (this.Maximum ?? int.MaxValue);
 		}
 		#endregion
 		#region Utilities
