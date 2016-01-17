@@ -72,7 +72,7 @@
 		</ListBox>
 		<Label Content="Game-Play Options" HorizontalAlignment="Left" Margin="216,29,0,0" VerticalAlignment="Top"/>
 		<CheckBox x:Name="TurboIndicator" Content="Turbo" HorizontalAlignment="Left" Margin="216,115,0,0" VerticalAlignment="Top" Checked="EnableTurbo" Unchecked="DisableTurbo"/>
-		<prog:NumericUpDown x:Name="TurboValueField" HorizontalAlignment="Left" Margin="295,112,0,0" VerticalAlignment="Top" Width="64" Minimum="10" Value="100" ValueChanged="UpdateTurboField" Height="24"/>
+		<prog:NumericUpDown x:Name="TurboValueField" HorizontalAlignment="Left" Margin="295,112,0,0" VerticalAlignment="Top" Width="64" Minimum="10" Value="100" ValueChanged="UpdateTurboField" Height="24" Maximum="255"/>
 		<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" HorizontalAlignment="Left" Margin="216,144,0,0" VerticalAlignment="Top" Checked="EnableTimeLimit" Unchecked="DisableTimeLimit"/>
 		<prog:NumericUpDown x:Name="TimeLimitValueField" HorizontalAlignment="Left" Margin="295,141,0,0" VerticalAlignment="Top" Width="64" Value="20" ValueChanged="UpdateTimeLimitField" Height="24"/>
 		<prog:NumericUpDown x:Name="DifficultyValueField" HorizontalAlignment="Left" Margin="295,170,0,0" VerticalAlignment="Top" Width="64" Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField" Height="24"/>
