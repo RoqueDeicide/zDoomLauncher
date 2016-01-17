@@ -88,6 +88,8 @@ namespace Launcher
 		private string lastText;
 		private bool ignoreTextUpdate;
 		private TextBox valueBox;
+		private SpinnerButton upButton;
+		private SpinnerButton downButton;
 		#endregion
 		#region Properties
 		#region Dependency Properties
@@ -104,6 +106,9 @@ namespace Launcher
 				{
 					return;
 				}
+
+				this.downButton.IsEnabled = value != (this.Minimum ?? int.MinValue);
+				this.upButton.IsEnabled = value != (this.Maximum ?? int.MaxValue);
 
 				this.SetValue(ValueProperty, value);
 
@@ -190,38 +195,39 @@ namespace Launcher
 		/// </summary>
 		public override void OnApplyTemplate()
 		{
-			SpinnerButton upButton = this.GetTemplateChild("UpButton") as SpinnerButton;
-			SpinnerButton downButton = this.GetTemplateChild("DownButton") as SpinnerButton;
+			this.upButton = this.GetTemplateChild("UpButton") as SpinnerButton;
+			this.downButton = this.GetTemplateChild("DownButton") as SpinnerButton;
 
-			if (upButton == null || downButton == null)
+			if (this.upButton == null || this.downButton == null)
 			{
 				return;
 			}
 
-			upButton.Click += this.Increment;
-			downButton.Click += this.Decrement;
+			this.upButton.Click += this.Increment;
+			this.downButton.Click += this.Decrement;
 
-			TextBox valueTextBox = this.GetTemplateChild("ValueTextBox") as TextBox;
+			this.valueBox = this.GetTemplateChild("ValueTextBox") as TextBox;
 
-			if (valueTextBox == null)
+			if (this.valueBox == null)
 			{
 				return;
 			}
 
-			this.valueBox = valueTextBox;
+			this.valueBox.TextChanged += this.UpdateValueFromText;
+			this.valueBox.MouseRightButtonUp += this.ClearNumber;
 
-			valueTextBox.TextChanged += this.UpdateValueFromText;
-			valueTextBox.MouseRightButtonUp += this.ClearNumber;
-
-			upButton.MouseWheel += this.RotateValue;
-			downButton.MouseWheel += this.RotateValue;
-			valueTextBox.MouseWheel += this.RotateValue;
+			this.upButton.MouseWheel += this.RotateValue;
+			this.downButton.MouseWheel += this.RotateValue;
+			this.valueBox.MouseWheel += this.RotateValue;
 
 			// Assign the current value to the text box once the loading is complete.
 			this.Loaded += (sender, args) =>
 			{
 				this.ignoreTextUpdate = true;
 				this.valueBox.Text = this.Value == null ? "" : this.Value.ToString();
+
+				this.downButton.IsEnabled = this.Value != (this.Minimum ?? int.MinValue);
+				this.upButton.IsEnabled = this.Value != (this.Maximum ?? int.MaxValue);
 			};
 		}
 		#endregion
