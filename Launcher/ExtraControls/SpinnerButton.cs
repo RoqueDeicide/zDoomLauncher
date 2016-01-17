@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace Launcher
 {
@@ -21,33 +23,6 @@ namespace Launcher
 											(default(bool),
 											 FrameworkPropertyMetadataOptions.AffectsRender));
 		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when
-		/// they are moused over.
-		/// </summary>
-		public static readonly DependencyProperty HighlightedBrushProperty =
-			DependencyProperty.Register("HighlightedBrush", typeof(Brush), typeof(SpinnerButton),
-										new FrameworkPropertyMetadata
-											(default(Brush),
-											 FrameworkPropertyMetadataOptions.AffectsRender));
-		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when
-		/// they are pressed.
-		/// </summary>
-		public static readonly DependencyProperty PressedBrushProperty =
-			DependencyProperty.Register("PressedBrush", typeof(Brush), typeof(SpinnerButton),
-										new FrameworkPropertyMetadata
-											(default(Brush),
-											 FrameworkPropertyMetadataOptions.AffectsRender));
-		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when
-		/// they are disabled.
-		/// </summary>
-		public static readonly DependencyProperty DisabledBrushProperty =
-			DependencyProperty.Register("DisabledBrush", typeof(Brush), typeof(SpinnerButton),
-										new FrameworkPropertyMetadata
-											(default(Brush),
-											 FrameworkPropertyMetadataOptions.AffectsRender));
-		/// <summary>
 		/// A dependency property that represents the collection of points that form a polygon that is
 		/// displayed by the button.
 		/// </summary>
@@ -56,30 +31,6 @@ namespace Launcher
 										new FrameworkPropertyMetadata
 											(default(PointCollection),
 											 FrameworkPropertyMetadataOptions.AffectsRender));
-		/// <summary>
-		/// Gets or sets the brush that is used to render the spinner buttons when they are moused over.
-		/// </summary>
-		public Brush HighlightedBrush
-		{
-			get { return (Brush)this.GetValue(HighlightedBrushProperty); }
-			set { this.SetValue(HighlightedBrushProperty, value); }
-		}
-		/// <summary>
-		/// Gets or sets the brush that is used to render the spinner buttons when they are pressed.
-		/// </summary>
-		public Brush PressedBrush
-		{
-			get { return (Brush)this.GetValue(PressedBrushProperty); }
-			set { this.SetValue(PressedBrushProperty, value); }
-		}
-		/// <summary>
-		/// Gets or sets the brush that is used to render the spinner buttons when they are disabled.
-		/// </summary>
-		public Brush DisabledBrush
-		{
-			get { return (Brush)this.GetValue(DisabledBrushProperty); }
-			set { this.SetValue(DisabledBrushProperty, value); }
-		}
 		/// <summary>
 		/// Gets or sets the value that indicates whether this button is pointing upwards.
 		/// </summary>
