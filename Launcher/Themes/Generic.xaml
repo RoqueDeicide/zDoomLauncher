@@ -8,6 +8,7 @@
 		<Setter Property="Maximum" Value="100"/>
 		<Setter Property="Step" Value="1"/>
 		<Setter Property="RestartPosition" Value="{x:Null}"/>
+		<Setter Property="ShiftStepMultiplier" Value="5"/>
 		<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
 		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}"/>
 		<Setter Property="PressedBrush" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>

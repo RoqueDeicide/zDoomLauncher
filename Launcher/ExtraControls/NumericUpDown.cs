@@ -85,6 +85,12 @@ namespace Launcher
 		public static readonly DependencyProperty RestartPositionProperty =
 			DependencyProperty.Register("RestartPosition", typeof(int?), typeof(NumericUpDown),
 										new PropertyMetadata(default(int?)));
+		/// <summary>
+		/// A dependency property that represents the factor <see cref="Step"/> is multiplied by when incrementing/decrementing the <see cref="Value"/> while Shift key is pressed.
+		/// </summary>
+		public static readonly DependencyProperty ShiftStepMultiplierProperty =
+			DependencyProperty.Register("ShiftStepMultiplier", typeof(uint), typeof(NumericUpDown),
+			new PropertyMetadata(default(uint)));
 		#endregion
 		private bool valueIsCommited;
 		private TextBox valueBox;
@@ -181,6 +187,14 @@ namespace Launcher
 		{
 			get { return (int?)this.GetValue(RestartPositionProperty); }
 			set { this.SetValue(RestartPositionProperty, value); }
+		}
+		/// <summary>
+		/// Gets or sets the factor <see cref="Step"/> is multiplied by when incrementing/decrementing the <see cref="Value"/> while Shift key is pressed.
+		/// </summary>
+		public uint ShiftStepMultiplier
+		{
+			get { return (uint)this.GetValue(ShiftStepMultiplierProperty); }
+			set { this.SetValue(ShiftStepMultiplierProperty, value); }
 		}
 		#endregion
 		#endregion
@@ -301,15 +315,21 @@ namespace Launcher
 		private void AddValue(int value)
 		{
 			int? currentValue = this.Value;
+			int valueToCommit;
 			if (currentValue == null)
 			{
 				// Change it to either restarting position or minimal value or 0.
-				this.CommitNumber(this.RestartPosition ?? this.Minimum ?? 0);
+				valueToCommit = this.RestartPosition ?? this.Minimum ?? 0;
 			}
 			else
 			{
-				this.CommitNumber((int)(currentValue + value));
+				bool shiftDown = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+
+				valueToCommit = (int)(currentValue + value * (shiftDown ? this.ShiftStepMultiplier : 1));
 			}
+
+
+			this.CommitNumber(valueToCommit);
 		}
 		private void CommitNumber(int value)
 		{
