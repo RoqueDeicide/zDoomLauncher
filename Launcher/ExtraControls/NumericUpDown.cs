@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -85,8 +86,7 @@ namespace Launcher
 			DependencyProperty.Register("RestartPosition", typeof(int?), typeof(NumericUpDown),
 										new PropertyMetadata(default(int?)));
 		#endregion
-		private string lastText;
-		private bool ignoreTextUpdate;
+		private bool valueIsCommited;
 		private TextBox valueBox;
 		private SpinnerButton upButton;
 		private SpinnerButton downButton;
@@ -222,8 +222,10 @@ namespace Launcher
 				return;
 			}
 
-			this.valueBox.TextChanged += this.UpdateValueFromText;
 			this.valueBox.MouseRightButtonUp += this.ClearNumber;
+			this.valueBox.KeyDown += this.ValueBoxOnKeyDown;
+			this.valueBox.LostKeyboardFocus += this.ValueBoxOnLostKeyboardFocus;
+			this.valueBox.TextChanged += this.MarkValueUncommited;
 
 			this.upButton.MouseWheel += this.RotateValue;
 			this.downButton.MouseWheel += this.RotateValue;
@@ -232,16 +234,11 @@ namespace Launcher
 			// Assign the current value to the text box once the loading is complete.
 			this.Loaded += (sender, args) =>
 			{
-				this.ignoreTextUpdate = true;
+				this.valueIsCommited = true;
 				this.valueBox.Text = this.Value == null ? "" : this.Value.ToString();
 
 				this.UpdateButtons();
 			};
-		}
-		private void UpdateButtons()
-		{
-			this.downButton.IsEnabled = this.Value != (this.Minimum ?? int.MinValue);
-			this.upButton.IsEnabled = this.Value != (this.Maximum ?? int.MaxValue);
 		}
 		#endregion
 		#region Utilities
@@ -272,59 +269,33 @@ namespace Launcher
 
 			this.AddValue(Math.Sign(mouseWheelEventArgs.Delta) * this.Step);
 		}
-		private void UpdateValueFromText(object sender, TextChangedEventArgs textChangedEventArgs)
+		private void MarkValueUncommited(object sender, TextChangedEventArgs textChangedEventArgs)
 		{
-			if (this.ignoreTextUpdate)
+			this.valueIsCommited = false;
+		}
+		private void ValueBoxOnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs keyboardFocusChangedEventArgs)
+		{
+			if (!this.valueIsCommited)
 			{
-				this.ignoreTextUpdate = false;
-				return;
+				this.CommitText(this.valueBox.Text);
 			}
-
+		}
+		private void ValueBoxOnKeyDown(object sender, KeyEventArgs keyEventArgs)
+		{
 			TextBox box = sender as TextBox;
 			if (box == null)
 			{
 				return;
 			}
 
-			string currentText = box.Text;
-
-			int newValue;
-			// Set the value to null, if current text is empty or is equal to minus sign.
-			// 
-			// Equality to minus sign is used here to allow the user to enter negative values without
-			// having to write a number and then add minus sign to it (Only relevant when negative values
-			// are supported).
-			if (string.IsNullOrWhiteSpace(currentText) ||
-				(currentText == "-" && (this.Minimum ?? int.MinValue) < 0))
+			if (keyEventArgs.Key == Key.Enter)
 			{
-				this.UpdateValue(null, false);
-
-				this.lastText = currentText;
-
-				return;
+				this.CommitText(box.Text);
 			}
-			if (int.TryParse(currentText, out newValue))
-			{
-				this.UpdateValue(newValue, false);
-
-				this.lastText = currentText;
-
-				return;
-			}
-
-			// Revert to the old text value.
-			this.ignoreTextUpdate = true;
-			box.Text = this.lastText;
 		}
 		private void ClearNumber(object sender, MouseButtonEventArgs e)
 		{
-			string currentText = this.valueBox.Text;
-			if (string.IsNullOrWhiteSpace(currentText))
-			{
-				return;
-			}
-
-			this.valueBox.Text = "";
+			this.CommitText("");
 		}
 
 		private void AddValue(int value)
@@ -333,42 +304,58 @@ namespace Launcher
 			if (currentValue == null)
 			{
 				// Change it to either restarting position or minimal value or 0.
-				this.UpdateValue(this.RestartPosition ?? this.Minimum ?? 0, true);
+				this.CommitNumber(this.RestartPosition ?? this.Minimum ?? 0);
 			}
 			else
 			{
-				this.UpdateValue((int)(currentValue + value), true);
+				this.CommitNumber((int)(currentValue + value));
 			}
 		}
-		private void UpdateValue(int? value, bool updateText)
+		private void CommitNumber(int value)
 		{
-			if (value == null)
+			MathExtra.Clamp(ref value, this.Minimum ?? int.MinValue, this.Maximum ?? int.MaxValue);
+			this.Value = value;
+
+			this.valueIsCommited = true;
+			this.valueBox.Text = value.ToString(CultureInfo.InvariantCulture);
+		}
+		private void CommitText(string value)
+		{
+			if (string.IsNullOrWhiteSpace(value))
 			{
 				this.Value = null;
-				return; // Nothing else needed, since null can only be passed via text manipulation.
+				return;
 			}
 
-			int newValue = value.Value;
-
-			int clampedValue = MathExtra.Clamp(newValue,
-											   this.Minimum ?? int.MinValue,
-											   this.Maximum ?? int.MaxValue);
-
-			// Update text only if new text value has to be clamped, or if the update was caused by
-			// (de/in)crement.
-			if (clampedValue != newValue || updateText)
+			int number;
+			if (!int.TryParse(value, out number))
 			{
-				this.ignoreTextUpdate = true;
-				this.valueBox.Text = clampedValue.ToString(CultureInfo.InvariantCulture);
-				this.lastText = this.valueBox.Text;
+				// Clear off all non-numeric characters.
+				StringBuilder builder = new StringBuilder(value.Length);
+
+				for (int i = 0; i < value.Length; i++)
+				{
+					char symbol = value[i];
+					if (char.IsNumber(symbol) || symbol == '-' && i == 0)
+					{
+						builder.Append(symbol);
+					}
+				}
+
+				number = int.Parse(builder.ToString());
 			}
 
-			this.Value = clampedValue;
+			this.CommitNumber(number);
 		}
 		protected virtual void OnValueChanged(int? oldvalue, int? newvalue)
 		{
 			var handler = this.ValueChanged;
 			if (handler != null) handler(this, oldvalue, newvalue);
+		}
+		private void UpdateButtons()
+		{
+			this.downButton.IsEnabled = this.Value != (this.Minimum ?? int.MinValue);
+			this.upButton.IsEnabled = this.Value != (this.Maximum ?? int.MaxValue);
 		}
 		#endregion
 	}

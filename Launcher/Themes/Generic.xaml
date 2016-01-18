@@ -23,7 +23,7 @@
 							<ColumnDefinition Width="300*" />
 							<ColumnDefinition Width="20" />
 						</Grid.ColumnDefinitions>
-						<TextBox Grid.Column="0" Name="ValueTextBox"
+						<TextBox Grid.Column="0" Name="ValueTextBox" AcceptsReturn="False"
 								 BorderBrush="{TemplateBinding BorderBrush}"
 								 Foreground="{TemplateBinding Foreground}"
 								 Background="{TemplateBinding Background}"/>
