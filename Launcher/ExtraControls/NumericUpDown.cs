@@ -246,6 +246,8 @@ namespace Launcher
 			this.timer.Interval = new TimeSpan(0, 0, 2);
 			this.timer.Tick += this.UnprepareClearing;
 
+			this.valueBox.ContextMenu = null;
+
 			this.valueBox.PreviewMouseRightButtonDown += this.PrepareForNumberClearing;
 			this.valueBox.PreviewMouseRightButtonUp += this.ClearNumber;
 			this.valueBox.KeyDown += this.ValueBoxOnKeyDown;
