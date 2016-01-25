@@ -344,6 +344,8 @@ namespace Launcher
 			if (string.IsNullOrWhiteSpace(value))
 			{
 				this.Value = null;
+				this.valueIsCommited = true;
+				this.valueBox.Text = "";
 				return;
 			}
 
