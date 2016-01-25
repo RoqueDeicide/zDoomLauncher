@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Launcher
 {
@@ -96,6 +97,8 @@ namespace Launcher
 		private TextBox valueBox;
 		private SpinnerButton upButton;
 		private SpinnerButton downButton;
+		private bool readyToClear;
+		private readonly DispatcherTimer timer;
 		#endregion
 		#region Properties
 		#region Dependency Properties
@@ -210,6 +213,10 @@ namespace Launcher
 			DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDown),
 													 new FrameworkPropertyMetadata(typeof(NumericUpDown)));
 		}
+		public NumericUpDown()
+		{
+			this.timer = new DispatcherTimer();
+		}
 		#endregion
 		#region Interface
 		/// <summary>
@@ -236,7 +243,11 @@ namespace Launcher
 				return;
 			}
 
-			this.valueBox.MouseRightButtonUp += this.ClearNumber;
+			this.timer.Interval = new TimeSpan(0, 0, 2);
+			this.timer.Tick += this.UnprepareClearing;
+
+			this.valueBox.PreviewMouseRightButtonDown += this.PrepareForNumberClearing;
+			this.valueBox.PreviewMouseRightButtonUp += this.ClearNumber;
 			this.valueBox.KeyDown += this.ValueBoxOnKeyDown;
 			this.valueBox.LostKeyboardFocus += this.ValueBoxOnLostKeyboardFocus;
 			this.valueBox.TextChanged += this.MarkValueUncommited;
@@ -307,9 +318,25 @@ namespace Launcher
 				this.CommitText(box.Text);
 			}
 		}
+		private void PrepareForNumberClearing(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+		{
+			this.readyToClear = true;
+			this.timer.Start();
+		}
+		private void UnprepareClearing(object sender, EventArgs eventArgs)
+		{
+			this.readyToClear = false;
+			this.timer.Stop();
+		}
 		private void ClearNumber(object sender, MouseButtonEventArgs e)
 		{
-			this.CommitText("");
+			if (this.readyToClear)
+			{
+				this.CommitText("");
+				this.readyToClear = false;
+				this.timer.Stop();
+				e.Handled = true;
+			}
 		}
 
 		private void AddValue(int value)
