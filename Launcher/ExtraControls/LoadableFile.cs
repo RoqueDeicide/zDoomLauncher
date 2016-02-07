@@ -12,8 +12,8 @@ namespace Launcher
 	{
 		#region Fields
 		private string fileName;
-		private Button selectButton;
-		private Button deselectButton;
+		private Button selectDeselectButton;
+		private bool selected;
 		private TextBlock mainListText;
 		private Button moveUpButton;
 		private Button moveDownButton;
@@ -30,22 +30,22 @@ namespace Launcher
 			set { this.fileName = value; }
 		}
 		/// <summary>
-		/// A button that, when clicked on, add this file to the selection.
+		/// A button that, when clicked on when file is not selected, adds this file to the selection,
+		/// otherwise when clicked when file is selected, removes it from selection.
 		/// </summary>
 		[NotNull]
-		public Button SelectButton
+		public Button SelectDeselectButton
 		{
-			get { return this.selectButton; }
-			set { this.selectButton = value; }
+			get { return this.selectDeselectButton; }
+			set { this.selectDeselectButton = value; }
 		}
 		/// <summary>
-		/// A button that, when clicked on, removes this file from the selection.
+		/// Gets or sets the value that indicates whether this file is selected.
 		/// </summary>
-		[NotNull]
-		public Button DeselectButton
+		public bool Selected
 		{
-			get { return this.deselectButton; }
-			set { this.deselectButton = value; }
+			get { return this.selected; }
+			set { this.selected = value; }
 		}
 		/// <summary>
 		/// A block of text in the main list of selectable files.

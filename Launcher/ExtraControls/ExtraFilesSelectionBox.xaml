@@ -15,7 +15,6 @@
 				<Grid x:Name="ExtraFilesGrid" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="20"/>
-						<ColumnDefinition Width="20"/>
 						<ColumnDefinition/>
 					</Grid.ColumnDefinitions>
 				</Grid>

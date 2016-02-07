@@ -101,4 +101,23 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+
+    <Style TargetType="{x:Type local:TextBoxButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:TextBoxButton}">
+					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Top"
+							   Text="{TemplateBinding Content}" FontFamily="{TemplateBinding FontFamily}"
+							   FontSize="{TemplateBinding FontSize}"
+							   FontStretch="{TemplateBinding FontStretch}"
+							   FontStyle="{TemplateBinding FontStyle}"
+							   FontWeight="{TemplateBinding FontWeight}"
+							   LineStackingStrategy="{TemplateBinding TextBlock.LineStackingStrategy}"
+							   TextOptions.TextFormattingMode="{TemplateBinding TextOptions.TextFormattingMode}"
+							   TextOptions.TextHintingMode="{TemplateBinding TextOptions.TextHintingMode}">
+					</TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

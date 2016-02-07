@@ -74,7 +74,7 @@ namespace Launcher
 					}
 					else
 					{
-						this.AddFileToSelection(file.SelectButton, null);
+						this.ToggleFileSelection(file.SelectDeselectButton, null);
 					}
 				}
 			}
@@ -92,30 +92,15 @@ namespace Launcher
 
 		private void ClearSelection()
 		{
-			// Look through the selection list to find which files are selected.
-			var selectedFiles = from selectionText in this.FilesSelectionGrid.Children.OfType<TextBlock>()
-								let run = selectionText.Inlines.FirstInline as Run
-								where run != null
-								select run.Text;
+			// Look through the list of extra files to see which ones are selected.
+			var selectedFiles = from loadableFile in this.extraFiles
+								where loadableFile.Selected
+								select loadableFile;
 
-			// Find the files and execute the event handlers on "deselect" buttons.
-			var deselectionButtons =
-				from selectedFile in selectedFiles
-				select this.ExtraFilesGrid.Children
-						   .OfType<TextBlock>()
-						   .FirstOrDefault(x => x.Inlines.FirstInline is Run &&
-												((Run)x.Inlines.FirstInline).Text == selectedFile)
-				into mainListFile
-				where mainListFile != null
-				select Grid.GetRow(mainListFile)
-				into index
-				select
-					this.ExtraFilesGrid.Children.OfType<Button>()
-						.FirstOrDefault(x => Grid.GetRow(x) == index && x.Content.Equals(CrossSymbol));
-
-			foreach (Button removeButton in deselectionButtons.ToList())
+			foreach (LoadableFile selectedFile in selectedFiles)
 			{
-				this.RemoveFileFromSelection(removeButton, null);
+				// Invoke the "Click" event handler. That should cause the file to be deselected.
+				this.ToggleFileSelection(selectedFile.SelectDeselectButton, null);
 			}
 
 			if (this.FilesSelectionGrid.RowDefinitions.Count == 1)
@@ -181,12 +166,11 @@ namespace Launcher
 			{
 				FileName = filePath
 			};
-			file.SelectButton = this.CreateAddFileButton(index, file);
-			file.DeselectButton = this.CreateRemoveFileButton(index, file);
+			file.SelectDeselectButton = this.CreateAddRemoveFileButton(index, file);
 
 			// The text.
 			TextBlock block = new TextBlock(new Run(file.FileName));
-			Grid.SetColumn(block, 2);
+			Grid.SetColumn(block, 1);
 			Grid.SetRow(block, index);
 			this.ExtraFilesGrid.RowDefinitions.Add(new RowDefinition
 			{
@@ -194,8 +178,7 @@ namespace Launcher
 			});
 			file.MainListText = block;
 
-			this.ExtraFilesGrid.Children.Add(file.SelectButton);
-			this.ExtraFilesGrid.Children.Add(file.DeselectButton);
+			this.ExtraFilesGrid.Children.Add(file.SelectDeselectButton);
 			this.ExtraFilesGrid.Children.Add(file.MainListText);
 
 			this.extraFiles.Add(file);
@@ -232,7 +215,7 @@ namespace Launcher
 				Header = "Deselect",
 				Tag = selectedFile
 			};
-			contextMenuItem.Click += this.RemoveFileFromSelection;
+			contextMenuItem.Click += this.ToggleFileSelection;
 			ContextMenu contextMenu = new ContextMenu();
 			contextMenu.Items.Add(contextMenuItem);
 

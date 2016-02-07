@@ -11,22 +11,22 @@ namespace Launcher
 {
 	public partial class ExtraFilesSelectionBox
 	{
-		private const string FontAddRemoveButtons = "Webdings";
-		private const string TickSymbol = "\u0061";
-		private const string CrossSymbol = "\u0072";
-		// Creates a Button object that, when pressed, add an extra file to the selection.
+		private const string FontAddRemoveButtons = "Wingdings";
+		private const string SelectSymbol = "\u006F";
+		private const string DeselectSymbol = "\u00FE";
+		// Creates a Button object that toggles file selection status.
 		//
 		//index -> Zero-based index of the extra file in the main list.
-		//file -> An object that consolidates all relevant data pertaining to the file.
+		//file  -> An object that consolidates all relevant data pertaining to the file.
 		[NotNull]
-		private Button CreateAddFileButton(int index, LoadableFile file)
+		private Button CreateAddRemoveFileButton(int index, LoadableFile file)
 		{
-			Button button = new Button
+			TextBoxButton button = new TextBoxButton
 			{
 				FontFamily = new FontFamily(FontAddRemoveButtons),
-				FontSize = 12,
-				Content = TickSymbol,
-				Margin = new Thickness(0),
+				FontSize = 14,
+				Content = SelectSymbol,
+				Margin = new Thickness(0, 1, 0, 0),
 				Tag = file
 			};
 
@@ -35,13 +35,13 @@ namespace Launcher
 			// Assign the button to the appropriate row.
 			Grid.SetRow(button, index);
 
-			button.Click += this.AddFileToSelection;
+			button.Click += this.ToggleFileSelection;
 
 			return button;
 		}
-		private void AddFileToSelection(object sender, RoutedEventArgs routedEventArgs)
+		private void ToggleFileSelection(object sender, RoutedEventArgs routedEventArgs)
 		{
-			Button button = sender as Button;
+			FrameworkElement button = sender as FrameworkElement;
 			if (button == null)
 			{
 				return;
@@ -49,109 +49,67 @@ namespace Launcher
 
 			int index = Grid.GetRow(button);
 
-			// Add the file to the selection list.
-			this.AddFileSelectionRow(index, routedEventArgs != null);
-
 			LoadableFile file = button.Tag as LoadableFile;
 			if (file != null)
 			{
-				// Reveal the "deselect" button.
-				file.DeselectButton.Visibility = System.Windows.Visibility.Visible;
-			}
-
-			// Hide the "select" button.
-			button.Visibility = System.Windows.Visibility.Hidden;
-		}
-		// Creates a Button object that, when pressed, removes an extra file from the selection.
-		//
-		//index -> Zero-based index of the extra file in the main list.
-		//file -> An object that consolidates all relevant data pertaining to the file.
-		[NotNull]
-		private Button CreateRemoveFileButton(int index, LoadableFile file)
-		{
-			Button button = new Button
-			{
-				FontFamily = new FontFamily(FontAddRemoveButtons),
-				FontSize = 12,
-				Content = CrossSymbol,
-				Margin = new Thickness(0),
-				Visibility = System.Windows.Visibility.Hidden,
-				Tag = file
-			};
-
-			// Assign the button to the second column from the left.
-			Grid.SetColumn(button, 1);
-			// Assign the button to the appropriate row.
-			Grid.SetRow(button, index);
-
-			button.Click += this.RemoveFileFromSelection;
-
-			return button;
-		}
-		private void RemoveFileFromSelection(object sender, RoutedEventArgs routedEventArgs)
-		{
-			FrameworkElement element = sender as FrameworkElement;
-			if (element == null)
-			{
-				return;
-			}
-
-			if (element.Visibility == System.Windows.Visibility.Hidden)
-			{
-				// Just in case.
-				return;
-			}
-
-			LoadableFile file = element.Tag as LoadableFile;
-
-			// Unhide the "select" button.
-			Debug.Assert(file != null, "Loadable file object wasn't bound to the deselect button or a context menu item.");
-
-			// Hide the "deselect" button.
-			file.DeselectButton.Visibility = System.Windows.Visibility.Hidden;
-			// Reveal the "select" button.
-			file.SelectButton.Visibility = System.Windows.Visibility.Visible;
-
-			// Find and remove the row.
-
-			// Remove the elements.
-			if (file.MoveUpButton == null)
-			{
-				// This is another case of the button getting pressed with the file not being selected.
-				return;
-			}
-
-			int selectionRowIndex = Grid.GetRow(file.MoveUpButton);
-
-			this.FilesSelectionGrid.Children.Remove(file.MoveUpButton);
-			this.FilesSelectionGrid.Children.Remove(file.MoveDownButton);
-			this.FilesSelectionGrid.Children.Remove(file.SelectionListText);
-
-			var files = this.SelectedFiles;
-			// routedEventArgs is only null, if this method was called not via Click event, but when
-			// clearing the selection when selection list is already clear.
-			if (files != null && routedEventArgs != null)
-			{
-				files.RemoveAt(selectionRowIndex);
-			}
-
-			// Move elements below the row one row up.
-			for (int i = 0; i < this.FilesSelectionGrid.Children.Count; i++)
-			{
-				UIElement gridElement = this.FilesSelectionGrid.Children[i];
-				int currentRowIndex = Grid.GetRow(gridElement);
-				if (currentRowIndex > selectionRowIndex)
+				if (file.Selected)
 				{
-					// Move elements up one row.
-					Grid.SetRow(gridElement, currentRowIndex - 1);
+					// Deselect the file.
+
+					// Find and remove the row.
+
+					// Remove the elements.
+					if (file.MoveUpButton == null)
+					{
+						// This is another case of the button getting pressed with the file not being selected.
+						return;
+					}
+
+					int selectionRowIndex = Grid.GetRow(file.MoveUpButton);
+
+					this.FilesSelectionGrid.Children.Remove(file.MoveUpButton);
+					this.FilesSelectionGrid.Children.Remove(file.MoveDownButton);
+					this.FilesSelectionGrid.Children.Remove(file.SelectionListText);
+
+					var files = this.SelectedFiles;
+
+					// routedEventArgs is only null, if this method was called not via Click event, but when
+					// clearing the selection when selection list is already clear.
+					if (files != null && routedEventArgs != null)
+					{
+						files.RemoveAt(selectionRowIndex);
+					}
+
+					// Move elements below the row one row up.
+					for (int i = 0; i < this.FilesSelectionGrid.Children.Count; i++)
+					{
+						UIElement gridElement = this.FilesSelectionGrid.Children[i];
+						int currentRowIndex = Grid.GetRow(gridElement);
+						if (currentRowIndex > selectionRowIndex)
+						{
+							// Move elements up one row.
+							Grid.SetRow(gridElement, currentRowIndex - 1);
+						}
+					}
+
+					// Remove penultimate row.
+					this.FilesSelectionGrid.RowDefinitions.RemoveAt(this.FilesSelectionGrid.RowDefinitions.Count - 2);
+
+					Log.Message("Current row definitions count in the selection grid = {0}",
+								this.FilesSelectionGrid.RowDefinitions.Count);
+
+					file.SelectDeselectButton.Content = SelectSymbol;
 				}
+				else
+				{
+					// Select the file.
+					this.AddFileSelectionRow(index, routedEventArgs != null);
+
+					file.SelectDeselectButton.Content = DeselectSymbol;
+				}
+
+				file.Selected = !file.Selected;
 			}
-
-			// Remove penultimate row.
-			this.FilesSelectionGrid.RowDefinitions.RemoveAt(this.FilesSelectionGrid.RowDefinitions.Count - 2);
-
-			Log.Message("Current row definitions count in the selection grid = {0}",
-						this.FilesSelectionGrid.RowDefinitions.Count);
 		}
 		// Creates a Button object that, when pressed, moves selected file up.
 		//
