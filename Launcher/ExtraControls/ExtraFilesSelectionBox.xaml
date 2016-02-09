@@ -25,7 +25,6 @@
 				<Grid x:Name="FilesSelectionGrid" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="20"/>
-						<ColumnDefinition Width="20"/>
 						<ColumnDefinition Width="266*"/>
 					</Grid.ColumnDefinitions>
 				</Grid>

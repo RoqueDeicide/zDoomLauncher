@@ -15,8 +15,7 @@ namespace Launcher
 		private Button selectDeselectButton;
 		private bool selected;
 		private TextBlock mainListText;
-		private Button moveUpButton;
-		private Button moveDownButton;
+		private SpinnerButtons moveButtons;
 		private TextBlock selectionListText;
 		#endregion
 		#region Properties
@@ -57,22 +56,13 @@ namespace Launcher
 			set { this.mainListText = value; }
 		}
 		/// <summary>
-		/// A button that, when clicked on, moves this file one row up within the selection.
+		/// Gets or sets an object that represents a set of 2 buttons that are used to move this file up and down the selection list.
 		/// </summary>
 		[CanBeNull]
-		public Button MoveUpButton
+		public SpinnerButtons MoveButtons
 		{
-			get { return this.moveUpButton; }
-			set { this.moveUpButton = value; }
-		}
-		/// <summary>
-		/// A button that, when clicked on, moves this file one row down within the selection.
-		/// </summary>
-		[CanBeNull]
-		public Button MoveDownButton
-		{
-			get { return this.moveDownButton; }
-			set { this.moveDownButton = value; }
+			get { return this.moveButtons; }
+			set { this.moveButtons = value; }
 		}
 		/// <summary>
 		/// A block of text in the list of selected files.

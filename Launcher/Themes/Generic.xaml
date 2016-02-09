@@ -120,4 +120,50 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+	<Style TargetType="{x:Type local:SpinnerButtons}">
+		<Setter Property="PressedBrush" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+		<Setter Property="DisabledBrush" Value="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}"/>
+		<Setter Property="HighlightedBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+		<Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SpinnerButtons}">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="1*"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+						<local:SpinnerButton Grid.Row="0" Name="UpButton" IsUp="True" />
+						<local:SpinnerButton Grid.Row="1" Name="DownButton" IsUp="False" />
+					</Grid>
+					<ControlTemplate.Triggers>
+						<Trigger Property="AtBottom" Value="True">
+							<Setter TargetName="DownButton" Property="IsEnabled" Value="False"/>
+						</Trigger>
+						<Trigger Property="AtTop" Value="True">
+							<Setter TargetName="UpButton" Property="IsEnabled" Value="False"/>
+						</Trigger>
+						<Trigger SourceName="UpButton" Property="IsMouseOver" Value="True">
+							<Setter TargetName="UpButton" Property="Foreground" Value="{Binding HighlightedBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
+						</Trigger>
+						<Trigger SourceName="UpButton" Property="IsPressed" Value="True">
+							<Setter TargetName="UpButton" Property="Foreground" Value="{Binding PressedBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
+						</Trigger>
+						<Trigger SourceName="UpButton" Property="IsEnabled" Value="False">
+							<Setter TargetName="UpButton" Property="Foreground" Value="{Binding DisabledBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
+						</Trigger>
+						<Trigger SourceName="DownButton" Property="IsMouseOver" Value="True">
+							<Setter TargetName="DownButton" Property="Foreground" Value="{Binding HighlightedBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
+						</Trigger>
+						<Trigger SourceName="DownButton" Property="IsPressed" Value="True">
+							<Setter TargetName="DownButton" Property="Foreground" Value="{Binding PressedBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
+						</Trigger>
+						<Trigger SourceName="DownButton" Property="IsEnabled" Value="False">
+							<Setter TargetName="DownButton" Property="Foreground" Value="{Binding DisabledBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

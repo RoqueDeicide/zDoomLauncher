@@ -206,8 +206,7 @@ namespace Launcher
 			});
 
 			// Add buttons.
-			selectedFile.MoveUpButton = this.CreateMoveUpButton(selectedFile, selectionIndex);
-			selectedFile.MoveDownButton = this.CreateMoveDownButton(selectedFile, selectionIndex);
+			selectedFile.MoveButtons = this.CreateMoveButtons(selectedFile, selectionIndex);
 
 			// The context menu for the text.
 			MenuItem contextMenuItem = new MenuItem
@@ -224,12 +223,11 @@ namespace Launcher
 			{
 				ContextMenu = contextMenu
 			};
-			Grid.SetColumn(block, 2);
+			Grid.SetColumn(block, 1);
 			Grid.SetRow(block, selectionIndex);
 			selectedFile.SelectionListText = block;
 
-			this.FilesSelectionGrid.Children.Add(selectedFile.MoveUpButton);
-			this.FilesSelectionGrid.Children.Add(selectedFile.MoveDownButton);
+			this.FilesSelectionGrid.Children.Add(selectedFile.MoveButtons);
 			this.FilesSelectionGrid.Children.Add(selectedFile.SelectionListText);
 		}
 		private static IEnumerable<string> GetLoadableFiles(string folder)

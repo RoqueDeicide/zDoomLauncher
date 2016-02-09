@@ -59,16 +59,15 @@ namespace Launcher
 					// Find and remove the row.
 
 					// Remove the elements.
-					if (file.MoveUpButton == null)
+					if (file.MoveButtons == null)
 					{
 						// This is another case of the button getting pressed with the file not being selected.
 						return;
 					}
 
-					int selectionRowIndex = Grid.GetRow(file.MoveUpButton);
+					int selectionRowIndex = Grid.GetRow(file.MoveButtons);
 
-					this.FilesSelectionGrid.Children.Remove(file.MoveUpButton);
-					this.FilesSelectionGrid.Children.Remove(file.MoveDownButton);
+					this.FilesSelectionGrid.Children.Remove(file.MoveButtons);
 					this.FilesSelectionGrid.Children.Remove(file.SelectionListText);
 
 					var files = this.SelectedFiles;
@@ -108,41 +107,46 @@ namespace Launcher
 					file.SelectDeselectButton.Content = DeselectSymbol;
 				}
 
+				this.UpdateTopBottomSpinners();
+
 				file.Selected = !file.Selected;
 			}
 		}
-		// Creates a Button object that, when pressed, moves selected file up.
+		// Creates a SpinnerButtons object that, moves selected file up or down.
 		//
 		//file -> An object that consolidates all relevant data pertaining to the file.
 		//selectionIndex -> Zero-based index of the file in the selection list.
 		[NotNull]
-		private Button CreateMoveUpButton(LoadableFile file, int selectionIndex)
+		private SpinnerButtons CreateMoveButtons(LoadableFile file, int selectionIndex)
 		{
-			Button button = new Button
+			bool isTop = selectionIndex == 0;
+			bool isBottom = selectionIndex == this.FilesSelectionGrid.RowDefinitions.Count - 2;
+
+			SpinnerButtons buttons = new SpinnerButtons
 			{
-				FontFamily = new FontFamily("Arial"),
-				FontSize = 12,
-				Content = "\u25b2",
 				Margin = new Thickness(0),
-				Tag = file
+				Tag = file,
+				AtTop = isTop,
+				AtBottom = isBottom
 			};
 
-			Grid.SetRow(button, selectionIndex);
-			Grid.SetColumn(button, 0);
+			Grid.SetRow(buttons, selectionIndex);
+			Grid.SetColumn(buttons, 0);
 
-			button.Click += this.MoveSelectedFileUp;
+			buttons.ClickUp += this.MoveSelectedFileUp;
+			buttons.ClickDown += this.MoveSelectedFileDown;
 
-			return button;
+			return buttons;
 		}
 		private void MoveSelectedFileUp(object sender, RoutedEventArgs routedEventArgs)
 		{
-			Button button = sender as Button;
-			if (button == null)
+			SpinnerButtons buttons = sender as SpinnerButtons;
+			if (buttons == null)
 			{
 				return;
 			}
 
-			int thisRowIndex = Grid.GetRow(button);
+			int thisRowIndex = Grid.GetRow(buttons);
 			int upperRowIndex = thisRowIndex - 1;
 
 			if (upperRowIndex < 0)
@@ -176,29 +180,8 @@ namespace Launcher
 			string temp = files[thisRowIndex];
 			files[thisRowIndex] = files[upperRowIndex];
 			files[upperRowIndex] = temp;
-		}
-		// Creates a Button object that, when pressed, moves selected file up.
-		//
-		//file -> An object that consolidates all relevant data pertaining to the file.
-		//selectionIndex -> Zero-based index of the file in the selection list.
-		[NotNull]
-		private Button CreateMoveDownButton(LoadableFile file, int selectionIndex)
-		{
-			Button button = new Button
-			{
-				FontFamily = new FontFamily("Arial"),
-				FontSize = 12,
-				Content = "\u25bc",
-				Margin = new Thickness(0),
-				Tag = file
-			};
 
-			Grid.SetRow(button, selectionIndex);
-			Grid.SetColumn(button, 1);
-
-			button.Click += this.MoveSelectedFileDown;
-
-			return button;
+			this.UpdateTopBottomSpinners();
 		}
 		private void MoveSelectedFileDown(object sender, RoutedEventArgs routedEventArgs)
 		{
@@ -242,6 +225,20 @@ namespace Launcher
 			string temp = files[thisRowIndex];
 			files[thisRowIndex] = files[lowerRowIndex];
 			files[lowerRowIndex] = temp;
+
+			this.UpdateTopBottomSpinners();
+		}
+
+		private void UpdateTopBottomSpinners()
+		{
+			foreach (var topButton in from UIElement child in this.FilesSelectionGrid.Children
+									 where child is SpinnerButtons
+									 select child as SpinnerButtons)
+			{
+				int position = Grid.GetRow(topButton);
+				topButton.AtTop = position == 0;
+				topButton.AtBottom = position == this.FilesSelectionGrid.RowDefinitions.Count - 2;
+			}
 		}
 	}
 }
