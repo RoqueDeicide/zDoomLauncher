@@ -35,7 +35,7 @@
 							</Grid.RowDefinitions>
 							<Border Grid.RowSpan="2"
 									BorderBrush="{TemplateBinding BorderBrush}"
-									CornerRadius="0.95" BorderThickness="1">
+									CornerRadius="0.95" BorderThickness="0,1,1,1">
 								<Border.Background>
 									<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
 										<GradientStop Color="#FFF3F3F3" Offset="0"/>
@@ -46,9 +46,9 @@
 								</Border.Background>
 							</Border>
 							<local:SpinnerButton Name="UpButton" Grid.Row="0" IsUp="true"
-											 Foreground="{TemplateBinding Foreground}"/>
+											 Foreground="{TemplateBinding Foreground}" Margin="-1,0,0,0"/>
 							<local:SpinnerButton Name="DownButton" Grid.Row="1" IsUp="false"
-											 Foreground="{TemplateBinding Foreground}"/>
+											 Foreground="{TemplateBinding Foreground}" Margin="-1,0,0,0"/>
 						</Grid>
 					</Grid>
 					<ControlTemplate.Triggers>
