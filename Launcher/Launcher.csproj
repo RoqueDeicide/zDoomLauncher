@@ -149,7 +149,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExtraControls\ExtraFilesSelectionBox.xaml">
+    <Page Include="ExtraControls\ExtraFiles\ExtraFilesSelectionBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -177,11 +177,11 @@
     <Compile Include="Databases\ContentTypes.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Extensions\BinaryIOExtension.cs" />
-    <Compile Include="ExtraControls\ExtraFilesSelectionBox.Buttons.cs" />
-    <Compile Include="ExtraControls\ExtraFilesSelectionBox.xaml.cs">
+    <Compile Include="ExtraControls\ExtraFiles\ExtraFilesSelectionBox.Buttons.cs" />
+    <Compile Include="ExtraControls\ExtraFiles\ExtraFilesSelectionBox.xaml.cs">
       <DependentUpon>ExtraFilesSelectionBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ExtraControls\LoadableFile.cs" />
+    <Compile Include="ExtraControls\ExtraFiles\LoadableFile.cs" />
     <Compile Include="ExtraControls\NumericUpDown.cs" />
     <Compile Include="ExtraControls\SpinnerButton.cs" />
     <Compile Include="ExtraControls\SpinnerButtons.cs" />
