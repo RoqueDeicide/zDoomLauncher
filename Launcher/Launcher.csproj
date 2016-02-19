@@ -177,6 +177,7 @@
     <Compile Include="Databases\ContentTypes.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Extensions\BinaryIOExtension.cs" />
+    <Compile Include="ExtraControls\ExtraFiles\ExtraFilesLookUp.cs" />
     <Compile Include="ExtraControls\ExtraFiles\ExtraFilesSelectionBox.Buttons.cs" />
     <Compile Include="ExtraControls\ExtraFiles\ExtraFilesSelectionBox.xaml.cs">
       <DependentUpon>ExtraFilesSelectionBox.xaml</DependentUpon>

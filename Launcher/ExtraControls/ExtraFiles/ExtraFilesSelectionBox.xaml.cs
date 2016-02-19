@@ -138,13 +138,13 @@ namespace Launcher
 			List<string> extraFiles = new List<string>(50);
 
 			// Get the list of files from base directory.
-			extraFiles.AddRange(GetLoadableFiles(this.gameFolder));
+			extraFiles.AddRange(ExtraFilesLookUp.GetLoadableFiles(this.gameFolder));
 
 			// Get the files from DOOMWADDIR environment variable.
 			string doomWadVar = Environment.GetEnvironmentVariable("DOOMWADDIR");
 			if (!string.IsNullOrWhiteSpace(doomWadVar))
 			{
-				extraFiles.AddRange(GetLoadableFiles(doomWadVar));
+				extraFiles.AddRange(ExtraFilesLookUp.GetLoadableFiles(doomWadVar));
 			}
 
 			// Add the file rows to the main list.
@@ -229,18 +229,6 @@ namespace Launcher
 
 			this.FilesSelectionGrid.Children.Add(selectedFile.MoveButtons);
 			this.FilesSelectionGrid.Children.Add(selectedFile.SelectionListText);
-		}
-		private static IEnumerable<string> GetLoadableFiles(string folder)
-		{
-			Log.Message("Looking for loadable files in {0}", folder);
-			return
-				from file in Directory.EnumerateFiles(folder, "*.*", SearchOption.TopDirectoryOnly)
-				select Path.GetFileName(file) into fileName
-				where fileName != null
-				let extension = Path.GetExtension(fileName).ToLowerInvariant()
-				where extension == ".wad" || extension == ".pk3"
-				where !Iwads.SupportedIwads.Keys.Contains(fileName.ToLowerInvariant())
-				select fileName;
 		}
 	}
 }
