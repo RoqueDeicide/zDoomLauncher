@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using Launcher.Configs;
@@ -18,6 +19,8 @@ namespace Launcher
 	/// </summary>
 	public partial class MainWindow
 	{
+		private const int CommandLineMaxLength = 2080;
+
 		private AboutWindow aboutWindow;
 		private HelpWindow helpWindow;
 		/// <exception cref="FileNotFoundException">
@@ -140,16 +143,45 @@ namespace Launcher
 		private void Launch(string appFileName)
 		{
 			string appFile = PathIO.Combine(this.zDoomFolder, appFileName);
-			if (File.Exists(appFile))
+			string commandLine = this.config.CommandLine;
+
+			bool appExists = File.Exists(appFile);
+			bool commandLineFits = commandLine.Length + appFile.Length <= CommandLineMaxLength;
+			
+			if (appExists && commandLineFits)
 			{
-				Process.Start(appFile, this.config.CommandLine);
+				Process.Start(appFile, commandLine);
 			}
 			else
 			{
-				string errorText =
-					string.Format("Unable to find {0} in {1}", appFileName, this.zDoomFolder);
+				bool multipleErrors = !appExists && !commandLineFits;
+
+				StringBuilder error = new StringBuilder(100);
+
+				error.AppendLine(multipleErrors
+					? "Unable to launch: multiple errors have been found:"
+					: "Unable to launch: an error has been found:");
+				error.AppendLine();
+
+				if (!appExists)
+				{
+					error.Append("    - Unable to find ");
+					error.Append(appFileName);
+					error.Append(" in ");
+					error.Append(this.zDoomFolder);
+					error.AppendLine(".");
+				}
+				if (!commandLineFits)
+				{
+					error.AppendLine("    - Length of the command line exceeds allowed number of characters,");
+					error.AppendLine("      you might have too many extra parameters or too many files that");
+					error.AppendLine("      are not in the same directory as the application.");
+				}
+
+				string errorText = error.ToString();
 				Log.Error(errorText);
-				MessageBox.Show(errorText, "Cannot launch the game", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+				MessageBox.Show(errorText, "Cannot launch the game", MessageBoxButton.OK,
+								MessageBoxImage.Error, MessageBoxResult.OK);
 			}
 		}
 		private void CreateNewConfiguration(object sender, RoutedEventArgs e)
