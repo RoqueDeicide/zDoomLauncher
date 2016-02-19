@@ -80,7 +80,6 @@ namespace Launcher.Databases
 		private readonly SortedList<string, DatabaseEntry> TopLevelEntries;
 		#endregion
 		#region Properties
-
 		/// <summary>
 		/// Gets or sets the name of this database.
 		/// </summary>
@@ -113,7 +112,6 @@ namespace Launcher.Databases
 		{
 			get { return this.TopLevelEntries.Count; }
 		}
-
 		#endregion
 		#region Events
 		#endregion

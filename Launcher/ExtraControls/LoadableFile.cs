@@ -56,7 +56,8 @@ namespace Launcher
 			set { this.mainListText = value; }
 		}
 		/// <summary>
-		/// Gets or sets an object that represents a set of 2 buttons that are used to move this file up and down the selection list.
+		/// Gets or sets an object that represents a set of 2 buttons that are used to move this file up
+		/// and down the selection list.
 		/// </summary>
 		[CanBeNull]
 		public SpinnerButtons MoveButtons

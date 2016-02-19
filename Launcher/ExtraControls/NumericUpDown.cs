@@ -87,11 +87,12 @@ namespace Launcher
 			DependencyProperty.Register("RestartPosition", typeof(int?), typeof(NumericUpDown),
 										new PropertyMetadata(default(int?)));
 		/// <summary>
-		/// A dependency property that represents the factor <see cref="Step"/> is multiplied by when incrementing/decrementing the <see cref="Value"/> while Shift key is pressed.
+		/// A dependency property that represents the factor <see cref="Step"/> is multiplied by when
+		/// incrementing/decrementing the <see cref="Value"/> while Shift key is pressed.
 		/// </summary>
 		public static readonly DependencyProperty ShiftStepMultiplierProperty =
 			DependencyProperty.Register("ShiftStepMultiplier", typeof(uint), typeof(NumericUpDown),
-			new PropertyMetadata(default(uint)));
+										new PropertyMetadata(default(uint)));
 		#endregion
 		private bool valueIsCommited;
 		private TextBox valueBox;
@@ -192,7 +193,8 @@ namespace Launcher
 			set { this.SetValue(RestartPositionProperty, value); }
 		}
 		/// <summary>
-		/// Gets or sets the factor <see cref="Step"/> is multiplied by when incrementing/decrementing the <see cref="Value"/> while Shift key is pressed.
+		/// Gets or sets the factor <see cref="Step"/> is multiplied by when incrementing/decrementing the
+		/// <see cref="Value"/> while Shift key is pressed.
 		/// </summary>
 		public uint ShiftStepMultiplier
 		{
@@ -356,7 +358,6 @@ namespace Launcher
 
 				valueToCommit = (int)(currentValue + value * (shiftDown ? this.ShiftStepMultiplier : 1));
 			}
-
 
 			this.CommitNumber(valueToCommit);
 		}

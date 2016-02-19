@@ -3,18 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="About Launcher" Height="258.301" Width="300" ResizeMode="NoResize" Background="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}">
 	<Grid>
-		<TextBox x:Name="AssemblyTitleTextBox" HorizontalAlignment="Left" Height="23" Margin="88,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196"/>
-		<Label Content="Title" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-		<Label Content="Description" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-		<Label Content="Product" HorizontalAlignment="Left" Margin="10,102,0,0" VerticalAlignment="Top"/>
-		<Label Content="Copyright" HorizontalAlignment="Left" Margin="10,133,0,0" VerticalAlignment="Top"/>
-		<Label Content="Program version" HorizontalAlignment="Left" Margin="10,164,0,0" VerticalAlignment="Top"/>
-		<Label Content="File version" HorizontalAlignment="Left" Margin="10,195,0,0" VerticalAlignment="Top"/>
-		<TextBox x:Name="AssemblyDescriptionTextBox" HorizontalAlignment="Left" Height="55" Margin="88,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196"/>
-		<TextBox x:Name="AssemblyProductTextBox" HorizontalAlignment="Left" Height="23" Margin="88,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196"/>
-		<TextBox x:Name="AssemblyCopyrightTextBox" HorizontalAlignment="Left" Height="23" Margin="88,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196"/>
-		<TextBox x:Name="AssemblyVersionTextBox" HorizontalAlignment="Left" Height="23" Margin="112,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172"/>
-		<TextBox x:Name="AssemblyFileVersionTextBox" HorizontalAlignment="Left" Height="23" Margin="112,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172"/>
-
+		<TextBox x:Name="AssemblyTitleTextBox" HorizontalAlignment="Left" Height="23" Margin="88,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196" />
+		<Label Content="Title" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
+		<Label Content="Description" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" />
+		<Label Content="Product" HorizontalAlignment="Left" Margin="10,102,0,0" VerticalAlignment="Top" />
+		<Label Content="Copyright" HorizontalAlignment="Left" Margin="10,133,0,0" VerticalAlignment="Top" />
+		<Label Content="Program version" HorizontalAlignment="Left" Margin="10,164,0,0" VerticalAlignment="Top" />
+		<Label Content="File version" HorizontalAlignment="Left" Margin="10,195,0,0" VerticalAlignment="Top" />
+		<TextBox x:Name="AssemblyDescriptionTextBox" HorizontalAlignment="Left" Height="55" Margin="88,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196" />
+		<TextBox x:Name="AssemblyProductTextBox" HorizontalAlignment="Left" Height="23" Margin="88,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196" />
+		<TextBox x:Name="AssemblyCopyrightTextBox" HorizontalAlignment="Left" Height="23" Margin="88,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196" />
+		<TextBox x:Name="AssemblyVersionTextBox" HorizontalAlignment="Left" Height="23" Margin="112,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" />
+		<TextBox x:Name="AssemblyFileVersionTextBox" HorizontalAlignment="Left" Height="23" Margin="112,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" />
 	</Grid>
 </Window>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -405,7 +404,8 @@ namespace Launcher.Configs
 		}
 		#endregion
 		#region Utilities
-		// Creates a string that represents a path to the file that is properly recognized by the command line interpreter.
+		// Creates a string that represents a path to the file that is properly recognized by the command
+		// line interpreter.
 		private static string GetValidPath(string file, bool shorten)
 		{
 			var path = shorten ? Path.GetFileName(file) : file;

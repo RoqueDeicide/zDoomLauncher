@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -61,7 +60,8 @@ namespace Launcher
 					// Remove the elements.
 					if (file.MoveButtons == null)
 					{
-						// This is another case of the button getting pressed with the file not being selected.
+						// This is another case of the button getting pressed with the file not being
+						// selected.
 						return;
 					}
 
@@ -72,8 +72,8 @@ namespace Launcher
 
 					var files = this.SelectedFiles;
 
-					// routedEventArgs is only null, if this method was called not via Click event, but when
-					// clearing the selection when selection list is already clear.
+					// routedEventArgs is only null, if this method was called not via Click event, but
+					// when clearing the selection when selection list is already clear.
 					if (files != null && routedEventArgs != null)
 					{
 						files.RemoveAt(selectionRowIndex);
@@ -232,8 +232,8 @@ namespace Launcher
 		private void UpdateTopBottomSpinners()
 		{
 			foreach (var topButton in from UIElement child in this.FilesSelectionGrid.Children
-									 where child is SpinnerButtons
-									 select child as SpinnerButtons)
+									  where child is SpinnerButtons
+									  select child as SpinnerButtons)
 			{
 				int position = Grid.GetRow(topButton);
 				topButton.AtTop = position == 0;

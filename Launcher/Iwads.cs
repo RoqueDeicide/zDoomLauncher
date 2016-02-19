@@ -82,7 +82,7 @@ namespace Launcher
 			return SupportedIwads.Keys.Where(x =>
 			{
 				if (File.Exists(Path.Combine(folder, x)) ||
-					doomWadVarAvailable && doomWadVar != null /*kinda redundant*/ &&
+					doomWadVarAvailable && doomWadVar != null /*kinda redundant*/&&
 					File.Exists(Path.Combine(doomWadVar, x)))
 				{
 					Log.Message("Found {0}.", x.ToLowerInvariant());

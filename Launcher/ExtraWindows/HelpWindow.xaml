@@ -18,8 +18,8 @@
 				</Paragraph>
 				<Table>
 					<Table.Columns>
-						<TableColumn Width="60"/>
-						<TableColumn Width="350*"/>
+						<TableColumn Width="60" />
+						<TableColumn Width="350*" />
 					</Table.Columns>
 					<TableRowGroup>
 						<TableRow>
@@ -61,8 +61,8 @@
 				</Paragraph>
 				<Table>
 					<Table.Columns>
-						<TableColumn Width="190"/>
-						<TableColumn Width="300*"/>
+						<TableColumn Width="190" />
+						<TableColumn Width="300*" />
 					</Table.Columns>
 					<TableRowGroup>
 						<TableRow>
@@ -88,8 +88,8 @@
 				</Paragraph>
 				<Table>
 					<Table.Columns>
-						<TableColumn Width="60"/>
-						<TableColumn Width="200*"/>
+						<TableColumn Width="60" />
+						<TableColumn Width="200*" />
 					</Table.Columns>
 					<TableRowGroup>
 						<TableRow>
@@ -186,8 +186,8 @@
 				</Paragraph>
 				<Table>
 					<Table.Columns>
-						<TableColumn Width="125"/>
-						<TableColumn Width="400*"/>
+						<TableColumn Width="125" />
+						<TableColumn Width="400*" />
 					</Table.Columns>
 					<TableRowGroup>
 						<TableRow>

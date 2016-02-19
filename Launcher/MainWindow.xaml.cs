@@ -203,9 +203,9 @@ namespace Launcher
 					}
 
 					if (MessageBox.Show("Valid folder needs to contain at least one .exe file.",
-									   "No folder or invalid one was chosen",
-									   MessageBoxButton.YesNo,
-									   MessageBoxImage.Question) != MessageBoxResult.Yes)
+										"No folder or invalid one was chosen",
+										MessageBoxButton.YesNo,
+										MessageBoxImage.Question) != MessageBoxResult.Yes)
 					{
 						Log.Warning("No folder was selected. Closing.");
 
