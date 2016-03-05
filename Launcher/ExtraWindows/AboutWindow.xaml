@@ -15,12 +15,14 @@
 		<TextBox x:Name="AssemblyCopyrightTextBox" HorizontalAlignment="Left" Height="23" Margin="88,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196" />
 		<TextBox x:Name="AssemblyVersionTextBox" HorizontalAlignment="Left" Height="23" Margin="112,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" />
 		<TextBox x:Name="AssemblyFileVersionTextBox" HorizontalAlignment="Left" Height="23" Margin="112,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" />
-		<RichTextBox HorizontalAlignment="Left" Height="23" Margin="10,226,0,0" VerticalAlignment="Top" Width="274">
+		<RichTextBox HorizontalAlignment="Left" Height="41" Margin="10,226,0,0" VerticalAlignment="Top" Width="274">
 			<FlowDocument>
 				<Paragraph>
 					<Run>This project uses icons from </Run>
-					<Hyperlink NavigateUri="http://www.famfamfam.com/lab/icons/silk/">Silk Icons</Hyperlink>
-					<Run>Pack.</Run>
+					<Hyperlink NavigateUri="http://p.yusukekamiyamane.com/icons/">Fugue Icons</Hyperlink>
+					<Run>Pack by</Run>
+					<Hyperlink NavigateUri="http://p.yusukekamiyamane.com/">Yusuke Kamiyamane</Hyperlink>
+					<Run>.</Run>
 				</Paragraph>
 			</FlowDocument>
 		</RichTextBox>

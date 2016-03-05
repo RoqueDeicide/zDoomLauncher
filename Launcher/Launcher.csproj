@@ -253,15 +253,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ExtraWindows\Resources\cross.png" />
+    <Resource Include="Resources\cross.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ExtraWindows\Resources\folder.png" />
-    <Resource Include="ExtraWindows\Resources\folder_add.png" />
+    <Resource Include="Resources\folder--pencil.png" />
+    <Resource Include="Resources\folder--plus.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ExtraWindows\Resources\arrow_down.png" />
-    <Resource Include="ExtraWindows\Resources\arrow_up.png" />
+    <Resource Include="Resources\arrow-stop-090.png" />
+    <Resource Include="Resources\arrow-stop-270.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
