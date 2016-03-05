@@ -40,6 +40,14 @@
 						</TableRow>
 						<TableRow>
 							<TableCell>
+								<Paragraph>Save As</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>Opens a dialog that allows a different file to be selected for current configuration.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
 								<Paragraph>Open</Paragraph>
 							</TableCell>
 							<TableCell>

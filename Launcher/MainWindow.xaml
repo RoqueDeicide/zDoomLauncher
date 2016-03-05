@@ -16,6 +16,7 @@
 				<MenuItem Header="New" HorizontalAlignment="Left" Width="145" Click="CreateNewConfiguration" />
 				<Separator />
 				<MenuItem Header="Save" Click="SaveConfiguration" />
+				<MenuItem Header="Save As" Click="SaveConfigurationAs" />
 				<MenuItem Header="Open" Click="OpenConfiguration" />
 				<Separator />
 				<MenuItem Header="Close" Click="CloseWindow" />

@@ -162,6 +162,8 @@ namespace Launcher
 		}
 		private void CreateNewConfiguration(object sender, RoutedEventArgs e)
 		{
+			this.saveConfigurationDialog.FileName = "";
+
 			if (this.saveConfigurationDialog.ShowDialog(this) == true)
 			{
 				this.config = null;
@@ -172,6 +174,16 @@ namespace Launcher
 		private void SaveConfiguration(object sender, RoutedEventArgs e)
 		{
 			this.config.Save(this.file, this.zDoomFolder);
+		}
+		private void SaveConfigurationAs(object sender, RoutedEventArgs e)
+		{
+			this.saveConfigurationDialog.FileName = this.file;
+
+			if (this.saveConfigurationDialog.ShowDialog(this) == true)
+			{
+				this.file = this.saveConfigurationDialog.FileName;
+				this.config.Save(this.file, this.zDoomFolder);
+			}
 		}
 		private void OpenConfiguration(object sender, RoutedEventArgs e)
 		{
