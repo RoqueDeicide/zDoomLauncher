@@ -13,24 +13,64 @@
 	<Grid Margin="0,0,2,0">
 		<Menu Height="24" VerticalAlignment="Top">
 			<MenuItem Header="Configurations">
-				<MenuItem Header="New" HorizontalAlignment="Left" Width="145" Click="CreateNewConfiguration" />
+				<MenuItem Header="New" HorizontalAlignment="Left" Width="145" Click="CreateNewConfiguration">
+					<MenuItem.Icon>
+						<Image Source="Resources/document.png" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<Separator />
-				<MenuItem Header="Save" Click="SaveConfiguration" />
-				<MenuItem Header="Save As" Click="SaveConfigurationAs" />
-				<MenuItem Header="Open" Click="OpenConfiguration" />
+				<MenuItem Header="Save" Click="SaveConfiguration">
+					<MenuItem.Icon>
+						<Image Source="Resources/disk-black.png" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="Save As" Click="SaveConfigurationAs">
+					<MenuItem.Icon>
+						<Image Source="Resources/disk-small-black.png" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="Open" Click="OpenConfiguration">
+					<MenuItem.Icon>
+						<Image Source="Resources/folder-open-document.png" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<Separator />
-				<MenuItem Header="Close" Click="CloseWindow" />
+				<MenuItem Header="Close" Click="CloseWindow">
+					<MenuItem.Icon>
+						<Image Source="Resources/cross-white.png" />
+					</MenuItem.Icon>
+				</MenuItem>
 			</MenuItem>
 			<MenuItem Header="Source Port">
-				<MenuItem Header="Set Installation Directory" Click="SelectZDoomInstallationFolder" />
-				<MenuItem Header="Change Loadable File Directories" Click="OpenDirectoriesWindow" />
+				<MenuItem Header="Set Installation Directory" Click="SelectZDoomInstallationFolder">
+					<MenuItem.Icon>
+						<Image Source="Resources/folder.png" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="Change Loadable File Directories" Click="OpenDirectoriesWindow">
+					<MenuItem.Icon>
+						<Image Source="Resources/folders-stack.png" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<Separator />
-				<MenuItem Header="Refresh All Files" Click="RefreshEverything" />
+				<MenuItem Header="Refresh All Files" Click="RefreshEverything">
+					<MenuItem.Icon>
+						<Image Source="Resources/arrow-circle-double.png" />
+					</MenuItem.Icon>
+				</MenuItem>
 			</MenuItem>
 			<MenuItem Header="Help">
-				<MenuItem Header="Help" HorizontalAlignment="Left" Width="145" Click="OpenHelpWindow" />
+				<MenuItem Header="Help" HorizontalAlignment="Left" Width="145" Click="OpenHelpWindow">
+					<MenuItem.Icon>
+						<Image Source="Resources/question-white.png" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<Separator HorizontalAlignment="Left" Width="145" />
-				<MenuItem Header="About" HorizontalAlignment="Left" Width="145" Click="OpenAboutWindow" />
+				<MenuItem Header="About" HorizontalAlignment="Left" Width="145" Click="OpenAboutWindow">
+					<MenuItem.Icon>
+						<Image Source="Resources/information-white.png" />
+					</MenuItem.Icon>
+				</MenuItem>
 			</MenuItem>
 		</Menu>
 		<Label Content="IWAD" HorizontalAlignment="Left" Margin="11,64,0,0" VerticalAlignment="Top" />
