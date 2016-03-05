@@ -7,6 +7,8 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security;
 using System.Text;
+using Launcher.Extensions;
+using Launcher.Logging;
 
 namespace Launcher.Configs
 {
@@ -109,71 +111,119 @@ namespace Launcher.Configs
 		/// Saves this configuration to the file.
 		/// </summary>
 		/// <param name="file">Path to the file.</param>
-		/// <exception cref="FileNotFoundException">
-		/// The file cannot be found, such as when mode is FileMode.Truncate or FileMode.Open, and the file
-		/// specified by path does not exist. The file must already exist in these modes.
-		/// </exception>
-		/// <exception cref="IOException">
-		/// An I/O error, such as specifying FileMode.CreateNew when the file specified by path already
-		/// exists, occurred. -or-The system is running Windows 98 or Windows 98 Second Edition and share
-		/// is set to FileShare.Delete.-or-The stream has been closed.
-		/// </exception>
-		/// <exception cref="SecurityException">
-		/// The caller does not have the required permission.
-		/// </exception>
-		/// <exception cref="DirectoryNotFoundException">
-		/// The specified path is invalid, such as being on an unmapped drive.
-		/// </exception>
-		/// <exception cref="UnauthorizedAccessException">
-		/// The access requested is not permitted by the operating system for the specified path, such as
-		/// when access is Write or ReadWrite and the file or directory is set for read-only access.
-		/// </exception>
-		/// <exception cref="SerializationException">
-		/// An error has occurred during serialization, such as if an object in the graph parameter is not
-		/// marked as serializable.
-		/// </exception>
-		public void Save(string file)
+		/// <param name="gameFolder">Path to the folder that contains the executables.</param>
+		public void Save(string file, string gameFolder)
 		{
-			using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None))
+			try
 			{
-				BinaryFormatter formatter = new BinaryFormatter();
-				formatter.Serialize(fs, this);
+				string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+
+				// Don't save the full path to the iwad file, just save the name or relative path.
+				string iwadPath = this.IwadPath;
+
+				this.IwadPath = Path.GetFileName(iwadPath);
+
+				List<string> files = this.ExtraFiles;
+
+				this.ExtraFiles = new List<string>(files.Count);
+
+				Uri folderUri = new Uri(PathUtils.EndWithBackSlash(gameFolder), UriKind.Absolute);
+				foreach (string filePath in files)
+				{
+					// If the file is located in DOOMWADDIR, then just save the name.
+					if (Path.GetDirectoryName(filePath) == doomWadDir)
+					{
+						this.ExtraFiles.Add(Path.GetFileName(filePath));
+					}
+					else
+					{
+						Uri fileUri = new Uri(filePath, UriKind.RelativeOrAbsolute);
+						this.ExtraFiles.Add(folderUri.MakeRelativeUri(fileUri).ToString());
+					}
+				}
+
+				using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None))
+				{
+					BinaryFormatter formatter = new BinaryFormatter();
+					formatter.Serialize(fs, this);
+				}
+
+				this.IwadPath = iwadPath;
+
+				this.ExtraFiles = files;
+			}
+			catch (Exception ex)
+			{
+				Log.Error("{0}: {1}", ex.GetType().FullName, ex.Message);
 			}
 		}
 		/// <summary>
 		/// Loads this configuration from the file.
 		/// </summary>
 		/// <param name="file">Path to the file.</param>
-		/// <exception cref="FileNotFoundException">
-		/// The file cannot be found, such as when mode is FileMode.Truncate or FileMode.Open, and the file
-		/// specified by path does not exist. The file must already exist in these modes.
-		/// </exception>
-		/// <exception cref="IOException">
-		/// An I/O error, such as specifying FileMode.CreateNew when the file specified by path already
-		/// exists, occurred. -or-The system is running Windows 98 or Windows 98 Second Edition and share
-		/// is set to FileShare.Delete.-or-The stream has been closed.
-		/// </exception>
-		/// <exception cref="SecurityException">
-		/// The caller does not have the required permission.
-		/// </exception>
-		/// <exception cref="DirectoryNotFoundException">
-		/// The specified path is invalid, such as being on an unmapped drive.
-		/// </exception>
-		/// <exception cref="UnauthorizedAccessException">
-		/// The access requested is not permitted by the operating system for the specified path, such as
-		/// when access is Write or ReadWrite and the file or directory is set for read-only access.
-		/// </exception>
-		/// <exception cref="SerializationException">
-		/// The serializationStream supports seeking, but its length is 0. -or-The target type is a
-		/// <see cref="T:System.Decimal"/>, but the value is out of range of the
-		/// <see cref="T:System.Decimal"/> type.
-		/// </exception>
-		public static LaunchConfiguration Load(string file)
+		/// <param name="gameFolder">Path to the folder that contains the executables.</param>
+		public static LaunchConfiguration Load(string file, string gameFolder)
 		{
-			using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+			try
 			{
-				BinaryFormatter formatter = new BinaryFormatter();
-				return (LaunchConfiguration)formatter.Deserialize(fs);
+				// TODO: Make sure relative paths are properly constructed. Make sure the DOOMWADDIR path is
+				// TODO: taken into account when creating the command line.
+
+				LaunchConfiguration config;
+				using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+				{
+					BinaryFormatter formatter = new BinaryFormatter();
+					config = (LaunchConfiguration)formatter.Deserialize(fs);
+				}
+
+				string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+
+				// Restore full paths.
+				for (int i = 0; i < config.ExtraFiles.Count; i++)
+				{
+					string relativeFilePath = config.ExtraFiles[i];
+					string path = Path.Combine(doomWadDir, relativeFilePath);
+					if (File.Exists(path))
+					{
+						config.ExtraFiles[i] = PathUtils.GetLocalPath(path);
+					}
+					else
+					{
+						path = Path.Combine(gameFolder, relativeFilePath);
+						if (File.Exists(path))
+						{
+							config.ExtraFiles[i] = PathUtils.GetLocalPath(path);
+						}
+						else
+						{
+							// File cannot be found so remove it.
+							config.ExtraFiles.RemoveAt(i--);
+						}
+					}
+				}
+
+				// Update directories.
+				List<string> dirs = new List<string>(10);
+				foreach (string dirName in from extraFile in config.ExtraFiles
+										   select Path.GetDirectoryName(extraFile) into dirName
+										   where !dirs.Contains(dirName)
+										   select dirName)
+				{
+					dirs.Add(dirName);
+				}
+
+				ExtraFilesLookUp.Directories.Clear();
+				foreach (string dir in dirs)
+				{
+					ExtraFilesLookUp.Directories.Add(dir);
+				}
+
+				return config;
+			}
+			catch (Exception ex)
+			{
+				Log.Error("{0}: {1}", ex.GetType().FullName, ex.Message);
+				return null;
 			}
 		}
 		#endregion
@@ -181,199 +231,197 @@ namespace Launcher.Configs
 		/// <summary>
 		/// Gets command line that can be used to launch zDoom with this configuration.
 		/// </summary>
+		/// <param name="exeFolder">Path to the folder that contains the executable.</param>
 		/// <exception cref="ArgumentOutOfRangeException">Unknown enumeration value.</exception>
-		public string CommandLine
+		public string GetCommandLine(string exeFolder)
 		{
-			get
+			StringBuilder line = new StringBuilder();
+			// IWAD.
+			if (!string.IsNullOrWhiteSpace(this.IwadPath))
 			{
-				StringBuilder line = new StringBuilder();
-				// IWAD.
-				if (!string.IsNullOrWhiteSpace(this.IwadPath))
+				line.Append("-iwad ");
+				line.Append(Path.GetFileName(this.IwadPath));
+			}
+			// Config file.
+			if (!string.IsNullOrWhiteSpace(this.ConfigFile))
+			{
+				line.Append(" -config ");
+				line.Append(GetValidPath(this.ConfigFile, null));
+			}
+			// Extras.
+			if (this.ExtraFiles.Count > 0)
+			{
+				// Wads.
+				var wads =
+					this.ExtraFiles
+						.Where(x => Path.GetExtension(x) != ".bex" && Path.GetExtension(x) != ".deh")
+						.GetEnumerator();
+				if (wads.MoveNext())
 				{
-					line.Append("-iwad ");
-					line.Append(GetValidPath(this.IwadPath, true));
-				}
-				// Config file.
-				if (!string.IsNullOrWhiteSpace(this.ConfigFile))
-				{
-					line.Append(" -config ");
-					line.Append(GetValidPath(this.ConfigFile, false));
-				}
-				// Extras.
-				if (this.ExtraFiles.Count > 0)
-				{
-					// Wads.
-					var wads =
-						this.ExtraFiles
-							.Where(x => Path.GetExtension(x) != ".bex" && Path.GetExtension(x) != ".deh")
-							.GetEnumerator();
-					if (wads.MoveNext())
+					line.Append(" -file ");
+					line.Append(GetValidPath(wads.Current, exeFolder));
+					while (wads.MoveNext())
 					{
-						line.Append(" -file ");
-						line.Append(GetValidPath(wads.Current, true));
-						while (wads.MoveNext())
-						{
-							line.Append(" ");
-							line.Append(GetValidPath(wads.Current, true));
-						}
-					}
-					// Patches.
-					var bexPatches =
-						this.ExtraFiles.Where(x => Path.GetExtension(x) == ".bex").GetEnumerator();
-					if (bexPatches.MoveNext())
-					{
-						line.Append(" -bex ");
-						line.Append(GetValidPath(bexPatches.Current, true));
-						while (bexPatches.MoveNext())
-						{
-							line.Append(" ");
-							line.Append(GetValidPath(bexPatches.Current, true));
-						}
-					}
-					var dehPatches =
-						this.ExtraFiles.Where(x => Path.GetExtension(x) == ".deh").GetEnumerator();
-					if (dehPatches.MoveNext())
-					{
-						line.Append(" -deh ");
-						line.Append(GetValidPath(dehPatches.Current, true));
-						while (dehPatches.MoveNext())
-						{
-							line.Append(" ");
-							line.Append(GetValidPath(dehPatches.Current, true));
-						}
+						line.Append(" ");
+						line.Append(GetValidPath(wads.Current, exeFolder));
 					}
 				}
-				// Graphics.
-				switch (this.PixelMode)
+				// Patches.
+				var bexPatches =
+					this.ExtraFiles.Where(x => Path.GetExtension(x) == ".bex").GetEnumerator();
+				if (bexPatches.MoveNext())
 				{
-					case PixelMode.NoChange:
+					line.Append(" -bex ");
+					line.Append(GetValidPath(bexPatches.Current, exeFolder));
+					while (bexPatches.MoveNext())
+					{
+						line.Append(" ");
+						line.Append(GetValidPath(bexPatches.Current, exeFolder));
+					}
+				}
+				var dehPatches =
+					this.ExtraFiles.Where(x => Path.GetExtension(x) == ".deh").GetEnumerator();
+				if (dehPatches.MoveNext())
+				{
+					line.Append(" -deh ");
+					line.Append(GetValidPath(dehPatches.Current, exeFolder));
+					while (dehPatches.MoveNext())
+					{
+						line.Append(" ");
+						line.Append(GetValidPath(dehPatches.Current, exeFolder));
+					}
+				}
+			}
+			// Graphics.
+			switch (this.PixelMode)
+			{
+				case PixelMode.NoChange:
+					break;
+				case PixelMode.Double:
+					line.Append(" -2");
+					break;
+				case PixelMode.Quad:
+					line.Append(" -4");
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+			if (this.Width.HasValue)
+			{
+				line.Append(" -width ");
+				line.Append(this.Width.Value);
+			}
+			if (this.Height.HasValue)
+			{
+				line.Append(" -height ");
+				line.Append(this.Height.Value);
+			}
+			// Some more files.
+			if (this.IgnoreBlockMap)
+			{
+				line.Append(" -blockmap");
+			}
+			if (!string.IsNullOrWhiteSpace(this.SaveDirectory))
+			{
+				line.Append(" -savedir ");
+				line.Append(this.SaveDirectory);
+			}
+			if (!string.IsNullOrWhiteSpace(this.AutoStartFile))
+			{
+				switch (this.StartUpFileKind)
+				{
+					case StartupFile.SaveGame:
+						line.Append(" -loadgame ");
+						line.Append(this.AutoStartFile);
 						break;
-					case PixelMode.Double:
-						line.Append(" -2");
+					case StartupFile.Demo:
+						line.Append(" -playdemo ");
+						line.Append(this.AutoStartFile);
 						break;
-					case PixelMode.Quad:
-						line.Append(" -4");
+					case StartupFile.Map:
+						line.Append(" -warp ");
+						line.Append(this.AutoStartFile);
+						line.Append(" -warpwipe");
 						break;
 					default:
 						throw new ArgumentOutOfRangeException();
 				}
-				if (this.Width.HasValue)
-				{
-					line.Append(" -width ");
-					line.Append(this.Width.Value);
-				}
-				if (this.Height.HasValue)
-				{
-					line.Append(" -height ");
-					line.Append(this.Height.Value);
-				}
-				// Some more files.
-				if (this.IgnoreBlockMap)
-				{
-					line.Append(" -blockmap");
-				}
-				if (!string.IsNullOrWhiteSpace(this.SaveDirectory))
-				{
-					line.Append(" -savedir ");
-					line.Append(this.SaveDirectory);
-				}
-				if (!string.IsNullOrWhiteSpace(this.AutoStartFile))
-				{
-					switch (this.StartUpFileKind)
-					{
-						case StartupFile.SaveGame:
-							line.Append(" -loadgame ");
-							line.Append(this.AutoStartFile);
-							break;
-						case StartupFile.Demo:
-							line.Append(" -playdemo ");
-							line.Append(this.AutoStartFile);
-							break;
-						case StartupFile.Map:
-							line.Append(" -warp ");
-							line.Append(this.AutoStartFile);
-							line.Append(" -warpwipe");
-							break;
-						default:
-							throw new ArgumentOutOfRangeException();
-					}
-				}
-				// Gameplay options.
-				if (this.FastMonsters)
-				{
-					line.Append(" -fast");
-				}
-				if (this.NoMonsters)
-				{
-					line.Append(" -nomonsters");
-				}
-				if (this.RespawningMonsters)
-				{
-					line.Append(" -respawn");
-				}
-				if (this.TimeLimit.HasValue)
-				{
-					line.Append(" -timer ");
-					line.Append(this.TimeLimit.Value.ToString(CultureInfo.InvariantCulture));
-				}
-				if (this.TurboMode.HasValue)
-				{
-					line.Append(" -turbo ");
-					line.Append(this.TurboMode.Value.ToString(CultureInfo.InvariantCulture));
-				}
-				if (this.Difficulty.HasValue)
-				{
-					line.Append(" -skill ");
-					line.Append(this.Difficulty.Value.ToString(CultureInfo.InvariantCulture));
-				}
-				// Disable.
-				if (this.DisableFlags.HasFlag(DisableOptions.AutoLoad))
-				{
-					line.Append(" -noautoload");
-				}
-				if (this.DisableFlags.HasFlag(DisableOptions.CompactDiskAudio))
-				{
-					line.Append(" -nocdaudio");
-				}
-				if (this.DisableFlags.HasFlag(DisableOptions.Idling))
-				{
-					line.Append(" -noidle");
-				}
-				if (this.DisableFlags.HasFlag(DisableOptions.JoyStick))
-				{
-					line.Append(" -nojoy");
-				}
-				if (!this.DisableFlags.HasFlag(DisableOptions.Sound))
-				{
-					if (this.DisableFlags.HasFlag(DisableOptions.Music))
-					{
-						line.Append(" -nomusic");
-					}
-					if (this.DisableFlags.HasFlag(DisableOptions.SoundEffects))
-					{
-						line.Append(" -nosfx");
-					}
-				}
-				else
-				{
-					line.Append(" -nosound");
-				}
-				if (this.DisableFlags.HasFlag(DisableOptions.SpriteRenaming))
-				{
-					line.Append(" -oldsprites");
-				}
-				if (this.DisableFlags.HasFlag(DisableOptions.StartupScreens))
-				{
-					line.Append(" -nostartup");
-				}
-				// Last thing.
-				if (!string.IsNullOrWhiteSpace(this.ExtraOptions))
-				{
-					line.Append(" ");
-					line.Append(this.ExtraOptions);
-				}
-				return line.ToString();
 			}
+			// Gameplay options.
+			if (this.FastMonsters)
+			{
+				line.Append(" -fast");
+			}
+			if (this.NoMonsters)
+			{
+				line.Append(" -nomonsters");
+			}
+			if (this.RespawningMonsters)
+			{
+				line.Append(" -respawn");
+			}
+			if (this.TimeLimit.HasValue)
+			{
+				line.Append(" -timer ");
+				line.Append(this.TimeLimit.Value.ToString(CultureInfo.InvariantCulture));
+			}
+			if (this.TurboMode.HasValue)
+			{
+				line.Append(" -turbo ");
+				line.Append(this.TurboMode.Value.ToString(CultureInfo.InvariantCulture));
+			}
+			if (this.Difficulty.HasValue)
+			{
+				line.Append(" -skill ");
+				line.Append(this.Difficulty.Value.ToString(CultureInfo.InvariantCulture));
+			}
+			// Disable.
+			if (this.DisableFlags.HasFlag(DisableOptions.AutoLoad))
+			{
+				line.Append(" -noautoload");
+			}
+			if (this.DisableFlags.HasFlag(DisableOptions.CompactDiskAudio))
+			{
+				line.Append(" -nocdaudio");
+			}
+			if (this.DisableFlags.HasFlag(DisableOptions.Idling))
+			{
+				line.Append(" -noidle");
+			}
+			if (this.DisableFlags.HasFlag(DisableOptions.JoyStick))
+			{
+				line.Append(" -nojoy");
+			}
+			if (!this.DisableFlags.HasFlag(DisableOptions.Sound))
+			{
+				if (this.DisableFlags.HasFlag(DisableOptions.Music))
+				{
+					line.Append(" -nomusic");
+				}
+				if (this.DisableFlags.HasFlag(DisableOptions.SoundEffects))
+				{
+					line.Append(" -nosfx");
+				}
+			}
+			else
+			{
+				line.Append(" -nosound");
+			}
+			if (this.DisableFlags.HasFlag(DisableOptions.SpriteRenaming))
+			{
+				line.Append(" -oldsprites");
+			}
+			if (this.DisableFlags.HasFlag(DisableOptions.StartupScreens))
+			{
+				line.Append(" -nostartup");
+			}
+			// Last thing.
+			if (!string.IsNullOrWhiteSpace(this.ExtraOptions))
+			{
+				line.Append(" ");
+				line.Append(this.ExtraOptions);
+			}
+			return line.ToString();
 		}
 		#endregion
 		#region Construction
@@ -406,9 +454,24 @@ namespace Launcher.Configs
 		#region Utilities
 		// Creates a string that represents a path to the file that is properly recognized by the command
 		// line interpreter.
-		private static string GetValidPath(string file, bool shorten)
+		private static string GetValidPath(string file, string exeFolder)
 		{
-			var path = shorten ? Path.GetFileName(file) : file;
+			string path = null;
+
+			if (exeFolder != null)
+			{
+				string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+
+				if (!string.IsNullOrWhiteSpace(doomWadDir) && Path.GetDirectoryName(file) == doomWadDir)
+				{
+					path = Path.GetFileName(file);
+				}
+				else
+				{
+					path = PathUtils.ToRelativePath(file, exeFolder);
+				}
+			}
+
 			return path != null && path.Any(char.IsWhiteSpace) ? "\"" + path + "\"" : path;
 		}
 		#endregion

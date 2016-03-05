@@ -23,30 +23,6 @@ namespace Launcher
 
 		private AboutWindow aboutWindow;
 		private HelpWindow helpWindow;
-		/// <exception cref="FileNotFoundException">
-		/// The file cannot be found, such as when mode is FileMode.Truncate or FileMode.Open, and the file
-		/// specified by path does not exist. The file must already exist in these modes.
-		/// </exception>
-		/// <exception cref="IOException">
-		/// An I/O error, such as specifying FileMode.CreateNew when the file specified by path already
-		/// exists, occurred. -or-The system is running Windows 98 or Windows 98 Second Edition and share
-		/// is set to FileShare.Delete.-or-The stream has been closed.
-		/// </exception>
-		/// <exception cref="SecurityException">
-		/// The caller does not have the required permission.
-		/// </exception>
-		/// <exception cref="DirectoryNotFoundException">
-		/// The specified path is invalid, such as being on an unmapped drive.
-		/// </exception>
-		/// <exception cref="UnauthorizedAccessException">
-		/// The access requested is not permitted by the operating system for the specified path, such as
-		/// when access is Write or ReadWrite and the file or directory is set for read-only access.
-		/// </exception>
-		/// <exception cref="SerializationException">
-		/// The serializationStream supports seeking, but its length is 0. -or-The target type is a
-		/// <see cref="T:System.Decimal"/>, but the value is out of range of the
-		/// <see cref="T:System.Decimal"/> type.
-		/// </exception>
 		public MainWindow()
 		{
 			this.LoadAppConfiguration();
@@ -87,7 +63,7 @@ namespace Launcher
 
 			if (this.file != null && File.Exists(this.file))
 			{
-				this.config = LaunchConfiguration.Load(this.file);
+				this.config = this.LoadConfiguration(this.file);
 			}
 			else
 			{
@@ -143,7 +119,7 @@ namespace Launcher
 		private void Launch(string appFileName)
 		{
 			string appFile = PathIO.Combine(this.zDoomFolder, appFileName);
-			string commandLine = this.config.CommandLine;
+			string commandLine = this.config.GetCommandLine(this.zDoomFolder);
 
 			bool appExists = File.Exists(appFile);
 			bool commandLineFits = commandLine.Length + appFile.Length <= CommandLineMaxLength;
@@ -195,13 +171,13 @@ namespace Launcher
 		}
 		private void SaveConfiguration(object sender, RoutedEventArgs e)
 		{
-			this.config.Save(this.file);
+			this.config.Save(this.file, this.zDoomFolder);
 		}
 		private void OpenConfiguration(object sender, RoutedEventArgs e)
 		{
 			if (this.openConfigurationDialog.ShowDialog(this) == true)
 			{
-				this.config = LaunchConfiguration.Load(this.openConfigurationDialog.FileName);
+				this.config = this.LoadConfiguration(this.openConfigurationDialog.FileName);
 				this.file = this.openConfigurationDialog.FileName;
 				this.SetupInterface();
 			}
@@ -213,7 +189,7 @@ namespace Launcher
 
 		private void ShowCommandLine(object sender, RoutedEventArgs e)
 		{
-			new CommandLineWindow(this.config.CommandLine).Show();
+			new CommandLineWindow(this.config.GetCommandLine(this.zDoomFolder)).Show();
 		}
 
 		private void SelectZDoomInstallationFolder(object sender, RoutedEventArgs e)
@@ -250,6 +226,12 @@ namespace Launcher
 			}
 
 			this.RefreshExeFiles(this, null);
+		}
+		private void OpenDirectoriesWindow(object sender, RoutedEventArgs e)
+		{
+			Directories dirs = new Directories();
+
+			dirs.ShowDialog();
 		}
 
 		private void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -289,6 +271,15 @@ namespace Launcher
 			{
 				// Select the file in the combo box.
 				this.ExeFileNameComboBox.SelectedValue = this.currentExeFile;
+			}
+
+			if (ExtraFilesLookUp.Directories.Count == 0)
+			{
+				ExtraFilesLookUp.Directories.Add(this.zDoomFolder);
+			}
+			else
+			{
+				ExtraFilesLookUp.Directories[0] = this.zDoomFolder;
 			}
 		}
 
@@ -331,8 +322,7 @@ namespace Launcher
 			}
 
 			// This just triggers a refresh of extra files.
-			this.ExtraFilesBox.GameFolder = this.zDoomFolder;
-			this.ExtraFilesBox.SelectedFiles = this.config.ExtraFiles;
+			ExtraFilesLookUp.Refresh();
 		}
 
 		private void RefreshIwadFiles(object sender, RoutedEventArgs e)
@@ -344,6 +334,26 @@ namespace Launcher
 			this.RefreshExeFiles(this.ExeFilesRefreshButton, e);
 			this.RefreshExtraFiles(this.ExtraFilesRefreshButton, e);
 			this.RefreshIwadFiles(this.IwadRefreshButton, e);
+		}
+		private LaunchConfiguration LoadConfiguration(string file)
+		{
+			var config = LaunchConfiguration.Load(file, this.zDoomFolder);
+
+			string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+
+			if (!string.IsNullOrWhiteSpace(doomWadDir) && !ExtraFilesLookUp.Directories.Contains(doomWadDir))
+			{
+				ExtraFilesLookUp.Directories.Add(doomWadDir);
+			}
+
+			if (!ExtraFilesLookUp.Directories.Contains(this.zDoomFolder))
+			{
+				ExtraFilesLookUp.Directories.Add(this.zDoomFolder);
+			}
+
+			config.IwadPath = Path.Combine(this.zDoomFolder, config.IwadPath);
+
+			return config;
 		}
 	}
 }

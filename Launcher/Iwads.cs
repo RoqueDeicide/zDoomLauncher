@@ -68,7 +68,7 @@ namespace Launcher
 			string doomWadVar = null;
 			try
 			{
-				doomWadVar = Environment.GetEnvironmentVariable("DOOMWADDIR");
+				doomWadVar = ExtraFilesLookUp.DoomWadDirectory;
 			}
 			catch (ArgumentNullException)
 			{
@@ -79,17 +79,26 @@ namespace Launcher
 			bool doomWadVarAvailable = !string.IsNullOrWhiteSpace(doomWadVar);
 
 			// Scan for IWADs in the given folder (and in the DOOMWADDIR folder).
-			return SupportedIwads.Keys.Where(x =>
+			List<string> foundIwads = new List<string>(SupportedIwads.Keys.Count);
+
+			foreach (string supportedIwad in SupportedIwads.Keys)
 			{
-				if (File.Exists(Path.Combine(folder, x)) ||
-					doomWadVarAvailable && doomWadVar != null /*kinda redundant*/&&
-					File.Exists(Path.Combine(doomWadVar, x)))
+				string path = Path.Combine(folder, supportedIwad);
+				if (File.Exists(path))
 				{
-					Log.Message("Found {0}.", x.ToLowerInvariant());
-					return true;
+					foundIwads.Add(path);
 				}
-				return false;
-			});
+				else if (doomWadVarAvailable)
+				{
+					path = Path.Combine(doomWadVar, supportedIwad);
+					if (File.Exists(path))
+					{
+						foundIwads.Add(path);
+					}
+				}
+			}
+
+			return foundIwads;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿<Application
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              x:Class="Launcher.App"
              StartupUri="MainWindow.xaml" Startup="StartUp">
 	<Application.Resources>
@@ -9,5 +10,8 @@
 			<Setter Property="FontSize" Value="16" />
 			<Setter Property="Content" Value="P" />
 		</Style>
+		<FontFamily x:Key="SelectDeselectButtonFontFamily">Wingdings</FontFamily>
+		<System:String x:Key="SelectButtonIcon">&#x006F;</System:String>
+		<System:String x:Key="DeselectButtonIcon">&#x00FE;</System:String>
 	</Application.Resources>
 </Application>

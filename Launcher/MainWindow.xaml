@@ -22,6 +22,7 @@
 			</MenuItem>
 			<MenuItem Header="Source Port">
 				<MenuItem Header="Set Installation Directory" Click="SelectZDoomInstallationFolder" />
+				<MenuItem Header="Change Loadable File Directories" Click="OpenDirectoriesWindow" />
 				<Separator />
 				<MenuItem Header="Refresh All Files" Click="RefreshEverything" />
 			</MenuItem>

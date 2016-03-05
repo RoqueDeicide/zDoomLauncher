@@ -16,6 +16,7 @@ namespace Launcher.Configs
 		/// When implemented in derived class, gets the command line that can be used to launch the game
 		/// with this configuration.
 		/// </summary>
-		string CommandLine { get; }
+		/// <param name="exeFolder">Path to the folder that contains the executable file.</param>
+		string GetCommandLine(string exeFolder);
 	}
 }

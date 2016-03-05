@@ -157,6 +157,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ExtraWindows\Directories.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ExtraWindows\HelpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,11 +181,13 @@
     <Compile Include="Databases\ContentTypes.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Extensions\BinaryIOExtension.cs" />
+    <Compile Include="Extensions\PathUtils.cs" />
     <Compile Include="ExtraControls\ExtraFiles\ExtraFilesLookUp.cs" />
     <Compile Include="ExtraControls\ExtraFiles\ExtraFilesSelectionBox.Buttons.cs" />
     <Compile Include="ExtraControls\ExtraFiles\ExtraFilesSelectionBox.xaml.cs">
       <DependentUpon>ExtraFilesSelectionBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExtraControls\ExtraFiles\FileDesc.cs" />
     <Compile Include="ExtraControls\ExtraFiles\LoadableFile.cs" />
     <Compile Include="ExtraControls\NumericUpDown.cs" />
     <Compile Include="ExtraControls\SpinnerButton.cs" />
@@ -190,9 +196,13 @@
     <Compile Include="ExtraWindows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExtraWindows\Directories.xaml.cs">
+      <DependentUpon>Directories.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExtraWindows\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExtraWindows\DirectoryName.cs" />
     <Compile Include="GeneralExtensions.cs" />
     <Compile Include="Iwads.cs" />
     <Compile Include="Logging\Log.cs" />
@@ -242,7 +252,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="ExtraWindows\Resources\cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ExtraWindows\Resources\folder.png" />
+    <Resource Include="ExtraWindows\Resources\folder_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ExtraWindows\Resources\arrow_down.png" />
+    <Resource Include="ExtraWindows\Resources\arrow_up.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

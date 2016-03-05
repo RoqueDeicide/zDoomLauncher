@@ -29,13 +29,19 @@ namespace Launcher
 
 			this.IwadComboBox.SelectedItem = null;
 
-			string iwadFile = Path.GetFileName(this.config.IwadPath);
+			string iwadFile = this.config.IwadPath;
 
 			foreach (string iwad in Iwads.FindSupportedIwads(this.zDoomFolder))
 			{
+				string iwadName = Path.GetFileName(iwad);
+				if (iwadName == null)
+				{
+					continue;
+				}
+
 				ComboBoxItem iwadItem = new ComboBoxItem
 				{
-					Content = Iwads.SupportedIwads[iwad],
+					Content = Iwads.SupportedIwads[iwadName],
 					Tag = iwad
 				};
 				iwadItem.Selected += this.SelectTheIwad;
@@ -65,7 +71,6 @@ namespace Launcher
 		}
 		private void SetupExtraFiles()
 		{
-			this.ExtraFilesBox.GameFolder = this.zDoomFolder;
 			this.ExtraFilesBox.SelectedFiles = this.config.ExtraFiles;
 		}
 		private void SetupPixelMode()
