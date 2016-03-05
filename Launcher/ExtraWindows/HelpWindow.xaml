@@ -75,6 +75,14 @@
 						</TableRow>
 						<TableRow>
 							<TableCell>
+								<Paragraph>Change Loadable File Directories</Paragraph>
+							</TableCell>
+							<TableCell>
+								<Paragraph>Opens the window that allows user to edit the list of directories to load extra files from.</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>
 								<Paragraph>Refresh All Files</Paragraph>
 							</TableCell>
 							<TableCell>
