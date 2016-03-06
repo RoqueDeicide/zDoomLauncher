@@ -20,7 +20,6 @@
 		<Border Grid.Row="0" BorderThickness="1" BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}">
 			<ScrollViewer HorizontalScrollBarVisibility="Visible">
 				<ListBox ItemsSource="{x:Static local:ExtraFilesLookUp.LoadableFiles}"
-						 IsSynchronizedWithCurrentItem="True"
 						 BorderThickness="0"
 						 ItemContainerStyle="{StaticResource FileListItem}">
 					<ListBox.ItemTemplate>
