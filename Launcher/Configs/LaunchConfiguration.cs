@@ -131,15 +131,9 @@ namespace Launcher.Configs
 				foreach (string filePath in files)
 				{
 					// If the file is located in DOOMWADDIR, then just save the name.
-					if (Path.GetDirectoryName(filePath) == doomWadDir)
-					{
-						this.ExtraFiles.Add(Path.GetFileName(filePath));
-					}
-					else
-					{
-						Uri fileUri = new Uri(filePath, UriKind.RelativeOrAbsolute);
-						this.ExtraFiles.Add(folderUri.MakeRelativeUri(fileUri).ToString());
-					}
+					this.ExtraFiles.Add(Path.GetDirectoryName(filePath) == doomWadDir
+						? Path.GetFileName(filePath)
+						: PathUtils.ToRelativePath(filePath, folderUri));
 				}
 
 				using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -166,9 +160,6 @@ namespace Launcher.Configs
 		{
 			try
 			{
-				// TODO: Make sure relative paths are properly constructed. Make sure the DOOMWADDIR path is
-				// TODO: taken into account when creating the command line.
-
 				LaunchConfiguration config;
 				using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
 				{
