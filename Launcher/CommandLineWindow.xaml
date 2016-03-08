@@ -1,8 +1,9 @@
 ﻿<Window x:Class="Launcher.CommandLineWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Test Command Line" Height="300" Width="300">
+        Title="Test Command Line" Height="424" Width="592" Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}">
 	<Grid>
-		<TextBox x:Name="CommandLineTextBox" Margin="10" TextWrapping="Wrap" />
+		<TextBox x:Name="CommandLineTextBox" Margin="10,10,10,38" TextWrapping="Wrap" Focusable="False" />
+		<RichTextBox x:Name="CharacterCountTextBox" Height="23" Margin="10,0,10,10" VerticalAlignment="Bottom" Focusable="False"/>
 	</Grid>
 </Window>
