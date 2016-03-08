@@ -139,13 +139,16 @@ namespace Launcher
 		private static void RefreshFilesInDirectory(string directory)
 		{
 			//int currentEnumeratedFileIndex = 0;
-			int currentCollectionFileIndex = 0;
+
+			// This should point at the first file from current directory. All files from the same directory should be in the continuous sequence within the collection.
+			int currentCollectionFileIndex = LoadableFiles.IndexOfToEnd(x => x.Directory == directory);
 
 			var enumeratedFiles = GetLoadableFiles(directory);
 
 			foreach (string enumeratedFile in enumeratedFiles)
 			{
-				if (enumeratedFile != LoadableFiles[currentCollectionFileIndex].FullPath)
+				if (currentCollectionFileIndex == LoadableFiles.Count || // Make sure we don't get index out of range error.
+					enumeratedFile != LoadableFiles[currentCollectionFileIndex].FullPath)
 				{
 					// Current enumerated file is a new file that wasn't in the directory before.
 					LoadableFiles.Insert(currentCollectionFileIndex, new FileDesc(enumeratedFile));

@@ -254,6 +254,52 @@ namespace Launcher
 				action(item);
 			}
 		}
+		/// <summary>
+		/// Returns zero-based index of the first element in the collection that satisfies the condition.
+		/// </summary>
+		/// <typeparam name="ElementType">Type of elements of the collection.</typeparam>
+		/// <param name="collection">Collection to look for the element in.</param>
+		/// <param name="predicate"> An object that represents the condition the element must satisfy.</param>
+		/// <returns>Zero-based index of the first element that satisfies a condition, or -1 if no such element was found.</returns>
+		public static int IndexOf<ElementType>(this IEnumerable<ElementType> collection,
+												Func<ElementType, bool> predicate)
+		{
+			int index = 0;
+			foreach (ElementType element in collection)
+			{
+				if (predicate(element))
+				{
+					return index;
+				}
+
+				index++;
+			}
+
+			return -1;
+		}
+		/// <summary>
+		/// Returns zero-based index of the first element in the collection that satisfies the condition.
+		/// </summary>
+		/// <typeparam name="ElementType">Type of elements of the collection.</typeparam>
+		/// <param name="collection">Collection to look for the element in.</param>
+		/// <param name="predicate"> An object that represents the condition the element must satisfy.</param>
+		/// <returns>Zero-based index of the first element that satisfies a condition, or number of elements in the collection (that can be used for insertion) if no such element was found.</returns>
+		public static int IndexOfToEnd<ElementType>(this IEnumerable<ElementType> collection,
+												Func<ElementType, bool> predicate)
+		{
+			int index = 0;
+			foreach (ElementType element in collection)
+			{
+				if (predicate(element))
+				{
+					return index;
+				}
+
+				index++;
+			}
+
+			return index;
+		}
 	}
 	/// <summary>
 	/// Contains old value of the property that has been changed.
