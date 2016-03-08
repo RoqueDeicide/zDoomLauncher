@@ -201,7 +201,11 @@ namespace Launcher
 
 		private void ShowCommandLine(object sender, RoutedEventArgs e)
 		{
-			new CommandLineWindow(this.config.GetCommandLine(this.zDoomFolder)).Show();
+			string appPath = Path.Combine(this.zDoomFolder, this.currentExeFile);
+
+			string commandLineArgs = this.config.GetCommandLine(this.zDoomFolder);
+
+			new CommandLineWindow(string.Format("{0} {1}", appPath, commandLineArgs)).ShowDialog();
 		}
 
 		private void SelectZDoomInstallationFolder(object sender, RoutedEventArgs e)
