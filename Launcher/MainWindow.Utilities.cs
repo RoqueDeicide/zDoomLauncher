@@ -21,5 +21,9 @@ namespace Launcher
 		{
 			return new TextContent(condition ? text : "Nothing");
 		}
+		private void UpdateWindowTitle()
+		{
+			this.Title = string.Format("ZDoom Launcher - {0}", this.config.Name);
+		}
 	}
 }

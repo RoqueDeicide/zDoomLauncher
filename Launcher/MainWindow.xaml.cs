@@ -88,7 +88,7 @@ namespace Launcher
 				this.config = new LaunchConfiguration();
 			}
 			// Set the title of the window.
-			this.Title = string.Format("ZDoom Launcher - {0}", this.config.Name);
+			this.UpdateWindowTitle();
 			// Set the name of the configuration in the text box.
 			this.ConfigurationNameTextBox.Text = this.config.Name;
 			// Set up the list of IWADs.
