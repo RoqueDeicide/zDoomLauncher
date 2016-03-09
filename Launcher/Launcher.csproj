@@ -149,7 +149,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExtraControls\ExtraFiles\ExtraFilesSelectionBox.xaml">
+    <Page Include="ExtraControls\ExtraFilesSelectionBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -182,13 +182,12 @@
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Extensions\BinaryIOExtension.cs" />
     <Compile Include="Extensions\PathUtils.cs" />
-    <Compile Include="ExtraControls\ExtraFiles\ExtraFilesLookUp.cs" />
-    <Compile Include="ExtraControls\ExtraFiles\ExtraFilesSelectionBox.Buttons.cs" />
-    <Compile Include="ExtraControls\ExtraFiles\ExtraFilesSelectionBox.xaml.cs">
+    <Compile Include="Wads\ExtraFilesLookUp.cs" />
+    <Compile Include="ExtraControls\ExtraFilesSelectionBox.Buttons.cs" />
+    <Compile Include="ExtraControls\ExtraFilesSelectionBox.xaml.cs">
       <DependentUpon>ExtraFilesSelectionBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ExtraControls\ExtraFiles\FileDesc.cs" />
-    <Compile Include="ExtraControls\ExtraFiles\LoadableFile.cs" />
+    <Compile Include="Wads\FileDesc.cs" />
     <Compile Include="ExtraControls\NumericUpDown.cs" />
     <Compile Include="ExtraControls\SpinnerButton.cs" />
     <Compile Include="ExtraControls\SpinnerButtons.cs" />
@@ -204,7 +203,7 @@
     </Compile>
     <Compile Include="ExtraWindows\DirectoryName.cs" />
     <Compile Include="GeneralExtensions.cs" />
-    <Compile Include="Iwads.cs" />
+    <Compile Include="Wads\Iwads.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="MainWindow.Configuration.cs" />
     <Compile Include="MainWindow.Constants.cs" />
