@@ -19,9 +19,10 @@ namespace Launcher
 		// Open and save dialogs.
 		private VistaOpenFileDialog openConfigurationDialog;
 		private VistaSaveFileDialog saveConfigurationDialog;
-		// Context menu for selection of either demos or saves.
-		private ContextMenu demoSaveSelectionMenu;
-		// Time stamps for context menu opening.
-		private int lastRightClickTime;
+
+		private VistaOpenFileDialog openSaveGameFileDialog;
+		private VistaOpenFileDialog openDemoFileDialog;
+		private VistaOpenFileDialog openConfigFileDialog;
+		private VistaFolderBrowserDialog openSaveFolderDialog;
 	}
 }

@@ -13,5 +13,17 @@
 		<FontFamily x:Key="SelectDeselectButtonFontFamily">Wingdings</FontFamily>
 		<System:String x:Key="SelectButtonIcon">&#x006F;</System:String>
 		<System:String x:Key="DeselectButtonIcon">&#x00FE;</System:String>
+		<Image x:Key="OpenDocumentIcon" x:Shared="False"  Source="Resources/folder-open-document.png" />
+		<Style x:Key="SelectFileButtonStyle" TargetType="{x:Type Button}">
+			<Setter Property="ContentTemplate">
+				<Setter.Value>
+					<DataTemplate>
+						<Grid>
+							<StaticResource ResourceKey="OpenDocumentIcon" />
+						</Grid>
+					</DataTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
 	</Application.Resources>
 </Application>

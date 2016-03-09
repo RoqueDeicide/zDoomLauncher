@@ -80,7 +80,6 @@ namespace Launcher
 
 			this.RefreshExeFiles(this, null);
 			this.InitializeDialogs();
-			this.InitializeContextMenus();
 			this.InitializeSomeEventHandlers();
 			this.SetupInterface();
 		}

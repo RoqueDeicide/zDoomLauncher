@@ -295,5 +295,57 @@ namespace Launcher
 				? ""
 				: selectedFile.FileName;
 		}
+
+		private void SelectSaveGameFile(object sender, RoutedEventArgs e)
+		{
+			if (!string.IsNullOrWhiteSpace(this.LoadGameTextBox.Text))
+			{
+				this.openSaveGameFileDialog.FileName = this.LoadGameTextBox.Text;
+			}
+
+			if (this.openSaveGameFileDialog.ShowDialog() == true)
+			{
+				this.LoadGameTextBox.Text = this.openSaveGameFileDialog.FileName;
+			}
+		}
+
+		private void SelectDemoFile(object sender, RoutedEventArgs e)
+		{
+			if (!string.IsNullOrWhiteSpace(this.PlayDemoTextBox.Text))
+			{
+				this.openDemoFileDialog.FileName = this.PlayDemoTextBox.Text;
+			}
+
+			if (this.openDemoFileDialog.ShowDialog() == true)
+			{
+				this.PlayDemoTextBox.Text = this.openDemoFileDialog.FileName;
+			}
+		}
+
+		private void SelectSaveDirectory(object sender, RoutedEventArgs e)
+		{
+			if (!string.IsNullOrWhiteSpace(this.SaveDirectoryTextBox.Text))
+			{
+				this.openSaveFolderDialog.SelectedPath = this.SaveDirectoryTextBox.Text;
+			}
+
+			if (this.openSaveFolderDialog.ShowDialog() == true)
+			{
+				this.SaveDirectoryTextBox.Text = this.openSaveFolderDialog.SelectedPath;
+			}
+		}
+
+		private void SelectConfigPath(object sender, RoutedEventArgs e)
+		{
+			if (!string.IsNullOrWhiteSpace(this.ConfigFileTextBox.Text))
+			{
+				this.openConfigFileDialog.FileName = this.ConfigFileTextBox.Text;
+			}
+
+			if (this.openConfigFileDialog.ShowDialog() == true)
+			{
+				this.ConfigFileTextBox.Text = this.openConfigFileDialog.FileName;
+			}
+		}
 	}
 }

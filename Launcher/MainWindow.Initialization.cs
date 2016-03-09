@@ -29,85 +29,37 @@ namespace Launcher
 				ValidateNames = true,
 				Filter = @"Launch configuration files (*.lcf)|*.lcf|All files (*.*)|*.*"
 			};
-		}
-		private void InitializeContextMenus()
-		{
-			// Context menu for selecting save-game or demo file.
-			this.demoSaveSelectionMenu = new ContextMenu();
-			MenuItem selectFileMenuItem = new MenuItem {Header = "Select The File"};
-			selectFileMenuItem.Click += (sender, args) =>
+			this.openSaveGameFileDialog = new VistaOpenFileDialog
 			{
-				TextBox textBox = this.demoSaveSelectionMenu.PlacementTarget as TextBox;
-				if (textBox != null)
-				{
-					VistaOpenFileDialog dialog = new VistaOpenFileDialog
-					{
-						AddExtension = true,
-						CheckFileExists = true,
-						FilterIndex = 0,
-						InitialDirectory = AppDomain.CurrentDomain.BaseDirectory
-					};
-					if (textBox.Name == "PlayDemoTextBox")
-					{
-						// Select the demo.
-						dialog.Title = @"Select the demo file to play";
-						dialog.DefaultExt = ".lmp";
-						dialog.Filter = @"Demo files (*.lmp)|*.lmp|All files (*.*)|*.*";
-					}
-					if (textBox.Name == "LoadGameTextBox")
-					{
-						// Select the save game.
-						dialog.Title = @"Select the save game file to load";
-						dialog.DefaultExt = ".zds";
-						dialog.Filter = @"zDoom save game files (*.zds)|*.zds|All files (*.*)|*.*";
-					}
-					if (dialog.ShowDialog(this) == true)
-					{
-						if (dialog.DefaultExt == ".lmp")
-						{
-							this.PlayDemoTextBox.Text = dialog.FileName;
-						}
-						else
-						{
-							this.LoadGameTextBox.Text = dialog.FileName;
-						}
-					}
-				}
+				DefaultExt = ".zds",
+				InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
+				Filter = @"ZDoom-compatible save game files (*.zds)|*.zds|All files (*.*)|*.*",
+				Title = @"Select the save game file to load with the game",
+				ValidateNames = true
+			};
+			this.openDemoFileDialog = new VistaOpenFileDialog
+			{
+				DefaultExt = ".lmp",
+				InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
+				Filter = @"ZDoom-compatible demo files (*.lmp)|*.lmp|All files (*.*)|*.*",
+				Title = @"Select the demo file to play in the game",
+				ValidateNames = true
+			};
+			this.openConfigFileDialog = new VistaOpenFileDialog
+			{
+				DefaultExt = ".ini",
+				InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
+				Filter = @"Configuration files (*.ini)|*.ini|All files (*.*)|*.*",
+				Title = @"Select the configuration file to load with the game",
+				ValidateNames = true
+			};
+			this.openSaveFolderDialog = new VistaFolderBrowserDialog
+			{
+				Description = @"Select the folder where to store the save game files"
 			};
 		}
 		private void InitializeSomeEventHandlers()
 		{
-			// Add context menus for save-game and demo selection.
-			this.PlayDemoTextBox.MouseRightButtonDown += (sender, args) =>
-			{
-				// Record when the click started.
-				this.lastRightClickTime = args.Timestamp;
-			};
-			this.PlayDemoTextBox.MouseRightButtonUp += (sender, args) =>
-			{
-				// Ignore the click if it was too long.
-				if (args.Timestamp - this.lastRightClickTime < 1000)
-				{
-					// Open the context menu.
-					this.demoSaveSelectionMenu.PlacementTarget = this.PlayDemoTextBox;
-					this.demoSaveSelectionMenu.IsOpen = true;
-				}
-			};
-			this.LoadGameTextBox.MouseRightButtonDown += (sender, args) =>
-			{
-				// Record when the click started.
-				this.lastRightClickTime = args.Timestamp;
-			};
-			this.LoadGameTextBox.MouseRightButtonUp += (sender, args) =>
-			{
-				// Ignore the click if it was too long.
-				if (args.Timestamp - this.lastRightClickTime < 1000)
-				{
-					// Open the context menu.
-					this.demoSaveSelectionMenu.PlacementTarget = this.LoadGameTextBox;
-					this.demoSaveSelectionMenu.IsOpen = true;
-				}
-			};
 			this.PixelModeComboBox.SelectionChanged +=
 				(sender, args) =>
 				{
