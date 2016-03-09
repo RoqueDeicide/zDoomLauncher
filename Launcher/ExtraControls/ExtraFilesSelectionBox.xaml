@@ -14,7 +14,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="54*" />
-			<RowDefinition Height="2*" />
+			<RowDefinition Height="8" />
 			<RowDefinition Height="34*" />
 		</Grid.RowDefinitions>
 		<Border Grid.Row="0" BorderThickness="1" BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}">
