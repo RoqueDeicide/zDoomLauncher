@@ -281,5 +281,19 @@ namespace Launcher
 			this.config.Name = this.ConfigurationNameTextBox.Text;
 			this.UpdateWindowTitle();
 		}
+
+		private void SelectIwad(object sender, EventArgs e)
+		{
+			IwadComboBox comboBox = sender as IwadComboBox;
+			if (comboBox == null)
+			{
+				return;
+			}
+
+			IwadFile selectedFile = comboBox.SelectedItem as IwadFile;
+			this.config.IwadPath = selectedFile == null
+				? ""
+				: selectedFile.FileName;
+		}
 	}
 }

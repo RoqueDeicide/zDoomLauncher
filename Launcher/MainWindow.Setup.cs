@@ -11,64 +11,6 @@ namespace Launcher
 {
 	public partial class MainWindow
 	{
-		private void RefreshIwads()
-		{
-			if (this.IwadComboBox == null)
-			{
-				return;
-			}
-
-			// Clear the combo box.
-			this.IwadComboBox.Items.Clear();
-
-			// Fill the combo box with found IWADs.
-			if (this.zDoomFolder == null)
-			{
-				return;
-			}
-
-			this.IwadComboBox.SelectedItem = null;
-
-			string iwadFile = this.config.IwadPath;
-
-			foreach (string iwad in Iwads.FindSupportedIwads(this.zDoomFolder))
-			{
-				string iwadName = Path.GetFileName(iwad);
-				if (iwadName == null)
-				{
-					continue;
-				}
-
-				ComboBoxItem iwadItem = new ComboBoxItem
-				{
-					Content = Iwads.SupportedIwads[iwadName],
-					Tag = iwad
-				};
-				iwadItem.Selected += this.SelectTheIwad;
-
-				int currentItemIndex = this.IwadComboBox.Items.Count;
-				this.IwadComboBox.Items.Add(iwadItem);
-
-				// Select the item, if it is supposed to be selected in the configuration.
-				if (iwad.Equals(iwadFile, StringComparison.InvariantCultureIgnoreCase))
-				{
-					this.IwadComboBox.SelectedIndex = currentItemIndex;
-				}
-			}
-		}
-		private void SelectTheIwad(object sender, RoutedEventArgs routedEventArgs)
-		{
-			ComboBoxItem item = sender as ComboBoxItem;
-			if (item == null)
-			{
-				return;
-			}
-
-			string selectedIwad = item.Tag as string;
-			Debug.Assert(selectedIwad != null, "Path to the IWAD was not assigned to respective combo box item.");
-
-			this.config.IwadPath = selectedIwad;
-		}
 		private void SetupExtraFiles()
 		{
 			this.ExtraFilesBox.SelectedFiles = this.config.ExtraFiles;

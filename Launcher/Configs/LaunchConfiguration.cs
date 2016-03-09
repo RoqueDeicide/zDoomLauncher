@@ -118,11 +118,6 @@ namespace Launcher.Configs
 			{
 				string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
 
-				// Don't save the full path to the iwad file, just save the name or relative path.
-				string iwadPath = this.IwadPath;
-
-				this.IwadPath = Path.GetFileName(iwadPath);
-
 				List<string> files = this.ExtraFiles;
 
 				this.ExtraFiles = new List<string>(files.Count);
@@ -141,8 +136,6 @@ namespace Launcher.Configs
 					BinaryFormatter formatter = new BinaryFormatter();
 					formatter.Serialize(fs, this);
 				}
-
-				this.IwadPath = iwadPath;
 
 				this.ExtraFiles = files;
 			}
@@ -231,7 +224,7 @@ namespace Launcher.Configs
 			if (!string.IsNullOrWhiteSpace(this.IwadPath))
 			{
 				line.Append("-iwad ");
-				line.Append(Path.GetFileName(this.IwadPath));
+				line.Append(this.IwadPath);
 			}
 			// Config file.
 			if (!string.IsNullOrWhiteSpace(this.ConfigFile))

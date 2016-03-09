@@ -9,13 +9,9 @@ namespace Launcher
 	{
 		private bool EpisodicIwadIsSelected()
 		{
-			ComboBoxItem selectedIwad = this.IwadComboBox.SelectedItem as ComboBoxItem;
-			return
-				selectedIwad != null
-				&&
-				Iwads.EpisodicIwads.Any(iwadName =>
-											iwadName.Equals((string)selectedIwad.Tag,
-															StringComparison.InvariantCultureIgnoreCase));
+			IwadFile selectedIwad = this.IwadComboBox.SelectedItem as IwadFile;
+			
+			return selectedIwad != null && selectedIwad.Episodic;
 		}
 		private static TextContent ToEntryContent(bool condition, string text)
 		{

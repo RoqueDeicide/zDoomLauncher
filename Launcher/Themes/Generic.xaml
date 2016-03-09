@@ -126,8 +126,8 @@
 		<Setter Property="DisabledBrush" Value="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}" />
 		<Setter Property="HighlightedBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
 		<Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:SpinnerButtons}">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type local:SpinnerButtons}">
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="1*" />
@@ -162,8 +162,8 @@
 							<Setter TargetName="DownButton" Property="Foreground" Value="{Binding DisabledBrush, RelativeSource={RelativeSource TemplatedParent}}" />
 						</Trigger>
 					</ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 </ResourceDictionary>

@@ -25,6 +25,8 @@ namespace Launcher
 		private HelpWindow helpWindow;
 		public MainWindow()
 		{
+			this.InitializeComponent();
+
 			this.LoadAppConfiguration();
 
 			this.SelectZDoomInstallationFolder(this, null);
@@ -71,10 +73,12 @@ namespace Launcher
 				this.file = "DefaultConfigFile.lcf";
 			}
 
-			this.InitializeComponent();
+			if (this.zDoomFolder != null)
+			{
+				Iwads.IwadFolder = this.zDoomFolder;
+			}
 
 			this.RefreshExeFiles(this, null);
-			this.RefreshIwads();
 			this.InitializeDialogs();
 			this.InitializeContextMenus();
 			this.InitializeSomeEventHandlers();
@@ -91,8 +95,6 @@ namespace Launcher
 			this.UpdateWindowTitle();
 			// Set the name of the configuration in the text box.
 			this.ConfigurationNameTextBox.Text = this.config.Name;
-			// Set up the list of IWADs.
-			this.RefreshIwads();
 			// Set up a list of extra files.
 			this.SetupExtraFiles();
 			// Save directory.
@@ -241,6 +243,11 @@ namespace Launcher
 				this.zDoomFolder = dialog.SelectedPath;
 			}
 
+			if (this.zDoomFolder != null)
+			{
+				Iwads.IwadFolder = this.zDoomFolder;
+			}
+
 			this.RefreshExeFiles(this, null);
 		}
 		private void OpenDirectoriesWindow(object sender, RoutedEventArgs e)
@@ -341,15 +348,10 @@ namespace Launcher
 			ExtraFilesLookUp.Refresh();
 		}
 
-		private void RefreshIwadFiles(object sender, RoutedEventArgs e)
-		{
-			this.RefreshIwads();
-		}
 		private void RefreshEverything(object sender, RoutedEventArgs e)
 		{
 			this.RefreshExeFiles(this.ExeFilesRefreshButton, e);
 			this.RefreshExtraFiles(this.ExtraFilesRefreshButton, e);
-			this.RefreshIwadFiles(this.IwadRefreshButton, e);
 		}
 		private LaunchConfiguration LoadConfiguration(string file)
 		{
@@ -367,7 +369,7 @@ namespace Launcher
 				ExtraFilesLookUp.Directories.Add(this.zDoomFolder);
 			}
 
-			config.IwadPath = Path.Combine(this.zDoomFolder, config.IwadPath);
+			this.IwadComboBox.Select(config.IwadPath);
 
 			return config;
 		}

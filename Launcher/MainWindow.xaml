@@ -74,7 +74,14 @@
 			</MenuItem>
 		</Menu>
 		<Label Content="IWAD" HorizontalAlignment="Left" Margin="11,64,0,0" VerticalAlignment="Top" />
-		<ComboBox HorizontalAlignment="Left" Margin="53,68,0,0" VerticalAlignment="Top" Width="125" x:Name="IwadComboBox" />
+		<prog:IwadComboBox HorizontalAlignment="Left" Margin="53,68,0,0" VerticalAlignment="Top" Width="156"
+						   x:Name="IwadComboBox" DropDownClosed="SelectIwad" ItemsSource="{Binding RelativeSource={RelativeSource Self}, Path=Files}">
+			<prog:IwadComboBox.ItemTemplate>
+				<DataTemplate DataType="prog:IwadFile">
+					<TextBlock Text="{Binding Path=Name}" />
+				</DataTemplate>
+			</prog:IwadComboBox.ItemTemplate>
+		</prog:IwadComboBox>
 		<GroupBox Header="Start With" Margin="215,204,4,0" VerticalAlignment="Top" Height="86">
 			<Grid Margin="0,0,-2,-2">
 				<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Width="44" Checked="SwitchToSave" />
@@ -142,6 +149,5 @@
 		<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="11,122,0,10" Height="Auto" HorizontalAlignment="Left" Width="198" BorderBrush="{DynamicResource DefaultTextBoxBorder}" />
 		<Label Content="Extra Files" HorizontalAlignment="Left" Margin="11,95,0,0" VerticalAlignment="Top" Width="102" />
 		<Button x:Name="ExtraFilesRefreshButton" Margin="183,96,0,0" VerticalAlignment="Top" Height="23" Click="RefreshExtraFiles" HorizontalAlignment="Left" Width="26" Style="{DynamicResource RefreshButtonStyle}" />
-		<Button x:Name="IwadRefreshButton" Margin="183,68,0,0" VerticalAlignment="Top" Height="22" Click="RefreshIwadFiles" HorizontalAlignment="Left" Width="26" Style="{DynamicResource RefreshButtonStyle}" />
 	</Grid>
 </Window>
