@@ -17,6 +17,12 @@ namespace Launcher
 	{
 		#region Fields
 		private static readonly string[] emptyArray = {};
+		private static readonly string[] wadBlacklist =
+		{
+			"zdoom.pk3",
+			"gzdoom.pk3",
+			"nerve.wad"
+		};
 
 		/// <summary>
 		/// An observable collection of absolute paths to folder where to look for the loadable files.
@@ -100,10 +106,23 @@ namespace Launcher
 			fileName = fileName.ToLowerInvariant();
 			string extension = Path.GetExtension(fileName).ToLowerInvariant();
 
-			Func<IwadFile, bool> predicate = iwad =>
-				!iwad.FileName.Equals(fileName, StringComparison.InvariantCultureIgnoreCase);
+			Func<IwadFile, bool> predicate = iwad => iwad.FileName.Equals(fileName);
 
-			return extension == ".wad" || extension == ".pk3" && Iwads.SupportedIwads.All(predicate);
+#if DEBUG
+			// For debugger.
+			bool isIwad = Iwads.SupportedIwads.Any(predicate);
+
+			bool isBlacklisted = extension == ".wad" || extension == ".pk3";
+
+			bool isLoadable = wadBlacklist.Contains(fileName);
+
+			return !isIwad && isLoadable && !isBlacklisted;
+#else
+
+			return (extension == ".wad" || extension == ".pk3") &&
+				   !wadBlacklist.Contains(fileName) &&
+				   !Iwads.SupportedIwads.Any(predicate);
+#endif
 		}
 		/// <summary>
 		/// Refreshes all directories and loadable file lists.
