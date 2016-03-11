@@ -22,8 +22,8 @@ namespace Launcher
 			};
 			this.openConfigurationDialog = new VistaOpenFileDialog
 			{
-				CheckFileExists = true,
 				Multiselect = true,
+				CheckFileExists = true,
 				InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
 				Title = @"Select launch configuration to load",
 				ValidateNames = true,
@@ -35,7 +35,8 @@ namespace Launcher
 				InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
 				Filter = @"ZDoom-compatible save game files (*.zds)|*.zds|All files (*.*)|*.*",
 				Title = @"Select the save game file to load with the game",
-				ValidateNames = true
+				ValidateNames = true,
+				CheckFileExists = true
 			};
 			this.openDemoFileDialog = new VistaOpenFileDialog
 			{
@@ -43,7 +44,8 @@ namespace Launcher
 				InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
 				Filter = @"ZDoom-compatible demo files (*.lmp)|*.lmp|All files (*.*)|*.*",
 				Title = @"Select the demo file to play in the game",
-				ValidateNames = true
+				ValidateNames = true,
+				CheckFileExists = true
 			};
 			this.openConfigFileDialog = new VistaOpenFileDialog
 			{
@@ -51,7 +53,7 @@ namespace Launcher
 				InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
 				Filter = @"Configuration files (*.ini)|*.ini|All files (*.*)|*.*",
 				Title = @"Select the configuration file to load with the game",
-				ValidateNames = true
+				CheckFileExists = false
 			};
 			this.openSaveFolderDialog = new VistaFolderBrowserDialog
 			{
