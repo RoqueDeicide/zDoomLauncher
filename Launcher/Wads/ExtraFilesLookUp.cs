@@ -112,9 +112,9 @@ namespace Launcher
 			// For debugger.
 			bool isIwad = Iwads.SupportedIwads.Any(predicate);
 
-			bool isBlacklisted = extension == ".wad" || extension == ".pk3";
+			bool isLoadable = extension == ".wad" || extension == ".pk3";
 
-			bool isLoadable = wadBlacklist.Contains(fileName);
+			bool isBlacklisted = wadBlacklist.Contains(fileName);
 
 			return !isIwad && isLoadable && !isBlacklisted;
 #else
