@@ -19,7 +19,14 @@ namespace Launcher
 		}
 		private void UpdateWindowTitle()
 		{
-			this.Title = string.Format("ZDoom Launcher - {0}", this.config.Name);
+			bool hasName = this.config != null && !string.IsNullOrWhiteSpace(this.config.Name);
+			bool hasFile = !string.IsNullOrWhiteSpace(this.CurrentConfigFile);
+
+			this.Title = string.Format("ZDoom Launcher{0}{1}{2}{3}",
+									   hasName ? " - " : "",
+									   hasName ? this.config.Name : "",
+									   hasFile ? " - " : "",
+									   hasFile ? this.CurrentConfigFile : "");
 		}
 	}
 }

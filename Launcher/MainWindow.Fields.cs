@@ -24,5 +24,19 @@ namespace Launcher
 		private VistaOpenFileDialog openDemoFileDialog;
 		private VistaOpenFileDialog openConfigFileDialog;
 		private VistaFolderBrowserDialog openSaveFolderDialog;
+
+		/// <summary>
+		/// Gets or sets the current file that is associated with the launch configuration.
+		/// </summary>
+		public string CurrentConfigFile
+		{
+			get { return this.file; }
+			set
+			{
+				this.file = value;
+			
+				this.UpdateWindowTitle();
+			}
+		}
 	}
 }

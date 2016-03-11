@@ -48,13 +48,13 @@ namespace Launcher
 				{
 					Log.Message("File [{0}] from first slot has been selected.", args[1]);
 
-					this.file = args[1];
+					this.CurrentConfigFile = args[1];
 				}
 				else if (args.Length > 2 && args[1] == "-file" && File.Exists(args[2]))
 				{
 					Log.Message("File [{0}] from second slot has been selected.", args[2]);
 
-					this.file = args[2];
+					this.CurrentConfigFile = args[2];
 				}
 
 				Log.Message("Done with arguments.");
@@ -63,14 +63,14 @@ namespace Launcher
 			{
 			}
 
-			if (this.file != null && File.Exists(this.file))
+			if (this.CurrentConfigFile != null && File.Exists(this.CurrentConfigFile))
 			{
-				this.config = this.LoadConfiguration(this.file);
+				this.config = this.LoadConfiguration(this.CurrentConfigFile);
 			}
 			else
 			{
 				this.config = new LaunchConfiguration();
-				this.file = "DefaultConfigFile.lcf";
+				this.CurrentConfigFile = "DefaultConfigFile.lcf";
 			}
 
 			if (this.zDoomFolder != null)
@@ -168,22 +168,22 @@ namespace Launcher
 			if (this.saveConfigurationDialog.ShowDialog(this) == true)
 			{
 				this.config = null;
-				this.file = this.saveConfigurationDialog.FileName;
+				this.CurrentConfigFile = this.saveConfigurationDialog.FileName;
 				this.SetupInterface();
 			}
 		}
 		private void SaveConfiguration(object sender, RoutedEventArgs e)
 		{
-			this.config.Save(this.file, this.zDoomFolder);
+			this.config.Save(this.CurrentConfigFile, this.zDoomFolder);
 		}
 		private void SaveConfigurationAs(object sender, RoutedEventArgs e)
 		{
-			this.saveConfigurationDialog.FileName = this.file;
+			this.saveConfigurationDialog.FileName = this.CurrentConfigFile;
 
 			if (this.saveConfigurationDialog.ShowDialog(this) == true)
 			{
-				this.file = this.saveConfigurationDialog.FileName;
-				this.config.Save(this.file, this.zDoomFolder);
+				this.CurrentConfigFile = this.saveConfigurationDialog.FileName;
+				this.config.Save(this.CurrentConfigFile, this.zDoomFolder);
 			}
 		}
 		private void OpenConfiguration(object sender, RoutedEventArgs e)
@@ -191,7 +191,7 @@ namespace Launcher
 			if (this.openConfigurationDialog.ShowDialog(this) == true)
 			{
 				this.config = this.LoadConfiguration(this.openConfigurationDialog.FileName);
-				this.file = this.openConfigurationDialog.FileName;
+				this.CurrentConfigFile = this.openConfigurationDialog.FileName;
 				this.SetupInterface();
 			}
 		}

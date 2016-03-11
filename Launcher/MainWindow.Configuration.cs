@@ -16,8 +16,8 @@ namespace Launcher
 			Database appConfigurationDatabase = new Database(AppConfigurationXmlExtension,
 															 AppConfigurationBinaryExtension);
 
-			var content = ToEntryContent(!string.IsNullOrWhiteSpace(this.file) && File.Exists(this.file),
-										 this.file);
+			var content = ToEntryContent(!string.IsNullOrWhiteSpace(this.CurrentConfigFile) && File.Exists(this.CurrentConfigFile),
+										 this.CurrentConfigFile);
 			var entry = new DatabaseEntry(LastConfigurationFileEntryName, content);
 			appConfigurationDatabase.AddEntry(entry);
 
@@ -48,7 +48,7 @@ namespace Launcher
 							appConfigurationDatabase[LastConfigurationFileEntryName]
 								.GetContent<TextContent>()
 								.Text;
-						this.file =
+						this.CurrentConfigFile =
 							entryText == "Nothing" && File.Exists(entryText)
 								? null
 								: entryText;
