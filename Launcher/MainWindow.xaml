@@ -85,17 +85,17 @@
 					<ColumnDefinition Width="240"/>
 				</Grid.ColumnDefinitions>
 				<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Width="44" Checked="SwitchToSave" />
-				<TextBox x:Name="LoadGameTextBox" Height="23" Margin="60,3,29,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile" BorderBrush="{DynamicResource DefaultTextBoxBorder}" />
-				<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Checked="SwitchToDemo" />
+				<TextBox x:Name="LoadGameTextBox" Height="23" Margin="60,3,29,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile" BorderBrush="{DynamicResource DefaultTextBoxBorder}" Grid.Column="0" />
+				<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Checked="SwitchToDemo" Grid.Column="0" />
 				<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="9,9,0,0" VerticalAlignment="Top" Checked="SwitchToMap" Grid.Column="1" />
-				<TextBox x:Name="PlayDemoTextBox" Height="23" Margin="60,35,29,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the demo file." TextChanged="UpdateDemoFile" BorderBrush="{DynamicResource DefaultTextBoxBorder}" />
+				<TextBox x:Name="PlayDemoTextBox" Height="23" Margin="60,35,29,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the demo file." TextChanged="UpdateDemoFile" BorderBrush="{DynamicResource DefaultTextBoxBorder}" Grid.Column="0" />
 				<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="9,38,0,0" VerticalAlignment="Top" IsChecked="True" Checked="SwitchToNothing" Grid.Column="1" />
 				<prog:NumericUpDown x:Name="EpisodeValueField" HorizontalAlignment="Left" Margin="100,6,0,0" VerticalAlignment="Top" Height="24" Value="0" ValueChanged="UpdateEpisodeIndex" Width="46" Grid.Column="1" />
 				<Label Content="Episode" HorizontalAlignment="Left" Margin="49,4,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,0.538" Grid.Column="1" />
 				<Label Content="Map" HorizontalAlignment="Left" Margin="146,4,0,0" VerticalAlignment="Top" Grid.Column="1" />
 				<prog:NumericUpDown x:Name="MapValueField" HorizontalAlignment="Left" Margin="180,6,0,0" VerticalAlignment="Top" Height="24" Value="0" ValueChanged="UpdateMapIndex" Width="49" Grid.Column="1" />
-				<Button HorizontalAlignment="Right" Margin="0,3,1,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Height="23" Width="23" Click="SelectSaveGameFile"/>
-				<Button HorizontalAlignment="Right" Margin="0,35,1,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Height="23" Width="23" Click="SelectDemoFile"/>
+				<Button HorizontalAlignment="Right" Margin="0,3,1,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Height="23" Width="23" Click="SelectSaveGameFile" Grid.Column="0" />
+				<Button HorizontalAlignment="Right" Margin="0,35,1,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Height="23" Width="23" Click="SelectDemoFile" Grid.Column="0" />
 			</Grid>
 		</GroupBox>
 		<Label Content="Pixel Mode" HorizontalAlignment="Left" Margin="515,150,0,0" VerticalAlignment="Top" Width="74" />
