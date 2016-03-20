@@ -106,7 +106,7 @@ namespace Launcher
 		private static void OnStaticPropertyChanged(string propertyName = null)
 		{
 			var handler = StaticPropertyChanged;
-			if (handler != null) handler(null, new PropertyChangedEventArgs(propertyName));
+			handler?.Invoke(null, new PropertyChangedEventArgs(propertyName));
 		}
 		private static void UpdateAvailableIwads(bool folderChanged = true)
 		{
@@ -143,12 +143,12 @@ namespace Launcher
 		private static void OnUpdating()
 		{
 			var handler = Updating;
-			if (handler != null) handler(null, EventArgs.Empty);
+			handler?.Invoke(null, EventArgs.Empty);
 		}
 		private static void OnUpdated()
 		{
 			var handler = Updated;
-			if (handler != null) handler(null, EventArgs.Empty);
+			handler?.Invoke(null, EventArgs.Empty);
 		}
 		#endregion
 	}

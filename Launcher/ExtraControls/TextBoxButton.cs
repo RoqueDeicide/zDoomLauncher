@@ -12,7 +12,8 @@ namespace Launcher
 	{
 		static TextBoxButton()
 		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(TextBoxButton), new FrameworkPropertyMetadata(typeof(TextBoxButton)));
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(TextBoxButton),
+													 new FrameworkPropertyMetadata(typeof(TextBoxButton)));
 		}
 	}
 }

@@ -14,7 +14,7 @@ namespace Launcher
 		/// <summary>
 		/// Gets the name of the file that represents this IWAD.
 		/// </summary>
-		public string FileName { get; private set; }
+		public string FileName { get; }
 		/// <summary>
 		/// Gets the name of the game that is represented by this IWAD.
 		/// </summary>

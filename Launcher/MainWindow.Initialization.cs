@@ -66,15 +66,13 @@ namespace Launcher
 				(sender, args) =>
 				{
 					ComboBoxItem selectedItem = this.PixelModeComboBox.SelectedItem as ComboBoxItem;
-					if (selectedItem != null)
+					
+					// Update configuration with a new selection.
+					IConvertible mode = selectedItem?.Tag as IConvertible;
+					if (mode != null)
 					{
-						// Update configuration with a new selection.
-						IConvertible mode = selectedItem.Tag as IConvertible;
-						if (mode != null)
-						{
-							this.config.PixelMode =
-								(PixelMode)mode.ToInt32(CultureInfo.InvariantCulture);
-						}
+						this.config.PixelMode =
+							(PixelMode)mode.ToInt32(CultureInfo.InvariantCulture);
 					}
 				};
 		}

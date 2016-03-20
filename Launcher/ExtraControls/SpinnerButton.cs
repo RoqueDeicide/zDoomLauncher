@@ -47,7 +47,8 @@ namespace Launcher
 		}
 		static SpinnerButton()
 		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(SpinnerButton), new FrameworkPropertyMetadata(typeof(SpinnerButton)));
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(SpinnerButton),
+													 new FrameworkPropertyMetadata(typeof(SpinnerButton)));
 		}
 	}
 }

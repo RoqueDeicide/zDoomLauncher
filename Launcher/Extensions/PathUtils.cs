@@ -80,7 +80,7 @@ namespace Launcher.Extensions
 		{
 			return folderPath.EndsWith("\\")
 				? folderPath
-				: string.Format("{0}\\", folderPath);
+				: $"{folderPath}\\";
 		}
 	}
 }

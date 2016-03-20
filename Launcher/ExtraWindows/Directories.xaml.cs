@@ -115,12 +115,8 @@ namespace Launcher
 		private void OpenFolderDialog(object sender, RoutedEventArgs e)
 		{
 			Button button = sender as Button;
-			if (button == null)
-			{
-				return;
-			}
 
-			DirectoryName name = button.DataContext as DirectoryName;
+			DirectoryName name = button?.DataContext as DirectoryName;
 			if (name == null)
 			{
 				return;
@@ -144,12 +140,8 @@ namespace Launcher
 		private void InsertRow(object sender, int offset)
 		{
 			FrameworkElement element = sender as FrameworkElement;
-			if (element == null)
-			{
-				return;
-			}
 
-			DirectoryName name = element.DataContext as DirectoryName;
+			DirectoryName name = element?.DataContext as DirectoryName;
 			if (name == null)
 			{
 				return;
@@ -161,12 +153,8 @@ namespace Launcher
 		private void RemoveDirectory(object sender, RoutedEventArgs e)
 		{
 			FrameworkElement element = sender as FrameworkElement;
-			if (element == null)
-			{
-				return;
-			}
 
-			DirectoryName name = element.DataContext as DirectoryName;
+			DirectoryName name = element?.DataContext as DirectoryName;
 			if (name == null)
 			{
 				return;
@@ -215,12 +203,8 @@ namespace Launcher
 			for (int i = 0; i < this.DirectoriesListBox.Items.Count; i++)
 			{
 				DirectoryName directory = this.DirectoriesListBox.Items[i] as DirectoryName;
-				if (directory == null)
-				{
-					continue;
-				}
 
-				if (directory.Index > index)
+				if (directory?.Index > index)
 				{
 					directory.Index--;
 				}

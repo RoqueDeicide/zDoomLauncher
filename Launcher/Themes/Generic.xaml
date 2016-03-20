@@ -114,8 +114,7 @@
 							   FontWeight="{TemplateBinding FontWeight}"
 							   LineStackingStrategy="{TemplateBinding TextBlock.LineStackingStrategy}"
 							   TextOptions.TextFormattingMode="{TemplateBinding TextOptions.TextFormattingMode}"
-							   TextOptions.TextHintingMode="{TemplateBinding TextOptions.TextHintingMode}">
-					</TextBlock>
+							   TextOptions.TextHintingMode="{TemplateBinding TextOptions.TextHintingMode}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

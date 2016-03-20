@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Controls;
 using Launcher.Databases;
 
 namespace Launcher
@@ -10,7 +9,7 @@ namespace Launcher
 		private bool EpisodicIwadIsSelected()
 		{
 			IwadFile selectedIwad = this.IwadComboBox.SelectedItem as IwadFile;
-			
+
 			return selectedIwad != null && selectedIwad.Episodic;
 		}
 		private static TextContent ToEntryContent(bool condition, string text)
@@ -19,14 +18,11 @@ namespace Launcher
 		}
 		private void UpdateWindowTitle()
 		{
-			bool hasName = this.config != null && !string.IsNullOrWhiteSpace(this.config.Name);
+			bool hasName = !string.IsNullOrWhiteSpace(this.config?.Name);
 			bool hasFile = !string.IsNullOrWhiteSpace(this.CurrentConfigFile);
 
-			this.Title = string.Format("ZDoom Launcher{0}{1}{2}{3}",
-									   hasName ? " - " : "",
-									   hasName ? this.config.Name : "",
-									   hasFile ? " - " : "",
-									   hasFile ? this.CurrentConfigFile : "");
+			this.Title = $"ZDoom Launcher{(hasName ? " - " : "")}{(hasName ? this.config.Name : "")}" +
+						 $"{(hasFile ? " - " : "")}{(hasFile ? this.CurrentConfigFile : "")}";
 		}
 	}
 }

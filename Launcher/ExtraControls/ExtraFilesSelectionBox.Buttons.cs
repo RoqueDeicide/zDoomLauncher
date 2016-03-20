@@ -44,12 +44,8 @@ namespace Launcher
 		private void MoveSelectedFileUp(object sender, RoutedEventArgs routedEventArgs)
 		{
 			SpinnerButtons buttons = sender as SpinnerButtons;
-			if (buttons == null)
-			{
-				return;
-			}
 
-			FileDesc fileDesc = buttons.DataContext as FileDesc;
+			FileDesc fileDesc = buttons?.DataContext as FileDesc;
 			if (fileDesc == null)
 			{
 				return;
@@ -70,12 +66,8 @@ namespace Launcher
 		private void MoveSelectedFileDown(object sender, RoutedEventArgs routedEventArgs)
 		{
 			SpinnerButtons buttons = sender as SpinnerButtons;
-			if (buttons == null)
-			{
-				return;
-			}
 
-			FileDesc fileDesc = buttons.DataContext as FileDesc;
+			FileDesc fileDesc = buttons?.DataContext as FileDesc;
 			if (fileDesc == null)
 			{
 				return;

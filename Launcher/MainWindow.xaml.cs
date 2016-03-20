@@ -2,8 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Security;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -124,7 +122,7 @@ namespace Launcher
 
 			bool appExists = File.Exists(appFile);
 			bool commandLineFits = commandLine.Length + appFile.Length <= CommandLineMaxLength;
-			
+
 			if (appExists && commandLineFits)
 			{
 				Process.Start(appFile, commandLine);
@@ -206,7 +204,7 @@ namespace Launcher
 
 			string commandLineArgs = this.config.GetCommandLine(this.zDoomFolder);
 
-			new CommandLineWindow(string.Format("{0} {1}", appPath, commandLineArgs)).ShowDialog();
+			new CommandLineWindow($"{appPath} {commandLineArgs}").ShowDialog();
 		}
 
 		private void SelectZDoomInstallationFolder(object sender, RoutedEventArgs e)
@@ -337,8 +335,7 @@ namespace Launcher
 
 		private void RefreshExtraFiles(object sender, RoutedEventArgs e)
 		{
-			if (this.config == null || this.config.ExtraFiles == null ||
-				this.ExtraFilesBox == null || this.zDoomFolder == null)
+			if (this.config?.ExtraFiles == null || this.ExtraFilesBox == null || this.zDoomFolder == null)
 			{
 				return;
 			}

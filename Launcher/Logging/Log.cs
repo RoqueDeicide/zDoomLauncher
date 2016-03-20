@@ -13,7 +13,8 @@ namespace Launcher.Logging
 		private static readonly StreamWriter sw;
 		static Log()
 		{
-			sw = new StreamWriter(new FileStream("Zdl.log", FileMode.Create, FileAccess.Write, FileShare.Read));
+			sw = new StreamWriter(new FileStream("Zdl.log", FileMode.Create, FileAccess.Write,
+												 FileShare.Read));
 		}
 		/// <summary>
 		/// Posts a simple message to the log.

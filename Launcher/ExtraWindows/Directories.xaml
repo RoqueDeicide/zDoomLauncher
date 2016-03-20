@@ -68,7 +68,6 @@
 				 ItemContainerStyle="{StaticResource DirectoryItem}"
 				 Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}"
 				 BorderThickness="0" HorizontalContentAlignment="Stretch"
-				 ItemTemplate="{StaticResource DirectoryLineTemplate}">
-		</ListBox>
+				 ItemTemplate="{StaticResource DirectoryLineTemplate}" />
 	</ScrollViewer>
 </Window>

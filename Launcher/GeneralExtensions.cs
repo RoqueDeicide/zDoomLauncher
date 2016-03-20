@@ -259,10 +259,15 @@ namespace Launcher
 		/// </summary>
 		/// <typeparam name="ElementType">Type of elements of the collection.</typeparam>
 		/// <param name="collection">Collection to look for the element in.</param>
-		/// <param name="predicate"> An object that represents the condition the element must satisfy.</param>
-		/// <returns>Zero-based index of the first element that satisfies a condition, or -1 if no such element was found.</returns>
+		/// <param name="predicate"> 
+		/// An object that represents the condition the element must satisfy.
+		/// </param>
+		/// <returns>
+		/// Zero-based index of the first element that satisfies a condition, or -1 if no such element was
+		/// found.
+		/// </returns>
 		public static int IndexOf<ElementType>(this IEnumerable<ElementType> collection,
-												Func<ElementType, bool> predicate)
+											   Func<ElementType, bool> predicate)
 		{
 			int index = 0;
 			foreach (ElementType element in collection)
@@ -282,10 +287,15 @@ namespace Launcher
 		/// </summary>
 		/// <typeparam name="ElementType">Type of elements of the collection.</typeparam>
 		/// <param name="collection">Collection to look for the element in.</param>
-		/// <param name="predicate"> An object that represents the condition the element must satisfy.</param>
-		/// <returns>Zero-based index of the first element that satisfies a condition, or number of elements in the collection (that can be used for insertion) if no such element was found.</returns>
+		/// <param name="predicate"> 
+		/// An object that represents the condition the element must satisfy.
+		/// </param>
+		/// <returns>
+		/// Zero-based index of the first element that satisfies a condition, or number of elements in the
+		/// collection (that can be used for insertion) if no such element was found.
+		/// </returns>
 		public static int IndexOfToEnd<ElementType>(this IEnumerable<ElementType> collection,
-												Func<ElementType, bool> predicate)
+													Func<ElementType, bool> predicate)
 		{
 			int index = 0;
 			foreach (ElementType element in collection)

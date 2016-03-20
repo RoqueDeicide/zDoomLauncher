@@ -264,7 +264,7 @@ namespace Launcher
 			this.Loaded += (sender, args) =>
 			{
 				this.valueIsCommited = true;
-				this.valueBox.Text = this.Value == null ? "" : this.Value.ToString();
+				this.valueBox.Text = this.Value?.ToString() ?? "";
 
 				this.UpdateButtons();
 			};
@@ -402,7 +402,7 @@ namespace Launcher
 		protected virtual void OnValueChanged(int? oldvalue, int? newvalue)
 		{
 			var handler = this.ValueChanged;
-			if (handler != null) handler(this, oldvalue, newvalue);
+			handler?.Invoke(this, oldvalue, newvalue);
 		}
 		private void UpdateButtons()
 		{

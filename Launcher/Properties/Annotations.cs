@@ -25,7 +25,8 @@ namespace Launcher.Annotations
 	/// <example>
 	/// <code>
 	/// [CanBeNull] public object Test() { return null; }
-	/// public void UseTest() {
+	/// public void UseTest()
+	/// {
 	///   var p = Test();
 	///   var s = p.ToString(); // Warning: Possible 'System.NullReferenceException'
 	/// }
@@ -43,7 +44,8 @@ namespace Launcher.Annotations
 	/// </summary>
 	/// <example>
 	/// <code>
-	/// [NotNull] public object Foo() {
+	/// [NotNull] public object Foo()
+	/// {
 	///   return null; // Warning: Possible 'null' assignment
 	/// }
 	/// </code>
@@ -57,14 +59,15 @@ namespace Launcher.Annotations
 
 	/// <summary>
 	/// Indicates that the marked method builds string by format pattern and (optional) arguments.
-	/// Parameter, which contains format string, should be given in constructor. The format string should
-	/// be in <see cref="string.Format(IFormatProvider,string,object[])"/>-like form
+	/// Parameter, which contains format string, should be given in constructor. The format string should be
+	/// in <see cref="string.Format(IFormatProvider,string,object[])"/>-like form
 	/// </summary>
 	/// <example>
 	/// <code>
 	/// [StringFormatMethod("message")]
 	/// public void ShowError(string message, params object[] args) { /* do something */ }
-	/// public void Foo() {
+	/// public void Foo()
+	/// {
 	///   ShowError("Failed: {0}"); // Warning: Non-existing argument in format string
 	/// }
 	/// </code>
@@ -87,13 +90,14 @@ namespace Launcher.Annotations
 	}
 
 	/// <summary>
-	/// Indicates that the function argument should be string literal and match one of the parameters of
-	/// the caller function. For example, ReSharper annotates the parameter of
+	/// Indicates that the function argument should be string literal and match one of the parameters of the
+	/// caller function. For example, ReSharper annotates the parameter of
 	/// <see cref="System.ArgumentNullException"/>
 	/// </summary>
 	/// <example>
 	/// <code>
-	/// public void Foo(string param) {
+	/// public void Foo(string param)
+	/// {
 	///   if (param == null)
 	///     throw new ArgumentNullException("par"); // Warning: Cannot resolve symbol
 	/// }
@@ -121,13 +125,15 @@ namespace Launcher.Annotations
 	/// </remarks>
 	/// <example>
 	/// <code>
-	/// public class Foo : INotifyPropertyChanged {
+	/// public class Foo : INotifyPropertyChanged
+	/// {
 	///   public event PropertyChangedEventHandler PropertyChanged;
 	///   [NotifyPropertyChangedInvocator]
 	///   protected virtual void NotifyChanged(string propertyName) { ... }
-	/// 
+	///
 	///   private string _name;
-	///   public string Name {
+	///   public string Name
+	///   {
 	///     get { return _name; }
 	///     set { _name = value; NotifyChanged("LastName"); /* Warning */ }
 	///   }
@@ -170,8 +176,8 @@ namespace Launcher.Annotations
 	/// If method has single input parameter, it's name could be omitted. <br/> Using <c>halt</c> (or
 	/// <c>void</c>/ <c>nothing</c>, which is the same) for method output means that the methos doesn't
 	/// return normally. <br/><c>canbenull</c> annotation is only applicable for output parameters. <br/>
-	/// You can use multiple <c>[ContractAnnotation]</c> for each FDT row, or use single attribute with
-	/// rows separated by semicolon. <br/>
+	/// You can use multiple <c>[ContractAnnotation]</c> for each FDT row, or use single attribute with rows
+	/// separated by semicolon. <br/>
 	/// </syntax>
 	/// <examples>
 	/// <list>
@@ -232,7 +238,8 @@ namespace Launcher.Annotations
 	/// <example>
 	/// <code>
 	/// [LocalizationRequiredAttribute(true)]
-	/// public class Foo {
+	/// public class Foo
+	/// {
 	///   private string str = "my string"; // Warning: Localizable string
 	/// }
 	/// </code>
@@ -260,11 +267,14 @@ namespace Launcher.Annotations
 	/// <code>
 	/// [CannotApplyEqualityOperator]
 	/// class NoEquality { }
-	/// class UsesNoEquality {
-	///   public void Test() {
+	/// class UsesNoEquality
+	/// {
+	///   public void Test()
+	///   {
 	///     var ca1 = new NoEquality();
 	///     var ca2 = new NoEquality();
-	///     if (ca1 != null) { // OK
+	///     if (ca1 != null) // OK
+	///     {
 	///       bool condition = ca1 == ca2; // Warning
 	///     }
 	///   }
@@ -336,8 +346,8 @@ namespace Launcher.Annotations
 	}
 
 	/// <summary>
-	/// Should be used on attributes and causes ReSharper to not mark symbols marked with such attributes
-	/// as unused (as well as by other usage inspections)
+	/// Should be used on attributes and causes ReSharper to not mark symbols marked with such attributes as
+	/// unused (as well as by other usage inspections)
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class)]
 	public sealed class MeansImplicitUseAttribute : Attribute
@@ -405,12 +415,10 @@ namespace Launcher.Annotations
 		/// <summary>
 		/// Members of entity marked with attribute are considered used
 		/// </summary>
-		///
 		Members = 2,
 		/// <summary>
 		/// Entity marked with attribute and all its members considered used
 		/// </summary>
-		///
 		WithMembers = Itself | Members
 	}
 
@@ -452,7 +460,8 @@ namespace Launcher.Annotations
 	/// <example>
 	/// <code>
 	/// [Pure] private int Multiply(int x, int y) { return x * y; }
-	/// public void Foo() {
+	/// public void Foo()
+	/// {
 	///   const int a = 2, b = 2;
 	///   Multiply(a, b); // Waring: Return value of pure method is not used
 	/// }
@@ -577,9 +586,9 @@ namespace Launcher.Annotations
 	}
 
 	/// <summary>
-	/// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is an MVC
-	/// controller. If applied to a method, the MVC controller name is calculated implicitly from the
-	/// context. Use this attribute for custom wrappers similar to
+	/// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is an MVC controller.
+	/// If applied to a method, the MVC controller name is calculated implicitly from the context. Use this
+	/// attribute for custom wrappers similar to
 	/// <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String, String)</c>
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
@@ -636,8 +645,8 @@ namespace Launcher.Annotations
 	}
 
 	/// <summary>
-	/// ASP.NET MVC attribute. Indicates that a parameter is an MVC display template. Use this attribute
-	/// for custom wrappers similar to <c>System.Web.Mvc.Html.DisplayExtensions.DisplayForModel(HtmlHelper,
+	/// ASP.NET MVC attribute. Indicates that a parameter is an MVC display template. Use this attribute for
+	/// custom wrappers similar to <c>System.Web.Mvc.Html.DisplayExtensions.DisplayForModel(HtmlHelper,
 	/// String)</c>
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Parameter)]
@@ -666,8 +675,8 @@ namespace Launcher.Annotations
 
 	/// <summary>
 	/// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is an MVC view. If
-	/// applied to a method, the MVC view name is calculated implicitly from the context. Use this
-	/// attribute for custom wrappers similar to <c>System.Web.Mvc.Controller.View(Object)</c>
+	/// applied to a method, the MVC view name is calculated implicitly from the context. Use this attribute
+	/// for custom wrappers similar to <c>System.Web.Mvc.Controller.View(Object)</c>
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
 	public sealed class AspMvcViewAttribute : PathReferenceAttribute
@@ -675,8 +684,8 @@ namespace Launcher.Annotations
 	}
 
 	/// <summary>
-	/// ASP.NET MVC attribute. When applied to a parameter of an attribute, indicates that this parameter
-	/// is an MVC action name
+	/// ASP.NET MVC attribute. When applied to a parameter of an attribute, indicates that this parameter is
+	/// an MVC action name
 	/// </summary>
 	/// <example>
 	/// <code>
@@ -692,8 +701,7 @@ namespace Launcher.Annotations
 	{
 	}
 
-	[AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property |
-					AttributeTargets.Field)]
+	[AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Field)]
 	public sealed class HtmlElementAttributesAttribute : Attribute
 	{
 		public HtmlElementAttributesAttribute()

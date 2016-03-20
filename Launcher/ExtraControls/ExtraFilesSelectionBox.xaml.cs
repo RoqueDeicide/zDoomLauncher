@@ -18,7 +18,6 @@ namespace Launcher
 	/// </summary>
 	public partial class ExtraFilesSelectionBox
 	{
-		private readonly ObservableCollection<object> fileSelection;
 		private List<string> selectedFiles;
 			/// <summary>
 		/// Gets the list of files that are currently selected.
@@ -52,16 +51,13 @@ namespace Launcher
 		/// <summary>
 		/// Gets the observable collection that contains information about selected files.
 		/// </summary>
-		public ObservableCollection<object> FileSelection
-		{
-			get { return this.fileSelection; }
-		}
+		public ObservableCollection<object> FileSelection { get; }
 		/// <summary>
 		/// Creates a user control.
 		/// </summary>
 		public ExtraFilesSelectionBox()
 		{
-			this.fileSelection = new ObservableCollection<object>();
+			this.FileSelection = new ObservableCollection<object>();
 
 			this.InitializeComponent();
 
@@ -83,11 +79,11 @@ namespace Launcher
 
 		private void ClearSelection()
 		{
-			foreach (FileDesc file in this.fileSelection.OfType<FileDesc>())
+			foreach (FileDesc file in this.FileSelection.OfType<FileDesc>())
 			{
 				file.Selected = false;
 			}
-			this.fileSelection.Clear();
+			this.FileSelection.Clear();
 		}
 		private void RemoveUnavailableSelection(object sender, NotifyCollectionChangedEventArgs args)
 		{
@@ -97,16 +93,16 @@ namespace Launcher
 				case NotifyCollectionChangedAction.Replace:
 				case NotifyCollectionChangedAction.Reset:
 
-					for (int i = 0; i < this.fileSelection.Count; i++)
+					for (int i = 0; i < this.FileSelection.Count; i++)
 					{
-						FileDesc file = this.fileSelection[i] as FileDesc;
+						FileDesc file = this.FileSelection[i] as FileDesc;
 
 						Debug.Assert(file != null, "file != null");
 
 						if (!ExtraFilesLookUp.LoadableFiles.Contains(file))
 						{
 							file.Selected = false;
-							this.fileSelection.RemoveAt(i--);
+							this.FileSelection.RemoveAt(i--);
 						}
 					}
 

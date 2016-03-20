@@ -25,7 +25,7 @@ namespace Launcher
 		/// <summary>
 		/// Gets the collection of available IWAD files.
 		/// </summary>
-		public ObservableCollection<IwadFile> Files { get; private set; }
+		public ObservableCollection<IwadFile> Files { get; }
 		/// <summary>
 		/// Creates a new instance of this type.
 		/// </summary>

@@ -59,12 +59,8 @@ namespace Launcher
 		private void EnableOption(object sender, RoutedEventArgs e)
 		{
 			CheckBox item = sender as CheckBox;
-			if (item == null)
-			{
-				return;
-			}
 
-			IConvertible convertibleFlag = item.Tag as IConvertible;
+			IConvertible convertibleFlag = item?.Tag as IConvertible;
 			if (convertibleFlag == null)
 			{
 				return;
@@ -76,12 +72,8 @@ namespace Launcher
 		private void DisableOption(object sender, RoutedEventArgs e)
 		{
 			CheckBox item = sender as CheckBox;
-			if (item == null)
-			{
-				return;
-			}
 
-			IConvertible convertibleFlag = item.Tag as IConvertible;
+			IConvertible convertibleFlag = item?.Tag as IConvertible;
 			if (convertibleFlag == null)
 			{
 				return;
@@ -215,16 +207,9 @@ namespace Launcher
 				return;
 			}
 			this.config.StartUpFileKind = StartupFile.Map;
-			if (this.EpisodicIwadIsSelected())
-			{
-				this.config.AutoStartFile = string.Format("{0} {1}",
-														  this.EpisodeValueField.Value,
-														  this.MapValueField.Value);
-			}
-			else
-			{
-				this.config.AutoStartFile = string.Format("{0}", this.MapValueField.Value);
-			}
+			this.config.AutoStartFile = this.EpisodicIwadIsSelected()
+				? $"{this.EpisodeValueField.Value} {this.MapValueField.Value}"
+				: $"{this.MapValueField.Value}";
 		}
 		private void UpdateEpisodeIndex(object sender, int? oldValue, int? newValue)
 		{

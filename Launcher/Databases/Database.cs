@@ -98,20 +98,17 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Gets the extension that marks files that store database entries in binary format.
 		/// </summary>
-		public string BinaryFileExtension { get; private set; }
+		public string BinaryFileExtension { get; }
 
 		/// <summary>
 		/// Gets the extension that marks files that store database entries in Xml format.
 		/// </summary>
-		public string XmlFileExtension { get; private set; }
+		public string XmlFileExtension { get; }
 
 		/// <summary>
 		/// Gets amount of entries in this database.
 		/// </summary>
-		public int Count
-		{
-			get { return this.TopLevelEntries.Count; }
-		}
+		public int Count => this.TopLevelEntries.Count;
 		#endregion
 		#region Events
 		#endregion
@@ -214,7 +211,7 @@ namespace Launcher.Databases
 			}
 
 			string rawExtension = System.IO.Path.GetExtension(file);
-			string extension = rawExtension != null ? rawExtension.Substring(1) : null;
+			string extension = rawExtension?.Substring(1);
 
 			if (extension == this.BinaryFileExtension)
 			{
@@ -227,9 +224,7 @@ namespace Launcher.Databases
 			else
 			{
 				throw new ArgumentException(
-					string.Format(
-								  "Database.Save: Unable to recognize file extension. Use [{0}] for Xml files and [{1}] for binaries. File that has been attempted to be saved: [{2}]. Extension is [{3}]",
-								  this.XmlFileExtension, this.BinaryFileExtension, file, extension));
+					$"Database.Save: Unable to recognize file extension. Use [{this.XmlFileExtension}] for Xml files and [{this.BinaryFileExtension}] for binaries. File that has been attempted to be saved: [{file}]. Extension is [{extension}]");
 			}
 		}
 		/// <summary>
@@ -246,7 +241,7 @@ namespace Launcher.Databases
 			}
 
 			string rawExtension = System.IO.Path.GetExtension(file);
-			string extension = rawExtension != null ? rawExtension.Substring(1) : null;
+			string extension = rawExtension?.Substring(1);
 
 			if (extension == this.BinaryFileExtension)
 			{
@@ -259,9 +254,7 @@ namespace Launcher.Databases
 			else
 			{
 				throw new ArgumentException(
-					string.Format(
-								  "Database.Load: Unable to recognize file extension. Use [{0}] for Xml files and [{1}] for binaries. File that has been attempted to be loaded: [{2}]. Recognized extension is [{3}]",
-								  this.XmlFileExtension, this.BinaryFileExtension, file, extension));
+					$"Database.Load: Unable to recognize file extension. Use [{this.XmlFileExtension}] for Xml files and [{this.BinaryFileExtension}] for binaries. File that has been attempted to be loaded: [{file}]. Recognized extension is [{extension}]");
 			}
 		}
 		#endregion
@@ -310,8 +303,7 @@ namespace Launcher.Databases
 			{
 				if (br.ReadInt32() != DatabaseGlobals.BinaryDatabaseFileIdentifier)
 				{
-					throw new ArgumentException(string.Format(
-															  "Database.LoadBinary: Unable to recognize format of the file. File: {0}", file));
+					throw new ArgumentException($"Database.LoadBinary: Unable to recognize format of the file. File: {file}");
 				}
 				while (br.ReadInt32() != DatabaseGlobals.BinaryDatabaseFileEndMarker)
 				{
@@ -381,7 +373,7 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Gets sorted list of subentries.
 		/// </summary>
-		public SortedList<string, DatabaseEntry> SubEntries { get; private set; }
+		public SortedList<string, DatabaseEntry> SubEntries { get; }
 
 		/// <summary>
 		/// Provides read/write access to the subentry with specified name.
@@ -521,15 +513,13 @@ namespace Launcher.Databases
 			{
 				EntryContentAttribute contentType =
 					DatabaseGlobals.RegisteredContentTypes.Find(x => x.TypeHash == br.ReadInt32());
-				if (contentType != null)
+
+				ConstructorInfo constructor =
+					contentType?.AttributedClass.GetConstructor(Type.EmptyTypes);
+				if (constructor != null)
 				{
-					ConstructorInfo constructor =
-						contentType.AttributedClass.GetConstructor(Type.EmptyTypes);
-					if (constructor != null)
-					{
-						this.Content = (DatabaseEntryContent)constructor.Invoke(null);
-						this.Content.FromBinary(br);
-					}
+					this.Content = (DatabaseEntryContent)constructor.Invoke(null);
+					this.Content.FromBinary(br);
 				}
 			}
 			// Read subentries.
@@ -617,16 +607,14 @@ namespace Launcher.Databases
 				XmlElement contentElement = children[0];
 				EntryContentAttribute contentType =
 					DatabaseGlobals.RegisteredContentTypes.Find(x => x.TypeName == contentElement.Name);
-				if (contentType != null)
+
+				ConstructorInfo constructor =
+					contentType?.AttributedClass.GetConstructor(Type.EmptyTypes);
+				if (constructor != null)
 				{
-					ConstructorInfo constructor =
-						contentType.AttributedClass.GetConstructor(Type.EmptyTypes);
-					if (constructor != null)
-					{
-						this.Content = (DatabaseEntryContent)constructor.Invoke(null);
-						this.Content.FromXml(contentElement);
-						minimalAmountOfChildNodes++;
-					}
+					this.Content = (DatabaseEntryContent)constructor.Invoke(null);
+					this.Content.FromXml(contentElement);
+					minimalAmountOfChildNodes++;
 				}
 			}
 			if (element.ChildNodes.Count > minimalAmountOfChildNodes)
@@ -687,17 +675,17 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Gets identifier of the class.
 		/// </summary>
-		public int TypeHash { get; private set; }
+		public int TypeHash { get; }
 
 		/// <summary>
 		/// Gets the name of the type of content.
 		/// </summary>
-		public string TypeName { get; private set; }
+		public string TypeName { get; }
 
 		/// <summary>
 		/// Gets class to which this attribute is applied.
 		/// </summary>
-		public Type AttributedClass { get; private set; }
+		public Type AttributedClass { get; }
 
 		/// <summary>
 		/// Creates new instance of <see cref="EntryContentAttribute"/> class.
@@ -717,9 +705,7 @@ namespace Launcher.Databases
 			if (other != null)
 			{
 				throw new Exception(
-					string.Format(
-								  "Unable to register database entry content type with name that has the same hash value as one of the existing ones. New name = {0}, old name = {1}",
-								  this.TypeName, other.TypeName));
+					$"Unable to register database entry content type with name that has the same hash value as one of the existing ones. New name = {this.TypeName}, old name = {other.TypeName}");
 			}
 		}
 	}

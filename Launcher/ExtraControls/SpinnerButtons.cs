@@ -140,7 +140,7 @@ namespace Launcher
 		protected virtual void OnClickUp(RoutedEventArgs e)
 		{
 			var handler = this.ClickUp;
-			if (handler != null) handler(this, e);
+			handler?.Invoke(this, e);
 		}
 		/// <summary>
 		/// Raises <see cref="ClickDown"/> event.
@@ -149,7 +149,7 @@ namespace Launcher
 		protected virtual void OnClickDown(RoutedEventArgs e)
 		{
 			var handler = this.ClickDown;
-			if (handler != null) handler(this, e);
+			handler?.Invoke(this, e);
 		}
 		#endregion
 	}
