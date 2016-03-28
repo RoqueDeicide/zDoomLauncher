@@ -195,9 +195,8 @@ namespace Launcher.Configs
 				{
 					dirs.Add(dirName);
 				}
-
-				ExtraFilesLookUp.Directories.Clear();
-				foreach (string dir in dirs)
+				
+				foreach (string dir in dirs.Where(dir => !ExtraFilesLookUp.Directories.Contains(dir)))
 				{
 					ExtraFilesLookUp.Directories.Add(dir);
 				}
