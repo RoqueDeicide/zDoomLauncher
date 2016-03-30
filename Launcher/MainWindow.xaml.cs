@@ -68,7 +68,7 @@ namespace Launcher
 			else
 			{
 				this.config = new LaunchConfiguration();
-				this.CurrentConfigFile = "DefaultConfigFile.lcf";
+				this.CurrentConfigFile = "DefaultConfigFile.xlcf";
 			}
 
 			if (this.zDoomFolder != null)
@@ -189,7 +189,6 @@ namespace Launcher
 			if (this.openConfigurationDialog.ShowDialog(this) == true)
 			{
 				this.config = this.LoadConfiguration(this.openConfigurationDialog.FileName);
-				this.CurrentConfigFile = this.openConfigurationDialog.FileName;
 				this.SetupInterface();
 			}
 		}
@@ -366,6 +365,8 @@ namespace Launcher
 			}
 
 			this.IwadComboBox.Select(config.IwadPath);
+
+			this.CurrentConfigFile = PathIO.ChangeExtension(file, ".xlcf");
 
 			return config;
 		}

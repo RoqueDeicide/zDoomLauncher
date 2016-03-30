@@ -210,7 +210,7 @@ namespace Launcher.Databases
 				File.Create(file).Close();
 			}
 
-			string rawExtension = System.IO.Path.GetExtension(file);
+			string rawExtension = Path.GetExtension(file);
 			string extension = rawExtension?.Substring(1);
 
 			if (extension == this.BinaryFileExtension)

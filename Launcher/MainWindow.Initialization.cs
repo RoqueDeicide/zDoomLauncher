@@ -14,9 +14,9 @@ namespace Launcher
 			// Initialize dialogs.
 			this.saveConfigurationDialog = new VistaSaveFileDialog
 			{
-				DefaultExt = ".lcf",
+				DefaultExt = ".xlcf",
 				InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
-				Filter = @"Launch configuration files (*.lcf)|*.lcf|All files (*.*)|*.*",
+				Filter = @"Launch configuration files (*.xlcf)|*.xlcf|All files (*.*)|*.*",
 				Title = @"Select where to save the configuration",
 				ValidateNames = true
 			};
@@ -27,7 +27,7 @@ namespace Launcher
 				InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
 				Title = @"Select launch configuration to load",
 				ValidateNames = true,
-				Filter = @"Launch configuration files (*.lcf)|*.lcf|All files (*.*)|*.*"
+				Filter = @"Launch configuration files (*.xlcf)|*.xlcf|All files (*.*)|*.*"
 			};
 			this.openSaveGameFileDialog = new VistaOpenFileDialog
 			{

@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Security;
 using System.Text;
 using Launcher.Extensions;
-using Launcher.Logging;
 
 namespace Launcher.Configs
 {
@@ -16,7 +12,7 @@ namespace Launcher.Configs
 	/// Represents a launch configuration.
 	/// </summary>
 	[Serializable]
-	public class LaunchConfiguration : ILaunchConfiguration
+	public partial class LaunchConfiguration : ILaunchConfiguration
 	{
 		/// <summary>
 		/// Gets or sets the name of this configuration.
@@ -97,118 +93,14 @@ namespace Launcher.Configs
 		/// </summary>
 		public int? TimeLimit { get; set; }
 		/// <summary>
-		/// Sets the movement speed of the player to specified value that is a percentage of normal
-		/// movement speed.
+		/// Sets the movement speed of the player to specified value that is a percentage of normal movement
+		/// speed.
 		/// </summary>
 		public byte? TurboMode { get; set; }
 		/// <summary>
 		/// Sets difficulty level.
 		/// </summary>
 		public int? Difficulty { get; set; }
-		#endregion
-		#region Save Load
-		/// <summary>
-		/// Saves this configuration to the file.
-		/// </summary>
-		/// <param name="file">Path to the file.</param>
-		/// <param name="gameFolder">Path to the folder that contains the executables.</param>
-		public void Save(string file, string gameFolder)
-		{
-			try
-			{
-				string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
-
-				List<string> files = this.ExtraFiles;
-
-				this.ExtraFiles = new List<string>(files.Count);
-
-				Uri folderUri = new Uri(PathUtils.EndWithBackSlash(gameFolder), UriKind.Absolute);
-				foreach (string filePath in files)
-				{
-					// If the file is located in DOOMWADDIR, then just save the name.
-					this.ExtraFiles.Add(Path.GetDirectoryName(filePath) == doomWadDir
-						? Path.GetFileName(filePath)
-						: PathUtils.ToRelativePath(filePath, folderUri));
-				}
-
-				using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None))
-				{
-					BinaryFormatter formatter = new BinaryFormatter();
-					formatter.Serialize(fs, this);
-				}
-
-				this.ExtraFiles = files;
-			}
-			catch (Exception ex)
-			{
-				Log.Error("{0}: {1}", ex.GetType().FullName, ex.Message);
-			}
-		}
-		/// <summary>
-		/// Loads this configuration from the file.
-		/// </summary>
-		/// <param name="file">Path to the file.</param>
-		/// <param name="gameFolder">Path to the folder that contains the executables.</param>
-		public static LaunchConfiguration Load(string file, string gameFolder)
-		{
-			try
-			{
-				LaunchConfiguration config;
-				using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
-				{
-					BinaryFormatter formatter = new BinaryFormatter();
-					config = (LaunchConfiguration)formatter.Deserialize(fs);
-				}
-
-				string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
-
-				// Restore full paths.
-				for (int i = 0; i < config.ExtraFiles.Count; i++)
-				{
-					string relativeFilePath = config.ExtraFiles[i];
-					string path = Path.Combine(doomWadDir, relativeFilePath);
-					if (File.Exists(path))
-					{
-						config.ExtraFiles[i] = PathUtils.GetLocalPath(path);
-					}
-					else
-					{
-						path = Path.Combine(gameFolder, relativeFilePath);
-						if (File.Exists(path))
-						{
-							config.ExtraFiles[i] = PathUtils.GetLocalPath(path);
-						}
-						else
-						{
-							// File cannot be found so remove it.
-							config.ExtraFiles.RemoveAt(i--);
-						}
-					}
-				}
-
-				// Update directories.
-				List<string> dirs = new List<string>(10);
-				foreach (string dirName in from extraFile in config.ExtraFiles
-										   select Path.GetDirectoryName(extraFile) into dirName
-										   where !dirs.Contains(dirName)
-										   select dirName)
-				{
-					dirs.Add(dirName);
-				}
-				
-				foreach (string dir in dirs.Where(dir => !ExtraFilesLookUp.Directories.Contains(dir)))
-				{
-					ExtraFilesLookUp.Directories.Add(dir);
-				}
-
-				return config;
-			}
-			catch (Exception ex)
-			{
-				Log.Error("{0}: {1}", ex.GetType().FullName, ex.Message);
-				return null;
-			}
-		}
 		#endregion
 		#region Command Line
 		/// <summary>

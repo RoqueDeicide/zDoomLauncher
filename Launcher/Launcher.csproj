@@ -181,6 +181,7 @@
     </Compile>
     <Compile Include="Configs\ILaunchConfiguration.cs" />
     <Compile Include="Configs\LaunchConfiguration.cs" />
+    <Compile Include="Configs\LaunchConfiguration.SaveLoad.cs" />
     <Compile Include="Databases\ContentTypes.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Extensions\BinaryIOExtension.cs" />
