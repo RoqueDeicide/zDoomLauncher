@@ -186,6 +186,7 @@
     <Compile Include="Extensions\BinaryIOExtension.cs" />
     <Compile Include="Extensions\PathUtils.cs" />
     <Compile Include="ExtraControls\IwadComboBox.cs" />
+    <Compile Include="Utilities\Cast.cs" />
     <Compile Include="Wads\ExtraFilesLookUp.cs" />
     <Compile Include="ExtraControls\ExtraFilesSelectionBox.Buttons.cs" />
     <Compile Include="ExtraControls\ExtraFilesSelectionBox.xaml.cs">
