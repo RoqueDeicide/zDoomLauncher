@@ -406,8 +406,14 @@ namespace Launcher
 		}
 		private void UpdateButtons()
 		{
-			this.downButton.IsEnabled = this.Value != (this.Minimum ?? int.MinValue);
-			this.upButton.IsEnabled = this.Value != (this.Maximum ?? int.MaxValue);
+			if (this.downButton != null)
+			{
+				this.downButton.IsEnabled = this.Value != (this.Minimum ?? int.MinValue);
+			}
+			if (this.upButton != null)
+			{
+				this.upButton.IsEnabled = this.Value != (this.Maximum ?? int.MaxValue);
+			}
 		}
 		#endregion
 	}

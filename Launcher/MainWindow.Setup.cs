@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using Launcher.Configs;
@@ -78,12 +79,37 @@ namespace Launcher
 					break;
 				case StartupFile.SaveGame:
 					this.LoadSaveIndicator.IsChecked = true;
+					this.LoadGameTextBox.Text = this.config.AutoStartFile;
 					break;
 				case StartupFile.Demo:
 					this.LoadDemoIndicator.IsChecked = true;
+					this.PlayDemoTextBox.Text = this.config.AutoStartFile;
 					break;
 				case StartupFile.Map:
+					Regex regex = new Regex("\\d+");
+					var indexes = from Match match in regex.Matches(this.config.AutoStartFile)
+								  select match.Value;
+					string[] numbers = indexes.ToArray();
+					switch (numbers.Length)
+					{
+						case 1:
+							this.EpisodeValueField.Value = 0;
+							this.MapValueField.Value = int.Parse(numbers[0]);
+							break;
+						case 2:
+							this.EpisodeValueField.Value = int.Parse(numbers[0]);
+							this.MapValueField.Value = int.Parse(numbers[1]);
+							break;
+						default:
+							this.EpisodeValueField.Value = 0;
+							this.MapValueField.Value = 0;
+							break;
+					}
 					this.LoadMapIndicator.IsChecked = true;
+					break;
+				case StartupFile.NamedMap:
+					this.LoadNamedMapIndicator.IsChecked = true;
+					this.LoadNamedMapTextBox.Text = this.config.AutoStartFile;
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
