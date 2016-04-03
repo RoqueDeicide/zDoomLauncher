@@ -218,6 +218,12 @@ namespace Launcher.Configs
 						line.Append(this.AutoStartFile);
 						line.Append(" -warpwipe");
 						break;
+					case StartupFile.NamedMap:
+						line.Append(" +map ");
+						line.Append(this.AutoStartFile);
+						break;
+					case StartupFile.None:
+						break;
 					default:
 						throw new ArgumentOutOfRangeException();
 				}
@@ -438,6 +444,10 @@ namespace Launcher.Configs
 		/// <summary>
 		/// Map.
 		/// </summary>
-		Map
+		Map,
+		/// <summary>
+		/// Map that is indicated with its name, rather then a code.
+		/// </summary>
+		NamedMap
 	}
 }

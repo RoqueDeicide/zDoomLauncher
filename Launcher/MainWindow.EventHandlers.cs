@@ -234,6 +234,14 @@ namespace Launcher
 			}
 		}
 
+		private void UpdateMapName(object sender, TextChangedEventArgs e)
+		{
+			if (this.LoadNamedMapIndicator?.IsChecked == true)
+			{
+				this.config.AutoStartFile = this.LoadNamedMapTextBox.Text;
+			}
+		}
+
 		private void SwitchToNothing(object sender, RoutedEventArgs e)
 		{
 			// This check is needed for the case of the window getting closed before constructor is
@@ -244,6 +252,12 @@ namespace Launcher
 			}
 
 			this.config.StartUpFileKind = StartupFile.None;
+		}
+
+		private void SwitchToNamedMap(object sender, RoutedEventArgs e)
+		{
+			this.config.StartUpFileKind = StartupFile.NamedMap;
+			this.config.AutoStartFile = this.LoadNamedMapTextBox.Text;
 		}
 		#endregion
 		private void UpdateSaveDirectory(object sender, TextChangedEventArgs e)
@@ -279,6 +293,15 @@ namespace Launcher
 			this.config.IwadPath = selectedFile == null
 				? ""
 				: selectedFile.FileName;
+
+			if (this.LoadMapIndicator.IsChecked == true)
+			{
+				// Update the value in case selection of IWAD moves from episodic to non-episodic one or
+				// vice-versa.
+				this.config.AutoStartFile = this.EpisodicIwadIsSelected()
+					? $"{this.EpisodeValueField.Value} {this.MapValueField.Value}"
+					: $"{this.MapValueField.Value}";
+			}
 		}
 
 		private void SelectSaveGameFile(object sender, RoutedEventArgs e)
