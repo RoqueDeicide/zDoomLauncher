@@ -394,7 +394,9 @@ namespace Launcher
 					}
 				}
 
-				number = int.Parse(builder.ToString());
+				number = builder.Length == 0 || builder.Length == 1 && builder[0] == '-'
+					? 0
+					: int.Parse(builder.ToString());
 			}
 
 			this.CommitNumber(number);
