@@ -32,8 +32,8 @@ namespace Launcher.Configs
 		/// </summary>
 		public string ConfigFile { get; set; }
 		/// <summary>
-		/// Indicates whether zDoom needs to ignore block map data supplied by the map, and generate it
-		/// instead.
+		/// Indicates whether zDoom needs to ignore block map data supplied by the map, and generate
+		/// it instead.
 		/// </summary>
 		public bool IgnoreBlockMap { get; set; }
 		/// <summary>
@@ -75,8 +75,8 @@ namespace Launcher.Configs
 		#endregion
 		#region GamePlay
 		/// <summary>
-		/// Indicates whether zDoom has to make monsters fast regardless whether the game runs on Nightmare
-		/// or not.
+		/// Indicates whether zDoom has to make monsters fast regardless whether the game runs on
+		/// Nightmare or not.
 		/// </summary>
 		public bool FastMonsters { get; set; }
 		/// <summary>
@@ -93,8 +93,8 @@ namespace Launcher.Configs
 		/// </summary>
 		public int? TimeLimit { get; set; }
 		/// <summary>
-		/// Sets the movement speed of the player to specified value that is a percentage of normal movement
-		/// speed.
+		/// Sets the movement speed of the player to specified value that is a percentage of normal
+		/// movement speed.
 		/// </summary>
 		public byte? TurboMode { get; set; }
 		/// <summary>
@@ -121,7 +121,7 @@ namespace Launcher.Configs
 			if (!string.IsNullOrWhiteSpace(this.ConfigFile))
 			{
 				line.Append(" -config ");
-				line.Append(GetValidPath(this.ConfigFile, null));
+				line.Append(GetValidPath(this.ConfigFile, exeFolder, false));
 			}
 			// Extras.
 			if (this.ExtraFiles.Count > 0)
@@ -199,7 +199,7 @@ namespace Launcher.Configs
 			if (!string.IsNullOrWhiteSpace(this.SaveDirectory))
 			{
 				line.Append(" -savedir ");
-				line.Append(this.SaveDirectory);
+				line.Append(GetValidPath(this.SaveDirectory, exeFolder, false));
 			}
 			if (!string.IsNullOrWhiteSpace(this.AutoStartFile))
 			{
@@ -207,11 +207,11 @@ namespace Launcher.Configs
 				{
 					case StartupFile.SaveGame:
 						line.Append(" -loadgame ");
-						line.Append(this.AutoStartFile);
+						line.Append(GetValidPath(this.AutoStartFile, exeFolder));
 						break;
 					case StartupFile.Demo:
 						line.Append(" -playdemo ");
-						line.Append(this.AutoStartFile);
+						line.Append(GetValidPath(this.AutoStartFile, exeFolder));
 						break;
 					case StartupFile.Map:
 						line.Append(" -warp ");
@@ -333,24 +333,33 @@ namespace Launcher.Configs
 		}
 		#endregion
 		#region Utilities
-		// Creates a string that represents a path to the file that is properly recognized by the command
-		// line interpreter.
-		private static string GetValidPath(string file, string exeFolder)
+		// Creates a string that represents a path to the file that is properly recognized by the
+		// command line interpreter.
+		private static string GetValidPath(string file, string exeFolder, bool toRelative = true)
 		{
 			string path = null;
 
-			if (exeFolder != null)
+			if (toRelative)
 			{
-				string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+				if (exeFolder != null)
+				{
+					string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
 
-				if (!string.IsNullOrWhiteSpace(doomWadDir) && Path.GetDirectoryName(file) == doomWadDir)
-				{
-					path = Path.GetFileName(file);
+					if (!string.IsNullOrWhiteSpace(doomWadDir) && Path.GetDirectoryName(file) == doomWadDir)
+					{
+						path = Path.GetFileName(file);
+					}
+					else
+					{
+						path = PathUtils.ToRelativePath(file, exeFolder);
+					}
 				}
-				else
-				{
-					path = PathUtils.ToRelativePath(file, exeFolder);
-				}
+			}
+			else
+			{
+				path = Path.IsPathRooted(file)
+					? file
+					: PathUtils.GetLocalPath(Path.Combine(exeFolder, file));
 			}
 
 			return path != null && path.Any(char.IsWhiteSpace) ? "\"" + path + "\"" : path;
@@ -390,8 +399,8 @@ namespace Launcher.Configs
 		/// </summary>
 		CompactDiskAudio = 1,
 		/// <summary>
-		/// When set instructs zDoom to disable function that lowers zDoom process priority when player
-		/// alt-tabs away.
+		/// When set instructs zDoom to disable function that lowers zDoom process priority when
+		/// player alt-tabs away.
 		/// </summary>
 		Idling = 2,
 		/// <summary>
@@ -415,8 +424,8 @@ namespace Launcher.Configs
 		/// </summary>
 		StartupScreens = 32,
 		/// <summary>
-		/// When set instructs zDoom to disable sprite renaming used in user-created files for Heretic,
-		/// Hexen or Strife.
+		/// When set instructs zDoom to disable sprite renaming used in user-created files for
+		/// Heretic, Hexen or Strife.
 		/// </summary>
 		SpriteRenaming = 64,
 		/// <summary>

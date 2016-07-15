@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Launcher.Configs;
+using Launcher.Extensions;
 
 namespace Launcher
 {
@@ -339,7 +341,10 @@ namespace Launcher
 
 			if (this.openSaveFolderDialog.ShowDialog() == true)
 			{
-				this.SaveDirectoryTextBox.Text = this.openSaveFolderDialog.SelectedPath;
+				string selectedPath = this.openSaveFolderDialog.SelectedPath;
+				string gamePath = this.zDoomFolder;
+
+				this.SaveDirectoryTextBox.Text = PathUtils.ToRelativePath(selectedPath, gamePath);
 			}
 		}
 
@@ -352,7 +357,8 @@ namespace Launcher
 
 			if (this.openConfigFileDialog.ShowDialog() == true)
 			{
-				this.ConfigFileTextBox.Text = this.openConfigFileDialog.FileName;
+				this.ConfigFileTextBox.Text =
+					PathUtils.ToRelativePath(this.openConfigFileDialog.FileName,this.zDoomFolder);
 			}
 		}
 	}
