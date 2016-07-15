@@ -26,7 +26,7 @@
 			<FlowDocument>
 				<Paragraph>
 					<Run>This project uses icons from </Run>
-					<Hyperlink NavigateUri="http://p.yusukekamiyamane.com/icons/">Fugue Icons</Hyperlink>
+					<Hyperlink NavigateUri="http://p.yusukekamiyamane.com/">Fugue Icons</Hyperlink>
 					<Run>Pack by Yusuke Kamiyamane and letter Z with grey background icon by Supratim Nayak (HYDRATTZ).</Run>
 				</Paragraph>
 			</FlowDocument>
