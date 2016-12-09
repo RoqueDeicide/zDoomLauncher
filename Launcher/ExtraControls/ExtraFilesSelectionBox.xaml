@@ -19,7 +19,7 @@
 		</Grid.RowDefinitions>
 		<Border Grid.Row="0" BorderThickness="1" BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}">
 			<ScrollViewer HorizontalScrollBarVisibility="Visible">
-				<ListBox ItemsSource="{x:Static local:ExtraFilesLookUp.LoadableFiles}"
+				<ListBox x:Name="AllFilesListBox" ItemsSource="{x:Static local:ExtraFilesLookUp.LoadableFiles}"
 						 BorderThickness="0"
 						 ItemContainerStyle="{StaticResource FileListItem}">
 					<ListBox.ItemTemplate>
@@ -29,7 +29,7 @@
 									<ColumnDefinition Width="20" />
 									<ColumnDefinition />
 								</Grid.ColumnDefinitions>
-								<local:TextBoxButton Grid.Column="0" Name="SelectionButton"
+								<local:TextBoxButton Grid.Column="0" x:Name="SelectionButton"
 													 FontFamily="{DynamicResource SelectDeselectButtonFontFamily}"
 													 Content="{DynamicResource SelectButtonIcon}"
 													 Click="ToggleFileSelection" />
@@ -50,7 +50,7 @@
 		<Border Grid.Row="2" BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}"
 				BorderThickness="1">
 			<ScrollViewer HorizontalScrollBarVisibility="Visible">
-				<ListBox BorderThickness="0"
+				<ListBox x:Name="SelectedFilesListBox" BorderThickness="0"
 						 ItemsSource="{Binding Path=FileSelection, ElementName=FileSelectionUserControl}"
 						 ItemContainerStyle="{StaticResource FileListItem}">
 					<ListBox.ItemTemplate>
@@ -60,7 +60,7 @@
 									<ColumnDefinition Width="20" />
 									<ColumnDefinition Width="266*" />
 								</Grid.ColumnDefinitions>
-								<local:SpinnerButtons Grid.Column="0" Name="Spinners"
+								<local:SpinnerButtons Grid.Column="0" x:Name="Spinners"
 									  ClickUp="MoveSelectedFileUp" ClickDown="MoveSelectedFileDown"
 									  AtTop="{Binding Path=AtTop}" AtBottom="{Binding Path=AtBottom}"/>
 								<TextBlock Grid.Column="1" Text="{Binding Path=FileName}"
