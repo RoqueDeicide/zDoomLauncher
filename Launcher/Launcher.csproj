@@ -189,6 +189,7 @@
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Extensions\BinaryIOExtension.cs" />
     <Compile Include="Extensions\PathUtils.cs" />
+    <Compile Include="ExtraControls\ExtraFilesSelectionBox.DragDrop.cs" />
     <Compile Include="ExtraControls\IwadComboBox.cs" />
     <Compile Include="Utilities\Cast.cs" />
     <Compile Include="Wads\ExtraFilesLookUp.cs" />

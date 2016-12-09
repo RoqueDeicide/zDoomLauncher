@@ -10,6 +10,11 @@
 			<Setter Property="Height" Value="20" />
 			<Setter Property="Focusable" Value="False"/>
 		</Style>
+		<Style x:Key="SelectedFileListItem" BasedOn="{StaticResource FileListItem}" TargetType="ListBoxItem">
+			<Setter Property="AllowDrop" Value="True"/>
+			<EventSetter Event="PreviewMouseLeftButtonDown" Handler="SaveCurrentMousePosition"/>
+			<EventSetter Event="Drop" Handler="MoveDraggedItem"/>
+		</Style>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -52,7 +57,8 @@
 			<ScrollViewer HorizontalScrollBarVisibility="Visible">
 				<ListBox x:Name="SelectedFilesListBox" BorderThickness="0"
 						 ItemsSource="{Binding Path=FileSelection, ElementName=FileSelectionUserControl}"
-						 ItemContainerStyle="{StaticResource FileListItem}">
+						 ItemContainerStyle="{StaticResource SelectedFileListItem}"
+						 PreviewMouseMove="AttemptInitiateDragDrop">
 					<ListBox.ItemTemplate>
 						<DataTemplate DataType="local:FileDesc">
 							<Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
