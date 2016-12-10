@@ -34,7 +34,9 @@ namespace Launcher
 			// Initiate the drag'n'drop.
 			var listBox = sender as ListBox;
 			Debug.Assert(listBox != null);
-			var item = FindVisualParent<ListBoxItem>(e.OriginalSource as DependencyObject);
+
+			var item = (e.OriginalSource as DependencyObject).FindVisualParent<ListBoxItem>();
+			Debug.Assert(item != null, "item != null");
 
 			DragDrop.DoDragDrop(listBox, item.DataContext, DragDropEffects.Move);
 		}
@@ -51,29 +53,11 @@ namespace Launcher
 			var target = listBoxItem.DataContext;
 
 			this.MoveSelectedItem(this.FileSelection.IndexOf(source), this.FileSelection.IndexOf(target));
-		}
 
-		private static T FindVisualParent<T>(DependencyObject child)
-			where T : DependencyObject
-		{
-			if (child == null)
 			{
-				return null;
 			}
 
-			var currentParent = VisualTreeHelper.GetParent(child);
-			while (currentParent != null)
-			{
-				T typedParent = currentParent as T;
-				if (typedParent != null)
-				{
-					return typedParent;
-				}
 
-				currentParent = VisualTreeHelper.GetParent(currentParent);
-			}
-
-			return null;
 		}
 
 		private void MoveSelectedItem(int sourceIndex, int destinationIndex)
