@@ -32,6 +32,22 @@ namespace Launcher
 		public static readonly DependencyProperty AtBottomProperty =
 			DependencyProperty.Register("AtBottom", typeof(bool), typeof(FileDesc),
 										new PropertyMetadata(default(bool)));
+		/// <summary>
+		/// Dependency property that represents the value that indicates the visibility of an
+		/// indicator that shows whether a target of drag'n'drop operation is over the top half of
+		/// the selected file list box item.
+		/// </summary>
+		public static readonly DependencyProperty DragOverTopProperty =
+			DependencyProperty.Register("DragOverTop", typeof(Visibility), typeof(FileDesc),
+										new PropertyMetadata(Visibility.Hidden));
+		/// <summary>
+		/// Dependency property that represents the value that indicates the visibility of an
+		/// indicator that shows whether a target of drag'n'drop operation is over the bottom half of
+		/// the selected file list box item.
+		/// </summary>
+		public static readonly DependencyProperty DragOverBottomProperty =
+			DependencyProperty.Register("DragOverBottom", typeof(Visibility), typeof(FileDesc),
+										new PropertyMetadata(Visibility.Hidden));
 		#endregion
 		#region Properties
 		/// <summary>
@@ -71,6 +87,25 @@ namespace Launcher
 		{
 			get { return (bool)this.GetValue(AtBottomProperty); }
 			set { this.SetValue(AtBottomProperty, value); }
+		}
+		/// <summary>
+		/// Gets or sets the value that indicates the visibility of an indicator that shows whether a
+		/// target of drag'n'drop operation is over the top half of the selected file list box item.
+		/// </summary>
+		public Visibility DragOverTop
+		{
+			get { return (Visibility)this.GetValue(DragOverTopProperty); }
+			set { this.SetValue(DragOverTopProperty, value); }
+		}
+		/// <summary>
+		/// Gets or sets the value that indicates the visibility of an indicator that shows whether a
+		/// target of drag'n'drop operation is over the bottom half of the selected file list box
+		/// item.
+		/// </summary>
+		public Visibility DragOverBottom
+		{
+			get { return (Visibility)this.GetValue(DragOverBottomProperty); }
+			set { this.SetValue(DragOverBottomProperty, value); }
 		}
 		#endregion
 		#region Events

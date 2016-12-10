@@ -52,12 +52,20 @@ namespace Launcher
 			var source = e.Data.GetData(typeof(FileDesc));
 			var target = listBoxItem.DataContext;
 
-			this.MoveSelectedItem(this.FileSelection.IndexOf(source), this.FileSelection.IndexOf(target));
+			int sourceIndex = this.FileSelection.IndexOf(source);
+			int targetIndex = this.FileSelection.IndexOf(target);
 
+			var targetFile = (FileDesc)target;
+			if (targetFile.DragOverBottom == Visibility.Visible)
 			{
+				// Insert below the targeted item, rather then above.
+				targetIndex++;
 			}
 
+			this.MoveSelectedItem(sourceIndex, targetIndex);
 
+			targetFile.DragOverTop = Visibility.Hidden;
+			targetFile.DragOverBottom = Visibility.Hidden;
 		}
 
 		private void MoveSelectedItem(int sourceIndex, int destinationIndex)
@@ -83,6 +91,49 @@ namespace Launcher
 			}
 
 			this.UpdateTopBottomSpinners();
+		}
+
+		private void UpdateDropLocationIndication(object sender, DragEventArgs e)
+		{
+			var item = sender as ListBoxItem;
+
+			var file = item?.DataContext as FileDesc;
+			if (file == null)
+			{
+				return;
+			}
+			
+			var cp = item.FindVisualChild<ContentPresenter>();
+			Debug.Assert(cp != null, "cp != null");
+			
+			// Check the coordinates of the mouse relative to the ContentPresenter of the list box item.
+			var position = e.GetPosition(cp);
+			int halfHeight = (int)item.ActualHeight / 2;		// 0-9: upper half, 10-19: lower half.
+
+
+			if (position.Y < halfHeight)
+			{
+				file.DragOverTop = Visibility.Visible;
+				file.DragOverBottom = Visibility.Hidden;
+			}
+			else
+			{
+				file.DragOverBottom = Visibility.Visible;
+				file.DragOverTop = Visibility.Hidden;
+			}
+		}
+		private void TurnOffDropLocationIndication(object sender, DragEventArgs e)
+		{
+			var item = sender as ListBoxItem;
+
+			var file = item?.DataContext as FileDesc;
+			if (file == null)
+			{
+				return;
+			}
+
+			file.DragOverTop = Visibility.Hidden;
+			file.DragOverBottom = Visibility.Hidden;
 		}
 	}
 }

@@ -14,6 +14,8 @@
 			<Setter Property="AllowDrop" Value="True"/>
 			<EventSetter Event="PreviewMouseLeftButtonDown" Handler="SaveCurrentMousePosition"/>
 			<EventSetter Event="Drop" Handler="MoveDraggedItem"/>
+			<EventSetter Event="PreviewDragOver" Handler="UpdateDropLocationIndication"/>
+			<EventSetter Event="PreviewDragLeave" Handler="TurnOffDropLocationIndication"/>
 		</Style>
 	</UserControl.Resources>
 	<Grid>
@@ -66,10 +68,18 @@
 									<ColumnDefinition Width="20" />
 									<ColumnDefinition Width="266*" />
 								</Grid.ColumnDefinitions>
-								<local:SpinnerButtons Grid.Column="0" x:Name="Spinners"
-									  ClickUp="MoveSelectedFileUp" ClickDown="MoveSelectedFileDown"
-									  AtTop="{Binding Path=AtTop}" AtBottom="{Binding Path=AtBottom}"/>
-								<TextBlock Grid.Column="1" Text="{Binding Path=FileName}"
+								<Grid.RowDefinitions>
+									<RowDefinition Height="*"/>
+									<RowDefinition Height="*"/>
+								</Grid.RowDefinitions>
+								<local:SpinnerButtons Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+													  x:Name="Spinners"
+													  ClickUp="MoveSelectedFileUp"
+													  ClickDown="MoveSelectedFileDown"
+													  AtTop="{Binding Path=AtTop}"
+													  AtBottom="{Binding Path=AtBottom}"/>
+								<TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+										   Text="{Binding Path=FileName}"
 										   ToolTip="{Binding Path=Directory}" >
 									<TextBlock.ContextMenu>
 										<ContextMenu>
@@ -79,6 +89,12 @@
 										</ContextMenu>
 									</TextBlock.ContextMenu>
 								</TextBlock>
+								<Border Grid.Row="0" Grid.Column="1" x:Name="DropUpperIndicator"
+										BorderThickness="0,1,0,0" BorderBrush="Black" CornerRadius="1"
+										Visibility="{Binding Path=DragOverTop}" Panel.ZIndex="1"/>
+								<Border Grid.Row="1" Grid.Column="1" x:Name="DropLowerIndicator"
+										BorderThickness="0,0,0,1" BorderBrush="Black" CornerRadius="1"
+										Visibility="{Binding Path=DragOverBottom}" Panel.ZIndex="1"/>
 							</Grid>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
