@@ -143,7 +143,7 @@
 				<Paragraph>These 2 lists control which additional files have to be loaded with the IWAD.</Paragraph>
 				<Paragraph>The above list displays all loadable files within the Installation Directory. Below list displays all loadable files that were selected to be loaded with the IWAD.</Paragraph>
 				<Paragraph>To select the file, click the "Tick" button to the left of the name of the file. To deselect the file either press the "Cross" button next to the selected file or press "Deselect" button in the context menu that can be opened by right-clicking on the file name in the below list.</Paragraph>
-				<Paragraph>Order of files in the below list can be changed by clicking the buttons to the left from their names. The order of selected files is important since content loaded from the file will override any matching content from above files.</Paragraph>
+				<Paragraph>Order of files in the below list can be changed by clicking the buttons to the left from their names or by dragging and dropping the items in the list. The order of selected files is important since content loaded from the file will override any matching content from above files.</Paragraph>
 				<Paragraph>Recommended order of files: PWADs with maps, PWADS with music, PWADS with gameplay changes (like Brutal Doom or Project Brutality), PWADS with HUDs, etc.</Paragraph>
 				<Paragraph>Both lists can be refreshed by clicking on the button to the right from the "Extra Files" label.</Paragraph>
 				<Paragraph>
