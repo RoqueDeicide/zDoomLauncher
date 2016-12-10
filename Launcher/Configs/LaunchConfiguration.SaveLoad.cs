@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Launcher.Databases;
-using Launcher.Extensions;
 using Launcher.Logging;
 using Launcher.Utilities;
 

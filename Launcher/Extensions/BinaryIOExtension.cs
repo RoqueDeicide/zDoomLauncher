@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Launcher.Extensions
+namespace Launcher
 {
 	/// <summary>
 	/// Provides extension methods for classes <see cref="BinaryWriter"/> and <see cref="BinaryReader"/>

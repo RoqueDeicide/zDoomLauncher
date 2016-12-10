@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-using Launcher.Extensions;
 
 namespace Launcher.Databases
 {

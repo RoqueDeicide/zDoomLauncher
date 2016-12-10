@@ -9,7 +9,6 @@ using System.Security;
 using System.Text;
 using System.Xml;
 using Launcher.Annotations;
-using Launcher.Extensions;
 
 namespace Launcher.Databases
 {

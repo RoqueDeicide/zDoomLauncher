@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
-namespace Launcher.Extensions
+namespace Launcher
 {
 	/// <summary>
 	/// Defines some extra functions for working with paths.

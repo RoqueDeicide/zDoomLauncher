@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using Launcher.Databases;
-using Launcher.Extensions;
 using Launcher.Logging;
 
 namespace Launcher
