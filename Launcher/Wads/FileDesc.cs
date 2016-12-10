@@ -12,19 +12,22 @@ namespace Launcher
 	{
 		#region Fields
 		/// <summary>
-		/// A dependency property that represents the value that indicates whether this file is selected.
+		/// A dependency property that represents the value that indicates whether this file is
+		/// selected.
 		/// </summary>
 		public static readonly DependencyProperty SelectedProperty =
 			DependencyProperty.Register("Selected", typeof(bool), typeof(FileDesc),
 										new PropertyMetadata(default(bool)));
 		/// <summary>
-		/// A dependency property that represents the value that indicates whether this file is at the top of the selection list.
+		/// A dependency property that represents the value that indicates whether this file is at
+		/// the top of the selection list.
 		/// </summary>
 		public static readonly DependencyProperty AtTopProperty =
 			DependencyProperty.Register("AtTop", typeof(bool), typeof(FileDesc),
 										new PropertyMetadata(default(bool)));
 		/// <summary>
-		/// A dependency property that represents the value that indicates whether this file is at the bottom of the selection list.
+		/// A dependency property that represents the value that indicates whether this file is at
+		/// the bottom of the selection list.
 		/// </summary>
 		public static readonly DependencyProperty AtBottomProperty =
 			DependencyProperty.Register("AtBottom", typeof(bool), typeof(FileDesc),
@@ -52,7 +55,8 @@ namespace Launcher
 			set { this.SetValue(SelectedProperty, value); }
 		}
 		/// <summary>
-		/// Gets or sets the value that indicates whether this file is at the top of the selection list.
+		/// Gets or sets the value that indicates whether this file is at the top of the selection
+		/// list.
 		/// </summary>
 		public bool AtTop
 		{
@@ -60,7 +64,8 @@ namespace Launcher
 			set { this.SetValue(AtTopProperty, value); }
 		}
 		/// <summary>
-		/// Gets or sets the value that indicates whether this file is at the bottom of the selection list.
+		/// Gets or sets the value that indicates whether this file is at the bottom of the selection
+		/// list.
 		/// </summary>
 		public bool AtBottom
 		{
