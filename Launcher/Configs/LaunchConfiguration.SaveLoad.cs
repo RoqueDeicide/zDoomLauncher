@@ -85,13 +85,17 @@ namespace Launcher.Configs
 
 			DatabaseEntry filesEntry = new DatabaseEntry("ExtraFiles", null);
 			Uri folderUri = new Uri(PathUtils.EndWithBackSlash(gameFolder), UriKind.Absolute);
+
+			// Maximal number of digits that can used to designate an index of the entry.
+			int digitCount = (int)Math.Floor(Math.Log10(this.ExtraFiles.Count) + 1);
 			for (int i = 0; i < this.ExtraFiles.Count; i++)
 			{
 				string filePath = this.ExtraFiles[i];
 				TextContent content = new TextContent(Path.GetDirectoryName(filePath) == doomWadDir
 					? Path.GetFileName(filePath)
 					: PathUtils.ToRelativePath(filePath, folderUri));
-				DatabaseEntry entry = new DatabaseEntry($"ExtraFile{i}", content);
+				DatabaseEntry entry = new DatabaseEntry($"ExtraFile{i.ToString($"D{digitCount}")}",
+														content);
 
 				filesEntry.SubEntries.Add(entry.Name, entry);
 			}
