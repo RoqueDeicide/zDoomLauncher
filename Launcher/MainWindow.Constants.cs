@@ -25,5 +25,11 @@ namespace Launcher
 		private const string LoadableFilesDirectoriesEntryName = "LoadableFilesDirectories";
 		// Name of the entry that contains a path to the directory to for loadable files in.
 		private const string LoadableFilesDirectoryEntryName = "LoadableFilesDirectory";
+		// Name of the entry that contains custom position of the main window.
+		private const string MainWindowPositionEntryName = "MainWindowPosition";
+		// Name of the entry that contains custom dimensions of the main window.
+		private const string MainWindowSizeEntryName = "MainWindowSize";
+		// Name of the entry that indicates that the main window is maximized.
+		private const string MainWindowMaximizedEntryName = "MainWindowMaximized";
 	}
 }

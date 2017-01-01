@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Xml;
 using Launcher.Databases;
 using Launcher.Logging;
@@ -30,6 +31,24 @@ namespace Launcher
 			content = ToEntryContent(!string.IsNullOrWhiteSpace(this.currentExeFile), this.currentExeFile);
 			entry = new DatabaseEntry(LastExeFileEntryName, content);
 			appConfigurationDatabase.AddEntry(entry);
+
+			// Save window position and size if redefined.
+			if (this.windowPosition != null)
+			{
+				content = new TextContent($"{this.windowPosition.Value.X}|{this.windowPosition.Value.Y}");
+				entry = new DatabaseEntry(MainWindowPositionEntryName, content);
+				appConfigurationDatabase.AddEntry(entry);
+			}
+			if (this.windowSize != null)
+			{
+				content = new TextContent($"{this.windowSize.Value.Width}|{this.windowSize.Value.Height}");
+				entry = new DatabaseEntry(MainWindowSizeEntryName, content);
+				appConfigurationDatabase.AddEntry(entry);
+			}
+			if (this.maximized)
+			{
+				appConfigurationDatabase.AddEntry(new DatabaseEntry(MainWindowMaximizedEntryName, null));
+			}
 
 			// Save the directories.
 			var loadableFilesDirectoriesEntry = new DatabaseEntry(LoadableFilesDirectoriesEntryName, null);
@@ -74,6 +93,35 @@ namespace Launcher
 				this.CurrentConfigFile = TryGetEntryText(appConfigurationDatabase, LastConfigurationFileEntryName);
 				this.zDoomFolder = TryGetEntryText(appConfigurationDatabase, GameFolderEntryName);
 				this.currentExeFile = TryGetEntryText(appConfigurationDatabase, LastExeFileEntryName);
+
+				// Load custom size and position of the main window, if available.
+				string numbers = TryGetEntryText(appConfigurationDatabase, MainWindowPositionEntryName);
+				if (numbers != null)
+				{
+					var coords = numbers.Split('|');
+					try
+					{
+						this.windowPosition = new Point(double.Parse(coords[0]), double.Parse(coords[1]));
+					}
+					catch (Exception)
+					{
+						// ignored
+					}
+				}
+				numbers = TryGetEntryText(appConfigurationDatabase, MainWindowSizeEntryName);
+				if (numbers != null)
+				{
+					var coords = numbers.Split('|');
+					try
+					{
+						this.windowSize = new Size(double.Parse(coords[0]), double.Parse(coords[1]));
+					}
+					catch (Exception)
+					{
+						// ignored
+					}
+				}
+				this.maximized = appConfigurationDatabase.Contains(MainWindowMaximizedEntryName);
 
 				if (appConfigurationDatabase.Contains(LoadableFilesDirectoriesEntryName, false))
 				{

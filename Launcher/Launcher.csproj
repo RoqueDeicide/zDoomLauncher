@@ -192,6 +192,7 @@
     <Compile Include="Extensions\WpfExtensions.cs" />
     <Compile Include="ExtraControls\ExtraFilesSelectionBox.DragDrop.cs" />
     <Compile Include="ExtraControls\IwadComboBox.cs" />
+    <Compile Include="MainWindow.WindowManagement.cs" />
     <Compile Include="Utilities\Cast.cs" />
     <Compile Include="Wads\ExtraFilesLookUp.cs" />
     <Compile Include="ExtraControls\ExtraFilesSelectionBox.Buttons.cs" />
@@ -297,6 +298,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\LauncherIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\layer-resize.png" />
+    <Resource Include="Resources\layers-group.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
