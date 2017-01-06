@@ -10,13 +10,29 @@
 			<Setter Property="Height" Value="20" />
 			<Setter Property="Focusable" Value="False"/>
 		</Style>
-		<Style x:Key="SelectedFileListItem" BasedOn="{StaticResource FileListItem}" TargetType="ListBoxItem">
+		<Style x:Key="SelectedFileListItem" TargetType="ListBoxItem"
+			   BasedOn="{StaticResource FileListItem}">
 			<Setter Property="AllowDrop" Value="True"/>
 			<EventSetter Event="PreviewMouseLeftButtonDown" Handler="SaveCurrentMousePosition"/>
 			<EventSetter Event="Drop" Handler="MoveDraggedItem"/>
 			<EventSetter Event="PreviewDragOver" Handler="UpdateDropLocationIndication"/>
 			<EventSetter Event="PreviewDragLeave" Handler="TurnOffDropLocationIndication"/>
 		</Style>
+		<local:DirectoryNameSelector x:Key="DirectoryNameSelector" />
+		<DataTemplate x:Key="LoadableFilesGroupHeader">
+			<Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"
+					BorderThickness="0,0,0,1">
+				<Border.Background>
+					<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+						<GradientStop Color="White" Offset="0"/>
+						<GradientStop Color="White" Offset="0.3"/>
+						<GradientStop Color="LightGray" Offset="1"/>
+					</LinearGradientBrush>
+				</Border.Background>
+				<TextBlock Margin="0" FontWeight="Bold" FontSize="13" Height="20"
+						   Text="{Binding Converter={StaticResource DirectoryNameSelector}}" />
+			</Border>
+		</DataTemplate>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -24,11 +40,16 @@
 			<RowDefinition Height="8" />
 			<RowDefinition Height="34*" />
 		</Grid.RowDefinitions>
-		<Border Grid.Row="0" BorderThickness="1" BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}">
+		<Border Grid.Row="0" BorderThickness="1"
+				BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}">
 			<ScrollViewer HorizontalScrollBarVisibility="Visible">
-				<ListBox x:Name="AllFilesListBox" ItemsSource="{x:Static local:ExtraFilesLookUp.LoadableFiles}"
+				<ListBox x:Name="AllFilesListBox"
+						 ItemsSource="{x:Static local:ExtraFilesLookUp.LoadableFiles}"
 						 BorderThickness="0"
 						 ItemContainerStyle="{StaticResource FileListItem}">
+					<ListBox.GroupStyle>
+						<GroupStyle HeaderTemplate="{StaticResource LoadableFilesGroupHeader}" />
+					</ListBox.GroupStyle>
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">

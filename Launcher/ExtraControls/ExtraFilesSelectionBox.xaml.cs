@@ -3,16 +3,64 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using Launcher.Annotations;
 using Launcher.Logging;
 
 namespace Launcher
 {
+	/// <summary>
+	/// Represents an object that is used to select the name of the directory out of its full path.
+	/// </summary>
+	public class DirectoryNameSelector : IValueConverter
+	{
+		/// <summary>
+		/// Selects the name of the directory out of its full name.
+		/// </summary>
+		/// <param name="value">Object that is supposed to represent the full path to the directory.</param>
+		/// <param name="targetType">The object that is supposed to represent <see cref="string"/> type.</param>
+		/// <param name="parameter">Ignored.</param>
+		/// <param name="culture">Ignored.</param>
+		/// <returns>If operation was a success, then the name of the directory is returned, otherwise <c>null</c> is returned.</returns>
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (value == null)
+			{
+				return null;
+			}
+			if (targetType != typeof(string))
+			{
+				return null;
+			}
+
+			try
+			{
+				return Path.GetFileName((value as CollectionViewGroup)?.Name as string);
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+		}
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="value">Ignored.</param>
+		/// <param name="targetType">Ignored.</param>
+		/// <param name="parameter">Ignored.</param>
+		/// <param name="culture">Ignored.</param>
+		/// <returns></returns>
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return null;
+		}
+	}
 	/// <summary>
 	/// Interaction logic for ExtraFilesSelectionBox.xaml
 	/// </summary>
@@ -60,6 +108,9 @@ namespace Launcher
 			this.FileSelection = new ObservableCollection<object>();
 
 			this.InitializeComponent();
+
+			var allFilesCollView = CollectionViewSource.GetDefaultView(this.AllFilesListBox.ItemsSource);
+			allFilesCollView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
 
 			ExtraFilesLookUp.LoadableFiles.CollectionChanged += this.RemoveUnavailableSelection;
 			this.FileSelection.CollectionChanged += this.UpdatedSelectedFiles;
