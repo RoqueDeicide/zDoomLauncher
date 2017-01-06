@@ -94,6 +94,8 @@ namespace Launcher
 				}
 
 				this.selectedFiles = selectedFiles;
+
+				this.UpdateTopBottomSpinners();
 			}
 		}
 		/// <summary>
