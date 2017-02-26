@@ -12,6 +12,8 @@ namespace Launcher
 {
 	public partial class MainWindow
 	{
+		private bool settingUpStartUp;
+
 		private void SetupExtraFiles()
 		{
 			this.ExtraFilesBox.SelectedFiles = this.config.ExtraFiles;
@@ -72,6 +74,8 @@ namespace Launcher
 		}
 		private void SetupStartUp()
 		{
+			this.settingUpStartUp = true;
+
 			switch (this.config.StartUpFileKind)
 			{
 				case StartupFile.None:
@@ -114,6 +118,8 @@ namespace Launcher
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+
+			this.settingUpStartUp = false;
 		}
 		private void SetupGamePlay()
 		{

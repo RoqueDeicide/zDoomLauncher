@@ -173,16 +173,18 @@ namespace Launcher
 		#region Start Up
 		private void SwitchToSave(object sender, RoutedEventArgs e)
 		{
-			if (this.LoadGameTextBox == null)
+			if (this.LoadGameTextBox == null || this.settingUpStartUp)
 			{
 				return;
 			}
+
 			this.config.StartUpFileKind = StartupFile.SaveGame;
 			this.config.AutoStartFile = this.LoadGameTextBox.Text;
 		}
 		private void UpdateSaveGameFile(object sender, TextChangedEventArgs e)
 		{
-			if (this.LoadSaveIndicator != null && this.LoadSaveIndicator.IsChecked == true)
+			if (this.LoadSaveIndicator != null && this.LoadSaveIndicator.IsChecked == true &&
+				!this.settingUpStartUp)
 			{
 				this.config.AutoStartFile = this.LoadGameTextBox.Text;
 			}
@@ -190,12 +192,18 @@ namespace Launcher
 
 		private void SwitchToDemo(object sender, RoutedEventArgs e)
 		{
+			if (this.settingUpStartUp)
+			{
+				return;
+			}
+
 			this.config.StartUpFileKind = StartupFile.Demo;
 			this.config.AutoStartFile = this.PlayDemoTextBox.Text;
 		}
 		private void UpdateDemoFile(object sender, TextChangedEventArgs e)
 		{
-			if (this.LoadDemoIndicator != null && this.LoadDemoIndicator.IsChecked == true)
+			if (this.LoadDemoIndicator != null && this.LoadDemoIndicator.IsChecked == true &&
+				!this.settingUpStartUp)
 			{
 				this.config.AutoStartFile = this.PlayDemoTextBox.Text;
 			}
@@ -203,10 +211,11 @@ namespace Launcher
 
 		private void SwitchToMap(object sender, RoutedEventArgs e)
 		{
-			if (this.MapValueField == null || this.EpisodeValueField == null)
+			if (this.MapValueField == null || this.EpisodeValueField == null || this.settingUpStartUp)
 			{
 				return;
 			}
+
 			this.config.StartUpFileKind = StartupFile.Map;
 			this.config.AutoStartFile = this.EpisodicIwadIsSelected()
 				? $"{this.EpisodeValueField.Value} {this.MapValueField.Value}"
@@ -217,7 +226,8 @@ namespace Launcher
 			var episodeValue = newValue;
 
 			if (this.LoadMapIndicator != null && this.LoadMapIndicator.IsChecked == true &&
-				this.EpisodicIwadIsSelected() && episodeValue != null)
+				this.EpisodicIwadIsSelected() && episodeValue != null &&
+				!this.settingUpStartUp)
 			{
 				this.config.AutoStartFile = this.config.AutoStartFile.ChangeNumber(0, (int)episodeValue);
 			}
@@ -227,7 +237,7 @@ namespace Launcher
 			var mapValue = newValue;
 
 			if (this.LoadMapIndicator != null && this.LoadMapIndicator.IsChecked == true &&
-				mapValue != null)
+				mapValue != null && !this.settingUpStartUp)
 			{
 				this.config.AutoStartFile =
 					this.config.AutoStartFile.ChangeNumber((this.EpisodicIwadIsSelected()) ? 1 : 0,
@@ -237,7 +247,7 @@ namespace Launcher
 
 		private void UpdateMapName(object sender, TextChangedEventArgs e)
 		{
-			if (this.LoadNamedMapIndicator?.IsChecked == true)
+			if (this.LoadNamedMapIndicator?.IsChecked == true && !this.settingUpStartUp)
 			{
 				this.config.AutoStartFile = this.LoadNamedMapTextBox.Text;
 			}
@@ -257,6 +267,11 @@ namespace Launcher
 
 		private void SwitchToNamedMap(object sender, RoutedEventArgs e)
 		{
+			if (this.settingUpStartUp)
+			{
+				return;
+			}
+
 			this.config.StartUpFileKind = StartupFile.NamedMap;
 			this.config.AutoStartFile = this.LoadNamedMapTextBox.Text;
 		}

@@ -23,6 +23,8 @@ namespace Launcher
 		private HelpWindow helpWindow;
 		public MainWindow()
 		{
+			this.settingUpStartUp = false;
+
 			this.InitializeComponent();
 
 			this.LoadAppConfiguration();
