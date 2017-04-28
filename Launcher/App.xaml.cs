@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using Launcher.Logging;
 
@@ -38,6 +40,15 @@ namespace Launcher
 					}
 				}
 			};
+
+			// Make sure that the working directory is not screwed up when launching the app from the
+			// link.
+			string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			if (exePath == null)
+			{
+				return;
+			}
+			Directory.SetCurrentDirectory(exePath);
 		}
 	}
 }
