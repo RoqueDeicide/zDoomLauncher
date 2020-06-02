@@ -34,7 +34,7 @@ namespace Launcher
 
 			this.SelectZDoomInstallationFolder(this, null);
 
-			if (this.zDoomFolder == null)
+			if (!this.IsCurrentZDoomFolderValid())
 			{
 				return;
 			}
@@ -218,9 +218,14 @@ namespace Launcher
 			new CommandLineWindow($"{appPath} {commandLineArgs}").ShowDialog();
 		}
 
+		private bool IsCurrentZDoomFolderValid()
+		{
+			return this.zDoomFolder != null && Directory.Exists(this.zDoomFolder);
+		}
+
 		private void SelectZDoomInstallationFolder(object sender, RoutedEventArgs e)
 		{
-			if (this.zDoomFolder == null || !Directory.Exists(this.zDoomFolder))
+			if (!this.IsCurrentZDoomFolderValid())
 			{
 				var dialog = new VistaFolderBrowserDialog
 							 {
