@@ -28,3 +28,4 @@ Thumbs.db
 _ReSharper*/
 [Tt]est[Rr]esult*
 *.tmp_proj
+*_wpftmp.csproj
