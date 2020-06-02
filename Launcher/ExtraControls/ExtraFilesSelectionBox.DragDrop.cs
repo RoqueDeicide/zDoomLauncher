@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Launcher
 {
 	public partial class ExtraFilesSelectionBox
 	{
-		// A point at which the mouse left button is clicked. Used to prevent the drag'n'drop
-		// operation from happening when the user simply clicks on the list box for selected files.
+		// A point at which the mouse left button is clicked. Used to prevent the drag'n'drop operation from happening when
+		// the user simply clicks on the list box for selected files.
 		private Point dragStartPoint;
+
 		private void SaveCurrentMousePosition(object sender, MouseButtonEventArgs e)
 		{
 			this.dragStartPoint = e.GetPosition(null);
 		}
+
 		private void AttemptInitiateDragDrop(object sender, MouseEventArgs e)
 		{
 			// Check the new mouse position against the saved one.
-			Point currentPosition = e.GetPosition(null);
-			Vector delta = currentPosition - this.dragStartPoint;
+			var currentPosition = e.GetPosition(null);
+			var delta           = currentPosition - this.dragStartPoint;
 
 			// See, if the mouse went sufficiently far away from the point of the click.
 			if (e.LeftButton == MouseButtonState.Released ||
@@ -40,11 +40,10 @@ namespace Launcher
 
 			DragDrop.DoDragDrop(listBox, item.DataContext, DragDropEffects.Move);
 		}
+
 		private void MoveDraggedItem(object sender, DragEventArgs e)
 		{
-			ListBoxItem listBoxItem = sender as ListBoxItem;
-
-			if (listBoxItem == null)
+			if (!(sender is ListBoxItem listBoxItem))
 			{
 				return;
 			}
@@ -52,10 +51,10 @@ namespace Launcher
 			var source = e.Data.GetData(typeof(FileDesc));
 			var target = listBoxItem.DataContext;
 
-			int sourceIndex = this.FileSelection.IndexOf(source);
-			int targetIndex = this.FileSelection.IndexOf(target);
+			var sourceIndex = this.FileSelection.IndexOf(source);
+			var targetIndex = this.FileSelection.IndexOf(target);
 
-			var targetFile = (FileDesc)target;
+			var targetFile = (FileDesc) target;
 			if (targetFile.DragOverBottom == Visibility.Visible)
 			{
 				// Insert below the targeted item, rather then above.
@@ -64,7 +63,7 @@ namespace Launcher
 
 			this.MoveSelectedItem(sourceIndex, targetIndex);
 
-			targetFile.DragOverTop = Visibility.Hidden;
+			targetFile.DragOverTop    = Visibility.Hidden;
 			targetFile.DragOverBottom = Visibility.Hidden;
 		}
 
@@ -79,8 +78,8 @@ namespace Launcher
 
 			if (sourceIndex < destinationIndex)
 			{
-				// Removal of the item from the list causes the destination index to point at the
-				// item 1 further away from the start.
+				// Removal of the item from the list causes the destination index to point at the item 1 further away from
+				// the start.
 				this.FileSelection.RemoveAt(sourceIndex);
 				this.FileSelection.Insert(destinationIndex - 1, source);
 			}
@@ -97,42 +96,40 @@ namespace Launcher
 		{
 			var item = sender as ListBoxItem;
 
-			var file = item?.DataContext as FileDesc;
-			if (file == null)
+			if (!(item?.DataContext is FileDesc file))
 			{
 				return;
 			}
-			
+
 			var cp = item.FindVisualChild<ContentPresenter>();
 			Debug.Assert(cp != null, "cp != null");
-			
-			// Check the coordinates of the mouse relative to the ContentPresenter of the list box item.
-			var position = e.GetPosition(cp);
-			int halfHeight = (int)item.ActualHeight / 2;		// 0-9: upper half, 10-19: lower half.
 
+			// Check the coordinates of the mouse relative to the ContentPresenter of the list box item.
+			var position   = e.GetPosition(cp);
+			var halfHeight = (int) item.ActualHeight / 2; // 0-9: upper half, 10-19: lower half.
 
 			if (position.Y < halfHeight)
 			{
-				file.DragOverTop = Visibility.Visible;
+				file.DragOverTop    = Visibility.Visible;
 				file.DragOverBottom = Visibility.Hidden;
 			}
 			else
 			{
 				file.DragOverBottom = Visibility.Visible;
-				file.DragOverTop = Visibility.Hidden;
+				file.DragOverTop    = Visibility.Hidden;
 			}
 		}
+
 		private void TurnOffDropLocationIndication(object sender, DragEventArgs e)
 		{
 			var item = sender as ListBoxItem;
 
-			var file = item?.DataContext as FileDesc;
-			if (file == null)
+			if (!(item?.DataContext is FileDesc file))
 			{
 				return;
 			}
 
-			file.DragOverTop = Visibility.Hidden;
+			file.DragOverTop    = Visibility.Hidden;
 			file.DragOverBottom = Visibility.Hidden;
 		}
 	}

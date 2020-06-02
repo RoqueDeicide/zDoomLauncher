@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using Launcher.Annotations;
 using Launcher.Configs;
 using Launcher.Logging;
 using Ookii.Dialogs.Wpf;
@@ -15,12 +16,14 @@ namespace Launcher
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
+	[UsedImplicitly]
 	public partial class MainWindow
 	{
 		private const int CommandLineMaxLength = 2080;
 
 		private AboutWindow aboutWindow;
-		private HelpWindow helpWindow;
+		private HelpWindow  helpWindow;
+
 		public MainWindow()
 		{
 			this.settingUpStartUp = false;
@@ -40,7 +43,7 @@ namespace Launcher
 			{
 				Log.Message("Getting command line arguments.");
 
-				string[] args = Environment.GetCommandLineArgs();
+				var args = Environment.GetCommandLineArgs();
 
 				Log.Message("Checking arguments.");
 
@@ -69,7 +72,7 @@ namespace Launcher
 			}
 			else
 			{
-				this.config = new LaunchConfiguration();
+				this.config            = new LaunchConfiguration();
 				this.CurrentConfigFile = "DefaultConfigFile.xlcf";
 			}
 
@@ -83,13 +86,12 @@ namespace Launcher
 			this.InitializeSomeEventHandlers();
 			this.SetupInterface();
 		}
+
 		#region Setting Up
+
 		private void SetupInterface()
 		{
-			if (this.config == null)
-			{
-				this.config = new LaunchConfiguration();
-			}
+			this.config ??= new LaunchConfiguration();
 			// Set the title of the window.
 			this.UpdateWindowTitle();
 			// Set the name of the configuration in the text box.
@@ -111,7 +113,9 @@ namespace Launcher
 			// Gameplay.
 			this.SetupGamePlay();
 		}
+
 		#endregion
+
 		private void LaunchTheGame(object sender, RoutedEventArgs e)
 		{
 			this.Launch(this.currentExeFile);
@@ -119,11 +123,11 @@ namespace Launcher
 
 		private void Launch(string appFileName)
 		{
-			string appFile = PathIO.Combine(this.zDoomFolder, appFileName);
-			string commandLine = this.config.GetCommandLine(this.zDoomFolder);
+			var appFile     = PathIO.Combine(this.zDoomFolder, appFileName);
+			var commandLine = this.config.GetCommandLine(this.zDoomFolder);
 
-			bool appExists = File.Exists(appFile);
-			bool commandLineFits = commandLine.Length + appFile.Length <= CommandLineMaxLength;
+			var appExists       = File.Exists(appFile);
+			var commandLineFits = commandLine.Length + appFile.Length <= CommandLineMaxLength;
 
 			if (appExists && commandLineFits)
 			{
@@ -131,13 +135,13 @@ namespace Launcher
 			}
 			else
 			{
-				bool multipleErrors = !appExists && !commandLineFits;
+				var multipleErrors = !appExists && !commandLineFits;
 
-				StringBuilder error = new StringBuilder(100);
+				var error = new StringBuilder(100);
 
 				error.AppendLine(multipleErrors
-					? "Unable to launch: multiple errors have been found:"
-					: "Unable to launch: an error has been found:");
+									 ? "Unable to launch: multiple errors have been found:"
+									 : "Unable to launch: an error has been found:");
 				error.AppendLine();
 
 				if (!appExists)
@@ -148,6 +152,7 @@ namespace Launcher
 					error.Append(this.zDoomFolder);
 					error.AppendLine(".");
 				}
+
 				if (!commandLineFits)
 				{
 					error.AppendLine("    - Length of the command line exceeds allowed number of characters,");
@@ -155,27 +160,30 @@ namespace Launcher
 					error.AppendLine("      are not in the same directory as the application.");
 				}
 
-				string errorText = error.ToString();
+				var errorText = error.ToString();
 				Log.Error(errorText);
 				MessageBox.Show(errorText, "Cannot launch the game", MessageBoxButton.OK,
 								MessageBoxImage.Error, MessageBoxResult.OK);
 			}
 		}
+
 		private void CreateNewConfiguration(object sender, RoutedEventArgs e)
 		{
 			this.saveConfigurationDialog.FileName = "";
 
 			if (this.saveConfigurationDialog.ShowDialog(this) == true)
 			{
-				this.config = null;
+				this.config            = null;
 				this.CurrentConfigFile = this.saveConfigurationDialog.FileName;
 				this.SetupInterface();
 			}
 		}
+
 		private void SaveConfiguration(object sender, RoutedEventArgs e)
 		{
 			this.config.Save(this.CurrentConfigFile, this.zDoomFolder);
 		}
+
 		private void SaveConfigurationAs(object sender, RoutedEventArgs e)
 		{
 			this.saveConfigurationDialog.FileName = this.CurrentConfigFile;
@@ -186,6 +194,7 @@ namespace Launcher
 				this.config.Save(this.CurrentConfigFile, this.zDoomFolder);
 			}
 		}
+
 		private void OpenConfiguration(object sender, RoutedEventArgs e)
 		{
 			if (this.openConfigurationDialog.ShowDialog(this) == true)
@@ -194,6 +203,7 @@ namespace Launcher
 				this.SetupInterface();
 			}
 		}
+
 		private void CloseWindow(object sender, RoutedEventArgs e)
 		{
 			this.Close();
@@ -201,9 +211,9 @@ namespace Launcher
 
 		private void ShowCommandLine(object sender, RoutedEventArgs e)
 		{
-			string appPath = Path.Combine(this.zDoomFolder, this.currentExeFile);
+			var appPath = Path.Combine(this.zDoomFolder, this.currentExeFile);
 
-			string commandLineArgs = this.config.GetCommandLine(this.zDoomFolder);
+			var commandLineArgs = this.config.GetCommandLine(this.zDoomFolder);
 
 			new CommandLineWindow($"{appPath} {commandLineArgs}").ShowDialog();
 		}
@@ -212,12 +222,12 @@ namespace Launcher
 		{
 			if (this.zDoomFolder == null || !Directory.Exists(this.zDoomFolder))
 			{
-				VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog
-				{
-					Description = @"Select folder with zdoom.exe",
-					UseDescriptionForTitle = true,
-					ShowNewFolderButton = false
-				};
+				var dialog = new VistaFolderBrowserDialog
+							 {
+								 Description            = @"Select folder with zdoom.exe",
+								 UseDescriptionForTitle = true,
+								 ShowNewFolderButton    = false
+							 };
 
 				while (true)
 				{
@@ -248,9 +258,10 @@ namespace Launcher
 
 			this.RefreshExeFiles(this, null);
 		}
+
 		private void OpenDirectoriesWindow(object sender, RoutedEventArgs e)
 		{
-			Directories dirs = new Directories();
+			var dirs = new Directories();
 
 			dirs.ShowDialog();
 		}
@@ -271,23 +282,24 @@ namespace Launcher
 
 			var exeFiles = from exeFile in Directory.EnumerateFiles(this.zDoomFolder, "*.exe")
 						   select new ComboBoxItem
-						   {
-							   Content = PathIO.GetFileName(exeFile)
-						   };
+								  {
+									  Content = PathIO.GetFileName(exeFile)
+								  };
 
 			foreach (var comboBoxItem in exeFiles)
 			{
 				this.ExeFileNameComboBox.Items.Add(comboBoxItem);
 			}
 
-			string currentExeFileFullName = PathIO.Combine(this.zDoomFolder, this.currentExeFile ?? "");
+			var currentExeFileFullName = PathIO.Combine(this.zDoomFolder, this.currentExeFile ?? "");
 
 			if (this.currentExeFile == null || !File.Exists(currentExeFileFullName))
 			{
 				// Clear the selected item on ExeFileNameComboBox.
 				this.ExeFileNameComboBox.SelectedItem = null;
-				this.currentExeFile = null;
+				this.currentExeFile                   = null;
 			}
+
 			if (this.currentExeFile != null && File.Exists(currentExeFileFullName))
 			{
 				// Select the file in the combo box.
@@ -307,8 +319,7 @@ namespace Launcher
 		private void ExeFileSelected(object sender, SelectionChangedEventArgs e)
 		{
 			// Update the field.
-			ComboBoxItem selectedItem = this.ExeFileNameComboBox.SelectedItem as ComboBoxItem;
-			if (selectedItem != null)
+			if (this.ExeFileNameComboBox.SelectedItem is ComboBoxItem selectedItem)
 			{
 				this.currentExeFile = selectedItem.Content as string;
 			}
@@ -316,20 +327,14 @@ namespace Launcher
 
 		private void OpenAboutWindow(object sender, RoutedEventArgs e)
 		{
-			if (this.aboutWindow == null)
-			{
-				this.aboutWindow = new AboutWindow();
-			}
+			this.aboutWindow ??= new AboutWindow();
 
 			this.aboutWindow.Show();
 		}
 
 		private void OpenHelpWindow(object sender, RoutedEventArgs e)
 		{
-			if (this.helpWindow == null)
-			{
-				this.helpWindow = new HelpWindow();
-			}
+			this.helpWindow ??= new HelpWindow();
 
 			this.helpWindow.Show();
 		}
@@ -350,11 +355,12 @@ namespace Launcher
 			this.RefreshExeFiles(this.ExeFilesRefreshButton, e);
 			this.RefreshExtraFiles(this.ExtraFilesRefreshButton, e);
 		}
-		private LaunchConfiguration LoadConfiguration(string file)
-		{
-			var config = LaunchConfiguration.Load(file, this.zDoomFolder);
 
-			string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+		private LaunchConfiguration LoadConfiguration(string configFile)
+		{
+			var loadedConfig = LaunchConfiguration.Load(configFile, this.zDoomFolder);
+
+			var doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
 
 			if (!string.IsNullOrWhiteSpace(doomWadDir) && !ExtraFilesLookUp.Directories.Contains(doomWadDir))
 			{
@@ -366,11 +372,11 @@ namespace Launcher
 				ExtraFilesLookUp.Directories.Add(this.zDoomFolder);
 			}
 
-			this.IwadComboBox.Select(config.IwadPath);
+			this.IwadComboBox.Select(loadedConfig.IwadPath);
 
-			this.CurrentConfigFile = PathIO.ChangeExtension(file, ".xlcf");
+			this.CurrentConfigFile = PathIO.ChangeExtension(configFile, ".xlcf");
 
-			return config;
+			return loadedConfig;
 		}
 	}
 }

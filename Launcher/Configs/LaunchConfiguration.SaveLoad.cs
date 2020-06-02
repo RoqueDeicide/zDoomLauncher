@@ -19,7 +19,7 @@ namespace Launcher.Configs
 		/// <param name="gameFolder">Path to the folder that contains the executables.</param>
 		public void Save(string file, string gameFolder)
 		{
-			Database database = new Database("xlcf", "blcf");
+			var database = new Database("xlcf", "blcf");
 
 			// Name.
 			database.AddContent(nameof(this.Name), this.Name);
@@ -79,29 +79,31 @@ namespace Launcher.Configs
 
 			database.Save(file);
 		}
+
 		private void SaveExtraFiles(Database database, string gameFolder)
 		{
-			string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+			var doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
 
-			DatabaseEntry filesEntry = new DatabaseEntry("ExtraFiles", null);
-			Uri folderUri = new Uri(PathUtils.EndWithBackSlash(gameFolder), UriKind.Absolute);
+			var filesEntry = new DatabaseEntry("ExtraFiles", null);
+			var folderUri  = new Uri(PathUtils.EndWithBackSlash(gameFolder), UriKind.Absolute);
 
 			// Maximal number of digits that can used to designate an index of the entry.
-			int digitCount = (int)Math.Floor(Math.Log10(this.ExtraFiles.Count) + 1);
-			for (int i = 0; i < this.ExtraFiles.Count; i++)
+			var digitCount = (int) Math.Floor(Math.Log10(this.ExtraFiles.Count) + 1);
+			for (var i = 0; i < this.ExtraFiles.Count; i++)
 			{
-				string filePath = this.ExtraFiles[i];
-				TextContent content = new TextContent(Path.GetDirectoryName(filePath) == doomWadDir
-					? Path.GetFileName(filePath)
-					: PathUtils.ToRelativePath(filePath, folderUri));
-				DatabaseEntry entry = new DatabaseEntry($"ExtraFile{i.ToString($"D{digitCount}")}",
-														content);
+				var filePath = this.ExtraFiles[i];
+				var content = new TextContent(Path.GetDirectoryName(filePath) == doomWadDir
+												  ? Path.GetFileName(filePath)
+												  : PathUtils.ToRelativePath(filePath, folderUri));
+				var entry = new DatabaseEntry($"ExtraFile{i.ToString($"D{digitCount}")}",
+											  content);
 
 				filesEntry.SubEntries.Add(entry.Name, entry);
 			}
 
 			database.AddEntry(filesEntry);
 		}
+
 		/// <summary>
 		/// Loads this configuration from the file.
 		/// </summary>
@@ -114,11 +116,11 @@ namespace Launcher.Configs
 				return LoadLegacy(file, gameFolder);
 			}
 
-			Database database = new Database("xlcf", "blcf");
+			var database = new Database("xlcf", "blcf");
 
 			database.Load(file);
 
-			LaunchConfiguration config = new LaunchConfiguration();
+			var config = new LaunchConfiguration();
 
 			// Name.
 			config.Name = database.GetText(nameof(config.Name));
@@ -169,7 +171,7 @@ namespace Launcher.Configs
 			config.TimeLimit = database.GetInteger(nameof(config.TimeLimit));
 
 			// Turbo mode.
-			config.TurboMode = (byte?)database.GetInteger(nameof(config.TurboMode));
+			config.TurboMode = (byte?) database.GetInteger(nameof(config.TurboMode));
 
 			// Difficulty.
 			config.Difficulty = database.GetInteger(nameof(config.Difficulty));
@@ -178,6 +180,7 @@ namespace Launcher.Configs
 
 			return config;
 		}
+
 		public void LoadExtraFiles(Database database, string gameFolder)
 		{
 			if (!database.Contains("ExtraFiles", false))
@@ -185,9 +188,9 @@ namespace Launcher.Configs
 				return;
 			}
 
-			string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
-			DatabaseEntry filesEntry = database["ExtraFiles"];
-			string entryNamePart = "ExtraFile";
+			var          doomWadDir    = ExtraFilesLookUp.DoomWadDirectory;
+			var          filesEntry    = database["ExtraFiles"];
+			const string entryNamePart = "ExtraFile";
 
 			// Restore full paths.
 			var paths = from nameEntry in filesEntry.SubEntries
@@ -196,10 +199,10 @@ namespace Launcher.Configs
 						where content != null
 						select content;
 
-			foreach (string filePath in paths)
+			foreach (var filePath in paths)
 			{
-				string relativeFilePath = filePath;
-				string path = Path.Combine(doomWadDir, relativeFilePath);
+				var relativeFilePath = filePath;
+				var path             = Path.Combine(doomWadDir, relativeFilePath);
 				if (File.Exists(path))
 				{
 					this.ExtraFiles.Add(PathUtils.GetLocalPath(path));
@@ -215,20 +218,22 @@ namespace Launcher.Configs
 			}
 
 			// Update directories.
-			List<string> dirs = new List<string>(10);
-			foreach (string dirName in from extraFile in this.ExtraFiles
-									   select Path.GetDirectoryName(extraFile) into dirName
-									   where !dirs.Contains(dirName)
-									   select dirName)
+			var dirs = new List<string>(10);
+			foreach (var dirName in from extraFile in this.ExtraFiles
+									select Path.GetDirectoryName(extraFile)
+									into dirName
+									where !dirs.Contains(dirName)
+									select dirName)
 			{
 				dirs.Add(dirName);
 			}
 
-			foreach (string dir in dirs.Where(dir => !ExtraFilesLookUp.Directories.Contains(dir)))
+			foreach (var dir in dirs.Where(dir => !ExtraFilesLookUp.Directories.Contains(dir)))
 			{
 				ExtraFilesLookUp.Directories.Add(dir);
 			}
 		}
+
 		/// <summary>
 		/// Loads this configuration from the file.
 		/// </summary>
@@ -239,19 +244,19 @@ namespace Launcher.Configs
 			try
 			{
 				LaunchConfiguration config;
-				using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+				using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
 				{
-					BinaryFormatter formatter = new BinaryFormatter();
-					config = (LaunchConfiguration)formatter.Deserialize(fs);
+					var formatter = new BinaryFormatter();
+					config = (LaunchConfiguration) formatter.Deserialize(fs);
 				}
 
-				string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+				var doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
 
 				// Restore full paths.
-				for (int i = 0; i < config.ExtraFiles.Count; i++)
+				for (var i = 0; i < config.ExtraFiles.Count; i++)
 				{
-					string relativeFilePath = config.ExtraFiles[i];
-					string path = Path.Combine(doomWadDir, relativeFilePath);
+					var relativeFilePath = config.ExtraFiles[i];
+					var path             = Path.Combine(doomWadDir, relativeFilePath);
 					if (File.Exists(path))
 					{
 						config.ExtraFiles[i] = PathUtils.GetLocalPath(path);
@@ -272,16 +277,17 @@ namespace Launcher.Configs
 				}
 
 				// Update directories.
-				List<string> dirs = new List<string>(10);
-				foreach (string dirName in from extraFile in config.ExtraFiles
-										   select Path.GetDirectoryName(extraFile) into dirName
-										   where !dirs.Contains(dirName)
-										   select dirName)
+				var dirs = new List<string>(10);
+				foreach (var dirName in from extraFile in config.ExtraFiles
+										select Path.GetDirectoryName(extraFile)
+										into dirName
+										where !dirs.Contains(dirName)
+										select dirName)
 				{
 					dirs.Add(dirName);
 				}
 
-				foreach (string dir in dirs.Where(dir => !ExtraFilesLookUp.Directories.Contains(dir)))
+				foreach (var dir in dirs.Where(dir => !ExtraFilesLookUp.Directories.Contains(dir)))
 				{
 					ExtraFilesLookUp.Directories.Add(dir);
 				}
@@ -295,15 +301,17 @@ namespace Launcher.Configs
 			}
 		}
 	}
+
 	internal static class DataBaseExtensions
 	{
 		internal static void AddContent(this Database database, string entryName, string textContent)
 		{
 			var content = string.IsNullOrEmpty(textContent) ? null : new TextContent(textContent);
-			DatabaseEntry entry = new DatabaseEntry(entryName, content);
+			var entry   = new DatabaseEntry(entryName, content);
 
 			database.AddEntry(entry);
 		}
+
 		internal static void AddContent(this Database database, string entryName, bool boolContent)
 		{
 			if (boolContent)
@@ -311,54 +319,59 @@ namespace Launcher.Configs
 				database.AddEntry(new DatabaseEntry(entryName, null));
 			}
 		}
+
 		internal static void AddEnum<EnumType>(this Database database, string entryName, EnumType enumContent)
 			where EnumType : struct, IComparable, IConvertible, IFormattable
 		{
-			IntegerContent content = new IntegerContent(enumContent.ToInt64(CultureInfo.InvariantCulture));
-			DatabaseEntry entry = new DatabaseEntry(entryName, content);
+			var content = new IntegerContent(enumContent.ToInt64(CultureInfo.InvariantCulture));
+			var entry   = new DatabaseEntry(entryName, content);
 
 			database.AddEntry(entry);
 		}
+
 		internal static void AddContent(this Database database, string entryName, int? nullableContent)
 		{
 			if (nullableContent != null)
 			{
-				IntegerContent content = new IntegerContent(nullableContent.Value);
-				DatabaseEntry entry = new DatabaseEntry(entryName, content);
+				var content = new IntegerContent(nullableContent.Value);
+				var entry   = new DatabaseEntry(entryName, content);
 
 				database.AddEntry(entry);
 			}
 		}
+
 		internal static string GetText(this Database database, string entryName)
 		{
 			return database.Contains(entryName, false)
-				? database[entryName].GetContent<TextContent>()?.Text
-				: "";
+					   ? database[entryName].GetContent<TextContent>()?.Text
+					   : "";
 		}
+
 		internal static bool GetBool(this Database database, string entryName)
 		{
 			return database.Contains(entryName, false);
 		}
+
 		internal static EnumType GetEnum<EnumType>(this Database database, string entryName)
 			where EnumType : struct, IComparable, IConvertible, IFormattable
 		{
-			if (database.Contains(entryName, false))
-			{
-				long? value = database[entryName].GetContent<IntegerContent>()?.Value;
-				if (value != null)
-				{
-					EnumType enumValue = Cast<EnumType>.From((int)value.Value);
-					return enumValue;
-				}
-			}
-			return default(EnumType);
+			if (!database.Contains(entryName, false)) return default;
+
+			var value = database[entryName].GetContent<IntegerContent>()?.Value;
+
+			if (value == null) return default;
+
+			var enumValue = Cast<EnumType>.From((int) value.Value);
+			return enumValue;
 		}
+
 		internal static int? GetInteger(this Database database, string entryName)
 		{
 			if (database.Contains(entryName, false))
 			{
-				return (int?)database[entryName].GetContent<IntegerContent>()?.Value;
+				return (int?) database[entryName].GetContent<IntegerContent>()?.Value;
 			}
+
 			return null;
 		}
 	}

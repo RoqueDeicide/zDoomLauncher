@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Security;
@@ -16,25 +15,31 @@ namespace Launcher
 	public static class ExtraFilesLookUp
 	{
 		#region Fields
-		private static readonly string[] emptyArray = {};
-		private static readonly string[] wadBlacklist =
+
+		private static readonly string[] EmptyArray = { };
+
+		private static readonly string[] WadBlacklist =
 		{
-			"zdoom.pk3",
-			"gzdoom.pk3",
-			"nerve.wad"
+			@"zdoom.pk3",
+			@"gzdoom.pk3",
+			@"nerve.wad"
 		};
 
 		/// <summary>
 		/// An observable collection of absolute paths to folder where to look for the loadable files.
 		/// </summary>
 		public static readonly ObservableCollection<string> Directories = new ObservableCollection<string>();
+
 		/// <summary>
 		/// An observable collection of absolute paths to all loadable files that were found in <see cref="Directories"/>.
 		/// </summary>
 		public static readonly ObservableCollection<FileDesc> LoadableFiles =
 			new ObservableCollection<FileDesc>();
+
 		#endregion
+
 		#region Properties
+
 		/// <summary>
 		/// Gets the path to the directory that is mentioned in DOOMWADDIR environment variable.
 		/// </summary>
@@ -52,17 +57,21 @@ namespace Launcher
 				}
 			}
 		}
+
 		#endregion
-		#region Events
-		
-		#endregion
+
+
 		#region Construction
+
 		static ExtraFilesLookUp()
 		{
 			Directories.CollectionChanged += RefreshDirectories;
 		}
+
 		#endregion
+
 		#region Interface
+
 		/// <summary>
 		/// Looks for the files that can be loaded with the game in the specified folder.
 		/// </summary>
@@ -75,12 +84,13 @@ namespace Launcher
 			if (File.Exists(folder))
 			{
 				Log.Message("Provided name is a name of the file.");
-				return emptyArray;
+				return EmptyArray;
 			}
+
 			if (!Directory.Exists(folder))
 			{
 				Log.Message("Cannot find the folder.");
-				return emptyArray;
+				return EmptyArray;
 			}
 
 			IEnumerable<string> enumeration;
@@ -91,46 +101,48 @@ namespace Launcher
 			catch (Exception ex)
 			{
 				Log.Message("Unable to enumerate the folder due to an error: {0}", ex.Message);
-				return emptyArray;
+				return EmptyArray;
 			}
 
 			return enumeration.Where(IsLoadableFile);
 		}
+
 		private static bool IsLoadableFile(string filePath)
 		{
-			string fileName = Path.GetFileName(filePath);
+			var fileName = Path.GetFileName(filePath);
 			if (fileName == null)
 			{
 				return false;
 			}
-			fileName = fileName.ToLowerInvariant();
-			string extension = Path.GetExtension(fileName).ToLowerInvariant();
 
-			Func<IwadFile, bool> predicate = iwad => iwad.FileName.Equals(fileName);
+			fileName = fileName.ToLowerInvariant();
+			var extension = Path.GetExtension(fileName).ToLowerInvariant();
+
+			bool Predicate(IwadFile iwad) => iwad.FileName.Equals(fileName);
 
 #if DEBUG
 			// For debugger.
-			bool isIwad = Iwads.SupportedIwads.Any(predicate);
+			var isIwad = Iwads.SupportedIwads.Any(Predicate);
 
-			bool isLoadable = extension == ".wad" || extension == ".pk3";
+			var isLoadable = extension == ".wad" || extension == ".pk3";
 
-			bool isBlacklisted = wadBlacklist.Contains(fileName);
+			var isBlacklisted = WadBlacklist.Contains(fileName);
 
 			return !isIwad && isLoadable && !isBlacklisted;
 #else
-
 			return (extension == ".wad" || extension == ".pk3") &&
-				   !wadBlacklist.Contains(fileName) &&
-				   !Iwads.SupportedIwads.Any(predicate);
+				   !WadBlacklist.Contains(fileName) &&
+				   !Iwads.SupportedIwads.Any(Predicate);
 #endif
 		}
+
 		/// <summary>
 		/// Refreshes all directories and loadable file lists.
 		/// </summary>
 		public static void Refresh()
 		{
 			// Refresh directories.
-			for (int i = 0; i < Directories.Count; i++)
+			for (var i = 0; i < Directories.Count; i++)
 			{
 				if (!Directory.Exists(Directories[i]))
 				{
@@ -141,10 +153,11 @@ namespace Launcher
 			// Re-add files from directories.
 			RefreshFiles();
 		}
+
 		private static void RefreshFiles()
 		{
 			// Remove files that don't exist.
-			for (int i = 0; i < LoadableFiles.Count; i++)
+			for (var i = 0; i < LoadableFiles.Count; i++)
 			{
 				if (!File.Exists(LoadableFiles[i].FullPath))
 				{
@@ -152,28 +165,32 @@ namespace Launcher
 				}
 			}
 
-			foreach (string directory in Directories)
+			foreach (var directory in Directories)
 			{
 				RefreshFilesInDirectory(directory);
 			}
 		}
+
 		private static void RefreshFilesInDirectory(string directory)
 		{
 			//int currentEnumeratedFileIndex = 0;
 
-			// This should point at the first file from current directory. All files from the same directory should be in the continuous sequence within the collection.
-			int currentCollectionFileIndex = LoadableFiles.IndexOfToEnd(x => x.Directory == directory);
+			// This should point at the first file from current directory. All files from the same directory should be in the
+			// continuous sequence within the collection.
+			var currentCollectionFileIndex = LoadableFiles.IndexOfToEnd(x => x.Directory == directory);
 
 			var enumeratedFiles = GetLoadableFiles(directory);
 
-			foreach (string enumeratedFile in enumeratedFiles)
+			foreach (var enumeratedFile in enumeratedFiles)
 			{
-				if (currentCollectionFileIndex == LoadableFiles.Count || // Make sure we don't get index out of range error.
+				if (currentCollectionFileIndex ==
+					LoadableFiles.Count || // Make sure we don't get index out of range error.
 					enumeratedFile != LoadableFiles[currentCollectionFileIndex].FullPath)
 				{
 					// Current enumerated file is a new file that wasn't in the directory before.
 					LoadableFiles.Insert(currentCollectionFileIndex, new FileDesc(enumeratedFile));
 				}
+
 				// Advance to next file in the collection.
 				currentCollectionFileIndex++;
 
@@ -181,8 +198,11 @@ namespace Launcher
 				//currentEnumeratedFileIndex++;
 			}
 		}
+
 		#endregion
+
 		#region Utilities
+
 		private static void RefreshDirectories(object sender, NotifyCollectionChangedEventArgs args)
 		{
 			var newItems = (args.NewItems ?? new string[0]).OfType<string>();
@@ -194,39 +214,46 @@ namespace Launcher
 					// Add loadable files to the files collection.
 					AddFilesFromDirectories(newItems);
 					break;
+
 				case NotifyCollectionChangedAction.Remove:
 					// Remove loadable files that are in the directory from the collection.
 					RemoveFilesInDirectories(oldItems);
 					break;
+
 				case NotifyCollectionChangedAction.Replace:
 					RemoveFilesInDirectories(oldItems);
 					AddFilesFromDirectories(newItems);
 					break;
+
 				case NotifyCollectionChangedAction.Move:
 					// Don't do anything.
 					break;
+
 				case NotifyCollectionChangedAction.Reset:
 					LoadableFiles.Clear();
 					AddFilesFromDirectories(newItems);
 					break;
+
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
 		}
+
 		private static void AddFilesFromDirectories(IEnumerable<string> directories)
 		{
-			foreach (string loadableFile in from directory in directories
-											from file in GetLoadableFiles(directory)
-											select file)
+			foreach (var loadableFile in from directory in directories
+										 from file in GetLoadableFiles(directory)
+										 select file)
 			{
 				LoadableFiles.Add(new FileDesc(loadableFile));
 			}
 		}
+
 		private static void RemoveFilesInDirectories(IEnumerable<string> directories)
 		{
-			foreach (string directory in directories)
+			foreach (var directory in directories)
 			{
-				for (int i = 0; i < LoadableFiles.Count; i++)
+				for (var i = 0; i < LoadableFiles.Count; i++)
 				{
 					if (LoadableFiles[i].Directory == directory)
 					{
@@ -235,6 +262,7 @@ namespace Launcher
 				}
 			}
 		}
+
 		#endregion
 	}
 }

@@ -4,7 +4,7 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:prog="clr-namespace:Launcher"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-        Title="zDoom Launcher" Height="540" Width="675" MinHeight="540" MinWidth="675"
+        Title="zDoom Launcher" Height="403" Width="483" MinHeight="548" MinWidth="675"
 		Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}"
 		Closing="MainWindowClosing" Loaded="DealWithWindowPositionSize">
 	<Window.Resources>
@@ -122,9 +122,9 @@
 			<ComboBoxItem Content="Quad" Tag="2" ToolTip="Force renderer to use pixel quadrupling." Name="QuadPixelComboBoxItem" />
 		</ComboBox>
 		<Label Content="Disable" HorizontalAlignment="Left" Margin="364,29,0,0" VerticalAlignment="Top" Width="102" />
-		<ListBox x:Name="DisableFlagsList" HorizontalAlignment="Left" Height="149" Margin="364,55,0,0" VerticalAlignment="Top" Width="146">
+		<ListBox x:Name="DisableFlagsList" HorizontalAlignment="Left" Height="151" Margin="364,55,0,0" VerticalAlignment="Top" Width="146" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 			<CheckBox Content="Auto-Load Files" Name="AutoLoadItem" Checked="EnableOption" Unchecked="DisableOption" Tag="128" />
-			<CheckBox Content="CD Audio" Name="CDAudioItem" Checked="EnableOption" Unchecked="DisableOption" Tag="1" />
+			<CheckBox Content="CD Audio" Name="CdAudioItem" Checked="EnableOption" Unchecked="DisableOption" Tag="1" />
 			<CheckBox Content="Idling" Name="IdlingItem" Checked="EnableOption" Unchecked="DisableOption" Tag="2" />
 			<CheckBox Content="Sound Effects" Name="SfxItem" Checked="EnableOption" Unchecked="DisableOption" Tag="16" />
 			<CheckBox Content="Music" Name="MusicItem" Checked="EnableOption" Unchecked="DisableOption" Tag="8" />
@@ -133,18 +133,18 @@
 			<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Checked="EnableOption" Unchecked="DisableOption" Tag="64" />
 			<CheckBox Content="Block Map Loading" Name="IgnoreBlockMapItem" Checked="EnableIgnoreBlockMap" Unchecked="DisableIgnoreBlockMap" />
 		</ListBox>
-		<ListBox HorizontalAlignment="Left" Height="52" Margin="216,55,0,0" VerticalAlignment="Top" Width="143">
+		<ListBox HorizontalAlignment="Left" Height="64" Margin="216,55,0,0" VerticalAlignment="Top" Width="143" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 			<CheckBox x:Name="NoMonstersIndicator" Content="No Monsters" Checked="DisableMonsters" Unchecked="EnableMonsters" />
 			<CheckBox x:Name="FastMonstersIndicator" Content="Fast Monsters" Checked="EnableFastMonsters" Unchecked="DisableFastMonsters" />
 			<CheckBox x:Name="RespawningMonstersIndicator" Content="Respawning Monsters" Checked="EnableRespawn" Unchecked="DisableRespawn" />
 		</ListBox>
 		<Label Content="Game-Play Options" HorizontalAlignment="Left" Margin="216,29,0,0" VerticalAlignment="Top" />
-		<CheckBox x:Name="TurboIndicator" Content="Turbo" HorizontalAlignment="Left" Margin="216,115,0,0" VerticalAlignment="Top" Checked="EnableTurbo" Unchecked="DisableTurbo" />
-		<prog:NumericUpDown x:Name="TurboValueField" HorizontalAlignment="Left" Margin="295,112,0,0" VerticalAlignment="Top" Width="64" Minimum="10" Value="100" ValueChanged="UpdateTurboField" Height="24" Maximum="255" />
-		<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" HorizontalAlignment="Left" Margin="216,144,0,0" VerticalAlignment="Top" Checked="EnableTimeLimit" Unchecked="DisableTimeLimit" />
-		<prog:NumericUpDown x:Name="TimeLimitValueField" HorizontalAlignment="Left" Margin="295,141,0,0" VerticalAlignment="Top" Width="64" Value="20" ValueChanged="UpdateTimeLimitField" Height="24" />
-		<prog:NumericUpDown x:Name="DifficultyValueField" HorizontalAlignment="Left" Margin="295,170,0,0" VerticalAlignment="Top" Width="64" Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField" Height="24" />
-		<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="216,173,0,0" VerticalAlignment="Top" Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty" />
+		<CheckBox x:Name="TurboIndicator" Content="Turbo" HorizontalAlignment="Left" Margin="216,128,0,0" VerticalAlignment="Top" Checked="EnableTurbo" Unchecked="DisableTurbo" />
+		<prog:NumericUpDown x:Name="TurboValueField" HorizontalAlignment="Left" Margin="295,124,0,0" VerticalAlignment="Top" Width="64" Minimum="10" Value="100" ValueChanged="UpdateTurboField" Height="24" Maximum="255" />
+		<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" HorizontalAlignment="Left" Margin="216,155,0,0" VerticalAlignment="Top" Checked="EnableTimeLimit" Unchecked="DisableTimeLimit" />
+		<prog:NumericUpDown x:Name="TimeLimitValueField" HorizontalAlignment="Left" Margin="295,153,0,0" VerticalAlignment="Top" Width="64" Value="20" ValueChanged="UpdateTimeLimitField" Height="24" />
+		<prog:NumericUpDown x:Name="DifficultyValueField" HorizontalAlignment="Left" Margin="295,182,0,0" VerticalAlignment="Top" Width="64" Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField" Height="24" />
+		<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="216,186,0,0" VerticalAlignment="Top" Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty" />
 		<Label Content="Name" HorizontalAlignment="Left" Margin="11,29,0,0" VerticalAlignment="Top" />
 		<TextBox x:Name="ConfigurationNameTextBox" HorizontalAlignment="Left" Height="23" Margin="53,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="156" TextChanged="ConfigurationNameChanged" BorderBrush="{DynamicResource DefaultTextBoxBorder}" />
 		<Grid Margin="215,290,4,7">

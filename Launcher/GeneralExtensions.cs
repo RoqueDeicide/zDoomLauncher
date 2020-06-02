@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -17,32 +16,29 @@ namespace Launcher
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">Collection itself.</param>
-		/// <returns>
-		/// True, if <paramref name="collection"/> is null or number its elements is equal to zero.
-		/// </returns>
+		/// <returns>True, if <paramref name="collection"/> is null or number its elements is equal to zero.</returns>
 		public static bool IsNullOrEmpty<T>(this ICollection<T> collection)
 		{
 			return collection == null || collection.Count == 0;
 		}
+
 		/// <summary>
 		/// Indicates whether this collection is null or is too small.
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">  Collection itself.</param>
-		/// <param name="minimalCount">
-		/// Minimal number of elements that must be inside the collection.
-		/// </param>
+		/// <param name="minimalCount">Minimal number of elements that must be inside the collection.</param>
 		/// <returns>
-		/// True, if <paramref name="collection"/> is null, or it contains smaller number elements then one
-		/// defined by <paramref name="minimalCount"/> .
+		/// True, if <paramref name="collection"/> is null, or it contains smaller number elements then one defined by
+		/// <paramref name="minimalCount"/> .
 		/// </returns>
 		public static bool IsNullOrTooSmall<T>(this ICollection<T> collection, int minimalCount)
 		{
 			return collection == null || collection.Count < minimalCount;
 		}
+
 		/// <summary>
-		/// Creates a string that is a list of text representation of all elements of the collection
-		/// separated by a comma.
+		/// Creates a string that is a list of text representation of all elements of the collection separated by a comma.
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">Collection.</param>
@@ -51,9 +47,9 @@ namespace Launcher
 		{
 			return ContentsToString(collection, ",");
 		}
+
 		/// <summary>
-		/// Creates a string that is a list of text representation of all elements of the collection
-		/// separated by a comma.
+		/// Creates a string that is a list of text representation of all elements of the collection separated by a comma.
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">Collection.</param>
@@ -61,8 +57,8 @@ namespace Launcher
 		/// <returns>Text representation of the collection.</returns>
 		public static string ContentsToString<T>(this IEnumerable<T> collection, string separator)
 		{
-			StringBuilder builder = new StringBuilder();
-			IEnumerator<T> enumerator = collection.GetEnumerator();
+			var builder = new StringBuilder();
+			using var enumerator = collection.GetEnumerator();
 			enumerator.Reset();
 			enumerator.MoveNext();
 			builder.Append(enumerator.Current);
@@ -71,11 +67,12 @@ namespace Launcher
 				builder.Append(separator);
 				builder.Append(enumerator.Current);
 			}
+
 			return builder.ToString();
 		}
+
 		/// <summary>
-		/// Creates a string that is a list of text representation of all elements of the collection
-		/// separated by a comma.
+		/// Creates a string that is a list of text representation of all elements of the collection separated by a comma.
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">Collection.</param>
@@ -85,6 +82,7 @@ namespace Launcher
 		{
 			return ContentsToString(collection, new string(separator, 1));
 		}
+
 		/// <summary>
 		/// Finds zero-based indexes of all occurrences of given substring in the text.
 		/// </summary>
@@ -100,21 +98,24 @@ namespace Launcher
 			{
 				throw new ArgumentException("Cannot perform search in the empty string.");
 			}
+
 			if (string.IsNullOrEmpty(substring))
 			{
 				throw new ArgumentException("Cannot perform search for an empty string.");
 			}
-			List<int> indexes = new List<int>(text.Length / substring.Length);
-			for (int i = text.IndexOf(substring, options); i != -1;)
+
+			var indexes = new List<int>(text.Length / substring.Length);
+			for (var i = text.IndexOf(substring, options); i != -1;)
 			{
 				indexes.Add(i);
 				i = text.IndexOf(substring, i + substring.Length, options);
 			}
+
 			return indexes;
 		}
+
 		/// <summary>
-		/// Finds zero-based indexes of all occurrences of given substring in the text using the invariant
-		/// culture.
+		/// Finds zero-based indexes of all occurrences of given substring in the text using the invariant culture.
 		/// </summary>
 		/// <param name="text">     Text to look for substrings in.</param>
 		/// <param name="substring">Piece of text to look for.</param>
@@ -123,29 +124,27 @@ namespace Launcher
 		{
 			return AllIndexesOf(text, substring, StringComparison.InvariantCulture);
 		}
+
 		/// <summary>
 		/// Changes a number with a specified index in the text.
 		/// </summary>
 		/// <param name="text">  Text.</param>
-		/// <param name="index"> 
-		/// Zero-based index of the number that we need in a sequence of numbers in the text.
-		/// </param>
+		/// <param name="index"> Zero-based index of the number that we need in a sequence of numbers in the text.</param>
 		/// <param name="number">New value to assign.</param>
 		/// <returns>Text with a new number.</returns>
 		/// <exception cref="Exception">Unable to find the number with the specified index.</exception>
 		public static string ChangeNumber(this string text, int index, int number)
 		{
 			// Find the number with specified index.
-			int currentCharacterIndex = 0; // Index of the character we are currently processing.
-			bool goingThroughTheNumber = false; // Was the previous character a digit?
-			int currentNumberIndex = -1; // Index of the number in a string.
-			int currentNumberStart = -1; // Index of the first digit of current/last number.
-			bool foundOurNumber = false; // Did we find the number we needed?
+			var currentCharacterIndex = 0;     // Index of the character we are currently processing.
+			var goingThroughTheNumber = false; // Was the previous character a digit?
+			var currentNumberIndex    = -1;    // Index of the number in a string.
+			var currentNumberStart    = -1;    // Index of the first digit of current/last number.
+			var foundOurNumber        = false; // Did we find the number we needed?
 			while (currentCharacterIndex < text.Length)
 			{
-				// Check the current character. If its a digit, then we are going through or into a number,
-				// otherwise we either finished going through the number or we are going through the plain
-				// text.
+				// Check the current character. If its a digit, then we are going through or into a number, otherwise we
+				// either finished going through the number or we are going through the plain text.
 				if (char.IsDigit(text[currentCharacterIndex]))
 				{
 					if (!goingThroughTheNumber)
@@ -160,6 +159,7 @@ namespace Launcher
 							foundOurNumber = true;
 						}
 					}
+
 					goingThroughTheNumber = true;
 				}
 				else
@@ -175,15 +175,18 @@ namespace Launcher
 						}
 					}
 				}
+
 				// Advance to the next character.
 				currentCharacterIndex++;
 			}
+
 			if (!foundOurNumber)
 			{
 				throw new Exception("Unable to find the number with the specified index.");
 			}
+
 			// Extract the number and split the string in two.
-			StringBuilder builder = new StringBuilder(text.Length + 20);
+			var builder = new StringBuilder(text.Length + 20);
 			// Add the first half to the resultant string.
 			builder.Append(text.Substring(0, currentNumberStart));
 			// Add the string representation of the new number to the string.
@@ -193,6 +196,7 @@ namespace Launcher
 
 			return builder.ToString();
 		}
+
 		/// <summary>
 		/// Gets file that contains the assembly.
 		/// </summary>
@@ -202,6 +206,7 @@ namespace Launcher
 		{
 			return Uri.UnescapeDataString(new UriBuilder(assembly.CodeBase).Path);
 		}
+
 		/// <summary>
 		/// Performs an action for each element in the collection.
 		/// </summary>
@@ -210,11 +215,12 @@ namespace Launcher
 		/// <param name="action">    Action to perform for each element in the collection.</param>
 		public static void Foreach<T>(this IEnumerable<T> collection, Action<T> action)
 		{
-			foreach (T item in collection)
+			foreach (var item in collection)
 			{
 				action(item);
 			}
 		}
+
 		/// <summary>
 		/// Performs an action for each element in the collection.
 		/// </summary>
@@ -222,11 +228,12 @@ namespace Launcher
 		/// <param name="action">    Action to perform for each element in the collection.</param>
 		public static void Foreach(this IEnumerable collection, Action<object> action)
 		{
-			foreach (object item in collection)
+			foreach (var item in collection)
 			{
 				action(item);
 			}
 		}
+
 		/// <summary>
 		/// Performs an action for each element in the collection.
 		/// </summary>
@@ -236,11 +243,12 @@ namespace Launcher
 		/// <param name="action">    Action to perform for each element in the collection.</param>
 		public static void Foreach<T, TResult>(this IEnumerable<T> collection, Func<T, TResult> action)
 		{
-			foreach (T item in collection)
+			foreach (var item in collection)
 			{
 				action(item);
 			}
 		}
+
 		/// <summary>
 		/// Performs an action for each element in the collection.
 		/// </summary>
@@ -249,28 +257,26 @@ namespace Launcher
 		/// <param name="action">    Action to perform for each element in the collection.</param>
 		public static void Foreach<TResult>(this IEnumerable collection, Func<object, TResult> action)
 		{
-			foreach (object item in collection)
+			foreach (var item in collection)
 			{
 				action(item);
 			}
 		}
+
 		/// <summary>
 		/// Returns zero-based index of the first element in the collection that satisfies the condition.
 		/// </summary>
 		/// <typeparam name="ElementType">Type of elements of the collection.</typeparam>
 		/// <param name="collection">Collection to look for the element in.</param>
-		/// <param name="predicate"> 
-		/// An object that represents the condition the element must satisfy.
-		/// </param>
+		/// <param name="predicate"> An object that represents the condition the element must satisfy.</param>
 		/// <returns>
-		/// Zero-based index of the first element that satisfies a condition, or -1 if no such element was
-		/// found.
+		/// Zero-based index of the first element that satisfies a condition, or -1 if no such element was found.
 		/// </returns>
 		public static int IndexOf<ElementType>(this IEnumerable<ElementType> collection,
-											   Func<ElementType, bool> predicate)
+											   Func<ElementType, bool>       predicate)
 		{
-			int index = 0;
-			foreach (ElementType element in collection)
+			var index = 0;
+			foreach (var element in collection)
 			{
 				if (predicate(element))
 				{
@@ -282,23 +288,22 @@ namespace Launcher
 
 			return -1;
 		}
+
 		/// <summary>
 		/// Returns zero-based index of the first element in the collection that satisfies the condition.
 		/// </summary>
 		/// <typeparam name="ElementType">Type of elements of the collection.</typeparam>
 		/// <param name="collection">Collection to look for the element in.</param>
-		/// <param name="predicate"> 
-		/// An object that represents the condition the element must satisfy.
-		/// </param>
+		/// <param name="predicate"> An object that represents the condition the element must satisfy.</param>
 		/// <returns>
-		/// Zero-based index of the first element that satisfies a condition, or number of elements in the
-		/// collection (that can be used for insertion) if no such element was found.
+		/// Zero-based index of the first element that satisfies a condition, or number of elements in the collection (that
+		/// can be used for insertion) if no such element was found.
 		/// </returns>
 		public static int IndexOfToEnd<ElementType>(this IEnumerable<ElementType> collection,
-													Func<ElementType, bool> predicate)
+													Func<ElementType, bool>       predicate)
 		{
-			int index = 0;
-			foreach (ElementType element in collection)
+			var index = 0;
+			foreach (var element in collection)
 			{
 				if (predicate(element))
 				{
@@ -311,6 +316,7 @@ namespace Launcher
 			return index;
 		}
 	}
+
 	/// <summary>
 	/// Contains old value of the property that has been changed.
 	/// </summary>

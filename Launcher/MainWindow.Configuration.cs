@@ -15,8 +15,8 @@ namespace Launcher
 	{
 		private void SaveAppConfiguration()
 		{
-			Database appConfigurationDatabase = new Database(AppConfigurationXmlExtension,
-															 AppConfigurationBinaryExtension);
+			var appConfigurationDatabase = new Database(AppConfigurationXmlExtension,
+														AppConfigurationBinaryExtension);
 
 			var content = ToEntryContent(!string.IsNullOrWhiteSpace(this.CurrentConfigFile) &&
 										 File.Exists(this.CurrentConfigFile),
@@ -25,26 +25,28 @@ namespace Launcher
 			appConfigurationDatabase.AddEntry(entry);
 
 			content = ToEntryContent(!string.IsNullOrWhiteSpace(this.zDoomFolder), this.zDoomFolder);
-			entry = new DatabaseEntry(GameFolderEntryName, content);
+			entry   = new DatabaseEntry(GameFolderEntryName, content);
 			appConfigurationDatabase.AddEntry(entry);
 
 			content = ToEntryContent(!string.IsNullOrWhiteSpace(this.currentExeFile), this.currentExeFile);
-			entry = new DatabaseEntry(LastExeFileEntryName, content);
+			entry   = new DatabaseEntry(LastExeFileEntryName, content);
 			appConfigurationDatabase.AddEntry(entry);
 
 			// Save window position and size if redefined.
 			if (this.windowPosition != null)
 			{
 				content = new TextContent($"{this.windowPosition.Value.X}|{this.windowPosition.Value.Y}");
-				entry = new DatabaseEntry(MainWindowPositionEntryName, content);
+				entry   = new DatabaseEntry(MainWindowPositionEntryName, content);
 				appConfigurationDatabase.AddEntry(entry);
 			}
+
 			if (this.windowSize != null)
 			{
 				content = new TextContent($"{this.windowSize.Value.Width}|{this.windowSize.Value.Height}");
-				entry = new DatabaseEntry(MainWindowSizeEntryName, content);
+				entry   = new DatabaseEntry(MainWindowSizeEntryName, content);
 				appConfigurationDatabase.AddEntry(entry);
 			}
+
 			if (this.maximized)
 			{
 				appConfigurationDatabase.AddEntry(new DatabaseEntry(MainWindowMaximizedEntryName, null));
@@ -53,16 +55,16 @@ namespace Launcher
 			// Save the directories.
 			var loadableFilesDirectoriesEntry = new DatabaseEntry(LoadableFilesDirectoriesEntryName, null);
 
-			string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-			List<string> dirs = new List<string>(from directory in ExtraFilesLookUp.Directories
-												 select PathUtils.ToRelativePath(directory, baseDir));
+			var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+			var dirs = new List<string>(from directory in ExtraFilesLookUp.Directories
+										select PathUtils.ToRelativePath(directory, baseDir));
 			dirs.Sort();
 
-			int counter = 0;
-			foreach (string dir in dirs)
+			var counter = 0;
+			foreach (var dir in dirs)
 			{
 				content = new TextContent(dir);
-				entry = new DatabaseEntry(LoadableFilesDirectoryEntryName, content);
+				entry   = new DatabaseEntry(LoadableFilesDirectoryEntryName, content);
 
 				loadableFilesDirectoriesEntry.SubEntries.Add($"{LoadableFilesDirectoryEntryName}{counter++}",
 															 entry);
@@ -86,16 +88,16 @@ namespace Launcher
 
 				Log.Message("Loading configuration file.");
 
-				Database appConfigurationDatabase = new Database(AppConfigurationXmlExtension,
-																 AppConfigurationBinaryExtension);
+				var appConfigurationDatabase = new Database(AppConfigurationXmlExtension,
+															AppConfigurationBinaryExtension);
 				appConfigurationDatabase.Load(AppConfigurationFileName);
 
 				this.CurrentConfigFile = TryGetEntryText(appConfigurationDatabase, LastConfigurationFileEntryName);
-				this.zDoomFolder = TryGetEntryText(appConfigurationDatabase, GameFolderEntryName);
-				this.currentExeFile = TryGetEntryText(appConfigurationDatabase, LastExeFileEntryName);
+				this.zDoomFolder       = TryGetEntryText(appConfigurationDatabase, GameFolderEntryName);
+				this.currentExeFile    = TryGetEntryText(appConfigurationDatabase, LastExeFileEntryName);
 
 				// Load custom size and position of the main window, if available.
-				string numbers = TryGetEntryText(appConfigurationDatabase, MainWindowPositionEntryName);
+				var numbers = TryGetEntryText(appConfigurationDatabase, MainWindowPositionEntryName);
 				if (numbers != null)
 				{
 					var coords = numbers.Split('|');
@@ -108,6 +110,7 @@ namespace Launcher
 						// ignored
 					}
 				}
+
 				numbers = TryGetEntryText(appConfigurationDatabase, MainWindowSizeEntryName);
 				if (numbers != null)
 				{
@@ -121,19 +124,20 @@ namespace Launcher
 						// ignored
 					}
 				}
+
 				this.maximized = appConfigurationDatabase.Contains(MainWindowMaximizedEntryName);
 
 				if (appConfigurationDatabase.Contains(LoadableFilesDirectoriesEntryName, false))
 				{
-					DatabaseEntry loadableFilesDirectoriesEntry =
+					var loadableFilesDirectoriesEntry =
 						appConfigurationDatabase[LoadableFilesDirectoriesEntryName];
-					string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+					var baseDir = AppDomain.CurrentDomain.BaseDirectory;
 
-					foreach (string dir in from subEntry in loadableFilesDirectoriesEntry.SubEntries
-										   let content = subEntry.Value.GetContent<TextContent>()
-										   where content != null &&
-												 !ExtraFilesLookUp.Directories.Contains(content.Text)
-										   select PathUtils.GetLocalPath(Path.Combine(baseDir, content.Text)))
+					foreach (var dir in from subEntry in loadableFilesDirectoriesEntry.SubEntries
+										let content = subEntry.Value.GetContent<TextContent>()
+										where content != null &&
+											  !ExtraFilesLookUp.Directories.Contains(content.Text)
+										select PathUtils.GetLocalPath(Path.Combine(baseDir, content.Text)))
 					{
 						ExtraFilesLookUp.Directories.Add(dir);
 					}
@@ -144,13 +148,15 @@ namespace Launcher
 				Log.Warning("Unable to load application configuration file. Ignoring.");
 			}
 		}
+
 		private static string TryGetEntryText(Database appConfigurationDatabase, string entryName)
 		{
 			if (appConfigurationDatabase.Contains(entryName, false))
 			{
-				string entryText = appConfigurationDatabase[entryName].GetContent<TextContent>().Text;
+				var entryText = appConfigurationDatabase[entryName].GetContent<TextContent>().Text;
 				return entryText == "Nothing" ? null : entryText;
 			}
+
 			return null;
 		}
 	}

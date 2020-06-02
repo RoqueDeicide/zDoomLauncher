@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Launcher.Utilities
@@ -11,15 +10,14 @@ namespace Launcher.Utilities
 	public static class Cast<ResultType>
 	{
 		/// <summary>
-		/// Converts a value from <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>.
-		/// This function avoids boxing for value types.
+		/// Converts a value from <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>. This function
+		/// avoids boxing for value types.
 		/// </summary>
 		/// <typeparam name="InitialType">Initial type of the value.</typeparam>
 		/// <param name="value">Value to convert to <typeparamref name="ResultType"/>.</param>
 		/// <returns>Converted object.</returns>
 		/// <exception cref="InvalidCastException">
-		/// Unable to convert object of type <typeparamref name="InitialType"/> to
-		/// <typeparamref name="ResultType"/>.
+		/// Unable to convert object of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>.
 		/// </exception>
 		public static ResultType From<InitialType>(InitialType value)
 		{
@@ -29,25 +27,25 @@ namespace Launcher.Utilities
 			}
 			catch (Exception ex)
 			{
-				string initial = typeof(InitialType).FullName;
-				string result = typeof(ResultType).FullName;
+				var initial = typeof(InitialType).FullName;
+				var result  = typeof(ResultType).FullName;
 				throw new InvalidCastException($"Unable to convert objects of type {initial} to {result}.", ex);
 			}
 		}
+
 		/// <summary>
-		/// Converts a value from <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>
-		/// and checks for overflow. This function avoids boxing for value types.
+		/// Converts a value from <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/> and checks for
+		/// overflow. This function avoids boxing for value types.
 		/// </summary>
 		/// <typeparam name="InitialType">Initial type of the value.</typeparam>
 		/// <param name="value">Value to convert to <typeparamref name="ResultType"/>.</param>
 		/// <returns>Converted object.</returns>
 		/// <exception cref="InvalidCastException">
-		/// Unable to convert object of type <typeparamref name="InitialType"/> to
-		/// <typeparamref name="ResultType"/>.
+		/// Unable to convert object of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>.
 		/// </exception>
 		/// <exception cref="OverflowException">
-		/// An object of type <typeparamref name="InitialType"/> cannot fit into object of type
-		/// <typeparamref name="ResultType"/>.
+		/// An object of type <typeparamref name="InitialType"/> cannot fit into object of type <typeparamref
+		/// name="ResultType"/>.
 		/// </exception>
 		public static ResultType FromChecked<InitialType>(InitialType value)
 		{
@@ -62,14 +60,15 @@ namespace Launcher.Utilities
 			}
 			catch (Exception ex)
 			{
-				string initial = typeof(InitialType).FullName;
-				string result = typeof(ResultType).FullName;
+				var initial = typeof(InitialType).FullName;
+				var result  = typeof(ResultType).FullName;
 				throw new InvalidCastException($"Unable to convert objects of type {initial} to {result}.", ex);
 			}
 		}
+
 		/// <summary>
-		/// Attempts to convert a value of type <typeparamref name="InitialType"/> to
-		/// <typeparamref name="ResultType"/>. This function avoids boxing for value types.
+		/// Attempts to convert a value of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>. This
+		/// function avoids boxing for value types.
 		/// </summary>
 		/// <typeparam name="InitialType">Initial type of the value.</typeparam>
 		/// <param name="value"> Value to convert to <typeparamref name="ResultType"/>.</param>
@@ -84,14 +83,14 @@ namespace Launcher.Utilities
 			}
 			catch (Exception)
 			{
-				output = default(ResultType);
+				output = default;
 				return false;
 			}
 		}
+
 		/// <summary>
-		/// Attempts to convert a value of type <typeparamref name="InitialType"/> to
-		/// <typeparamref name="ResultType"/> and checks for overflow. This function avoids boxing for value
-		/// types.
+		/// Attempts to convert a value of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/> and
+		/// checks for overflow. This function avoids boxing for value types.
 		/// </summary>
 		/// <typeparam name="InitialType">Initial type of the value.</typeparam>
 		/// <param name="value"> Value to convert to <typeparamref name="ResultType"/>.</param>
@@ -106,25 +105,27 @@ namespace Launcher.Utilities
 			}
 			catch (Exception)
 			{
-				output = default(ResultType);
+				output = default;
 				return false;
 			}
 		}
+
 		private static class CasterCache<InitialType>
 		{
 			public static readonly Func<InitialType, ResultType> UncheckedCaster = GetUnchecked();
-			public static readonly Func<InitialType, ResultType> CheckedCaster = GetChecked();
+			public static readonly Func<InitialType, ResultType> CheckedCaster   = GetChecked();
 
 			private static Func<InitialType, ResultType> GetUnchecked()
 			{
 				var parameter = Expression.Parameter(typeof(InitialType));
-				var convert = Expression.Convert(parameter, typeof(ResultType));
+				var convert   = Expression.Convert(parameter, typeof(ResultType));
 				return Expression.Lambda<Func<InitialType, ResultType>>(convert, parameter).Compile();
 			}
+
 			private static Func<InitialType, ResultType> GetChecked()
 			{
 				var parameter = Expression.Parameter(typeof(InitialType));
-				var convert = Expression.ConvertChecked(parameter, typeof(ResultType));
+				var convert   = Expression.ConvertChecked(parameter, typeof(ResultType));
 				return Expression.Lambda<Func<InitialType, ResultType>>(convert, parameter).Compile();
 			}
 		}

@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using Launcher.Annotations;
 
 namespace Launcher.Logging
@@ -10,12 +8,14 @@ namespace Launcher.Logging
 	/// </summary>
 	public static class Log
 	{
-		private static readonly StreamWriter sw;
+		private static readonly StreamWriter LogOutput;
+
 		static Log()
 		{
-			sw = new StreamWriter(new FileStream("Zdl.log", FileMode.Create, FileAccess.Write,
-												 FileShare.Read));
+			LogOutput = new StreamWriter(new FileStream("Zdl.log", FileMode.Create, FileAccess.Write,
+														FileShare.Read));
 		}
+
 		/// <summary>
 		/// Posts a simple message to the log.
 		/// </summary>
@@ -26,13 +26,14 @@ namespace Launcher.Logging
 		{
 			try
 			{
-				sw.WriteLine(message, args);
-				sw.Flush();
+				LogOutput.WriteLine(message, args);
+				LogOutput.Flush();
 			}
 			catch (IOException)
 			{
 			}
 		}
+
 		/// <summary>
 		/// Posts a message preceded by a warning prefix to the log.
 		/// </summary>
@@ -43,13 +44,14 @@ namespace Launcher.Logging
 		{
 			try
 			{
-				sw.WriteLine(" [WARNING] " + message, args);
-				sw.Flush();
+				LogOutput.WriteLine(" [WARNING] " + message, args);
+				LogOutput.Flush();
 			}
 			catch (IOException)
 			{
 			}
 		}
+
 		/// <summary>
 		/// Posts a message preceded by an error prefix to the log.
 		/// </summary>
@@ -60,8 +62,8 @@ namespace Launcher.Logging
 		{
 			try
 			{
-				sw.WriteLine(" [ERROR] " + message, args);
-				sw.Flush();
+				LogOutput.WriteLine(" [ERROR] " + message, args);
+				LogOutput.Flush();
 			}
 			catch (IOException)
 			{

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -13,25 +11,25 @@ namespace Launcher
 	/// <summary>
 	/// Interaction logic for Directories.xaml
 	/// </summary>
-	public partial class Directories : Window
+	public partial class Directories
 	{
 		private readonly VistaFolderBrowserDialog dialog;
 
 		public Directories()
 		{
 			this.dialog = new VistaFolderBrowserDialog
-			{
-				Description = @"Folder Where to Look for Loadable Files in.",
-				ShowNewFolderButton = true,
-				UseDescriptionForTitle = true
-			};
+						  {
+							  Description            = @"Folder Where to Look for Loadable Files in.",
+							  ShowNewFolderButton    = true,
+							  UseDescriptionForTitle = true
+						  };
 
 			this.InitializeComponent();
 
-			for (int i = 0; i < ExtraFilesLookUp.Directories.Count; i++)
+			for (var i = 0; i < ExtraFilesLookUp.Directories.Count; i++)
 			{
-				string directory = ExtraFilesLookUp.Directories[i];
-				
+				var directory = ExtraFilesLookUp.Directories[i];
+
 				this.DirectoriesListBox.Items.Add(this.CreateDirectoryName(directory, i));
 			}
 
@@ -41,21 +39,21 @@ namespace Launcher
 				this.DirectoriesListBox.Items.Add(this.CreateDirectoryName("", -1));
 			}
 		}
+
 		private DirectoryName CreateDirectoryName(string path, int index)
 		{
 			var name = new DirectoryName
-			{
-				Path = path,
-				Index = index
-			};
+					   {
+						   Path  = path,
+						   Index = index
+					   };
 			name.PropertyChanged += this.DirectoryNameChanged;
 			return name;
 		}
 
-		private void DirectoryNameChanged(object sender, PropertyChangedEventArgs  e)
+		private void DirectoryNameChanged(object sender, PropertyChangedEventArgs e)
 		{
-			DirectoryName directory = sender as DirectoryName;
-			if (directory == null)
+			if (!(sender is DirectoryName directory))
 			{
 				return;
 			}
@@ -76,12 +74,12 @@ namespace Launcher
 			// Add the directory to the collection, if there is no such directory in it.
 			if (directory.Exists && directory.Index == -1)
 			{
-				if (ExtraFilesLookUp.Directories.Any(x=>x == directory.Path))
+				if (ExtraFilesLookUp.Directories.Any(x => x == directory.Path))
 				{
 					return;
 				}
 
-				int senderIndex = this.DirectoriesListBox.Items.IndexOf(directory);
+				var senderIndex = this.DirectoriesListBox.Items.IndexOf(directory);
 				if (senderIndex == 0)
 				{
 					// Insert at the start of global collection.
@@ -112,12 +110,12 @@ namespace Launcher
 				ExtraFilesLookUp.Directories[directory.Index] = directory.Path;
 			}
 		}
+
 		private void OpenFolderDialog(object sender, RoutedEventArgs e)
 		{
-			Button button = sender as Button;
+			var button = sender as Button;
 
-			DirectoryName name = button?.DataContext as DirectoryName;
-			if (name == null)
+			if (!(button?.DataContext is DirectoryName name))
 			{
 				return;
 			}
@@ -129,33 +127,35 @@ namespace Launcher
 				name.Path = this.dialog.SelectedPath;
 			}
 		}
+
 		private void InsertDirectoryAbove(object sender, RoutedEventArgs e)
 		{
 			this.InsertRow(sender, 0);
 		}
+
 		private void InsertDirectoryBelow(object sender, RoutedEventArgs e)
 		{
 			this.InsertRow(sender, 1);
 		}
+
 		private void InsertRow(object sender, int offset)
 		{
-			FrameworkElement element = sender as FrameworkElement;
+			var element = sender as FrameworkElement;
 
-			DirectoryName name = element?.DataContext as DirectoryName;
-			if (name == null)
+			if (!(element?.DataContext is DirectoryName name))
 			{
 				return;
 			}
 
-			int senderIndex = this.DirectoriesListBox.Items.IndexOf(name);
+			var senderIndex = this.DirectoriesListBox.Items.IndexOf(name);
 			this.DirectoriesListBox.Items.Insert(senderIndex + offset, this.CreateDirectoryName("", -1));
 		}
+
 		private void RemoveDirectory(object sender, RoutedEventArgs e)
 		{
-			FrameworkElement element = sender as FrameworkElement;
+			var element = sender as FrameworkElement;
 
-			DirectoryName name = element?.DataContext as DirectoryName;
-			if (name == null)
+			if (!(element?.DataContext is DirectoryName name))
 			{
 				return;
 			}
@@ -181,10 +181,10 @@ namespace Launcher
 			ExtraFilesLookUp.Directories.Insert(index, name.Path);
 
 			// Adjust indexes.
-			for (int i = 0; i < this.DirectoriesListBox.Items.Count; i++)
+			foreach (var directoryNameItem in this.DirectoriesListBox.Items)
 			{
-				DirectoryName directory = this.DirectoriesListBox.Items[i] as DirectoryName;
-				
+				var directory = directoryNameItem as DirectoryName;
+
 				Debug.Assert(directory != null);
 
 				if (directory.Index >= name.Index)
@@ -195,14 +195,15 @@ namespace Launcher
 
 			name.Index = index;
 		}
+
 		private void RemovePath(int index)
 		{
 			ExtraFilesLookUp.Directories.RemoveAt(index);
 
 			// Adjust indexes.
-			for (int i = 0; i < this.DirectoriesListBox.Items.Count; i++)
+			foreach (var directoryNameItem in this.DirectoriesListBox.Items)
 			{
-				DirectoryName directory = this.DirectoriesListBox.Items[i] as DirectoryName;
+				var directory = directoryNameItem as DirectoryName;
 
 				if (directory?.Index > index)
 				{

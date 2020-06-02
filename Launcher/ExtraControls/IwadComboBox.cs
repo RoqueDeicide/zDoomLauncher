@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Launcher
 {
@@ -22,10 +11,12 @@ namespace Launcher
 	public class IwadComboBox : ComboBox
 	{
 		private IwadFile cachedSelectedFile;
+
 		/// <summary>
 		/// Gets the collection of available IWAD files.
 		/// </summary>
 		public ObservableCollection<IwadFile> Files { get; }
+
 		/// <summary>
 		/// Creates a new instance of this type.
 		/// </summary>
@@ -34,17 +25,18 @@ namespace Launcher
 			this.Files = new ObservableCollection<IwadFile>();
 
 			Iwads.Updating += this.DispatchOnUpdating;
-			Iwads.Updated += this.DispatchOnUpdated;
+			Iwads.Updated  += this.DispatchOnUpdated;
 
 			this.Dispatcher.ShutdownStarted += this.Release;
 		}
+
 		/// <summary>
 		/// Attempts to select the IWAD.
 		/// </summary>
 		/// <param name="fileName">Name of the file that represents the IWAD.</param>
 		public void Select(string fileName)
 		{
-			int index = this.Files.IndexOf(x => x.FileName == fileName);
+			var index = this.Files.IndexOf(x => x.FileName == fileName);
 
 			if (index != -1)
 			{
@@ -55,15 +47,17 @@ namespace Launcher
 				this.SelectedItem = null;
 			}
 		}
+
 		private void IwadsOnUpdating()
 		{
 			// Memorize which file was selected.
 			this.cachedSelectedFile = this.SelectedItem as IwadFile;
-			this.SelectedItem = null;
+			this.SelectedItem       = null;
 
 			// Clear current items.
 			this.Files.Clear();
 		}
+
 		private void IwadsOnUpdated()
 		{
 			// Rebuild the item collection.
@@ -75,18 +69,21 @@ namespace Launcher
 				this.SelectedItem = this.cachedSelectedFile;
 			}
 		}
+
 		private void DispatchOnUpdating(object sender, EventArgs args)
 		{
 			this.Dispatcher.Invoke(this.IwadsOnUpdating);
 		}
+
 		private void DispatchOnUpdated(object sender, EventArgs args)
 		{
 			this.Dispatcher.Invoke(this.IwadsOnUpdated);
 		}
+
 		private void Release(object sender, EventArgs eventArgs)
 		{
-			Iwads.Updating -= this.DispatchOnUpdating;
-			Iwads.Updated -= this.DispatchOnUpdated;
+			Iwads.Updating                  -= this.DispatchOnUpdating;
+			Iwads.Updated                   -= this.DispatchOnUpdated;
 			this.Dispatcher.ShutdownStarted -= this.Release;
 		}
 	}

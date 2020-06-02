@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace Launcher.Configs
+﻿namespace Launcher.Configs
 {
 	/// <summary>
 	/// Defines common functionality of launch configurations.

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using Launcher.Annotations;
+﻿using System.Windows;
 using Launcher.Logging;
 
 namespace Launcher
@@ -12,14 +7,12 @@ namespace Launcher
 	{
 		private void ToggleFileSelection(object sender, RoutedEventArgs routedEventArgs)
 		{
-			FrameworkElement element = sender as FrameworkElement;
-			if (element == null)
+			if (!(sender is FrameworkElement element))
 			{
 				return;
 			}
 
-			FileDesc fileDesc = element.DataContext as FileDesc;
-			if (fileDesc == null)
+			if (!(element.DataContext is FileDesc fileDesc))
 			{
 				Log.Warning("Unknown data context within the sender.");
 				return;
@@ -41,17 +34,17 @@ namespace Launcher
 
 			this.UpdateTopBottomSpinners();
 		}
+
 		private void MoveSelectedFileUp(object sender, RoutedEventArgs routedEventArgs)
 		{
-			SpinnerButtons buttons = sender as SpinnerButtons;
+			var buttons = sender as SpinnerButtons;
 
-			FileDesc fileDesc = buttons?.DataContext as FileDesc;
-			if (fileDesc == null)
+			if (!(buttons?.DataContext is FileDesc fileDesc))
 			{
 				return;
 			}
 
-			int index = this.FileSelection.IndexOf(fileDesc);
+			var index = this.FileSelection.IndexOf(fileDesc);
 			if (index == 0)
 			{
 				return;
@@ -59,21 +52,21 @@ namespace Launcher
 
 			var temp = this.FileSelection[index - 1];
 			this.FileSelection[index - 1] = this.FileSelection[index];
-			this.FileSelection[index] = temp;
+			this.FileSelection[index]     = temp;
 
 			this.UpdateTopBottomSpinners();
 		}
+
 		private void MoveSelectedFileDown(object sender, RoutedEventArgs routedEventArgs)
 		{
-			SpinnerButtons buttons = sender as SpinnerButtons;
+			var buttons = sender as SpinnerButtons;
 
-			FileDesc fileDesc = buttons?.DataContext as FileDesc;
-			if (fileDesc == null)
+			if (!(buttons?.DataContext is FileDesc fileDesc))
 			{
 				return;
 			}
 
-			int index = this.FileSelection.IndexOf(fileDesc);
+			var index = this.FileSelection.IndexOf(fileDesc);
 			if (index == this.FileSelection.Count - 1)
 			{
 				return;
@@ -81,28 +74,28 @@ namespace Launcher
 
 			var temp = this.FileSelection[index + 1];
 			this.FileSelection[index + 1] = this.FileSelection[index];
-			this.FileSelection[index] = temp;
+			this.FileSelection[index]     = temp;
 
 			this.UpdateTopBottomSpinners();
 		}
 
 		private void UpdateTopBottomSpinners()
 		{
-			for (int i = 0; i < this.FileSelection.Count; i++)
+			for (var i = 0; i < this.FileSelection.Count; i++)
 			{
-				FileDesc fileDesc = this.FileSelection[i] as FileDesc;
-				if (fileDesc == null)
+				if (!(this.FileSelection[i] is FileDesc fileDesc))
 				{
 					continue;
 				}
 
-				fileDesc.AtTop = false;
+				fileDesc.AtTop    = false;
 				fileDesc.AtBottom = false;
 
 				if (i == 0)
 				{
 					fileDesc.AtTop = true;
 				}
+
 				if (i == this.FileSelection.Count - 1)
 				{
 					fileDesc.AtBottom = true;

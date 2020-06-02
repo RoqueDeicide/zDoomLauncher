@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+// ReSharper disable CheckNamespace
 
 #pragma warning disable 1591
 
@@ -86,7 +86,7 @@ namespace Launcher.Annotations
 			this.FormatParameterName = formatParameterName;
 		}
 
-		public string FormatParameterName { get; private set; }
+		public string FormatParameterName { get; }
 	}
 
 	/// <summary>
@@ -158,7 +158,7 @@ namespace Launcher.Annotations
 			this.ParameterName = parameterName;
 		}
 
-		public string ParameterName { get; private set; }
+		public string ParameterName { get; }
 	}
 
 	/// <summary>
@@ -174,7 +174,7 @@ namespace Launcher.Annotations
 	/// <item>Value ::= true | false | null | notnull | canbenull</item>
 	/// </list>
 	/// If method has single input parameter, it's name could be omitted. <br/> Using <c>halt</c> (or
-	/// <c>void</c>/ <c>nothing</c>, which is the same) for method output means that the methos doesn't
+	/// <c>void</c>/ <c>nothing</c>, which is the same) for method output means that the methods doesn't
 	/// return normally. <br/><c>canbenull</c> annotation is only applicable for output parameters. <br/>
 	/// You can use multiple <c>[ContractAnnotation]</c> for each FDT row, or use single attribute with rows
 	/// separated by semicolon. <br/>
@@ -228,8 +228,8 @@ namespace Launcher.Annotations
 			this.ForceFullStates = forceFullStates;
 		}
 
-		public string Contract { get; private set; }
-		public bool ForceFullStates { get; private set; }
+		public string Contract { get; }
+		public bool ForceFullStates { get; }
 	}
 
 	/// <summary>
@@ -255,7 +255,7 @@ namespace Launcher.Annotations
 			this.Required = required;
 		}
 
-		public bool Required { get; private set; }
+		public bool Required { get; }
 	}
 
 	/// <summary>
@@ -309,7 +309,7 @@ namespace Launcher.Annotations
 		}
 
 		[NotNull]
-		public Type BaseType { get; private set; }
+		public Type BaseType { get; }
 	}
 
 	/// <summary>
@@ -341,8 +341,8 @@ namespace Launcher.Annotations
 			this.TargetFlags = targetFlags;
 		}
 
-		public ImplicitUseKindFlags UseKindFlags { get; private set; }
-		public ImplicitUseTargetFlags TargetFlags { get; private set; }
+		public ImplicitUseKindFlags UseKindFlags { get; }
+		public ImplicitUseTargetFlags TargetFlags { get; }
 	}
 
 	/// <summary>
@@ -439,7 +439,7 @@ namespace Launcher.Annotations
 		}
 
 		[NotNull]
-		public string Comment { get; private set; }
+		public string Comment { get; }
 	}
 
 	/// <summary>
@@ -489,7 +489,7 @@ namespace Launcher.Annotations
 		}
 
 		[NotNull]
-		public string BasePath { get; private set; }
+		public string BasePath { get; }
 	}
 
 // ASP.NET MVC attributes
@@ -561,7 +561,7 @@ namespace Launcher.Annotations
 		}
 
 		[NotNull]
-		public string AnonymousProperty { get; private set; }
+		public string AnonymousProperty { get; }
 	}
 
 	/// <summary>
@@ -582,7 +582,7 @@ namespace Launcher.Annotations
 		}
 
 		[NotNull]
-		public string AnonymousProperty { get; private set; }
+		public string AnonymousProperty { get; }
 	}
 
 	/// <summary>
@@ -604,7 +604,7 @@ namespace Launcher.Annotations
 		}
 
 		[NotNull]
-		public string AnonymousProperty { get; private set; }
+		public string AnonymousProperty { get; }
 	}
 
 	/// <summary>
@@ -640,7 +640,7 @@ namespace Launcher.Annotations
 	/// ASP.NET MVC attribute. Allows disabling all inspections for MVC views within a class or a method.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-	public sealed class AspMvcSupressViewErrorAttribute : Attribute
+	public sealed class AspMvcSuppressViewErrorAttribute : Attribute
 	{
 	}
 
@@ -714,7 +714,7 @@ namespace Launcher.Annotations
 		}
 
 		[NotNull]
-		public string Name { get; private set; }
+		public string Name { get; }
 	}
 
 	[AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Field |
@@ -727,7 +727,7 @@ namespace Launcher.Annotations
 		}
 
 		[NotNull]
-		public string Name { get; private set; }
+		public string Name { get; }
 	}
 
 // Razor attributes

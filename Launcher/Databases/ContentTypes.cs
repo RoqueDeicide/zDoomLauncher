@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
@@ -23,8 +22,11 @@ namespace Launcher.Databases
 		/// Gets or sets text content.
 		/// </summary>
 		public string Text { get; set; }
+
 		#region Interface
+
 		#region Construction
+
 		/// <summary>
 		/// Creates default instance of <see cref="TextContent"/> class.
 		/// </summary>
@@ -32,6 +34,7 @@ namespace Launcher.Databases
 		{
 			this.Text = "";
 		}
+
 		/// <summary>
 		/// Creates new instance of <see cref="TextContent"/> class.
 		/// </summary>
@@ -40,8 +43,11 @@ namespace Launcher.Databases
 		{
 			this.Text = text;
 		}
+
 		#endregion
+
 		#region Save/Load
+
 		/// <summary>
 		/// Writes binary representation of this content to the stream.
 		/// </summary>
@@ -51,6 +57,7 @@ namespace Launcher.Databases
 		{
 			bw.WriteLongString(this.Text, Encoding.UTF8);
 		}
+
 		/// <summary>
 		/// Reads binary data from the stream and converts it to format of this content.
 		/// </summary>
@@ -61,6 +68,7 @@ namespace Launcher.Databases
 		{
 			br.ReadLongString(Encoding.UTF8);
 		}
+
 		/// <summary>
 		/// Writes Xml representation of this content to the <see cref="XmlElement"/>.
 		/// </summary>
@@ -70,6 +78,7 @@ namespace Launcher.Databases
 		{
 			element.AppendChild(document.CreateTextNode(this.Text));
 		}
+
 		/// <summary>
 		/// Reads Xml representation of this content.
 		/// </summary>
@@ -77,11 +86,14 @@ namespace Launcher.Databases
 		/// <exception cref="XPathException">The XPath expression contains a prefix.</exception>
 		public override void FromXml(XmlElement element)
 		{
-			XmlNode xmlTextNode = element.SelectSingleNode("./text()");
+			var xmlTextNode                    = element.SelectSingleNode("./text()");
 			if (xmlTextNode != null) this.Text = xmlTextNode.Value;
 		}
+
 		#endregion
+
 		#region Equating
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -89,8 +101,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(TextContent other)
 		{
-			return this.Text == other.Text;
+			return this.Text == other?.Text;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -100,6 +113,7 @@ namespace Launcher.Databases
 		{
 			return this.Text == other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -107,76 +121,80 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(StringBuilder other)
 		{
-			return this.Text == other.ToString();
+			return this.Text == other?.ToString();
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Int64.MinValue"/> or greater
-		/// than <see cref="F:System.Int64.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Int64.MinValue"/> or greater than <see
+		/// cref="F:System.Int64.MaxValue"/>.
 		/// </exception>
 		public bool Equals(IntegerContent other)
 		{
 			try
 			{
-				return Convert.ToInt64(this.Text) == other.Value;
+				return Convert.ToInt64(this.Text) == other?.Value;
 			}
 			catch (FormatException)
 			{
 				return false;
 			}
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Decimal.MinValue"/> or greater
-		/// than <see cref="F:System.Decimal.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Decimal.MinValue"/> or greater than <see
+		/// cref="F:System.Decimal.MaxValue"/>.
 		/// </exception>
 		public bool Equals(DecimalContent other)
 		{
 			try
 			{
-				return Convert.ToDecimal(this.Text) == other.Value;
+				return Convert.ToDecimal(this.Text) == other?.Value;
 			}
 			catch (FormatException)
 			{
 				return false;
 			}
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Double.MinValue"/> or greater
-		/// than <see cref="F:System.Double.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Double.MinValue"/> or greater than <see
+		/// cref="F:System.Double.MaxValue"/>.
 		/// </exception>
 		public bool Equals(DoubleContent other)
 		{
 			try
 			{
-				return Math.Abs(Convert.ToDouble(this.Text) - other.Value) < 0.000001;
+				return other != null && Math.Abs(Convert.ToDouble(this.Text) - other.Value) < 0.000001;
 			}
 			catch (FormatException)
 			{
 				return false;
 			}
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Int64.MinValue"/> or greater
-		/// than <see cref="F:System.Int64.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Int64.MinValue"/> or greater than <see
+		/// cref="F:System.Int64.MaxValue"/>.
 		/// </exception>
 		public bool Equals(long other)
 		{
@@ -189,14 +207,15 @@ namespace Launcher.Databases
 				return false;
 			}
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.UInt64.MinValue"/> or greater
-		/// than <see cref="F:System.UInt64.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.UInt64.MinValue"/> or greater than <see
+		/// cref="F:System.UInt64.MaxValue"/>.
 		/// </exception>
 		public bool Equals(ulong other)
 		{
@@ -209,14 +228,15 @@ namespace Launcher.Databases
 				return false;
 			}
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Int32.MinValue"/> or greater
-		/// than <see cref="F:System.Int32.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Int32.MinValue"/> or greater than <see
+		/// cref="F:System.Int32.MaxValue"/>.
 		/// </exception>
 		public bool Equals(int other)
 		{
@@ -229,14 +249,15 @@ namespace Launcher.Databases
 				return false;
 			}
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.UInt32.MinValue"/> or greater
-		/// than <see cref="F:System.UInt32.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.UInt32.MinValue"/> or greater than <see
+		/// cref="F:System.UInt32.MaxValue"/>.
 		/// </exception>
 		public bool Equals(uint other)
 		{
@@ -249,14 +270,15 @@ namespace Launcher.Databases
 				return false;
 			}
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Decimal.MinValue"/> or greater
-		/// than <see cref="F:System.Decimal.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Decimal.MinValue"/> or greater than <see
+		/// cref="F:System.Decimal.MaxValue"/>.
 		/// </exception>
 		public bool Equals(decimal other)
 		{
@@ -269,14 +291,15 @@ namespace Launcher.Databases
 				return false;
 			}
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Single.MinValue"/> or greater
-		/// than <see cref="F:System.Single.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Single.MinValue"/> or greater than <see
+		/// cref="F:System.Single.MaxValue"/>.
 		/// </exception>
 		public bool Equals(float other)
 		{
@@ -289,14 +312,15 @@ namespace Launcher.Databases
 				return false;
 			}
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Double.MinValue"/> or greater
-		/// than <see cref="F:System.Double.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Double.MinValue"/> or greater than <see
+		/// cref="F:System.Double.MaxValue"/>.
 		/// </exception>
 		public bool Equals(double other)
 		{
@@ -309,62 +333,60 @@ namespace Launcher.Databases
 				return false;
 			}
 		}
+
 		#endregion
+
 		#region Comparing
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(string other)
 		{
 			return string.Compare(this.Text, other, StringComparison.Ordinal);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(TextContent other)
 		{
 			return string.Compare(this.Text, other.Text, StringComparison.Ordinal);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(StringBuilder other)
 		{
 			return string.Compare(this.Text, other.ToString(), StringComparison.Ordinal);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(IntegerContent other)
@@ -373,15 +395,14 @@ namespace Launcher.Databases
 								  other.Value.ToString(CultureInfo.InvariantCulture),
 								  StringComparison.Ordinal);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(DecimalContent other)
@@ -390,15 +411,14 @@ namespace Launcher.Databases
 								  other.Value.ToString(CultureInfo.InvariantCulture),
 								  StringComparison.Ordinal);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(DoubleContent other)
@@ -407,15 +427,14 @@ namespace Launcher.Databases
 								  other.Value.ToString(CultureInfo.InvariantCulture),
 								  StringComparison.Ordinal);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(long other)
@@ -424,15 +443,14 @@ namespace Launcher.Databases
 								  other.ToString(CultureInfo.InvariantCulture),
 								  StringComparison.Ordinal);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(ulong other)
@@ -441,15 +459,14 @@ namespace Launcher.Databases
 								  other.ToString(CultureInfo.InvariantCulture),
 								  StringComparison.Ordinal);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(int other)
@@ -458,15 +475,14 @@ namespace Launcher.Databases
 								  other.ToString(CultureInfo.InvariantCulture),
 								  StringComparison.Ordinal);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(uint other)
@@ -475,15 +491,14 @@ namespace Launcher.Databases
 								  other.ToString(CultureInfo.InvariantCulture),
 								  StringComparison.Ordinal);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(decimal other)
@@ -492,15 +507,14 @@ namespace Launcher.Databases
 								  other.ToString(CultureInfo.InvariantCulture),
 								  StringComparison.Ordinal);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(float other)
@@ -509,15 +523,14 @@ namespace Launcher.Databases
 								  other.ToString(CultureInfo.InvariantCulture),
 								  StringComparison.Ordinal);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(double other)
@@ -526,8 +539,11 @@ namespace Launcher.Databases
 								  other.ToString(CultureInfo.InvariantCulture),
 								  StringComparison.Ordinal);
 		}
+
 		#endregion
+
 		#region Conversions
+
 		/// <summary>
 		/// Returns type code of this object.
 		/// </summary>
@@ -536,6 +552,7 @@ namespace Launcher.Databases
 		{
 			return TypeCode.Object;
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -552,9 +569,12 @@ namespace Launcher.Databases
 			}
 			catch (FormatException ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -571,9 +591,12 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -590,9 +613,12 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -609,9 +635,12 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -628,9 +657,12 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -647,9 +679,12 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -666,9 +701,12 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -685,9 +723,12 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -704,9 +745,12 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -723,9 +767,12 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -742,9 +789,12 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -754,6 +804,7 @@ namespace Launcher.Databases
 		{
 			return this.Text;
 		}
+
 		/// <summary>
 		/// Throws <see cref="InvalidCastException"/>.
 		/// </summary>
@@ -765,6 +816,7 @@ namespace Launcher.Databases
 		{
 			throw new InvalidCastException("Casting to another type is not supported.");
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -781,9 +833,12 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -800,9 +855,12 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		/// <summary>
 		/// Converts value of this content object to specific type.
 		/// </summary>
@@ -819,11 +877,16 @@ namespace Launcher.Databases
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidCastException("The content of the entry doesn't represent the value of appropriate type.", ex);
+				throw new
+					InvalidCastException("The content of the entry doesn't represent the value of appropriate type.",
+										 ex);
 			}
 		}
+
 		#endregion
+
 		#region Enumeration
+
 		/// <summary>
 		/// Enumerates this text.
 		/// </summary>
@@ -832,13 +895,17 @@ namespace Launcher.Databases
 		{
 			return this.Text.GetEnumerator();
 		}
+
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return this.Text.GetEnumerator();
 		}
+
 		#endregion
+
 		#endregion
 	}
+
 	/// <summary>
 	/// Represents an object that provides access to integer content of database entry.
 	/// </summary>
@@ -847,12 +914,16 @@ namespace Launcher.Databases
 								  IComparableToNumberContent, IComparableToNumber
 	{
 		#region Properties
+
 		/// <summary>
 		/// Gets or sets value of this content object.
 		/// </summary>
 		public long Value { get; set; }
+
 		#endregion
+
 		#region Construction
+
 		/// <summary>
 		/// Creates default instance of <see cref="IntegerContent"/> class.
 		/// </summary>
@@ -860,6 +931,7 @@ namespace Launcher.Databases
 		{
 			this.Value = 0;
 		}
+
 		/// <summary>
 		/// Creates new instance of <see cref="IntegerContent"/> class.
 		/// </summary>
@@ -868,9 +940,13 @@ namespace Launcher.Databases
 		{
 			this.Value = value;
 		}
+
 		#endregion
+
 		#region Interface
+
 		#region Save/Load
+
 		/// <summary>
 		/// Writes binary representation of this content to the stream.
 		/// </summary>
@@ -881,6 +957,7 @@ namespace Launcher.Databases
 		{
 			bw.Write(this.Value);
 		}
+
 		/// <summary>
 		/// Reads binary data from the stream and converts it to format of this content.
 		/// </summary>
@@ -892,6 +969,7 @@ namespace Launcher.Databases
 		{
 			this.Value = br.ReadInt64();
 		}
+
 		/// <summary>
 		/// Writes Xml representation of this content to the <see cref="XmlElement"/>.
 		/// </summary>
@@ -902,20 +980,24 @@ namespace Launcher.Databases
 		{
 			element.SetAttribute("value", this.Value.ToString());
 		}
+
 		/// <summary>
 		/// Reads Xml representation of this content.
 		/// </summary>
 		/// <param name="element"><see cref="XmlElement"/> that contains data.</param>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Int64.MinValue"/> or greater
-		/// than <see cref="F:System.Int64.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Int64.MinValue"/> or greater than <see
+		/// cref="F:System.Int64.MaxValue"/>.
 		/// </exception>
 		public override void FromXml(XmlElement element)
 		{
 			this.Value = Convert.ToInt64(element.GetAttribute("value"));
 		}
+
 		#endregion
+
 		#region Equating
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -923,8 +1005,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(IntegerContent other)
 		{
-			return this.Value == other.Value;
+			return this.Value == other?.Value;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -932,8 +1015,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(DecimalContent other)
 		{
-			return this.Value == other.Value;
+			return this.Value == other?.Value;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -941,8 +1025,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(DoubleContent other)
 		{
-			return Math.Abs(this.Value - other.Value) < 0.000001;
+			return other != null && Math.Abs(this.Value - other.Value) < 0.000001;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -952,6 +1037,7 @@ namespace Launcher.Databases
 		{
 			return this.Value == other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -959,8 +1045,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(ulong other)
 		{
-			return this.Value == (long)other;
+			return this.Value == (long) other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -970,6 +1057,7 @@ namespace Launcher.Databases
 		{
 			return this.Value == other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -979,6 +1067,7 @@ namespace Launcher.Databases
 		{
 			return this.Value == other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -988,6 +1077,7 @@ namespace Launcher.Databases
 		{
 			return this.Value == other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -997,6 +1087,7 @@ namespace Launcher.Databases
 		{
 			return Math.Abs(this.Value - other) < 0.000001;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1006,163 +1097,156 @@ namespace Launcher.Databases
 		{
 			return Math.Abs(this.Value - other) < 0.000001;
 		}
+
 		#endregion
+
 		#region Comparing
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(IntegerContent other)
 		{
 			return this.Value.CompareTo(other.Value);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(DecimalContent other)
 		{
 			return this.Value.CompareTo(other.Value);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(DoubleContent other)
 		{
 			return this.Value.CompareTo(other.Value);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(long other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(ulong other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(int other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(uint other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(decimal other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(float other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(double other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		#endregion
-		#endregion
-		#region Utilities
+
 		#endregion
 	}
+
 	/// <summary>
 	/// Represents an object that provides access to decimal content of database entry.
 	/// </summary>
@@ -1171,12 +1255,16 @@ namespace Launcher.Databases
 								  IComparableToNumberContent, IComparableToNumber
 	{
 		#region Properties
+
 		/// <summary>
 		/// Gets or sets <see cref="Decimal"/> value of this content object.
 		/// </summary>
 		public decimal Value { get; set; }
+
 		#endregion
+
 		#region Construction
+
 		/// <summary>
 		/// Creates default instance of <see cref="DecimalContent"/> class.
 		/// </summary>
@@ -1184,6 +1272,7 @@ namespace Launcher.Databases
 		{
 			this.Value = 0;
 		}
+
 		/// <summary>
 		/// Creates new instance of <see cref="DecimalContent"/> class.
 		/// </summary>
@@ -1192,9 +1281,13 @@ namespace Launcher.Databases
 		{
 			this.Value = value;
 		}
+
 		#endregion
+
 		#region Interface
+
 		#region Save/Load
+
 		/// <summary>
 		/// Writes binary representation of this content to the stream.
 		/// </summary>
@@ -1205,6 +1298,7 @@ namespace Launcher.Databases
 		{
 			bw.Write(this.Value);
 		}
+
 		/// <summary>
 		/// Reads binary data from the stream and converts it to format of this content.
 		/// </summary>
@@ -1216,6 +1310,7 @@ namespace Launcher.Databases
 		{
 			this.Value = br.ReadDecimal();
 		}
+
 		/// <summary>
 		/// Writes Xml representation of this content to the <see cref="XmlElement"/>.
 		/// </summary>
@@ -1225,23 +1320,27 @@ namespace Launcher.Databases
 		/// <exception cref="ArgumentException">The node is read-only.</exception>
 		public override void ToXml(XmlDocument document, XmlElement element)
 		{
-			element.SetAttribute("value", this.Value.ToString());
+			element.SetAttribute("value", this.Value.ToString(CultureInfo.InvariantCulture));
 		}
+
 		/// <summary>
 		/// Reads Xml representation of this content.
 		/// </summary>
 		/// <param name="element"><see cref="XmlElement"/> that contains data.</param>
 		/// <exception cref="FormatException">Value is not a number in a valid format.</exception>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Decimal.MinValue"/> or greater
-		/// than <see cref="F:System.Decimal.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Decimal.MinValue"/> or greater than <see
+		/// cref="F:System.Decimal.MaxValue"/>.
 		/// </exception>
 		public override void FromXml(XmlElement element)
 		{
 			this.Value = Convert.ToDecimal(element.GetAttribute("value"));
 		}
+
 		#endregion
+
 		#region Equating
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1249,8 +1348,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(IntegerContent other)
 		{
-			return this.Value == other.Value;
+			return this.Value == other?.Value;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1258,8 +1358,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(DecimalContent other)
 		{
-			return this.Value == other.Value;
+			return this.Value == other?.Value;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1267,8 +1368,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(DoubleContent other)
 		{
-			return this.Value == (decimal)other.Value;
+			return other != null && this.Value == (decimal) other.Value;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1278,6 +1380,7 @@ namespace Launcher.Databases
 		{
 			return this.Value == other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1285,8 +1388,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(ulong other)
 		{
-			return this.Value == (long)other;
+			return this.Value == (long) other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1296,6 +1400,7 @@ namespace Launcher.Databases
 		{
 			return this.Value == other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1305,6 +1410,7 @@ namespace Launcher.Databases
 		{
 			return this.Value == other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1314,6 +1420,7 @@ namespace Launcher.Databases
 		{
 			return this.Value == other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1321,8 +1428,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(float other)
 		{
-			return this.Value == (decimal)other;
+			return this.Value == (decimal) other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1330,163 +1438,158 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(double other)
 		{
-			return this.Value == (decimal)other;
+			return this.Value == (decimal) other;
 		}
+
 		#endregion
+
 		#region Comparing
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(IntegerContent other)
 		{
 			return this.Value.CompareTo(other.Value);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(DecimalContent other)
 		{
 			return this.Value.CompareTo(other.Value);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(DoubleContent other)
 		{
 			return this.Value.CompareTo(other.Value);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(long other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(ulong other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(int other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(uint other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(decimal other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(float other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(double other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		#endregion
+
 		#endregion
 	}
+
 	/// <summary>
 	/// Represents an object that provides access to double number content of database entry.
 	/// </summary>
@@ -1495,12 +1598,16 @@ namespace Launcher.Databases
 								 IComparableToNumberContent, IComparableToNumber
 	{
 		#region Properties
+
 		/// <summary>
 		/// Gets or sets value of this content object.
 		/// </summary>
 		public double Value { get; set; }
+
 		#endregion
+
 		#region Construction
+
 		/// <summary>
 		/// Creates default instance of <see cref="DoubleContent"/> class.
 		/// </summary>
@@ -1508,6 +1615,7 @@ namespace Launcher.Databases
 		{
 			this.Value = 0;
 		}
+
 		/// <summary>
 		/// Creates new instance of <see cref="DoubleContent"/> class.
 		/// </summary>
@@ -1516,9 +1624,13 @@ namespace Launcher.Databases
 		{
 			this.Value = value;
 		}
+
 		#endregion
+
 		#region Interface
+
 		#region Save/Load
+
 		/// <summary>
 		/// Writes binary representation of this content to the stream.
 		/// </summary>
@@ -1529,6 +1641,7 @@ namespace Launcher.Databases
 		{
 			bw.Write(this.Value);
 		}
+
 		/// <summary>
 		/// Reads binary data from the stream and converts it to format of this content.
 		/// </summary>
@@ -1540,6 +1653,7 @@ namespace Launcher.Databases
 		{
 			this.Value = br.ReadDouble();
 		}
+
 		/// <summary>
 		/// Writes Xml representation of this content to the <see cref="XmlElement"/>.
 		/// </summary>
@@ -1549,8 +1663,9 @@ namespace Launcher.Databases
 		/// <exception cref="ArgumentException">The node is read-only.</exception>
 		public override void ToXml(XmlDocument document, XmlElement element)
 		{
-			element.SetAttribute("value", this.Value.ToString());
+			element.SetAttribute("value", this.Value.ToString(CultureInfo.InvariantCulture));
 		}
+
 		/// <summary>
 		/// Reads Xml representation of this content.
 		/// </summary>
@@ -1558,15 +1673,18 @@ namespace Launcher.Databases
 		/// <exception cref="FormatException">Value is not a number in a valid format.</exception>
 		/// <exception cref="FormatException">Value is not a number in a valid format.</exception>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Double.MinValue"/> or greater
-		/// than <see cref="F:System.Double.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Double.MinValue"/> or greater than <see
+		/// cref="F:System.Double.MaxValue"/>.
 		/// </exception>
 		public override void FromXml(XmlElement element)
 		{
 			this.Value = Convert.ToDouble(element.GetAttribute("value"));
 		}
+
 		#endregion
+
 		#region Equating
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1574,8 +1692,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(IntegerContent other)
 		{
-			return Math.Abs(this.Value - other.Value) < 0.000001;
+			return other != null && Math.Abs(this.Value - other.Value) < 0.000001;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1583,8 +1702,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(DecimalContent other)
 		{
-			return Math.Abs(this.Value - (double)other.Value) < 0.000001;
+			return other != null && Math.Abs(this.Value - (double) other.Value) < 0.000001;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1592,8 +1712,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(DoubleContent other)
 		{
-			return Math.Abs(this.Value - other.Value) < 0.000001;
+			return other != null && Math.Abs(this.Value - other.Value) < 0.000001;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1603,6 +1724,7 @@ namespace Launcher.Databases
 		{
 			return Math.Abs(this.Value - other) < 0.000001;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1610,8 +1732,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(ulong other)
 		{
-			return Math.Abs(this.Value - (long)other) < 0.000001;
+			return Math.Abs(this.Value - (long) other) < 0.000001;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1621,6 +1744,7 @@ namespace Launcher.Databases
 		{
 			return Math.Abs(this.Value - other) < 0.000001;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1630,6 +1754,7 @@ namespace Launcher.Databases
 		{
 			return Math.Abs(this.Value - other) < 0.000001;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1637,8 +1762,9 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(decimal other)
 		{
-			return Math.Abs(this.Value - (double)other) < 0.000001;
+			return Math.Abs(this.Value - (double) other) < 0.000001;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1648,6 +1774,7 @@ namespace Launcher.Databases
 		{
 			return Math.Abs(this.Value - other) < 0.000001;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1657,161 +1784,156 @@ namespace Launcher.Databases
 		{
 			return Math.Abs(this.Value - other) < 0.000001;
 		}
+
 		#endregion
+
 		#region Comparing
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(IntegerContent other)
 		{
 			return this.Value.CompareTo(other.Value);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(DecimalContent other)
 		{
 			return this.Value.CompareTo(other.Value);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(DoubleContent other)
 		{
 			return this.Value.CompareTo(other.Value);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(long other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(ulong other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(int other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(uint other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(decimal other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(float other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		/// <summary>
 		/// Determines relative order of this content object and other object in a sorted collection.
 		/// </summary>
 		/// <param name="other">Other object.</param>
 		/// <returns>
 		/// <para>- 1 - This content object should precede other object.</para>
-		/// <para>
-		/// 0 - This content object and other object can occupy same spot in a sorted sequence.
-		/// </para>
+		/// <para>0 - This content object and other object can occupy same spot in a sorted sequence.</para>
 		/// <para>1 - This content object should succeed other object.</para>
 		/// </returns>
 		public int CompareTo(double other)
 		{
 			return this.Value.CompareTo(other);
 		}
+
 		#endregion
+
 		#endregion
 	}
+
 	/// <summary>
 	/// Represents an object that provides access to boolean content of database entry.
 	/// </summary>
@@ -1819,12 +1941,16 @@ namespace Launcher.Databases
 	public class BooleanContent : DatabaseEntryContent, IEquatable<bool>, IEquatable<BooleanContent>
 	{
 		#region Properties
+
 		/// <summary>
 		/// Gets or sets boolean value of this object.
 		/// </summary>
 		public bool Value { get; set; }
+
 		#endregion
+
 		#region Construction
+
 		/// <summary>
 		/// Creates default instance of <see cref="BooleanContent"/> class.
 		/// </summary>
@@ -1832,6 +1958,7 @@ namespace Launcher.Databases
 		{
 			this.Value = false;
 		}
+
 		/// <summary>
 		/// Creates new instance of <see cref="BooleanContent"/> class.
 		/// </summary>
@@ -1840,9 +1967,13 @@ namespace Launcher.Databases
 		{
 			this.Value = value;
 		}
+
 		#endregion
+
 		#region Interface
+
 		#region Save/Load
+
 		/// <summary>
 		/// Writes binary representation of this content to the stream.
 		/// </summary>
@@ -1853,6 +1984,7 @@ namespace Launcher.Databases
 		{
 			bw.Write(this.Value);
 		}
+
 		/// <summary>
 		/// Reads binary data from the stream and converts it to format of this content.
 		/// </summary>
@@ -1864,6 +1996,7 @@ namespace Launcher.Databases
 		{
 			this.Value = br.ReadBoolean();
 		}
+
 		/// <summary>
 		/// Writes Xml representation of this content to the <see cref="XmlElement"/>.
 		/// </summary>
@@ -1875,6 +2008,7 @@ namespace Launcher.Databases
 		{
 			element.SetAttribute("value", this.Value ? "1" : "0");
 		}
+
 		/// <summary>
 		/// Reads Xml representation of this content.
 		/// </summary>
@@ -1883,7 +2017,9 @@ namespace Launcher.Databases
 		{
 			this.Value = element.GetAttribute("value") == "1";
 		}
+
 		#endregion
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1893,6 +2029,7 @@ namespace Launcher.Databases
 		{
 			return this.Value == other;
 		}
+
 		/// <summary>
 		/// Determines equality of this content object and other object.
 		/// </summary>
@@ -1900,11 +2037,14 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(BooleanContent other)
 		{
-			return this.Value == other.Value;
+			return this.Value == other?.Value;
 		}
+
 		#endregion
 	}
+
 	#region Interfaces
+
 	/// <summary>
 	/// Combines interfaces that are implemented by numeric content types.
 	/// </summary>
@@ -1912,6 +2052,7 @@ namespace Launcher.Databases
 												 IEquatable<DoubleContent>
 	{
 	}
+
 	/// <summary>
 	/// Combines interfaces that are implemented by objects that can be equated to numbers.
 	/// </summary>
@@ -1920,12 +2061,14 @@ namespace Launcher.Databases
 										  IEquatable<double>
 	{
 	}
+
 	/// <summary>
 	/// Combines interfaces that are implemented by objects that can be equated to text.
 	/// </summary>
 	public interface IEquatableToText : IEquatable<TextContent>, IEquatable<string>, IEquatable<StringBuilder>
 	{
 	}
+
 	/// <summary>
 	/// Combines interfaces that are implemented by objects that can be compared to numbers.
 	/// </summary>
@@ -1934,14 +2077,16 @@ namespace Launcher.Databases
 										   IComparable<double>
 	{
 	}
+
 	/// <summary>
-	/// Combines interfaces that are implemented by objects that can be compared to numbers that are
-	/// encapsulated into numeric entry content objects.
+	/// Combines interfaces that are implemented by objects that can be compared to numbers that are encapsulated into
+	/// numeric entry content objects.
 	/// </summary>
 	public interface IComparableToNumberContent : IComparable<IntegerContent>, IComparable<DecimalContent>,
 												  IComparable<DoubleContent>
 	{
 	}
+
 	/// <summary>
 	/// Combines interfaces that are implemented by objects that can be compared to text.
 	/// </summary>
@@ -1949,5 +2094,6 @@ namespace Launcher.Databases
 										 IComparable<StringBuilder>
 	{
 	}
+
 	#endregion
 }
