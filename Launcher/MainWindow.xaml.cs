@@ -210,7 +210,7 @@ namespace Launcher
 
 		private void SelectZDoomInstallationFolder(object sender, RoutedEventArgs e)
 		{
-			if (this.zDoomFolder == null)
+			if (this.zDoomFolder == null || !Directory.Exists(this.zDoomFolder))
 			{
 				VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog
 				{
