@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              x:Class="Launcher.App"
-             StartupUri="MainWindow.xaml" Startup="StartUp">
+             StartupUri="MainWindow.xaml" Startup="StartUp" ShutdownMode="OnMainWindowClose">
 	<Application.Resources>
 		<Style x:Key="RefreshButtonStyle" TargetType="{x:Type Button}">
 			<Setter Property="FontFamily" Value="Wingdings 3" />
