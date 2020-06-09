@@ -321,6 +321,10 @@ namespace Launcher
 
 		private void ConfigurationNameChanged(object sender, TextChangedEventArgs e)
 		{
+			if (this.config == null)
+			{
+				return;
+			}
 			this.config.Name = this.ConfigurationNameTextBox.Text;
 			this.UpdateWindowTitle();
 		}
