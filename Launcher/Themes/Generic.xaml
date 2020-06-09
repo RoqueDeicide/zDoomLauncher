@@ -45,10 +45,10 @@
 									</LinearGradientBrush>
 								</Border.Background>
 							</Border>
-							<local:SpinnerButton Name="UpButton" Grid.Row="0" IsUp="true"
+							<local:SpinnerButton x:Name="UpButton" Grid.Row="0" IsUp="true"
 											 Foreground="{TemplateBinding Foreground}" Margin="-1,1,0,0" />
-							<local:SpinnerButton Name="DownButton" Grid.Row="1" IsUp="false"
-											 Foreground="{TemplateBinding Foreground}" Margin="-1,0,0,1" />
+							<local:SpinnerButton x:Name="DownButton" Grid.Row="1" IsUp="false"
+							                     Foreground="{TemplateBinding Foreground}" Margin="-1,0,0,1" />
 						</Grid>
 					</Grid>
 					<ControlTemplate.Triggers>
@@ -132,8 +132,8 @@
 							<RowDefinition Height="1*" />
 							<RowDefinition Height="1*" />
 						</Grid.RowDefinitions>
-						<local:SpinnerButton Grid.Row="0" Name="UpButton" IsUp="True" />
-						<local:SpinnerButton Grid.Row="1" Name="DownButton" IsUp="False" />
+						<local:SpinnerButton Grid.Row="0" x:Name="UpButton" IsUp="True" />
+						<local:SpinnerButton Grid.Row="1" x:Name="DownButton" IsUp="False" />
 					</Grid>
 					<ControlTemplate.Triggers>
 						<Trigger Property="AtBottom" Value="True">
