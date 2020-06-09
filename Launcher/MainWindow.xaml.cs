@@ -225,7 +225,7 @@ namespace Launcher
 
 		private void SelectZDoomInstallationFolder(object sender, RoutedEventArgs e)
 		{
-			if (!this.IsCurrentZDoomFolderValid())
+			if (!this.IsCurrentZDoomFolderValid() || sender is MenuItem)
 			{
 				var dialog = new VistaFolderBrowserDialog
 							 {
@@ -246,6 +246,10 @@ namespace Launcher
 										MessageBoxButton.YesNo,
 										MessageBoxImage.Question) != MessageBoxResult.Yes)
 					{
+						if (sender is MenuItem)
+						{
+							return;
+						}
 						Log.Warning("No folder was selected. Closing.");
 
 						this.Close();
