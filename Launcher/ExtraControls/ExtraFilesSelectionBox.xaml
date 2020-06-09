@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
              mc:Ignorable="d" d:DesignWidth="300" Height="500"
 			 xmlns:local="clr-namespace:Launcher">
 	<UserControl.Resources>
@@ -20,15 +21,8 @@
 		</Style>
 		<local:DirectoryNameSelector x:Key="DirectoryNameSelector" />
 		<DataTemplate x:Key="LoadableFilesGroupHeader">
-			<Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"
+			<Border BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}"
 					BorderThickness="0,0,0,1">
-				<Border.Background>
-					<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-						<GradientStop Color="White" Offset="0"/>
-						<GradientStop Color="White" Offset="0.3"/>
-						<GradientStop Color="LightGray" Offset="1"/>
-					</LinearGradientBrush>
-				</Border.Background>
 				<TextBlock Margin="0" FontWeight="Bold" FontSize="13" Height="20"
 						   Text="{Binding Converter={StaticResource DirectoryNameSelector}}" />
 			</Border>
@@ -52,7 +46,7 @@
 					</ListBox.GroupStyle>
 					<ListBox.ItemTemplate>
 						<DataTemplate>
-							<Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="20" />
 									<ColumnDefinition />
@@ -84,7 +78,7 @@
 						 PreviewMouseMove="AttemptInitiateDragDrop">
 					<ListBox.ItemTemplate>
 						<DataTemplate DataType="local:FileDesc">
-							<Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="20" />
 									<ColumnDefinition Width="266*" />
@@ -110,12 +104,12 @@
 										</ContextMenu>
 									</TextBlock.ContextMenu>
 								</TextBlock>
-								<Border Grid.Row="0" Grid.Column="1" x:Name="DropUpperIndicator"
-										BorderThickness="0,1,0,0" BorderBrush="Black" CornerRadius="1"
+								<Border Grid.Row="0" Grid.Column="1" x:Name="DropUpperIndicator" BorderThickness="0,1,0,0"
+										BorderBrush="{DynamicResource SystemControlBackgroundBaseHighBrush}"
 										Visibility="{Binding Path=DragOverTop}" Panel.ZIndex="1"/>
-								<Border Grid.Row="1" Grid.Column="1" x:Name="DropLowerIndicator"
-										BorderThickness="0,0,0,1" BorderBrush="Black" CornerRadius="1"
-										Visibility="{Binding Path=DragOverBottom}" Panel.ZIndex="1"/>
+								<Border Grid.Row="1" Grid.Column="1" x:Name="DropLowerIndicator" BorderThickness="0,0,0,1"
+										BorderBrush="{DynamicResource SystemControlBackgroundBaseHighBrush}"
+										CornerRadius="1" Visibility="{Binding Path=DragOverBottom}" Panel.ZIndex="1"/>
 							</Grid>
 						</DataTemplate>
 					</ListBox.ItemTemplate>

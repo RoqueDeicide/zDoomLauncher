@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using Launcher.Annotations;
 using Launcher.Configs;
 using Launcher.Logging;
+using ModernWpf.Controls;
 using Ookii.Dialogs.Wpf;
 using PathIO = System.IO.Path;
 
@@ -223,7 +224,7 @@ namespace Launcher
 			return this.zDoomFolder != null && Directory.Exists(this.zDoomFolder);
 		}
 
-		private void SelectZDoomInstallationFolder(object sender, RoutedEventArgs e)
+		private async void SelectZDoomInstallationFolder(object sender, RoutedEventArgs e)
 		{
 			if (!this.IsCurrentZDoomFolderValid() || sender is MenuItem)
 			{
@@ -241,15 +242,23 @@ namespace Launcher
 						break;
 					}
 
-					if (MessageBox.Show("Valid folder needs to contain at least one .exe file.",
-										"No folder or invalid one was chosen",
-										MessageBoxButton.YesNo,
-										MessageBoxImage.Question) != MessageBoxResult.Yes)
+					var messageBox = new ContentDialog
+									 {
+										 Title             = "No folder or invalid one was chosen",
+										 Content           = "Valid folder needs to contain at least one .exe file.",
+										 CloseButtonText   = "Cancel",
+										 PrimaryButtonText = "Choose another"
+									 };
+
+					var result = await messageBox.ShowAsync();
+
+					if (result == ContentDialogResult.None)
 					{
 						if (sender is MenuItem)
 						{
 							return;
 						}
+
 						Log.Warning("No folder was selected. Closing.");
 
 						this.Close();

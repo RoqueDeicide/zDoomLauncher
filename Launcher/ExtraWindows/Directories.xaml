@@ -5,11 +5,18 @@
         x:Class="Launcher.Directories"
         Title="Directories to Look for the Files in"
 		Height="480" Width="570" MinHeight="480" MaxWidth="570"
-		ResizeMode="CanResizeWithGrip" WindowStyle="ToolWindow">
+		ResizeMode="CanResizeWithGrip" WindowStyle="ToolWindow"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        ui:ThemeManager.IsThemeAware="True">
 	<Window.Resources>
 		<Style x:Key="DirectoryItem" TargetType="{x:Type ListBoxItem}">
-			<Setter Property="Height" Value="30" />
+			<Setter Property="Height" Value="40" />
 			<Setter Property="Focusable" Value="False" />
+			<Setter Property="Padding" Value="1" />
+		</Style>
+		<Style TargetType="{x:Type Button}">
+			<Setter Property="Padding" Value="2" />
 		</Style>
 		<BitmapImage x:Key="FolderIcon" UriSource="..\Resources\folder--pencil.png" />
 		<BitmapImage x:Key="AddFolderIcon" UriSource="..\Resources\folder--plus.png" />
@@ -66,7 +73,6 @@
 	<ScrollViewer HorizontalScrollBarVisibility="Auto">
 		<ListBox Name="DirectoriesListBox"
 				 ItemContainerStyle="{StaticResource DirectoryItem}"
-				 Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}"
 				 BorderThickness="0" HorizontalContentAlignment="Stretch"
 				 ItemTemplate="{StaticResource DirectoryLineTemplate}" />
 	</ScrollViewer>

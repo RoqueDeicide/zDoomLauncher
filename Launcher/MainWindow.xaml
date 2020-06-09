@@ -4,16 +4,25 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:prog="clr-namespace:Launcher"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-        Title="zDoom Launcher" Height="403" Width="483" MinHeight="548" MinWidth="675"
-		Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}"
-		Closing="MainWindowClosing" Loaded="DealWithWindowPositionSize">
+		xmlns:ui="http://schemas.modernwpf.com/2019"
+        Title="zDoom Launcher" Height="800" Width="850" MinHeight="800" MinWidth="850"
+		Closing="MainWindowClosing" Loaded="DealWithWindowPositionSize"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        ui:ThemeManager.IsThemeAware="True">
 	<Window.Resources>
-		<SolidColorBrush x:Key="DefaultTextBoxBorder" Color="#FF707070" />
+		<Style TargetType="{x:Type ListBoxItem}">
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="Margin" Value="0"/>
+		</Style>
 	</Window.Resources>
-	<Grid Margin="0,0,2,0">
-		<Menu Height="24" VerticalAlignment="Top">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Menu>
 			<MenuItem Header="Configurations">
-				<MenuItem Header="New" HorizontalAlignment="Left" Width="145" Click="CreateNewConfiguration">
+				<MenuItem Header="New" Click="CreateNewConfiguration">
 					<MenuItem.Icon>
 						<Image Source="Resources/document.png" />
 					</MenuItem.Icon>
@@ -29,7 +38,7 @@
 						<Image Source="Resources/disk-small-black.png" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="Open" Click="OpenConfiguration" Icon="{StaticResource OpenDocumentIcon}" />
+				<MenuItem Header="Open" Click="OpenConfiguration" Icon="{StaticResource OpenConfigIcon}" />
 				<Separator />
 				<MenuItem Header="Close" Click="CloseWindow">
 					<MenuItem.Icon>
@@ -84,91 +93,125 @@
 				<MenuItem Header="Reset Window Dimensions" Click="ResetWindowDimensions" />
 			</MenuItem>
 		</Menu>
-		<Label Content="IWAD" HorizontalAlignment="Left" Margin="11,64,0,0" VerticalAlignment="Top" />
-		<prog:IwadComboBox HorizontalAlignment="Left" Margin="53,68,0,0" VerticalAlignment="Top" Width="156"
-						   x:Name="IwadComboBox" DropDownClosed="SelectIwad" ItemsSource="{Binding RelativeSource={RelativeSource Self}, Path=Files}">
-			<prog:IwadComboBox.ItemTemplate>
-				<DataTemplate DataType="prog:IwadFile">
-					<TextBlock Text="{Binding Path=Name}" />
-				</DataTemplate>
-			</prog:IwadComboBox.ItemTemplate>
-		</prog:IwadComboBox>
-		<GroupBox Header="Start With" Margin="215,204,4,0" VerticalAlignment="Top" Height="86">
-			<Grid Margin="0,0,-2,-2">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition/>
-					<ColumnDefinition Width="240"/>
-				</Grid.ColumnDefinitions>
-				<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Width="44" Checked="SwitchToSave" />
-				<TextBox x:Name="LoadGameTextBox" Height="23" Margin="60,3,29,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile" BorderBrush="{DynamicResource DefaultTextBoxBorder}" Grid.Column="0" />
-				<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Checked="SwitchToDemo" Grid.Column="0" />
-				<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Checked="SwitchToMap" Grid.Column="1" />
-				<TextBox x:Name="PlayDemoTextBox" Height="23" Margin="60,35,29,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the demo file." TextChanged="UpdateDemoFile" BorderBrush="{DynamicResource DefaultTextBoxBorder}" Grid.Column="0" />
-				<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="169,38,0,0" VerticalAlignment="Top" Checked="SwitchToNothing" Grid.Column="1" IsChecked="True" />
-				<prog:NumericUpDown x:Name="EpisodeValueField" HorizontalAlignment="Left" Margin="100,1,0,0" VerticalAlignment="Top" Height="24" Value="0" ValueChanged="UpdateEpisodeIndex" Width="46" Grid.Column="1" />
-				<Label Content="Episode" HorizontalAlignment="Left" Margin="49,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,0.538" Grid.Column="1" />
-				<Label Content="Map" HorizontalAlignment="Left" Margin="146,1,0,0" VerticalAlignment="Top" Grid.Column="1" />
-				<prog:NumericUpDown x:Name="MapValueField" HorizontalAlignment="Left" Margin="180,1,0,0" VerticalAlignment="Top" Height="24" Value="0" ValueChanged="UpdateMapIndex" Width="50" Grid.Column="1" />
-				<Button HorizontalAlignment="Right" Margin="0,3,1,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Height="23" Width="23" Click="SelectSaveGameFile" Grid.Column="0" />
-				<Button HorizontalAlignment="Right" Margin="0,35,1,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Height="23" Width="23" Click="SelectDemoFile" Grid.Column="0" />
-				<RadioButton x:Name="LoadNamedMapIndicator" Content="Named Map" HorizontalAlignment="Left" Margin="9,38,0,0" VerticalAlignment="Top" Checked="SwitchToNamedMap" Grid.Column="1" />
-				<TextBox x:Name="LoadNamedMapTextBox" Height="23" Margin="100,35,76,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Name of the map to load. Useful when loading custom map packs. List of maps can be seen by launching the game and typing listmaps command in the console." TextChanged="UpdateMapName" BorderBrush="{DynamicResource DefaultTextBoxBorder}" Grid.Column="1" />
+		<Grid Grid.Row="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="137"/>
+				<RowDefinition Height="126"/>
+				<RowDefinition Height="182"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="250"/>
+				<ColumnDefinition Width="180"/>
+				<ColumnDefinition Width="165"/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Grid Grid.Row="0" Grid.Column="0">
+				<Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="32" VerticalContentAlignment="Center" />
+				<TextBox x:Name="ConfigurationNameTextBox" Height="23" Margin="52,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="ConfigurationNameChanged" />
+				<Label Content="IWAD" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Height="32" VerticalContentAlignment="Center" />
+				<prog:IwadComboBox Margin="52,47,10,0" VerticalAlignment="Top"
+				                   x:Name="IwadComboBox" DropDownClosed="SelectIwad" ItemsSource="{Binding RelativeSource={RelativeSource Self}, Path=Files}" HorizontalAlignment="Stretch">
+					<prog:IwadComboBox.ItemTemplate>
+						<DataTemplate DataType="prog:IwadFile">
+							<TextBlock Text="{Binding Path=Name}" />
+						</DataTemplate>
+					</prog:IwadComboBox.ItemTemplate>
+				</prog:IwadComboBox>
+				<Label Content="Extra Files" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Height="31" VerticalContentAlignment="Center" />
+				<Button x:Name="ExtraFilesRefreshButton" Margin="0,84,10,0" VerticalAlignment="Top" Click="RefreshExtraFiles" HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}"/>
 			</Grid>
-		</GroupBox>
-		<Label Content="Pixel Mode" HorizontalAlignment="Left" Margin="515,150,0,0" VerticalAlignment="Top" Width="74" />
-		<ComboBox Margin="515,176,4,0" VerticalAlignment="Top" Name="PixelModeComboBox">
-			<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen." Name="SinglePixelComboBoxItem" />
-			<ComboBoxItem Content="Double" Tag="1" ToolTip="Force renderer to use pixel doubling." Name="DoublePixelComboBoxItem" />
-			<ComboBoxItem Content="Quad" Tag="2" ToolTip="Force renderer to use pixel quadrupling." Name="QuadPixelComboBoxItem" />
-		</ComboBox>
-		<Label Content="Disable" HorizontalAlignment="Left" Margin="364,29,0,0" VerticalAlignment="Top" Width="102" />
-		<ListBox x:Name="DisableFlagsList" HorizontalAlignment="Left" Height="151" Margin="364,55,0,0" VerticalAlignment="Top" Width="146" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-			<CheckBox Content="Auto-Load Files" Name="AutoLoadItem" Checked="EnableOption" Unchecked="DisableOption" Tag="128" />
-			<CheckBox Content="CD Audio" Name="CdAudioItem" Checked="EnableOption" Unchecked="DisableOption" Tag="1" />
-			<CheckBox Content="Idling" Name="IdlingItem" Checked="EnableOption" Unchecked="DisableOption" Tag="2" />
-			<CheckBox Content="Sound Effects" Name="SfxItem" Checked="EnableOption" Unchecked="DisableOption" Tag="16" />
-			<CheckBox Content="Music" Name="MusicItem" Checked="EnableOption" Unchecked="DisableOption" Tag="8" />
-			<CheckBox Content="JoyStick" Name="JoyStickItem" Checked="EnableOption" Unchecked="DisableOption" Tag="4" />
-			<CheckBox Content="Startup Screens" Name="StartupScreensItem" Checked="EnableOption" Unchecked="DisableOption" Tag="32" />
-			<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Checked="EnableOption" Unchecked="DisableOption" Tag="64" />
-			<CheckBox Content="Block Map Loading" Name="IgnoreBlockMapItem" Checked="EnableIgnoreBlockMap" Unchecked="DisableIgnoreBlockMap" />
-		</ListBox>
-		<ListBox HorizontalAlignment="Left" Height="64" Margin="216,55,0,0" VerticalAlignment="Top" Width="143" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-			<CheckBox x:Name="NoMonstersIndicator" Content="No Monsters" Checked="DisableMonsters" Unchecked="EnableMonsters" />
-			<CheckBox x:Name="FastMonstersIndicator" Content="Fast Monsters" Checked="EnableFastMonsters" Unchecked="DisableFastMonsters" />
-			<CheckBox x:Name="RespawningMonstersIndicator" Content="Respawning Monsters" Checked="EnableRespawn" Unchecked="DisableRespawn" />
-		</ListBox>
-		<Label Content="Game-Play Options" HorizontalAlignment="Left" Margin="216,29,0,0" VerticalAlignment="Top" />
-		<CheckBox x:Name="TurboIndicator" Content="Turbo" HorizontalAlignment="Left" Margin="216,128,0,0" VerticalAlignment="Top" Checked="EnableTurbo" Unchecked="DisableTurbo" />
-		<prog:NumericUpDown x:Name="TurboValueField" HorizontalAlignment="Left" Margin="295,124,0,0" VerticalAlignment="Top" Width="64" Minimum="10" Value="100" ValueChanged="UpdateTurboField" Height="24" Maximum="255" />
-		<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" HorizontalAlignment="Left" Margin="216,155,0,0" VerticalAlignment="Top" Checked="EnableTimeLimit" Unchecked="DisableTimeLimit" />
-		<prog:NumericUpDown x:Name="TimeLimitValueField" HorizontalAlignment="Left" Margin="295,153,0,0" VerticalAlignment="Top" Width="64" Value="20" ValueChanged="UpdateTimeLimitField" Height="24" />
-		<prog:NumericUpDown x:Name="DifficultyValueField" HorizontalAlignment="Left" Margin="295,182,0,0" VerticalAlignment="Top" Width="64" Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField" Height="24" />
-		<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="216,186,0,0" VerticalAlignment="Top" Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty" />
-		<Label Content="Name" HorizontalAlignment="Left" Margin="11,29,0,0" VerticalAlignment="Top" />
-		<TextBox x:Name="ConfigurationNameTextBox" HorizontalAlignment="Left" Height="23" Margin="53,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="156" TextChanged="ConfigurationNameChanged" BorderBrush="{DynamicResource DefaultTextBoxBorder}" />
-		<Grid Margin="215,290,4,7">
-			<Label Content="Save Directory" VerticalAlignment="Top" RenderTransformOrigin="0.474,0.538" Margin="-3,0,0,0" HorizontalAlignment="Left" Width="123" />
-			<TextBox x:Name="SaveDirectoryTextBox" Height="23" Margin="0,26,28,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateSaveDirectory" BorderBrush="{DynamicResource DefaultTextBoxBorder}" />
-			<Label Content="Extra Command-Line Options" Margin="0,103,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="166" />
-			<Label Content="zDoom Configuration File" Margin="0,49,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="156" />
-			<TextBox x:Name="ConfigFileTextBox" Height="23" Margin="0,75,28,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateConfigFile" BorderBrush="{DynamicResource DefaultTextBoxBorder}" />
-			<Label Content="Executable File Name" Margin="0,103,119,0" VerticalAlignment="Top" ToolTip="Name of the executable file that represents the source port to use. Currently only useful for choosing between zDoom, gzDoom and compatible ones." HorizontalAlignment="Right" Width="125" />
-			<ComboBox Margin="0,129,0,0" x:Name="ExeFileNameComboBox" IsReadOnly="True" ToolTip="This list can be refreshed with a &quot;Refresh&quot; button." SelectionChanged="ExeFileSelected" SelectedValuePath="Content" HorizontalAlignment="Right" Width="213" Height="23" VerticalAlignment="Top" />
-			<Button x:Name="ExeFilesRefreshButton" Margin="0,129,218,0" VerticalAlignment="Top" Height="23" Click="RefreshExeFiles" HorizontalAlignment="Right" Width="26" Style="{DynamicResource RefreshButtonStyle}" />
-			<TextBox x:Name="ExtraOptionsTextBox" Margin="0,129,249,3" TextWrapping="Wrap" TextChanged="UpdateExtraOptions" BorderBrush="{DynamicResource DefaultTextBoxBorder}" />
-			<Button Content="Test" Margin="0,0,147,2" Click="ShowCommandLine" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97" />
-			<Button Content="Launch" Margin="0,0,0,2" Click="LaunchTheGame" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97" />
-			<Button HorizontalAlignment="Right" Margin="0,26,0,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Height="23" Width="23" Click="SelectSaveDirectory"/>
-			<Button HorizontalAlignment="Right" Margin="0,75,0,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Height="23" Width="23" Click="SelectConfigPath"/>
+			<Grid Grid.Row="0" Grid.Column="1">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="24"/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<ListBox Grid.Row="1" Margin="6,5,6,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+					<CheckBox x:Name="NoMonstersIndicator" Content="No Monsters" Checked="DisableMonsters" Unchecked="EnableMonsters" />
+					<CheckBox x:Name="FastMonstersIndicator" Content="Fast Monsters" Checked="EnableFastMonsters" Unchecked="DisableFastMonsters" />
+					<CheckBox x:Name="RespawningMonstersIndicator" Content="Respawning Monsters" Checked="EnableRespawn" Unchecked="DisableRespawn" />
+				</ListBox>
+				<Label Grid.Row="0" Content="Game-Play Options" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" Height="19" Width="120" />
+			</Grid>
+			<Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="24"/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<Label Content="Disable" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" Width="102" Height="19" />
+				<ListBox Grid.Row="1" x:Name="DisableFlagsList" Margin="6,5,6,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+					<CheckBox Content="Auto-Load Files" Name="AutoLoadItem" Checked="EnableOption" Unchecked="DisableOption" Tag="128" />
+					<CheckBox Content="CD Audio" Name="CdAudioItem" Checked="EnableOption" Unchecked="DisableOption" Tag="1" />
+					<CheckBox Content="Idling" Name="IdlingItem" Checked="EnableOption" Unchecked="DisableOption" Tag="2" />
+					<CheckBox Content="Sound Effects" Name="SfxItem" Checked="EnableOption" Unchecked="DisableOption" Tag="16" />
+					<CheckBox Content="Music" Name="MusicItem" Checked="EnableOption" Unchecked="DisableOption" Tag="8" />
+					<CheckBox Content="JoyStick" Name="JoyStickItem" Checked="EnableOption" Unchecked="DisableOption" Tag="4" />
+					<CheckBox Content="Startup Screens" Name="StartupScreensItem" Checked="EnableOption" Unchecked="DisableOption" Tag="32" />
+					<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Checked="EnableOption" Unchecked="DisableOption" Tag="64" />
+					<CheckBox Content="Block Map Loading" Name="IgnoreBlockMapItem" Checked="EnableIgnoreBlockMap" Unchecked="DisableIgnoreBlockMap" />
+				</ListBox>
+			</Grid>
+			<StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
+				<Label Content="Custom Resolution" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="19" Width="116" />
+				<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the width of the picture." Checked="EnableWidthField" Unchecked="DisableWidthField" Width="120" />
+				<prog:NumericUpDown x:Name="WidthValueField" Margin="10,5,10,0" VerticalAlignment="Top" ToolTip="Width of the image." Value="1280" Maximum="3840" Minimum="360" RenderTransformOrigin="0.495,0.45" ValueChanged="UpdateWidthValue" Height="32" RestartPosition="1280" Step="20" />
+				<CheckBox x:Name="HeightCheckBox" Content="Height" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the height of the picture." Checked="EnableHeightField" Unchecked="DisableHeightField" Height="32" Width="120" />
+				<prog:NumericUpDown x:Name="HeightValueField" Margin="10,5,10,0" VerticalAlignment="Top" ToolTip="Width of the image." Value="720" Maximum="3840" Minimum="360" ValueChanged="UpdateHeightValue" RestartPosition="720" Height="32" Step="20" />
+				<Label Content="Pixel Mode" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="74" Height="19" />
+				<ComboBox Margin="10,5,0,0" VerticalAlignment="Top" Name="PixelModeComboBox" Width="100">
+					<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen." Name="SinglePixelComboBoxItem" />
+					<ComboBoxItem Content="Double" Tag="1" ToolTip="Force renderer to use pixel doubling." Name="DoublePixelComboBoxItem" />
+					<ComboBoxItem Content="Quad" Tag="2" ToolTip="Force renderer to use pixel quadrupling." Name="QuadPixelComboBoxItem" />
+				</ComboBox>
+			</StackPanel>
+			<GroupBox Header="Start With" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition Width="283"/>
+					</Grid.ColumnDefinitions>
+					<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="65" Checked="SwitchToSave" Height="32" MinWidth="65" />
+					<TextBox x:Name="LoadGameTextBox" Height="32" Margin="82,10,47,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile" Grid.Column="0" />
+					<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Checked="SwitchToDemo" Grid.Column="0" Height="32" Width="72" MinWidth="65" />
+					<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="SwitchToMap" Grid.Column="1" Height="32" Width="120" />
+					<TextBox x:Name="PlayDemoTextBox" Height="32" Margin="82,47,47,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the demo file." TextChanged="UpdateDemoFile" Grid.Column="0" />
+					<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top" Checked="SwitchToNothing" Grid.Column="1" IsChecked="True" Height="32" Width="120" />
+					<prog:NumericUpDown x:Name="EpisodeValueField" HorizontalAlignment="Left" Margin="139,10,0,0" VerticalAlignment="Top" Height="32" Value="0" ValueChanged="UpdateEpisodeIndex" Width="46" Grid.Column="1" />
+					<Label Content="Episode" HorizontalAlignment="Left" Margin="86,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,0.538" Grid.Column="1" Height="32" Width="48" VerticalContentAlignment="Center" />
+					<Label Content="Map" HorizontalAlignment="Left" Margin="190,10,0,0" VerticalAlignment="Top" Grid.Column="1" Height="32" Width="28" VerticalContentAlignment="Center" />
+					<prog:NumericUpDown x:Name="MapValueField" HorizontalAlignment="Left" Margin="223,10,0,6" VerticalAlignment="Top" Height="32" Value="0" ValueChanged="UpdateMapIndex" Width="50" Grid.Column="1" />
+					<Button HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Click="SelectSaveGameFile" Grid.Column="0" Height="32" Width="32" />
+					<Button HorizontalAlignment="Right" Margin="0,47,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Height="32" Width="32" Click="SelectDemoFile" Grid.Column="0" />
+					<RadioButton x:Name="LoadNamedMapIndicator" Content="Named Map" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Checked="SwitchToNamedMap" Grid.Column="1" Height="32" Width="120" />
+					<TextBox x:Name="LoadNamedMapTextBox" Height="32" Margin="123,47,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Name of the map to load. Useful when loading custom map packs. List of maps can be seen by launching the game and typing listmaps command in the console." TextChanged="UpdateMapName" Grid.Column="1" />
+				</Grid>
+			</GroupBox>
+			<Grid Grid.Row="1" Grid.Column="1">
+				<CheckBox x:Name="TurboIndicator" Content="Turbo" HorizontalAlignment="Left" Margin="6,10,0,0" VerticalAlignment="Top" Checked="EnableTurbo" Unchecked="DisableTurbo" Height="32" Width="95" MinWidth="90" />
+				<prog:NumericUpDown x:Name="TurboValueField" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="64" Minimum="10" Value="100" ValueChanged="UpdateTurboField" Height="32" Maximum="255" />
+				<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" HorizontalAlignment="Left" Margin="6,47,0,0" VerticalAlignment="Top" Checked="EnableTimeLimit" Unchecked="DisableTimeLimit" Height="32" Width="95" MinWidth="95" />
+				<prog:NumericUpDown x:Name="TimeLimitValueField" HorizontalAlignment="Right" Margin="0,47,10,0" VerticalAlignment="Top" Width="64" Value="20" ValueChanged="UpdateTimeLimitField" Height="32" />
+				<prog:NumericUpDown x:Name="DifficultyValueField" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="64" Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField" Height="32" />
+				<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="6,84,0,0" VerticalAlignment="Top" Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty" Height="32" Width="95" MinWidth="95" />
+			</Grid>
+			<Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">
+				<Label Content="Save Directory" VerticalAlignment="Top" RenderTransformOrigin="0.474,0.538" HorizontalAlignment="Left" Width="123" />
+				<TextBox x:Name="SaveDirectoryTextBox" Height="23" Margin="0,24,47,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateSaveDirectory" />
+				<Label Content="Extra Command-Line Options" Margin="0,122,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="188" />
+				<Label Content="zDoom Configuration File" Margin="0,61,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="166" />
+				<TextBox x:Name="ConfigFileTextBox" Height="23" Margin="0,85,47,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateConfigFile" />
+				<Label Content="Executable File Name" Margin="0,122,107,0" VerticalAlignment="Top" ToolTip="Name of the executable file that represents the source port to use. Currently only useful for choosing between zDoom, gzDoom and compatible ones." HorizontalAlignment="Right" Width="137" />
+				<ComboBox Margin="0,146,10,0" x:Name="ExeFileNameComboBox" IsReadOnly="True" ToolTip="This list can be refreshed with a &quot;Refresh&quot; button." SelectionChanged="ExeFileSelected" SelectedValuePath="Content" HorizontalAlignment="Right" Width="197" VerticalAlignment="Top" />
+				<Button x:Name="ExeFilesRefreshButton" Margin="0,146,212,0" VerticalAlignment="Top" Click="RefreshExeFiles" HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}" />
+				<TextBox x:Name="ExtraOptionsTextBox" Margin="0,146,249,10" TextWrapping="Wrap" TextChanged="UpdateExtraOptions" />
+				<Button Content="Test" Margin="0,0,147,10" Click="ShowCommandLine" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97" />
+				<Button Content="Launch" Margin="0,0,10,10" Click="LaunchTheGame" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97" />
+				<Button HorizontalAlignment="Right" Margin="0,24,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFolderButtonStyle}" Height="32" Width="32" Click="SelectSaveDirectory"/>
+				<Button HorizontalAlignment="Right" Margin="0,85,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFolderButtonStyle}" Height="32" Width="32" Click="SelectConfigPath"/>
+			</Grid>
+			<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="11,7,10,10" Height="Auto" Grid.Row="1" Grid.RowSpan="3"
+			                             Grid.Column="0" />
+
 		</Grid>
-		<Label Content="Custom Resolution" HorizontalAlignment="Left" Margin="515,29,0,0" VerticalAlignment="Top" />
-		<CheckBox x:Name="HeightCheckBox" Content="Height" HorizontalAlignment="Left" Margin="515,105,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the height of the picture." Checked="EnableHeightField" Unchecked="DisableHeightField" />
-		<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="515,55,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the width of the picture." Checked="EnableWidthField" Unchecked="DisableWidthField" />
-		<prog:NumericUpDown x:Name="HeightValueField" Margin="515,126,4,0" VerticalAlignment="Top" ToolTip="Width of the image." Value="720" Maximum="3840" Minimum="360" ValueChanged="UpdateHeightValue" RestartPosition="720" Height="24" BorderBrush="{DynamicResource DefaultTextBoxBorder}" Step="20" />
-		<prog:NumericUpDown x:Name="WidthValueField" Margin="515,76,4,0" VerticalAlignment="Top" ToolTip="Width of the image." Value="1280" Maximum="3840" Minimum="360" RenderTransformOrigin="0.495,0.45" ValueChanged="UpdateWidthValue" Height="24" RestartPosition="1280" BorderBrush="{DynamicResource DefaultTextBoxBorder}" Step="20" />
-		<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="11,122,0,10" Height="Auto" HorizontalAlignment="Left" Width="198" BorderBrush="{DynamicResource DefaultTextBoxBorder}" />
-		<Label Content="Extra Files" HorizontalAlignment="Left" Margin="11,95,0,0" VerticalAlignment="Top" Width="102" />
-		<Button x:Name="ExtraFilesRefreshButton" Margin="183,96,0,0" VerticalAlignment="Top" Height="23" Click="RefreshExtraFiles" HorizontalAlignment="Left" Width="26" Style="{DynamicResource RefreshButtonStyle}" />
 	</Grid>
 </Window>
