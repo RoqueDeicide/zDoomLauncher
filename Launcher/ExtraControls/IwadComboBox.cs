@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Launcher
@@ -16,6 +17,12 @@ namespace Launcher
 		/// Gets the collection of available IWAD files.
 		/// </summary>
 		public ObservableCollection<IwadFile> Files { get; }
+
+		static IwadComboBox()
+		{
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(IwadComboBox),
+													 new FrameworkPropertyMetadata(typeof(IwadComboBox)));
+		}
 
 		/// <summary>
 		/// Creates a new instance of this type.
