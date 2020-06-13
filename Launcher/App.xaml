@@ -13,6 +13,8 @@
 				<ui:XamlControlsResources />
 			</ResourceDictionary.MergedDictionaries>
 			<Style x:Key="RefreshButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+				<Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundAccentBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
 				<Setter Property="FontFamily" Value="Wingdings 3" />
 				<Setter Property="FontSize" Value="16" />
 				<Setter Property="Content" Value="P" />
@@ -24,15 +26,16 @@
 			       BasedOn="{StaticResource {x:Type Button}}">
 				<Setter Property="Padding" Value="2" />
 			</Style>
-			<Image x:Key="OpenDocumentIcon" x:Shared="False" Source="Resources/icons8-document-48.png" />
+			<Style x:Key="SelectFileSystemEntryThemedButtonStyle" TargetType="Button">
+				<Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundAccentBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+			</Style>
 			<Style x:Key="SelectFileButtonStyle" TargetType="{x:Type Button}"
-			       BasedOn="{StaticResource SelectFileSystemEntryButtonStyle}">
+			       BasedOn="{StaticResource SelectFileSystemEntryThemedButtonStyle}">
 				<Setter Property="ContentTemplate">
 					<Setter.Value>
 						<DataTemplate>
-							<Grid>
-								<StaticResource ResourceKey="OpenDocumentIcon" />
-							</Grid>
+							<ui:BitmapIcon UriSource="Resources/icons8-document-48.png" />
 						</DataTemplate>
 					</Setter.Value>
 				</Setter>
@@ -50,15 +53,12 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			<Image x:Key="OpenFolderIcon" x:Shared="False" Source="Resources/icons8-opened-folder-48.png" />
 			<Style x:Key="SelectFolderButtonStyle" TargetType="{x:Type Button}"
-			       BasedOn="{StaticResource SelectFileSystemEntryButtonStyle}">
+			       BasedOn="{StaticResource SelectFileSystemEntryThemedButtonStyle}">
 				<Setter Property="ContentTemplate">
 					<Setter.Value>
 						<DataTemplate>
-							<Grid>
-								<StaticResource ResourceKey="OpenFolderIcon" />
-							</Grid>
+							<ui:BitmapIcon UriSource="Resources/icons8-opened-folder-48.png" />
 						</DataTemplate>
 					</Setter.Value>
 				</Setter>
