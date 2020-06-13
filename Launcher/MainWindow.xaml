@@ -174,9 +174,17 @@
 			<StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
 				<Label Content="Custom Resolution" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="19" Width="116" />
 				<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the width of the picture." Checked="EnableWidthField" Unchecked="DisableWidthField" Width="120" />
-				<prog:NumericUpDown x:Name="WidthValueField" Margin="10,5,10,0" VerticalAlignment="Top" ToolTip="Width of the image." Value="1280" Maximum="3840" Minimum="360" RenderTransformOrigin="0.495,0.45" ValueChanged="UpdateWidthValue" Height="32" RestartPosition="1280" Step="20" />
+				<prog:NumberBoxAdvanced x:Name="WidthValueField"
+				                        Margin="10,5,10,0" VerticalAlignment="Top" Height="32"
+				                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
+				                        Value="1280" Maximum="3840" Minimum="360" SmallChange="20" LargeChange="100"
+				                        ValueChanged="UpdateWidthValue" DefaultValue="1280" />
 				<CheckBox x:Name="HeightCheckBox" Content="Height" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" ToolTip="Check this to be able to change the height of the picture." Checked="EnableHeightField" Unchecked="DisableHeightField" Height="32" Width="120" />
-				<prog:NumericUpDown x:Name="HeightValueField" Margin="10,5,10,0" VerticalAlignment="Top" ToolTip="Width of the image." Value="720" Maximum="3840" Minimum="360" ValueChanged="UpdateHeightValue" RestartPosition="720" Height="32" Step="20" />
+				<prog:NumberBoxAdvanced x:Name="HeightValueField"
+				                        Margin="10,5,10,0" VerticalAlignment="Top" Height="32"
+				                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
+				                        Value="720" Maximum="3840" Minimum="360" SmallChange="20" LargeChange="100"
+				                        ValueChanged="UpdateHeightValue" DefaultValue="720" />
 				<Label Content="Pixel Mode" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="74" Height="19" />
 				<ComboBox Margin="10,5,0,0" VerticalAlignment="Top" Name="PixelModeComboBox" Width="100">
 					<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen." Name="SinglePixelComboBoxItem" />
@@ -188,18 +196,26 @@
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition/>
-						<ColumnDefinition Width="283"/>
+						<ColumnDefinition Width="306"/>
 					</Grid.ColumnDefinitions>
 					<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="65" Checked="SwitchToSave" Height="32" MinWidth="65" />
 					<TextBox x:Name="LoadGameTextBox" Height="32" Margin="82,10,47,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile" Grid.Column="0" />
 					<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Checked="SwitchToDemo" Grid.Column="0" Height="32" Width="72" MinWidth="65" />
 					<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="SwitchToMap" Grid.Column="1" Height="32" Width="120" />
 					<TextBox x:Name="PlayDemoTextBox" Height="32" Margin="82,47,47,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the demo file." TextChanged="UpdateDemoFile" Grid.Column="0" />
-					<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top" Checked="SwitchToNothing" Grid.Column="1" IsChecked="True" Height="32" Width="120" />
-					<prog:NumericUpDown x:Name="EpisodeValueField" HorizontalAlignment="Left" Margin="139,10,0,0" VerticalAlignment="Top" Height="32" Value="0" ValueChanged="UpdateEpisodeIndex" Width="46" Grid.Column="1" />
-					<Label Content="Episode" HorizontalAlignment="Left" Margin="86,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,0.538" Grid.Column="1" Height="32" Width="48" VerticalContentAlignment="Center" />
-					<Label Content="Map" HorizontalAlignment="Left" Margin="190,10,0,0" VerticalAlignment="Top" Grid.Column="1" Height="32" Width="28" VerticalContentAlignment="Center" />
-					<prog:NumericUpDown x:Name="MapValueField" HorizontalAlignment="Left" Margin="223,10,0,6" VerticalAlignment="Top" Height="32" Value="0" ValueChanged="UpdateMapIndex" Width="50" Grid.Column="1" />
+					<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="10,87,0,-3" VerticalAlignment="Top" Checked="SwitchToNothing" Grid.Column="1" IsChecked="True" Height="32" Width="120" />
+					<prog:NumberBoxAdvanced x:Name="EpisodeValueField" Grid.Column="1"
+					                        HorizontalAlignment="Left" Margin="130,10,0,0" VerticalAlignment="Top"
+					                        Height="32"
+					                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
+					                        ValueChanged="UpdateEpisodeIndex" />
+					<Label Content="Episode" HorizontalAlignment="Left" Margin="72,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,0.538" Grid.Column="1" Height="32" Width="48" VerticalContentAlignment="Center" />
+					<Label Content="Map" HorizontalAlignment="Left" Margin="199,10,0,0" VerticalAlignment="Top" Grid.Column="1" Height="32" Width="28" VerticalContentAlignment="Center" />
+					<prog:NumberBoxAdvanced x:Name="MapValueField" Grid.Column="1"
+					                        HorizontalAlignment="Left" Margin="232,10,0,0" VerticalAlignment="Top"
+					                        Height="32"
+					                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
+					                        ValueChanged="UpdateMapIndex" />
 					<Button HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Click="SelectSaveGameFile" Grid.Column="0" Height="32" Width="32" />
 					<Button HorizontalAlignment="Right" Margin="0,47,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Height="32" Width="32" Click="SelectDemoFile" Grid.Column="0" />
 					<RadioButton x:Name="LoadNamedMapIndicator" Content="Named Map" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Checked="SwitchToNamedMap" Grid.Column="1" Height="32" Width="120" />
@@ -208,10 +224,19 @@
 			</GroupBox>
 			<Grid Grid.Row="1" Grid.Column="1">
 				<CheckBox x:Name="TurboIndicator" Content="Turbo" HorizontalAlignment="Left" Margin="6,10,0,0" VerticalAlignment="Top" Checked="EnableTurbo" Unchecked="DisableTurbo" Height="32" Width="95" MinWidth="90" />
-				<prog:NumericUpDown x:Name="TurboValueField" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="64" Minimum="10" Value="100" ValueChanged="UpdateTurboField" Height="32" Maximum="255" />
+				<prog:NumberBoxAdvanced x:Name="TurboValueField"
+				                        HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"
+				                        Width="64" Height="32"
+				                        Minimum="10" Value="100" ValueChanged="UpdateTurboField" Maximum="255" />
 				<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" HorizontalAlignment="Left" Margin="6,47,0,0" VerticalAlignment="Top" Checked="EnableTimeLimit" Unchecked="DisableTimeLimit" Height="32" Width="95" MinWidth="95" />
-				<prog:NumericUpDown x:Name="TimeLimitValueField" HorizontalAlignment="Right" Margin="0,47,10,0" VerticalAlignment="Top" Width="64" Value="20" ValueChanged="UpdateTimeLimitField" Height="32" />
-				<prog:NumericUpDown x:Name="DifficultyValueField" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="64" Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField" Height="32" />
+				<prog:NumberBoxAdvanced x:Name="TimeLimitValueField"
+				                        HorizontalAlignment="Right" Margin="0,47,10,0" VerticalAlignment="Top"
+				                        Width="64" Height="32"
+				                        Value="20" ValueChanged="UpdateTimeLimitField" Minimum="0" Maximum="255" />
+				<prog:NumberBoxAdvanced x:Name="DifficultyValueField"
+				                        HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom"
+				                        Width="64" Height="32"
+				                        Minimum="0" Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField" />
 				<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="6,84,0,0" VerticalAlignment="Top" Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty" Height="32" Width="95" MinWidth="95" />
 			</Grid>
 			<Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">

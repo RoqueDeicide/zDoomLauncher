@@ -212,6 +212,7 @@
     <Compile Include="Extensions\WpfExtensions.cs" />
     <Compile Include="ExtraControls\ExtraFilesSelectionBox.DragDrop.cs" />
     <Compile Include="ExtraControls\IwadComboBox.cs" />
+    <Compile Include="ExtraControls\NumberBoxAdvanced.cs" />
     <Compile Include="MainWindow.WindowManagement.cs" />
     <Compile Include="Utilities\Cast.cs" />
     <Compile Include="Wads\ExtraFilesLookUp.cs" />
@@ -220,7 +221,6 @@
       <DependentUpon>ExtraFilesSelectionBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wads\FileDesc.cs" />
-    <Compile Include="ExtraControls\NumericUpDown.cs" />
     <Compile Include="ExtraControls\SpinnerButton.cs" />
     <Compile Include="ExtraControls\SpinnerButtons.cs" />
     <Compile Include="ExtraControls\TextBoxButton.cs" />

@@ -65,6 +65,9 @@
 			</Style>
 
 			<Style TargetType="{x:Type local:IwadComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" />
+			<Style TargetType="local:NumberBoxAdvanced" BasedOn="{StaticResource {x:Type ui:NumberBox}}">
+				<Setter Property="SpinButtonPlacementMode" Value="Compact" />
+			</Style>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

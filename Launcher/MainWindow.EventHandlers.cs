@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using Launcher.Configs;
+using ModernWpf.Controls;
 
 namespace Launcher
 {
@@ -13,12 +14,12 @@ namespace Launcher
 		// Nullify resolution, if it has been checked, otherwise give it existing value.
 		private void EnableWidthField(object sender, RoutedEventArgs e)
 		{
-			this.config.Width = this.WidthValueField.Value;
+			this.config.Width = Convert.ToInt32(this.WidthValueField.Value);
 		}
 
 		private void EnableHeightField(object sender, RoutedEventArgs e)
 		{
-			this.config.Height = this.HeightValueField.Value;
+			this.config.Height = Convert.ToInt32(this.HeightValueField.Value);
 		}
 
 		private void DisableHeightField(object sender, RoutedEventArgs e)
@@ -31,32 +32,31 @@ namespace Launcher
 			this.config.Width = null;
 		}
 
-		private void UpdateWidthValue(object sender, int? oldValue, int? newValue)
+		private void UpdateWidthValue(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
 		{
-			if (this.WidthCheckBox == null)
+			if (this.WidthCheckBox == null || args.NewValue.IsNaN() || this.config == null)
 			{
 				return;
 			}
 
 			this.config.Width = this.WidthCheckBox.IsChecked == true
-									? newValue
-									: null;
+									? Convert.ToInt32(args.NewValue)
+									: (int?) null;
 		}
 
-		private void UpdateHeightValue(object sender, int? oldValue, int? newValue)
+		private void UpdateHeightValue(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
 		{
-			if (this.HeightCheckBox == null)
+			if (this.HeightCheckBox == null || args.NewValue.IsNaN() || this.config == null)
 			{
 				return;
 			}
 
 			this.config.Height = this.HeightCheckBox.IsChecked == true
-									 ? newValue
-									 : null;
+									 ? Convert.ToInt32(args.NewValue)
+									 : (int?) null;
 		}
 
 		#endregion
-
 
 		#region Disables
 
@@ -124,7 +124,7 @@ namespace Launcher
 
 		private void EnableTurbo(object sender, RoutedEventArgs e)
 		{
-			this.config.TurboMode = (byte?) this.TurboValueField.Value;
+			this.config.TurboMode = Convert.ToByte(this.TurboValueField.Value);
 		}
 
 		private void DisableTurbo(object sender, RoutedEventArgs e)
@@ -132,17 +132,21 @@ namespace Launcher
 			this.config.TurboMode = null;
 		}
 
-		private void UpdateTurboField(object sender, int? oldValue, int? newValue)
+		private void UpdateTurboField(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
 		{
-			if (this.TurboIndicator != null && this.TurboIndicator.IsChecked == true)
+			if (this.TurboIndicator == null || args.NewValue.IsNaN() || this.config == null)
 			{
-				this.config.TurboMode = (byte?) newValue;
+				return;
 			}
+
+			this.config.TurboMode = this.TurboIndicator.IsChecked == true
+										? Convert.ToByte(args.NewValue)
+										: (byte?) null;
 		}
 
 		private void EnableTimeLimit(object sender, RoutedEventArgs e)
 		{
-			this.config.TimeLimit = this.TimeLimitValueField.Value;
+			this.config.TimeLimit = Convert.ToInt32(this.TimeLimitValueField.Value);
 		}
 
 		private void DisableTimeLimit(object sender, RoutedEventArgs e)
@@ -150,17 +154,21 @@ namespace Launcher
 			this.config.TimeLimit = null;
 		}
 
-		private void UpdateTimeLimitField(object sender, int? oldValue, int? newValue)
+		private void UpdateTimeLimitField(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
 		{
-			if (this.TimeLimitIndicator != null && this.TimeLimitIndicator.IsChecked == true)
+			if (this.TimeLimitIndicator == null || args.NewValue.IsNaN() || this.config == null)
 			{
-				this.config.TimeLimit = newValue;
+				return;
 			}
+
+			this.config.TimeLimit = this.TimeLimitIndicator.IsChecked == true
+										? Convert.ToByte(args.NewValue)
+										: (byte?) null;
 		}
 
 		private void EnableCustomDifficulty(object sender, RoutedEventArgs e)
 		{
-			this.config.Difficulty = this.DifficultyValueField.Value;
+			this.config.Difficulty = Convert.ToInt32(this.DifficultyValueField.Value);
 		}
 
 		private void DisableCustomDifficulty(object sender, RoutedEventArgs e)
@@ -168,12 +176,16 @@ namespace Launcher
 			this.config.Difficulty = null;
 		}
 
-		private void UpdateCustomDifficultyField(object sender, int? oldValue, int? newValue)
+		private void UpdateCustomDifficultyField(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
 		{
-			if (this.DifficultyIndicator != null && this.DifficultyIndicator.IsChecked == true)
+			if (this.DifficultyIndicator == null || args.NewValue.IsNaN() || this.config == null)
 			{
-				this.config.Difficulty = newValue;
+				return;
 			}
+
+			this.config.Difficulty = this.DifficultyIndicator.IsChecked == true
+										 ? Convert.ToByte(args.NewValue)
+										 : (int?) null;
 		}
 
 		#endregion
@@ -247,24 +259,23 @@ namespace Launcher
 											: $"{this.MapValueField.Value}";
 		}
 
-		private void UpdateEpisodeIndex(object sender, int? oldValue, int? newValue)
+		private void UpdateEpisodeIndex(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
 		{
-			var episodeValue = newValue;
+			var episodeValue = args.NewValue;
 
-			if (this.LoadMapIndicator != null && this.LoadMapIndicator.IsChecked == true &&
-				this.EpisodicIwadIsSelected() && episodeValue                    != null &&
-				!this.settingUpStartUp)
+			if (!episodeValue.IsNaN() && this.LoadMapIndicator != null && this.LoadMapIndicator.IsChecked == true &&
+				this.EpisodicIwadIsSelected() && !this.settingUpStartUp)
 			{
 				this.config.AutoStartFile = this.config.AutoStartFile.ChangeNumber(0, (int) episodeValue);
 			}
 		}
 
-		private void UpdateMapIndex(object sender, int? oldValue, int? newValue)
+		private void UpdateMapIndex(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
 		{
-			var mapValue = newValue;
+			var mapValue = args.NewValue;
 
-			if (this.LoadMapIndicator != null && this.LoadMapIndicator.IsChecked == true &&
-				mapValue              != null && !this.settingUpStartUp)
+			if (!mapValue.IsNaN() && this.LoadMapIndicator != null &&
+				this.LoadMapIndicator.IsChecked            == true && !this.settingUpStartUp)
 			{
 				this.config.AutoStartFile =
 					this.config.AutoStartFile.ChangeNumber(this.EpisodicIwadIsSelected() ? 1 : 0,
@@ -325,6 +336,7 @@ namespace Launcher
 			{
 				return;
 			}
+
 			this.config.Name = this.ConfigurationNameTextBox.Text;
 			this.UpdateWindowTitle();
 		}
