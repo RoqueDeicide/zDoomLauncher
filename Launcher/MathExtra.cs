@@ -44,5 +44,14 @@ namespace Launcher
 				value = max;
 			}
 		}
+		/// <summary>
+		/// Returns a value that indicates whether the specified value is not a number (System.Double.NaN).
+		/// </summary>
+		/// <param name="number">A double-precision floating-point number.</param>
+		/// <returns><c>true</c> if d evaluates to <see cref="System.Double.NaN"/>; otherwise, <c>false</c>.</returns>
+		public static bool IsNaN(this double number)
+		{
+			return double.IsNaN(number);
+		}
 	}
 }
