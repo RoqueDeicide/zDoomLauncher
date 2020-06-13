@@ -1,4 +1,5 @@
 ﻿<Window x:Class="Launcher.MainWindow"
+		x:Name="Window"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,6 +9,7 @@
         Title="zDoom Launcher" Height="800" Width="850" MinHeight="800" MinWidth="850"
 		Closing="MainWindowClosing" Loaded="DealWithWindowPositionSize"
         ui:WindowHelper.UseModernWindowStyle="True"
+		ui:TitleBar.ExtendViewIntoTitleBar="True"
         ui:ThemeManager.IsThemeAware="True">
 	<Window.Resources>
 		<Style TargetType="{x:Type ListBoxItem}">
@@ -17,10 +19,28 @@
 	</Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="40"/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
-		<Menu>
+		<StackPanel x:Name="AppTitleBar"
+					Background="{DynamicResource SystemControlBackgroundAccentBrush}"
+					Height="{Binding ElementName=Window, Path=(ui:TitleBar.Height)}"
+					Orientation="Horizontal">
+			<StackPanel.Style>
+				<Style TargetType="StackPanel">
+					<Setter Property="TextElement.Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding IsActive, ElementName=Window}" Value="False">
+							<Setter Property="TextElement.Foreground" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</StackPanel.Style>
+			<TextBlock FontSize="13" VerticalAlignment="Center" Margin="5, 0, 0, 0"
+			           Text="{Binding ElementName=Window, Path=Title}"/>
+		</StackPanel>
+		<Menu Grid.Row="1">
 			<MenuItem Header="Configurations">
 				<MenuItem Header="New" Click="CreateNewConfiguration">
 					<MenuItem.Icon>
@@ -93,7 +113,7 @@
 				<MenuItem Header="Reset Window Dimensions" Click="ResetWindowDimensions" />
 			</MenuItem>
 		</Menu>
-		<Grid Grid.Row="1">
+		<Grid Grid.Row="2">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="137"/>
 				<RowDefinition Height="126"/>
