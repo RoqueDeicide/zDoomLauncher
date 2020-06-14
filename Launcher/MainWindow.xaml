@@ -138,8 +138,8 @@
 						</DataTemplate>
 					</prog:IwadComboBox.ItemTemplate>
 				</prog:IwadComboBox>
-				<Label Content="Extra Files" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Height="31" VerticalContentAlignment="Center" />
-				<Button x:Name="ExtraFilesRefreshButton" Margin="0,84,10,0" VerticalAlignment="Top" Click="RefreshExtraFiles" HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}"/>
+				<Label Content="Extra Files" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Height="32" VerticalContentAlignment="Center" />
+				<Button x:Name="ExtraFilesRefreshButton" Margin="0,84,10,0" VerticalAlignment="Top" Click="RefreshExtraFiles" HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}" Height="32" Width="32"/>
 			</Grid>
 			<Grid Grid.Row="0" Grid.Column="1">
 				<Grid.RowDefinitions>
@@ -247,7 +247,7 @@
 				<TextBox x:Name="ConfigFileTextBox" Height="23" Margin="0,85,47,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="UpdateConfigFile" />
 				<Label Content="Executable File Name" Margin="0,122,107,0" VerticalAlignment="Top" ToolTip="Name of the executable file that represents the source port to use. Currently only useful for choosing between zDoom, gzDoom and compatible ones." HorizontalAlignment="Right" Width="137" />
 				<ComboBox Margin="0,146,10,0" x:Name="ExeFileNameComboBox" IsReadOnly="True" ToolTip="This list can be refreshed with a &quot;Refresh&quot; button." SelectionChanged="ExeFileSelected" SelectedValuePath="Content" HorizontalAlignment="Right" Width="197" VerticalAlignment="Top" />
-				<Button x:Name="ExeFilesRefreshButton" Margin="0,146,212,0" VerticalAlignment="Top" Click="RefreshExeFiles" HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}" />
+				<Button x:Name="ExeFilesRefreshButton" Margin="0,146,212,0" VerticalAlignment="Top" Click="RefreshExeFiles" HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}" Height="32" Width="32" />
 				<TextBox x:Name="ExtraOptionsTextBox" Margin="0,146,249,10" TextWrapping="Wrap" TextChanged="UpdateExtraOptions" />
 				<Button Content="Test" Margin="0,0,147,10" Click="ShowCommandLine" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97" />
 				<Button Content="Launch" Margin="0,0,10,10" Click="LaunchTheGame" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97" />
