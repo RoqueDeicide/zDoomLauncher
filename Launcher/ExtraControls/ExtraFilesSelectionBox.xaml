@@ -46,18 +46,14 @@
 					</ListBox.GroupStyle>
 					<ListBox.ItemTemplate>
 						<DataTemplate>
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="20" />
-									<ColumnDefinition />
-								</Grid.ColumnDefinitions>
-								<local:TextBoxButton Grid.Column="0" x:Name="SelectionButton"
-													 FontFamily="{DynamicResource SelectDeselectButtonFontFamily}"
-													 Content="{DynamicResource SelectButtonIcon}"
-													 Click="ToggleFileSelection" />
-								<TextBlock Grid.Column="1" Text="{Binding Path=FileName}"
-										   ToolTip="{Binding Path=Directory}" />
-							</Grid>
+							<StackPanel SnapsToDevicePixels="True" Orientation="Horizontal">
+								<ToggleButton x:Name="SelectionButton"
+											  ui:ControlHelper.CornerRadius="10" Width="16"
+								              Click="ToggleFileSelection" />
+								<TextBlock Margin="5,0,0,0"
+								           Text="{Binding Path=FileName}"
+								           ToolTip="{Binding Path=Directory}" />
+							</StackPanel>
 							<DataTemplate.Triggers>
 								<DataTrigger Binding="{Binding Path=Selected}" Value="True">
 									<Setter TargetName="SelectionButton" Property="Content"

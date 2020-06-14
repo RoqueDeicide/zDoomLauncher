@@ -1,7 +1,6 @@
 ﻿<Application
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
 			 xmlns:ui="http://schemas.modernwpf.com/2019"
 			 xmlns:local="clr-namespace:Launcher"
 			 x:Class="Launcher.App"
@@ -19,9 +18,6 @@
 				<Setter Property="FontSize" Value="16" />
 				<Setter Property="Content" Value="P" />
 			</Style>
-			<FontFamily x:Key="SelectDeselectButtonFontFamily">Wingdings</FontFamily>
-			<system:String x:Key="SelectButtonIcon">&#x006F;</system:String>
-			<system:String x:Key="DeselectButtonIcon">&#x00FE;</system:String>
 			<Style x:Key="SelectFileSystemEntryButtonStyle" TargetType="{x:Type Button}"
 			       BasedOn="{StaticResource {x:Type Button}}">
 				<Setter Property="Padding" Value="2" />

@@ -223,7 +223,6 @@
     <Compile Include="Wads\FileDesc.cs" />
     <Compile Include="ExtraControls\SpinnerButton.cs" />
     <Compile Include="ExtraControls\SpinnerButtons.cs" />
-    <Compile Include="ExtraControls\TextBoxButton.cs" />
     <Compile Include="ExtraWindows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
