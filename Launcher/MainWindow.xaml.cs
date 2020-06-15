@@ -31,6 +31,8 @@ namespace Launcher
 
 			this.InitializeComponent();
 
+			this.SetupThemeMenuItems();
+
 			this.LoadAppConfiguration();
 
 			this.SelectZDoomInstallationFolder(this, null);
@@ -81,7 +83,6 @@ namespace Launcher
 			{
 				Iwads.IwadFolder = this.zDoomFolder;
 			}
-
 			this.RefreshExeFiles(this, null);
 			this.InitializeDialogs();
 			this.InitializeSomeEventHandlers();

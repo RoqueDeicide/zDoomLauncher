@@ -1,11 +1,51 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Launcher.Configs;
+using ModernWpf;
 using Ookii.Dialogs.Wpf;
 
 namespace Launcher
 {
+	/// <summary>
+	/// Determines whether a theme menu button has to be checked.
+	/// </summary>
+	public class ThemeMenuButtonChecker : IValueConverter
+	{
+		/// <summary>
+		/// Creates a value that indicates whether current app theme matches the one specified by the <paramref
+		/// name="parameter"/>.
+		/// </summary>
+		/// <param name="value">     
+		/// An instance of type <see cref="Nullable{ApplicationTheme}"/> that indicates a current application theme.
+		/// </param>
+		/// <param name="targetType">A type of <see cref="bool"/>.</param>
+		/// <param name="parameter"> 
+		/// A <see cref="string"/> value that indicates what menu button the value is created for.
+		/// </param>
+		/// <param name="culture">   Not used.</param>
+		/// <returns>
+		/// A value that indicates whether current app theme matches the one specified by the <paramref
+		/// name="parameter"/>.
+		/// </returns>
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return parameter switch
+				   {
+					   "Light" => value is ApplicationTheme theme && theme == ApplicationTheme.Light,
+					   "Dark"  => value is ApplicationTheme theme && theme == ApplicationTheme.Dark,
+					   "null"  => value == null,
+					   _       => false
+				   };
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return value;
+		}
+	}
+
 	public partial class MainWindow
 	{
 		private void InitializeDialogs()
@@ -77,6 +117,40 @@ namespace Launcher
 							(PixelMode) mode.ToInt32(CultureInfo.InvariantCulture);
 					}
 				};
+		}
+
+		private void SetupThemeMenuItems()
+		{
+			static void SetTheme(ApplicationTheme? theme)
+			{
+				ThemeManager.Current.ApplicationTheme = theme;
+			}
+
+			this.LightThemeMenuItem.Click += (sender, args) => SetTheme(ApplicationTheme.Light);
+			this.DarkThemeMenuItem.Click  += (sender, args) => SetTheme(ApplicationTheme.Dark);
+
+			if (Environment.OSVersion.Platform != PlatformID.Win32NT || Environment.OSVersion.Version.Major < 10)
+			{
+				// OS doesn't support theme enforcement.
+
+				this.OSThemeMenuItem.IsEnabled = false;
+			}
+			else
+			{
+				void UpdateOSThemeMenuItem()
+				{
+					var osTheme = ThemeManager.Current.ActualApplicationTheme;
+
+					var osThemeName = osTheme.GetName();
+					this.OSThemeMenuItem.Header  = $"OS-Set Theme ({osThemeName} theme)";
+					this.OSThemeMenuItem.ToolTip = $"Let the operating system set the theme ({osThemeName} theme).";
+				}
+
+				UpdateOSThemeMenuItem();
+
+				ThemeManager.AddActualThemeChangedHandler(this, (sender, args) => UpdateOSThemeMenuItem());
+				this.OSThemeMenuItem.Click += (sender, args) => SetTheme(null);
+			}
 		}
 	}
 }
