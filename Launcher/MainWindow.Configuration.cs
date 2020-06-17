@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using System.Xml;
 using Launcher.Databases;
 using Launcher.Logging;
+using ModernWpf;
 
 namespace Launcher
 {
@@ -50,6 +52,22 @@ namespace Launcher
 			if (this.maximized)
 			{
 				appConfigurationDatabase.AddEntry(new DatabaseEntry(MainWindowMaximizedEntryName, null));
+			}
+
+			// Save preferred theme and accent color.
+			if (ThemeManager.Current.ApplicationTheme != null)
+			{
+				content = new TextContent(ThemeManager.Current.ApplicationTheme.Value.GetName());
+				entry   = new DatabaseEntry(PreferredThemeEntryName, content);
+				appConfigurationDatabase.AddEntry(entry);
+			}
+
+			if (ThemeManager.Current.AccentColor != null)
+			{
+				var c = ThemeManager.Current.AccentColor.Value;
+				content = new TextContent($"#{c.A:X2}{c.R:X2}{c.G:X2}{c.B:X2}");
+				entry   = new DatabaseEntry(PreferredAccentColorEntryName, content);
+				appConfigurationDatabase.AddEntry(entry);
 			}
 
 			// Save the directories.
@@ -126,6 +144,21 @@ namespace Launcher
 				}
 
 				this.maximized = appConfigurationDatabase.Contains(MainWindowMaximizedEntryName);
+
+				// Try getting information about the theme and accent colors.
+				var themeName = TryGetEntryText(appConfigurationDatabase, PreferredThemeEntryName);
+				ThemeManager.Current.ApplicationTheme = themeName switch
+														{
+															"Dark"  => ApplicationTheme.Dark,
+															"Light" => ApplicationTheme.Light,
+															_       => null
+														};
+
+				var accentColorString = TryGetEntryText(appConfigurationDatabase, PreferredAccentColorEntryName);
+				if (accentColorString != null)
+				{
+					ThemeManager.Current.AccentColor = (Color?) ColorConverter.ConvertFromString(accentColorString);
+				}
 
 				if (appConfigurationDatabase.Contains(LoadableFilesDirectoriesEntryName, false))
 				{

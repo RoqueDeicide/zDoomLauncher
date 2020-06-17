@@ -36,5 +36,11 @@
 
 		// Name of the entry that indicates that the main window is maximized.
 		private const string MainWindowMaximizedEntryName = "MainWindowMaximized";
+
+		// Name of the entry that indicates preferred theme.
+		private const string PreferredThemeEntryName = "PreferredTheme";
+
+		// Name of the entry that indicates preferred accent color.
+		private const string PreferredAccentColorEntryName = "PreferredAccentColor";
 	}
 }
