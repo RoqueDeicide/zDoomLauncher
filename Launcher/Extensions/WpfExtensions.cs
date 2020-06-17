@@ -72,5 +72,14 @@ namespace Launcher
 
 			return null;
 		}
+		/// <summary>
+		/// Converts WinRT color to WPF color.
+		/// </summary>
+		/// <param name="color">WinRT color.</param>
+		/// <returns>WPF Color.</returns>
+		public static Color ToWpfColor(this Windows.UI.Color color)
+		{
+			return Color.FromArgb(color.A, color.R, color.G, color.B);
+		}
 	}
 }
