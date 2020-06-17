@@ -78,6 +78,12 @@ namespace Launcher
 			this.WindowState = WindowState.Normal;
 		}
 
+		private async void ShowAccentColorPickerDialog(object sender, RoutedEventArgs e)
+		{
+			this.accentColorPicker ??= new AccentColorPicker();
+			await this.accentColorPicker.ShowAsync();
+		}
+
 		#endregion
 	}
 }

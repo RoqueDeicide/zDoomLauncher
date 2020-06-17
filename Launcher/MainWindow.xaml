@@ -139,6 +139,7 @@
 						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="null"/>
 					</ui:RadioMenuItem.IsChecked>
 				</ui:RadioMenuItem>
+				<MenuItem Header="Accent Color" Click="ShowAccentColorPickerDialog" />
 			</MenuItem>
 		</Menu>
 		<Grid Grid.Row="2">

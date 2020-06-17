@@ -22,8 +22,9 @@ namespace Launcher
 	{
 		private const int CommandLineMaxLength = 2080;
 
-		private AboutWindow aboutWindow;
-		private HelpWindow  helpWindow;
+		private AboutWindow       aboutWindow;
+		private HelpWindow        helpWindow;
+		private AccentColorPicker accentColorPicker;
 
 		public MainWindow()
 		{
@@ -83,6 +84,7 @@ namespace Launcher
 			{
 				Iwads.IwadFolder = this.zDoomFolder;
 			}
+
 			this.RefreshExeFiles(this, null);
 			this.InitializeDialogs();
 			this.InitializeSomeEventHandlers();
