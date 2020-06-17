@@ -223,31 +223,31 @@
 			<GroupBox Header="Start With" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
 				<Grid>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition/>
-						<ColumnDefinition Width="306"/>
+						<ColumnDefinition Width="143*"/>
+						<ColumnDefinition Width="153*"/>
 					</Grid.ColumnDefinitions>
-					<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="65" Checked="SwitchToSave" Height="32" MinWidth="65" />
+					<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="SwitchToSave" Height="32" MinWidth="40" />
 					<TextBox x:Name="LoadGameTextBox" Height="32" Margin="82,10,47,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile" Grid.Column="0" />
-					<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Checked="SwitchToDemo" Grid.Column="0" Height="32" Width="72" MinWidth="65" />
-					<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="SwitchToMap" Grid.Column="1" Height="32" Width="120" />
+					<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Checked="SwitchToDemo" Grid.Column="0" Height="32" MinWidth="40" />
+					<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="SwitchToMap" Grid.Column="1" Height="32" MinWidth="40" />
 					<TextBox x:Name="PlayDemoTextBox" Height="32" Margin="82,47,47,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the demo file." TextChanged="UpdateDemoFile" Grid.Column="0" />
-					<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="10,87,0,-3" VerticalAlignment="Top" Checked="SwitchToNothing" Grid.Column="1" IsChecked="True" Height="32" Width="120" />
+					<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Checked="SwitchToNothing" Grid.Column="0" IsChecked="True" Height="32" Width="120" />
 					<prog:NumberBoxAdvanced x:Name="EpisodeValueField" Grid.Column="1"
-					                        HorizontalAlignment="Left" Margin="130,10,0,0" VerticalAlignment="Top"
+					                        HorizontalAlignment="Left" Margin="123,47,0,0" VerticalAlignment="Top"
 					                        Height="32"
 					                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
 					                        ValueChanged="UpdateEpisodeIndex" />
-					<Label Content="Episode" HorizontalAlignment="Left" Margin="72,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,0.538" Grid.Column="1" Height="32" Width="48" VerticalContentAlignment="Center" />
-					<Label Content="Map" HorizontalAlignment="Left" Margin="199,10,0,0" VerticalAlignment="Top" Grid.Column="1" Height="32" Width="28" VerticalContentAlignment="Center" />
+					<Label Content="Episode" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,0.538" Grid.Column="1" Height="32" Width="48" VerticalContentAlignment="Center" />
+					<Label Content="Map" HorizontalAlignment="Left" Margin="232,10,0,0" VerticalAlignment="Top" Grid.Column="1" Height="32" Width="28" VerticalContentAlignment="Center" />
 					<prog:NumberBoxAdvanced x:Name="MapValueField" Grid.Column="1"
-					                        HorizontalAlignment="Left" Margin="232,10,0,0" VerticalAlignment="Top"
+					                        HorizontalAlignment="Left" Margin="232,47,0,0" VerticalAlignment="Top"
 					                        Height="32"
 					                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
 					                        ValueChanged="UpdateMapIndex" />
 					<Button HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Click="SelectSaveGameFile" Grid.Column="0" Height="32" Width="32" />
 					<Button HorizontalAlignment="Right" Margin="0,47,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFileButtonStyle}" Height="32" Width="32" Click="SelectDemoFile" Grid.Column="0" />
-					<RadioButton x:Name="LoadNamedMapIndicator" Content="Named Map" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Checked="SwitchToNamedMap" Grid.Column="1" Height="32" Width="120" />
-					<TextBox x:Name="LoadNamedMapTextBox" Height="32" Margin="123,47,10,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Name of the map to load. Useful when loading custom map packs. List of maps can be seen by launching the game and typing listmaps command in the console." TextChanged="UpdateMapName" Grid.Column="1" />
+					<RadioButton x:Name="LoadNamedMapIndicator" Content="Named Map" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Bottom" Checked="SwitchToNamedMap" Grid.Column="1" Height="32" MinWidth="40" />
+					<TextBox x:Name="LoadNamedMapTextBox" Height="32" Margin="123,47,10,0" TextWrapping="Wrap" VerticalAlignment="Bottom" ToolTip="Name of the map to load. Useful when loading custom map packs. List of maps can be seen by launching the game and typing listmaps command in the console." TextChanged="UpdateMapName" Grid.Column="1" />
 				</Grid>
 			</GroupBox>
 			<Grid Grid.Row="1" Grid.Column="1">
