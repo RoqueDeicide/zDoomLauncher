@@ -2,7 +2,9 @@
 using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Windows.UI.ViewManagement;
 using Launcher.Configs;
+using Launcher.Utilities;
 using ModernWpf;
 using Ookii.Dialogs.Wpf;
 
@@ -139,7 +141,9 @@ namespace Launcher
 			{
 				void UpdateOSThemeMenuItem()
 				{
-					var osTheme = ThemeManager.Current.ActualApplicationTheme;
+					var color = UiSettings.Current.GetColorValue(UIColorType.Background);
+
+					var osTheme = color == Windows.UI.Colors.Black ? ApplicationTheme.Dark : ApplicationTheme.Light;
 
 					var osThemeName = osTheme.GetName();
 					this.OSThemeMenuItem.Header  = $"OS-Set Theme ({osThemeName} theme)";
@@ -147,6 +151,12 @@ namespace Launcher
 				}
 
 				UpdateOSThemeMenuItem();
+
+				UiSettings.Current.ColorValuesChanged += (sender, args) =>
+														 {
+															 this
+																.Dispatcher.BeginInvoke((Action) UpdateOSThemeMenuItem);
+														 };
 
 				ThemeManager.AddActualThemeChangedHandler(this, (sender, args) => UpdateOSThemeMenuItem());
 				this.OSThemeMenuItem.Click += (sender, args) => SetTheme(null);
