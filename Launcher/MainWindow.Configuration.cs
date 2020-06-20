@@ -20,9 +20,9 @@ namespace Launcher
 			var appConfigurationDatabase = new Database(AppConfigurationXmlExtension,
 														AppConfigurationBinaryExtension);
 
-			var content = ToEntryContent(!string.IsNullOrWhiteSpace(this.CurrentConfigFile) &&
-										 File.Exists(this.CurrentConfigFile),
-										 this.CurrentConfigFile);
+			DatabaseEntryContent content = ToEntryContent(!string.IsNullOrWhiteSpace(this.CurrentConfigFile) &&
+														  File.Exists(this.CurrentConfigFile),
+														  this.CurrentConfigFile);
 			var entry = new DatabaseEntry(LastConfigurationFileEntryName, content);
 			appConfigurationDatabase.AddEntry(entry);
 
@@ -37,15 +37,23 @@ namespace Launcher
 			// Save window position and size if redefined.
 			if (this.windowPosition != null)
 			{
-				content = new TextContent($"{this.windowPosition.Value.X}|{this.windowPosition.Value.Y}");
-				entry   = new DatabaseEntry(MainWindowPositionEntryName, content);
+				content = new VectorContent(2)
+						  {
+							  X = Convert.ToDecimal(this.windowPosition.Value.X),
+							  Y = Convert.ToDecimal(this.windowPosition.Value.Y)
+						  };
+				entry = new DatabaseEntry(MainWindowPositionEntryName, content);
 				appConfigurationDatabase.AddEntry(entry);
 			}
 
 			if (this.windowSize != null)
 			{
-				content = new TextContent($"{this.windowSize.Value.Width}|{this.windowSize.Value.Height}");
-				entry   = new DatabaseEntry(MainWindowSizeEntryName, content);
+				content = new VectorContent(2)
+						  {
+							  X = Convert.ToDecimal(this.windowSize.Value.Width),
+							  Y = Convert.ToDecimal(this.windowSize.Value.Height)
+						  };
+				entry = new DatabaseEntry(MainWindowSizeEntryName, content);
 				appConfigurationDatabase.AddEntry(entry);
 			}
 
@@ -57,7 +65,7 @@ namespace Launcher
 			// Save preferred theme and accent color.
 			if (ThemeManager.Current.ApplicationTheme != null)
 			{
-				content = new TextContent(ThemeManager.Current.ApplicationTheme.Value.GetName());
+				content = new IntegerContent((long) ThemeManager.Current.ApplicationTheme.Value);
 				entry   = new DatabaseEntry(PreferredThemeEntryName, content);
 				appConfigurationDatabase.AddEntry(entry);
 			}
@@ -65,8 +73,14 @@ namespace Launcher
 			if (ThemeManager.Current.AccentColor != null)
 			{
 				var c = ThemeManager.Current.AccentColor.Value;
-				content = new TextContent($"#{c.A:X2}{c.R:X2}{c.G:X2}{c.B:X2}");
-				entry   = new DatabaseEntry(PreferredAccentColorEntryName, content);
+				content = new VectorContent(4)
+						  {
+							  R = c.R,
+							  G = c.G,
+							  B = c.B,
+							  A = c.A
+						  };
+				entry = new DatabaseEntry(PreferredAccentColorEntryName, content);
 				appConfigurationDatabase.AddEntry(entry);
 			}
 
@@ -115,49 +129,39 @@ namespace Launcher
 				this.currentExeFile    = TryGetEntryText(appConfigurationDatabase, LastExeFileEntryName);
 
 				// Load custom size and position of the main window, if available.
-				var numbers = TryGetEntryText(appConfigurationDatabase, MainWindowPositionEntryName);
+				var numbers = TryGetVector(appConfigurationDatabase, MainWindowPositionEntryName);
 				if (numbers != null)
 				{
-					var coords = numbers.Split('|');
-					try
-					{
-						this.windowPosition = new Point(double.Parse(coords[0]), double.Parse(coords[1]));
-					}
-					catch (Exception)
-					{
-						// ignored
-					}
+					this.windowPosition = new Point(Convert.ToDouble(numbers.X), Convert.ToDouble(numbers.Y));
 				}
 
-				numbers = TryGetEntryText(appConfigurationDatabase, MainWindowSizeEntryName);
+				numbers = TryGetVector(appConfigurationDatabase, MainWindowSizeEntryName);
 				if (numbers != null)
 				{
-					var coords = numbers.Split('|');
-					try
-					{
-						this.windowSize = new Size(double.Parse(coords[0]), double.Parse(coords[1]));
-					}
-					catch (Exception)
-					{
-						// ignored
-					}
+					this.windowSize = new Size(Convert.ToDouble(numbers.X), Convert.ToDouble(numbers.Y));
 				}
 
 				this.maximized = appConfigurationDatabase.Contains(MainWindowMaximizedEntryName);
 
 				// Try getting information about the theme and accent colors.
-				var themeName = TryGetEntryText(appConfigurationDatabase, PreferredThemeEntryName);
-				ThemeManager.Current.ApplicationTheme = themeName switch
-														{
-															"Dark"  => ApplicationTheme.Dark,
-															"Light" => ApplicationTheme.Light,
-															_       => null
-														};
-
-				var accentColorString = TryGetEntryText(appConfigurationDatabase, PreferredAccentColorEntryName);
-				if (accentColorString != null)
+				if (appConfigurationDatabase.Contains(PreferredThemeEntryName))
 				{
-					ThemeManager.Current.AccentColor = (Color?) ColorConverter.ConvertFromString(accentColorString);
+					ThemeManager.Current.ApplicationTheme =
+						(ApplicationTheme) appConfigurationDatabase[PreferredThemeEntryName]
+										  .GetContent<IntegerContent>()
+										  .Value;
+				}
+
+				var accentColors = TryGetVector(appConfigurationDatabase, PreferredAccentColorEntryName);
+				if (accentColors != null)
+				{
+					ThemeManager.Current.AccentColor = new Color()
+													   {
+														   R = Convert.ToByte(accentColors.R),
+														   G = Convert.ToByte(accentColors.G),
+														   B = Convert.ToByte(accentColors.B),
+														   A = Convert.ToByte(accentColors.A),
+													   };
 				}
 
 				if (appConfigurationDatabase.Contains(LoadableFilesDirectoriesEntryName, false))
@@ -191,6 +195,13 @@ namespace Launcher
 			}
 
 			return null;
+		}
+
+		private static VectorContent TryGetVector(Database appConfigurationDatabase, string entryName)
+		{
+			return appConfigurationDatabase.Contains(entryName, false)
+					   ? appConfigurationDatabase[entryName].GetContent<VectorContent>()
+					   : null;
 		}
 	}
 }
