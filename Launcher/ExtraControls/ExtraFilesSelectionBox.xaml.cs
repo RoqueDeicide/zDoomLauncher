@@ -7,7 +7,9 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using Launcher.Annotations;
 
 namespace Launcher
@@ -176,6 +178,38 @@ namespace Launcher
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+		}
+
+		private void ScrollTheViewer(object sender, MouseWheelEventArgs e)
+		{
+			if (!(sender is ScrollViewer sv))
+			{
+				return;
+			}
+
+			if (e.Delta < 0)
+			{
+				if (sv.VerticalOffset - e.Delta <= sv.ExtentHeight - sv.ViewportHeight)
+				{
+					sv.ScrollToVerticalOffset(sv.VerticalOffset - e.Delta);
+				}
+				else
+				{
+					sv.ScrollToBottom();
+				}
+			}
+			else
+			{
+				if (sv.VerticalOffset + e.Delta > 0)
+				{
+					sv.ScrollToVerticalOffset(sv.VerticalOffset - e.Delta);
+				}
+				else
+				{
+					sv.ScrollToTop();
+				}
+			}
+			e.Handled = true;
 		}
 	}
 }
