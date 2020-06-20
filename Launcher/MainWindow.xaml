@@ -13,15 +13,15 @@
         ui:ThemeManager.IsThemeAware="True">
 	<Window.Resources>
 		<Style TargetType="{x:Type ListBoxItem}">
-			<Setter Property="Padding" Value="0"/>
-			<Setter Property="Margin" Value="0"/>
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="Margin" Value="0" />
 		</Style>
 	</Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="40"/>
-			<RowDefinition/>
+			<RowDefinition Height="40" />
+			<RowDefinition />
 		</Grid.RowDefinitions>
 		<StackPanel x:Name="AppTitleBar"
 					Background="{DynamicResource SystemControlBackgroundAccentBrush}"
@@ -38,7 +38,7 @@
 				</Style>
 			</StackPanel.Style>
 			<TextBlock FontSize="13" VerticalAlignment="Center" Margin="5, 0, 0, 0"
-			           Text="{Binding ElementName=Window, Path=Title}"/>
+			           Text="{Binding ElementName=Window, Path=Title}" />
 		</StackPanel>
 		<Menu Grid.Row="1">
 			<Menu.Resources>
@@ -103,24 +103,24 @@
 			<MenuItem Header="Window">
 				<MenuItem Header="Save Window Position" Click="SaveWindowPosition">
 					<MenuItem.Icon>
-						<Image Source="Resources/layers-group.png"/>
+						<Image Source="Resources/layers-group.png" />
 					</MenuItem.Icon>
 				</MenuItem>
 				<MenuItem Header="Save Window Dimensions" Click="SaveWindowDimensions">
 					<MenuItem.Icon>
-						<Image Source="Resources/layer-resize.png"/>
+						<Image Source="Resources/layer-resize.png" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<Separator/>
+				<Separator />
 				<MenuItem Header="Reset Window Position" Click="ResetWindowPosition" />
 				<MenuItem Header="Reset Window Dimensions" Click="ResetWindowDimensions" />
-				<Separator/>
+				<Separator />
 				<ui:RadioMenuItem x:Name="LightThemeMenuItem" Header="Light Theme"
 				                  ToolTip="Force this program to use light theme."
 				                  GroupName="Theme">
 					<ui:RadioMenuItem.IsChecked>
 						<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
-						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Light"/>
+						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Light" />
 					</ui:RadioMenuItem.IsChecked>
 				</ui:RadioMenuItem>
 				<ui:RadioMenuItem x:Name="DarkThemeMenuItem" Header="Dark Theme"
@@ -128,7 +128,7 @@
 				                  GroupName="Theme">
 					<ui:RadioMenuItem.IsChecked>
 						<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
-						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Dark"/>
+						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Dark" />
 					</ui:RadioMenuItem.IsChecked>
 				</ui:RadioMenuItem>
 				<ui:RadioMenuItem x:Name="OSThemeMenuItem"
@@ -136,7 +136,7 @@
 				                  GroupName="Theme">
 					<ui:RadioMenuItem.IsChecked>
 						<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
-						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="null"/>
+						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="null" />
 					</ui:RadioMenuItem.IsChecked>
 				</ui:RadioMenuItem>
 				<MenuItem Header="Accent Color" Click="ShowAccentColorPickerDialog" />
@@ -144,16 +144,16 @@
 		</Menu>
 		<Grid Grid.Row="2">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="137"/>
-				<RowDefinition Height="126"/>
-				<RowDefinition Height="182"/>
-				<RowDefinition/>
+				<RowDefinition Height="137" />
+				<RowDefinition Height="126" />
+				<RowDefinition Height="182" />
+				<RowDefinition />
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="250"/>
-				<ColumnDefinition Width="180"/>
-				<ColumnDefinition Width="165"/>
-				<ColumnDefinition/>
+				<ColumnDefinition Width="250" />
+				<ColumnDefinition Width="180" />
+				<ColumnDefinition Width="165" />
+				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 			<Grid Grid.Row="0" Grid.Column="0">
 				<Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="32" VerticalContentAlignment="Center" />
@@ -168,12 +168,12 @@
 					</prog:IwadComboBox.ItemTemplate>
 				</prog:IwadComboBox>
 				<Label Content="Extra Files" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Height="32" VerticalContentAlignment="Center" />
-				<Button x:Name="ExtraFilesRefreshButton" Margin="0,84,10,0" VerticalAlignment="Top" Click="RefreshExtraFiles" HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}" Height="32" Width="32"/>
+				<Button x:Name="ExtraFilesRefreshButton" Margin="0,84,10,0" VerticalAlignment="Top" Click="RefreshExtraFiles" HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}" Height="32" Width="32" />
 			</Grid>
 			<Grid Grid.Row="0" Grid.Column="1">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="24"/>
-					<RowDefinition/>
+					<RowDefinition Height="24" />
+					<RowDefinition />
 				</Grid.RowDefinitions>
 				<ListBox Grid.Row="1" Margin="6,5,6,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 					<CheckBox x:Name="NoMonstersIndicator" Content="No Monsters" Checked="DisableMonsters" Unchecked="EnableMonsters" />
@@ -184,8 +184,8 @@
 			</Grid>
 			<Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="24"/>
-					<RowDefinition/>
+					<RowDefinition Height="24" />
+					<RowDefinition />
 				</Grid.RowDefinitions>
 				<Label Content="Disable" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" Width="102" Height="19" />
 				<ListBox Grid.Row="1" x:Name="DisableFlagsList" Margin="6,5,6,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -224,8 +224,8 @@
 			<GroupBox Header="Start With" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
 				<Grid>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="143*"/>
-						<ColumnDefinition Width="153*"/>
+						<ColumnDefinition Width="143*" />
+						<ColumnDefinition Width="153*" />
 					</Grid.ColumnDefinitions>
 					<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="SwitchToSave" Height="32" MinWidth="40" />
 					<TextBox x:Name="LoadGameTextBox" Height="32" Margin="82,10,47,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile" Grid.Column="0" />
@@ -280,12 +280,11 @@
 				<TextBox x:Name="ExtraOptionsTextBox" Margin="0,146,249,10" TextWrapping="Wrap" TextChanged="UpdateExtraOptions" />
 				<Button Content="Test" Margin="0,0,147,10" Click="ShowCommandLine" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97" />
 				<Button Content="Launch" Margin="0,0,10,10" Click="LaunchTheGame" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97" />
-				<Button HorizontalAlignment="Right" Margin="0,24,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFolderButtonStyle}" Height="32" Width="32" Click="SelectSaveDirectory"/>
-				<Button HorizontalAlignment="Right" Margin="0,85,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFolderButtonStyle}" Height="32" Width="32" Click="SelectConfigPath"/>
+				<Button HorizontalAlignment="Right" Margin="0,24,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFolderButtonStyle}" Height="32" Width="32" Click="SelectSaveDirectory" />
+				<Button HorizontalAlignment="Right" Margin="0,85,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFolderButtonStyle}" Height="32" Width="32" Click="SelectConfigPath" />
 			</Grid>
 			<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="11,7,10,10" Height="Auto" Grid.Row="1" Grid.RowSpan="3"
 			                             Grid.Column="0" />
-
 		</Grid>
 	</Grid>
 </Window>

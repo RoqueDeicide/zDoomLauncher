@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Windows.UI;
 using Windows.UI.ViewManagement;
 using Launcher.Configs;
 using Launcher.Utilities;
@@ -141,11 +142,11 @@ namespace Launcher
 			{
 				void UpdateOSThemeMenuItem()
 				{
-					var color = UiSettings.Current.GetColorValue(UIColorType.Background);
+					Color color = UiSettings.Current.GetColorValue(UIColorType.Background);
 
-					var osTheme = color == Windows.UI.Colors.Black ? ApplicationTheme.Dark : ApplicationTheme.Light;
+					ApplicationTheme osTheme = color == Colors.Black ? ApplicationTheme.Dark : ApplicationTheme.Light;
 
-					var osThemeName = osTheme.GetName();
+					string osThemeName = osTheme.GetName();
 					this.OSThemeMenuItem.Header  = $"OS-Set Theme ({osThemeName} theme)";
 					this.OSThemeMenuItem.ToolTip = $"Let the operating system set the theme ({osThemeName} theme).";
 				}

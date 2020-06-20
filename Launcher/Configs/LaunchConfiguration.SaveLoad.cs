@@ -82,16 +82,16 @@ namespace Launcher.Configs
 
 		private void SaveExtraFiles(Database database, string gameFolder)
 		{
-			var doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+			string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
 
 			var filesEntry = new DatabaseEntry("ExtraFiles", null);
 			var folderUri  = new Uri(PathUtils.EndWithBackSlash(gameFolder), UriKind.Absolute);
 
 			// Maximal number of digits that can used to designate an index of the entry.
-			var digitCount = (int) Math.Floor(Math.Log10(this.ExtraFiles.Count) + 1);
-			for (var i = 0; i < this.ExtraFiles.Count; i++)
+			int digitCount = (int) Math.Floor(Math.Log10(this.ExtraFiles.Count) + 1);
+			for (int i = 0; i < this.ExtraFiles.Count; i++)
 			{
-				var filePath = this.ExtraFiles[i];
+				string filePath = this.ExtraFiles[i];
 				var content = new TextContent(Path.GetDirectoryName(filePath) == doomWadDir
 												  ? Path.GetFileName(filePath)
 												  : PathUtils.ToRelativePath(filePath, folderUri));
@@ -188,8 +188,8 @@ namespace Launcher.Configs
 				return;
 			}
 
-			var          doomWadDir    = ExtraFilesLookUp.DoomWadDirectory;
-			var          filesEntry    = database["ExtraFiles"];
+			string          doomWadDir    = ExtraFilesLookUp.DoomWadDirectory;
+			DatabaseEntry          filesEntry    = database["ExtraFiles"];
 			const string entryNamePart = "ExtraFile";
 
 			// Restore full paths.
@@ -199,10 +199,10 @@ namespace Launcher.Configs
 						where content != null
 						select content;
 
-			foreach (var filePath in paths)
+			foreach (string filePath in paths)
 			{
-				var relativeFilePath = filePath;
-				var path             = Path.Combine(doomWadDir, relativeFilePath);
+				string relativeFilePath = filePath;
+				string path             = Path.Combine(doomWadDir, relativeFilePath);
 				if (File.Exists(path))
 				{
 					this.ExtraFiles.Add(PathUtils.GetLocalPath(path));
@@ -219,16 +219,16 @@ namespace Launcher.Configs
 
 			// Update directories.
 			var dirs = new List<string>(10);
-			foreach (var dirName in from extraFile in this.ExtraFiles
-									select Path.GetDirectoryName(extraFile)
-									into dirName
-									where !dirs.Contains(dirName)
-									select dirName)
+			foreach (string dirName in from extraFile in this.ExtraFiles
+									   select Path.GetDirectoryName(extraFile)
+									   into dirName
+									   where !dirs.Contains(dirName)
+									   select dirName)
 			{
 				dirs.Add(dirName);
 			}
 
-			foreach (var dir in dirs.Where(dir => !ExtraFilesLookUp.Directories.Contains(dir)))
+			foreach (string dir in dirs.Where(dir => !ExtraFilesLookUp.Directories.Contains(dir)))
 			{
 				ExtraFilesLookUp.Directories.Add(dir);
 			}
@@ -250,13 +250,13 @@ namespace Launcher.Configs
 					config = (LaunchConfiguration) formatter.Deserialize(fs);
 				}
 
-				var doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+				string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
 
 				// Restore full paths.
-				for (var i = 0; i < config.ExtraFiles.Count; i++)
+				for (int i = 0; i < config.ExtraFiles.Count; i++)
 				{
-					var relativeFilePath = config.ExtraFiles[i];
-					var path             = Path.Combine(doomWadDir, relativeFilePath);
+					string relativeFilePath = config.ExtraFiles[i];
+					string path             = Path.Combine(doomWadDir, relativeFilePath);
 					if (File.Exists(path))
 					{
 						config.ExtraFiles[i] = PathUtils.GetLocalPath(path);
@@ -278,16 +278,16 @@ namespace Launcher.Configs
 
 				// Update directories.
 				var dirs = new List<string>(10);
-				foreach (var dirName in from extraFile in config.ExtraFiles
-										select Path.GetDirectoryName(extraFile)
-										into dirName
-										where !dirs.Contains(dirName)
-										select dirName)
+				foreach (string dirName in from extraFile in config.ExtraFiles
+										   select Path.GetDirectoryName(extraFile)
+										   into dirName
+										   where !dirs.Contains(dirName)
+										   select dirName)
 				{
 					dirs.Add(dirName);
 				}
 
-				foreach (var dir in dirs.Where(dir => !ExtraFilesLookUp.Directories.Contains(dir)))
+				foreach (string dir in dirs.Where(dir => !ExtraFilesLookUp.Directories.Contains(dir)))
 				{
 					ExtraFilesLookUp.Directories.Add(dir);
 				}
@@ -306,7 +306,7 @@ namespace Launcher.Configs
 	{
 		internal static void AddContent(this Database database, string entryName, string textContent)
 		{
-			var content = string.IsNullOrEmpty(textContent) ? null : new TextContent(textContent);
+			TextContent content = string.IsNullOrEmpty(textContent) ? null : new TextContent(textContent);
 			var entry   = new DatabaseEntry(entryName, content);
 
 			database.AddEntry(entry);
@@ -361,7 +361,7 @@ namespace Launcher.Configs
 
 			if (value == null) return default;
 
-			var enumValue = Cast<EnumType>.From((int) value.Value);
+			EnumType enumValue = Cast<EnumType>.From((int) value.Value);
 			return enumValue;
 		}
 

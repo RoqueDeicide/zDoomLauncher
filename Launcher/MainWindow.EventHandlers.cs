@@ -69,7 +69,7 @@ namespace Launcher
 				return;
 			}
 
-			var flag = convertibleFlag.ToInt32(CultureInfo.InvariantCulture);
+			int flag = convertibleFlag.ToInt32(CultureInfo.InvariantCulture);
 			// Set the flag.
 			this.config.DisableFlags |= (DisableOptions) flag;
 		}
@@ -83,7 +83,7 @@ namespace Launcher
 				return;
 			}
 
-			var flag = convertibleFlag.ToInt32(CultureInfo.InvariantCulture);
+			int flag = convertibleFlag.ToInt32(CultureInfo.InvariantCulture);
 			// Remove the flag.
 			this.config.DisableFlags &= (DisableOptions) ~flag;
 		}
@@ -261,7 +261,7 @@ namespace Launcher
 
 		private void UpdateEpisodeIndex(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
 		{
-			var episodeValue = args.NewValue;
+			double episodeValue = args.NewValue;
 
 			if (!episodeValue.IsNaN() && this.LoadMapIndicator != null && this.LoadMapIndicator.IsChecked == true &&
 				this.EpisodicIwadIsSelected() && !this.settingUpStartUp)
@@ -272,7 +272,7 @@ namespace Launcher
 
 		private void UpdateMapIndex(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
 		{
-			var mapValue = args.NewValue;
+			double mapValue = args.NewValue;
 
 			if (!mapValue.IsNaN() && this.LoadMapIndicator != null &&
 				this.LoadMapIndicator.IsChecked            == true && !this.settingUpStartUp)
@@ -396,8 +396,8 @@ namespace Launcher
 
 			if (this.openSaveFolderDialog.ShowDialog() == true)
 			{
-				var selectedPath = this.openSaveFolderDialog.SelectedPath;
-				var gamePath     = this.zDoomFolder;
+				string selectedPath = this.openSaveFolderDialog.SelectedPath;
+				string gamePath     = this.zDoomFolder;
 
 				this.SaveDirectoryTextBox.Text = PathUtils.ToRelativePath(selectedPath, gamePath);
 			}

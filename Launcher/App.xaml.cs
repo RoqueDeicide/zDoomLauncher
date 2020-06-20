@@ -16,7 +16,7 @@ namespace Launcher
 			AppDomain.CurrentDomain.UnhandledException += OnUnhandledExceptionInCurrentDomain;
 
 			// Make sure that the working directory is not screwed up when launching the app from the link.
-			var exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			if (exePath == null)
 			{
 				return;
@@ -38,7 +38,7 @@ namespace Launcher
 				Log.Error(ex.Message);
 				Log.Error(ex.StackTrace);
 
-				var inner = ex.InnerException;
+				Exception inner = ex.InnerException;
 				while (inner != null)
 				{
 					Log.Error("Caused by:");

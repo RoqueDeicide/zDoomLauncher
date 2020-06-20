@@ -16,8 +16,8 @@ namespace Launcher
 
 		private void UpdateWindowTitle()
 		{
-			var hasName = !string.IsNullOrWhiteSpace(this.config?.Name);
-			var hasFile = !string.IsNullOrWhiteSpace(this.CurrentConfigFile);
+			bool hasName = !string.IsNullOrWhiteSpace(this.config?.Name);
+			bool hasFile = !string.IsNullOrWhiteSpace(this.CurrentConfigFile);
 
 			this.Title = $"ZDoom Launcher{(hasName ? " - " : "")}{(hasName ? this.config.Name : "")}" +
 						 $"{(hasFile ? " - " : "")}{(hasFile ? this.CurrentConfigFile : "")}";

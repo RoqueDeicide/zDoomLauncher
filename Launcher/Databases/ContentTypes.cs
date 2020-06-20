@@ -87,7 +87,7 @@ namespace Launcher.Databases
 		/// <exception cref="XPathException">The XPath expression contains a prefix.</exception>
 		public override void FromXml(XmlElement element)
 		{
-			var xmlTextNode                    = element.SelectSingleNode("./text()");
+			XmlNode xmlTextNode                    = element.SelectSingleNode("./text()");
 			if (xmlTextNode != null) this.Text = xmlTextNode.Value;
 		}
 
@@ -2174,7 +2174,7 @@ namespace Launcher.Databases
 		public override void ToBinary(BinaryWriter bw)
 		{
 			bw.Write(this.components.Length);
-			for (var i = 0; i < this.components.Length; i++)
+			for (int i = 0; i < this.components.Length; i++)
 			{
 				bw.Write(this.components[i]);
 			}
@@ -2188,7 +2188,7 @@ namespace Launcher.Databases
 		{
 			int count = br.ReadInt32();
 			this.components = new decimal[count];
-			for (var i = 0; i < count; i++)
+			for (int i = 0; i < count; i++)
 			{
 				this.components[i] = br.ReadDecimal();
 			}
@@ -2201,7 +2201,7 @@ namespace Launcher.Databases
 		/// <param name="element"> <see cref="XmlElement"/> that will contain data.</param>
 		public override void ToXml(XmlDocument document, XmlElement element)
 		{
-			for (var i = 0; i < this.Count; i++)
+			for (int i = 0; i < this.Count; i++)
 			{
 				element.SetAttribute(ComponentNames[i], $"{this[i]}");
 			}
@@ -2227,7 +2227,7 @@ namespace Launcher.Databases
 		/// <returns>The enumerator.</returns>
 		public IEnumerator<decimal> GetEnumerator()
 		{
-			for (var i = 0; i < this.Count; i++)
+			for (int i = 0; i < this.Count; i++)
 			{
 				yield return this.components[i];
 			}

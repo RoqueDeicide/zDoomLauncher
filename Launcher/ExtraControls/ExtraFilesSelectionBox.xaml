@@ -5,26 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              mc:Ignorable="d" d:DesignWidth="300" Height="500"
-			 xmlns:local="clr-namespace:Launcher">
+             xmlns:local="clr-namespace:Launcher">
 	<UserControl.Resources>
 		<Style x:Key="FileListItem" TargetType="ListBoxItem">
 			<Setter Property="Height" Value="20" />
-			<Setter Property="Focusable" Value="False"/>
+			<Setter Property="Focusable" Value="False" />
 		</Style>
 		<Style x:Key="SelectedFileListItem" TargetType="ListBoxItem"
-			   BasedOn="{StaticResource FileListItem}">
-			<Setter Property="AllowDrop" Value="True"/>
-			<EventSetter Event="PreviewMouseLeftButtonDown" Handler="SaveCurrentMousePosition"/>
-			<EventSetter Event="Drop" Handler="MoveDraggedItem"/>
-			<EventSetter Event="PreviewDragOver" Handler="UpdateDropLocationIndication"/>
-			<EventSetter Event="PreviewDragLeave" Handler="TurnOffDropLocationIndication"/>
+		       BasedOn="{StaticResource FileListItem}">
+			<Setter Property="AllowDrop" Value="True" />
+			<EventSetter Event="PreviewMouseLeftButtonDown" Handler="SaveCurrentMousePosition" />
+			<EventSetter Event="Drop" Handler="MoveDraggedItem" />
+			<EventSetter Event="PreviewDragOver" Handler="UpdateDropLocationIndication" />
+			<EventSetter Event="PreviewDragLeave" Handler="TurnOffDropLocationIndication" />
 		</Style>
 		<local:DirectoryNameSelector x:Key="DirectoryNameSelector" />
 		<DataTemplate x:Key="LoadableFilesGroupHeader">
 			<Border BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}"
-					BorderThickness="0,0,0,1">
+			        BorderThickness="0,0,0,1">
 				<TextBlock Margin="0" FontWeight="Bold" FontSize="13" Height="20"
-						   Text="{Binding Converter={StaticResource DirectoryNameSelector}}" />
+				           Text="{Binding Converter={StaticResource DirectoryNameSelector}}" />
 			</Border>
 		</DataTemplate>
 	</UserControl.Resources>
@@ -35,12 +35,12 @@
 			<RowDefinition Height="34*" />
 		</Grid.RowDefinitions>
 		<Border Grid.Row="0" BorderThickness="1"
-				BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}">
+		        BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}">
 			<ScrollViewer HorizontalScrollBarVisibility="Visible">
 				<ListBox x:Name="AllFilesListBox"
-						 ItemsSource="{x:Static local:ExtraFilesLookUp.LoadableFiles}"
-						 BorderThickness="0"
-						 ItemContainerStyle="{StaticResource FileListItem}">
+				         ItemsSource="{x:Static local:ExtraFilesLookUp.LoadableFiles}"
+				         BorderThickness="0"
+				         ItemContainerStyle="{StaticResource FileListItem}">
 					<ListBox.GroupStyle>
 						<GroupStyle HeaderTemplate="{StaticResource LoadableFilesGroupHeader}" />
 					</ListBox.GroupStyle>
@@ -48,7 +48,7 @@
 						<DataTemplate>
 							<StackPanel SnapsToDevicePixels="True" Orientation="Horizontal">
 								<ToggleButton x:Name="SelectionButton"
-											  ui:ControlHelper.CornerRadius="10" Width="16"
+								              ui:ControlHelper.CornerRadius="10" Width="16"
 								              Click="ToggleFileSelection" />
 								<TextBlock Margin="5,0,0,0"
 								           Text="{Binding Path=FileName}"
@@ -57,7 +57,7 @@
 							<DataTemplate.Triggers>
 								<DataTrigger Binding="{Binding Path=Selected}" Value="True">
 									<Setter TargetName="SelectionButton" Property="Content"
-											Value="{DynamicResource DeselectButtonIcon}" />
+									        Value="{DynamicResource DeselectButtonIcon}" />
 								</DataTrigger>
 							</DataTemplate.Triggers>
 						</DataTemplate>
@@ -66,12 +66,12 @@
 			</ScrollViewer>
 		</Border>
 		<Border Grid.Row="2" BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}"
-				BorderThickness="1">
+		        BorderThickness="1">
 			<ScrollViewer HorizontalScrollBarVisibility="Visible">
 				<ListBox x:Name="SelectedFilesListBox" BorderThickness="0"
-						 ItemsSource="{Binding Path=FileSelection, ElementName=FileSelectionUserControl}"
-						 ItemContainerStyle="{StaticResource SelectedFileListItem}"
-						 PreviewMouseMove="AttemptInitiateDragDrop">
+				         ItemsSource="{Binding Path=FileSelection, ElementName=FileSelectionUserControl}"
+				         ItemContainerStyle="{StaticResource SelectedFileListItem}"
+				         PreviewMouseMove="AttemptInitiateDragDrop">
 					<ListBox.ItemTemplate>
 						<DataTemplate DataType="local:FileDesc">
 							<Grid>
@@ -80,18 +80,18 @@
 									<ColumnDefinition Width="266*" />
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
-									<RowDefinition Height="*"/>
-									<RowDefinition Height="*"/>
+									<RowDefinition Height="*" />
+									<RowDefinition Height="*" />
 								</Grid.RowDefinitions>
 								<local:SpinnerButtons Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-													  x:Name="Spinners"
-													  ClickUp="MoveSelectedFileUp"
-													  ClickDown="MoveSelectedFileDown"
-													  AtTop="{Binding Path=AtTop}"
-													  AtBottom="{Binding Path=AtBottom}"/>
+								                      x:Name="Spinners"
+								                      ClickUp="MoveSelectedFileUp"
+								                      ClickDown="MoveSelectedFileDown"
+								                      AtTop="{Binding Path=AtTop}"
+								                      AtBottom="{Binding Path=AtBottom}" />
 								<TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
-										   Text="{Binding Path=FileName}"
-										   ToolTip="{Binding Path=Directory}" >
+								           Text="{Binding Path=FileName}"
+								           ToolTip="{Binding Path=Directory}">
 									<TextBlock.ContextMenu>
 										<ContextMenu>
 											<ContextMenu.Items>
@@ -101,11 +101,11 @@
 									</TextBlock.ContextMenu>
 								</TextBlock>
 								<Border Grid.Row="0" Grid.Column="1" x:Name="DropUpperIndicator" BorderThickness="0,1,0,0"
-										BorderBrush="{DynamicResource SystemControlBackgroundBaseHighBrush}"
-										Visibility="{Binding Path=DragOverTop}" Panel.ZIndex="1"/>
+								        BorderBrush="{DynamicResource SystemControlBackgroundBaseHighBrush}"
+								        Visibility="{Binding Path=DragOverTop}" Panel.ZIndex="1" />
 								<Border Grid.Row="1" Grid.Column="1" x:Name="DropLowerIndicator" BorderThickness="0,0,0,1"
-										BorderBrush="{DynamicResource SystemControlBackgroundBaseHighBrush}"
-										CornerRadius="1" Visibility="{Binding Path=DragOverBottom}" Panel.ZIndex="1"/>
+								        BorderBrush="{DynamicResource SystemControlBackgroundBaseHighBrush}"
+								        CornerRadius="1" Visibility="{Binding Path=DragOverBottom}" Panel.ZIndex="1" />
 							</Grid>
 						</DataTemplate>
 					</ListBox.ItemTemplate>

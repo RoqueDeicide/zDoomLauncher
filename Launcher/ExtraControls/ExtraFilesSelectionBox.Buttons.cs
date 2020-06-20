@@ -44,13 +44,13 @@ namespace Launcher
 				return;
 			}
 
-			var index = this.FileSelection.IndexOf(fileDesc);
+			int index = this.FileSelection.IndexOf(fileDesc);
 			if (index == 0)
 			{
 				return;
 			}
 
-			var temp = this.FileSelection[index - 1];
+			object temp = this.FileSelection[index - 1];
 			this.FileSelection[index - 1] = this.FileSelection[index];
 			this.FileSelection[index]     = temp;
 
@@ -66,13 +66,13 @@ namespace Launcher
 				return;
 			}
 
-			var index = this.FileSelection.IndexOf(fileDesc);
+			int index = this.FileSelection.IndexOf(fileDesc);
 			if (index == this.FileSelection.Count - 1)
 			{
 				return;
 			}
 
-			var temp = this.FileSelection[index + 1];
+			object temp = this.FileSelection[index + 1];
 			this.FileSelection[index + 1] = this.FileSelection[index];
 			this.FileSelection[index]     = temp;
 
@@ -81,7 +81,7 @@ namespace Launcher
 
 		private void UpdateTopBottomSpinners()
 		{
-			for (var i = 0; i < this.FileSelection.Count; i++)
+			for (int i = 0; i < this.FileSelection.Count; i++)
 			{
 				if (!(this.FileSelection[i] is FileDesc fileDesc))
 				{

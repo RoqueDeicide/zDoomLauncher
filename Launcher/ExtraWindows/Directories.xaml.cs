@@ -26,9 +26,9 @@ namespace Launcher
 
 			this.InitializeComponent();
 
-			for (var i = 0; i < ExtraFilesLookUp.Directories.Count; i++)
+			for (int i = 0; i < ExtraFilesLookUp.Directories.Count; i++)
 			{
-				var directory = ExtraFilesLookUp.Directories[i];
+				string directory = ExtraFilesLookUp.Directories[i];
 
 				this.DirectoriesListBox.Items.Add(this.CreateDirectoryName(directory, i));
 			}
@@ -79,7 +79,7 @@ namespace Launcher
 					return;
 				}
 
-				var senderIndex = this.DirectoriesListBox.Items.IndexOf(directory);
+				int senderIndex = this.DirectoriesListBox.Items.IndexOf(directory);
 				if (senderIndex == 0)
 				{
 					// Insert at the start of global collection.
@@ -147,7 +147,7 @@ namespace Launcher
 				return;
 			}
 
-			var senderIndex = this.DirectoriesListBox.Items.IndexOf(name);
+			int senderIndex = this.DirectoriesListBox.Items.IndexOf(name);
 			this.DirectoriesListBox.Items.Insert(senderIndex + offset, this.CreateDirectoryName("", -1));
 		}
 
@@ -181,7 +181,7 @@ namespace Launcher
 			ExtraFilesLookUp.Directories.Insert(index, name.Path);
 
 			// Adjust indexes.
-			foreach (var directoryNameItem in this.DirectoriesListBox.Items)
+			foreach (object directoryNameItem in this.DirectoriesListBox.Items)
 			{
 				var directory = directoryNameItem as DirectoryName;
 
@@ -201,7 +201,7 @@ namespace Launcher
 			ExtraFilesLookUp.Directories.RemoveAt(index);
 
 			// Adjust indexes.
-			foreach (var directoryNameItem in this.DirectoriesListBox.Items)
+			foreach (object directoryNameItem in this.DirectoriesListBox.Items)
 			{
 				var directory = directoryNameItem as DirectoryName;
 

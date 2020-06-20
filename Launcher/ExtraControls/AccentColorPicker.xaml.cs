@@ -92,7 +92,7 @@ namespace Launcher
 
 		public void Add(string colorDescription, string colorName)
 		{
-			var o = ColorConverter.ConvertFromString(colorDescription);
+			object o = ColorConverter.ConvertFromString(colorDescription);
 			if (o is Color color)
 			{
 				this.Add(new AccentColor(color, colorName));

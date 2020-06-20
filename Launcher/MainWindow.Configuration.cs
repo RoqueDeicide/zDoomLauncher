@@ -72,7 +72,7 @@ namespace Launcher
 
 			if (ThemeManager.Current.AccentColor != null)
 			{
-				var c = ThemeManager.Current.AccentColor.Value;
+				Color c = ThemeManager.Current.AccentColor.Value;
 				content = new VectorContent(4)
 						  {
 							  R = c.R,
@@ -87,13 +87,13 @@ namespace Launcher
 			// Save the directories.
 			var loadableFilesDirectoriesEntry = new DatabaseEntry(LoadableFilesDirectoriesEntryName, null);
 
-			var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+			string baseDir = AppDomain.CurrentDomain.BaseDirectory;
 			var dirs = new List<string>(from directory in ExtraFilesLookUp.Directories
 										select PathUtils.ToRelativePath(directory, baseDir));
 			dirs.Sort();
 
-			var counter = 0;
-			foreach (var dir in dirs)
+			int counter = 0;
+			foreach (string dir in dirs)
 			{
 				content = new TextContent(dir);
 				entry   = new DatabaseEntry(LoadableFilesDirectoryEntryName, content);
@@ -129,7 +129,7 @@ namespace Launcher
 				this.currentExeFile    = TryGetEntryText(appConfigurationDatabase, LastExeFileEntryName);
 
 				// Load custom size and position of the main window, if available.
-				var numbers = TryGetVector(appConfigurationDatabase, MainWindowPositionEntryName);
+				VectorContent numbers = TryGetVector(appConfigurationDatabase, MainWindowPositionEntryName);
 				if (numbers != null)
 				{
 					this.windowPosition = new Point(Convert.ToDouble(numbers.X), Convert.ToDouble(numbers.Y));
@@ -152,29 +152,29 @@ namespace Launcher
 										  .Value;
 				}
 
-				var accentColors = TryGetVector(appConfigurationDatabase, PreferredAccentColorEntryName);
+				VectorContent accentColors = TryGetVector(appConfigurationDatabase, PreferredAccentColorEntryName);
 				if (accentColors != null)
 				{
-					ThemeManager.Current.AccentColor = new Color()
+					ThemeManager.Current.AccentColor = new Color
 													   {
 														   R = Convert.ToByte(accentColors.R),
 														   G = Convert.ToByte(accentColors.G),
 														   B = Convert.ToByte(accentColors.B),
-														   A = Convert.ToByte(accentColors.A),
+														   A = Convert.ToByte(accentColors.A)
 													   };
 				}
 
 				if (appConfigurationDatabase.Contains(LoadableFilesDirectoriesEntryName, false))
 				{
-					var loadableFilesDirectoriesEntry =
+					DatabaseEntry loadableFilesDirectoriesEntry =
 						appConfigurationDatabase[LoadableFilesDirectoriesEntryName];
-					var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+					string baseDir = AppDomain.CurrentDomain.BaseDirectory;
 
-					foreach (var dir in from subEntry in loadableFilesDirectoriesEntry.SubEntries
-										let content = subEntry.Value.GetContent<TextContent>()
-										where content != null &&
-											  !ExtraFilesLookUp.Directories.Contains(content.Text)
-										select PathUtils.GetLocalPath(Path.Combine(baseDir, content.Text)))
+					foreach (string dir in from subEntry in loadableFilesDirectoriesEntry.SubEntries
+										   let content = subEntry.Value.GetContent<TextContent>()
+										   where content != null &&
+												 !ExtraFilesLookUp.Directories.Contains(content.Text)
+										   select PathUtils.GetLocalPath(Path.Combine(baseDir, content.Text)))
 					{
 						ExtraFilesLookUp.Directories.Add(dir);
 					}
@@ -190,7 +190,7 @@ namespace Launcher
 		{
 			if (appConfigurationDatabase.Contains(entryName, false))
 			{
-				var entryText = appConfigurationDatabase[entryName].GetContent<TextContent>().Text;
+				string entryText = appConfigurationDatabase[entryName].GetContent<TextContent>().Text;
 				return entryText == "Nothing" ? null : entryText;
 			}
 

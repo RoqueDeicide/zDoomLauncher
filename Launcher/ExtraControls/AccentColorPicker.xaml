@@ -116,15 +116,6 @@
 						<ResourceDictionary x:Key="Light" ui:ThemeDictionary.Key="Light">
 							<SolidColorBrush x:Key="SystemControlHighlightListLowBrush" Color="{StaticResource SystemBaseHighColor}" />
 							<SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="{StaticResource SystemBaseHighColor}" />
-							<SolidColorBrush x:Key="SystemControlHighlightListAccentMediumBrush"
-							                 Color="{StaticResource SystemBaseHighColor}" />
-							<SolidColorBrush x:Key="SystemControlForegroundBaseMediumHighBrush" Color="{StaticResource SystemAltHighColor}" />
-						</ResourceDictionary>
-						<ResourceDictionary x:Key="Dark" ui:ThemeDictionary.Key="Dark">
-							<SolidColorBrush x:Key="SystemControlHighlightListLowBrush" Color="{StaticResource SystemBaseHighColor}" />
-							<SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="{StaticResource SystemBaseHighColor}" />
-							<SolidColorBrush x:Key="SystemControlHighlightListAccentMediumBrush"
-							                 Color="{StaticResource SystemBaseHighColor}" />
 							<SolidColorBrush x:Key="SystemControlForegroundBaseMediumHighBrush" Color="{StaticResource SystemAltHighColor}" />
 						</ResourceDictionary>
 					</ui:ResourceDictionaryEx.ThemeDictionaries>

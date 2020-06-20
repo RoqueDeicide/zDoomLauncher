@@ -44,6 +44,7 @@ namespace Launcher
 				value = max;
 			}
 		}
+
 		/// <summary>
 		/// Returns a value that indicates whether the specified value is not a number (System.Double.NaN).
 		/// </summary>

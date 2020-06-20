@@ -192,7 +192,6 @@ namespace Launcher.Configs
 
 				using (dehPatches)
 				{
-
 					if (dehPatches.MoveNext())
 					{
 						line.Append(" -deh ");
@@ -407,7 +406,8 @@ namespace Launcher.Configs
 
 		#region Utilities
 
-		// Creates a string that represents a path to the file that is properly recognized by the command line interpreter.
+		// Creates a string that represents a path to the file that is properly recognized by the command line
+		// interpreter.
 		private static string GetValidPath(string file, string exeFolder, bool toRelative = true)
 		{
 			string path = null;
@@ -416,7 +416,7 @@ namespace Launcher.Configs
 			{
 				if (exeFolder != null)
 				{
-					var doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+					string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
 
 					if (!string.IsNullOrWhiteSpace(doomWadDir) && Path.GetDirectoryName(file) == doomWadDir)
 					{

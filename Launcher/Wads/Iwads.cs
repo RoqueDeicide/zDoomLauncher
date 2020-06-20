@@ -12,14 +12,19 @@ namespace Launcher
 	public static class Iwads
 	{
 		#region Fields
+
 		private static string iwadFolder;
 		private static readonly FileSystemWatcher Watcher;
+
 		/// <summary>
 		/// A list of supported IWAD files.
 		/// </summary>
 		public static readonly List<IwadFile> SupportedIwads;
+
 		#endregion
+
 		#region Properties
+
 		/// <summary>
 		/// Gets or sets the path to the folder where to look for IWAD files.
 		/// </summary>
@@ -36,22 +41,30 @@ namespace Launcher
 				}
 			}
 		}
+
 		#endregion
+
 		#region Events
+
 		/// <summary>
 		/// Occurs when one of the static properties changes its value.
 		/// </summary>
 		public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
 		/// <summary>
 		/// Occurs before this class updates availability status of all IWAD files.
 		/// </summary>
 		public static event EventHandler Updating;
+
 		/// <summary>
 		/// Occurs after this class updates availability status of all IWAD files.
 		/// </summary>
 		public static event EventHandler Updated;
+
 		#endregion
+
 		#region Construction
+
 		static Iwads()
 		{
 			SupportedIwads = new List<IwadFile>
@@ -94,16 +107,20 @@ namespace Launcher
 			Watcher.Created += WatcherOnCreated;
 			Watcher.Deleted += WatcherOnDeleted;
 		}
+
 		#endregion
-		#region Interface
-		#endregion
+
+
+
 		#region Utilities
+
 		[NotifyPropertyChangedInvocator]
 		private static void OnStaticPropertyChanged(string propertyName = null)
 		{
 			var handler = StaticPropertyChanged;
 			handler?.Invoke(null, new PropertyChangedEventArgs(propertyName));
 		}
+
 		private static void UpdateAvailableIwads(bool folderChanged = true)
 		{
 			OnUpdating();
@@ -114,9 +131,9 @@ namespace Launcher
 				Watcher.EnableRaisingEvents = true;
 			}
 
-			var doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+			string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
 
-			foreach (var iwad in SupportedIwads)
+			foreach (IwadFile iwad in SupportedIwads)
 			{
 				iwad.Available = File.Exists(Path.Combine(iwadFolder, iwad.FileName)) ||
 								 doomWadDir != null && File.Exists(Path.Combine(doomWadDir, iwad.FileName));
@@ -124,28 +141,34 @@ namespace Launcher
 
 			OnUpdated();
 		}
+
 		private static void WatcherOnDeleted(object sender, FileSystemEventArgs fileSystemEventArgs)
 		{
 			UpdateAvailableIwads(false);
 		}
+
 		private static void WatcherOnCreated(object sender, FileSystemEventArgs fileSystemEventArgs)
 		{
 			UpdateAvailableIwads(false);
 		}
+
 		private static void WatcherOnRenamed(object sender, RenamedEventArgs renamedEventArgs)
 		{
 			UpdateAvailableIwads(false);
 		}
+
 		private static void OnUpdating()
 		{
-			var handler = Updating;
+			EventHandler handler = Updating;
 			handler?.Invoke(null, EventArgs.Empty);
 		}
+
 		private static void OnUpdated()
 		{
-			var handler = Updated;
+			EventHandler handler = Updated;
 			handler?.Invoke(null, EventArgs.Empty);
 		}
+
 		#endregion
 	}
 }

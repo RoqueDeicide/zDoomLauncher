@@ -127,11 +127,11 @@ namespace Launcher
 
 		private void Launch(string appFileName)
 		{
-			var appFile     = PathIO.Combine(this.zDoomFolder, appFileName);
-			var commandLine = this.config.GetCommandLine(this.zDoomFolder);
+			string appFile     = PathIO.Combine(this.zDoomFolder, appFileName);
+			string commandLine = this.config.GetCommandLine(this.zDoomFolder);
 
-			var appExists       = File.Exists(appFile);
-			var commandLineFits = commandLine.Length + appFile.Length <= CommandLineMaxLength;
+			bool appExists       = File.Exists(appFile);
+			bool commandLineFits = commandLine.Length + appFile.Length <= CommandLineMaxLength;
 
 			if (appExists && commandLineFits)
 			{
@@ -139,7 +139,7 @@ namespace Launcher
 			}
 			else
 			{
-				var multipleErrors = !appExists && !commandLineFits;
+				bool multipleErrors = !appExists && !commandLineFits;
 
 				var error = new StringBuilder(100);
 
@@ -164,7 +164,7 @@ namespace Launcher
 					error.AppendLine("      are not in the same directory as the application.");
 				}
 
-				var errorText = error.ToString();
+				string errorText = error.ToString();
 				Log.Error(errorText);
 				MessageBox.Show(errorText, "Cannot launch the game", MessageBoxButton.OK,
 								MessageBoxImage.Error, MessageBoxResult.OK);
@@ -215,9 +215,9 @@ namespace Launcher
 
 		private void ShowCommandLine(object sender, RoutedEventArgs e)
 		{
-			var appPath = Path.Combine(this.zDoomFolder, this.currentExeFile);
+			string appPath = Path.Combine(this.zDoomFolder, this.currentExeFile);
 
-			var commandLineArgs = this.config.GetCommandLine(this.zDoomFolder);
+			string commandLineArgs = this.config.GetCommandLine(this.zDoomFolder);
 
 			new CommandLineWindow($"{appPath} {commandLineArgs}").ShowDialog();
 		}
@@ -253,7 +253,7 @@ namespace Launcher
 										 PrimaryButtonText = "Choose another"
 									 };
 
-					var result = await messageBox.ShowAsync();
+					ContentDialogResult result = await messageBox.ShowAsync();
 
 					if (result == ContentDialogResult.None)
 					{
@@ -307,12 +307,12 @@ namespace Launcher
 									  Content = PathIO.GetFileName(exeFile)
 								  };
 
-			foreach (var comboBoxItem in exeFiles)
+			foreach (ComboBoxItem comboBoxItem in exeFiles)
 			{
 				this.ExeFileNameComboBox.Items.Add(comboBoxItem);
 			}
 
-			var currentExeFileFullName = PathIO.Combine(this.zDoomFolder, this.currentExeFile ?? "");
+			string currentExeFileFullName = PathIO.Combine(this.zDoomFolder, this.currentExeFile ?? "");
 
 			if (this.currentExeFile == null || !File.Exists(currentExeFileFullName))
 			{
@@ -379,9 +379,9 @@ namespace Launcher
 
 		private LaunchConfiguration LoadConfiguration(string configFile)
 		{
-			var loadedConfig = LaunchConfiguration.Load(configFile, this.zDoomFolder);
+			LaunchConfiguration loadedConfig = LaunchConfiguration.Load(configFile, this.zDoomFolder);
 
-			var doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+			string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
 
 			if (!string.IsNullOrWhiteSpace(doomWadDir) && !ExtraFilesLookUp.Directories.Contains(doomWadDir))
 			{

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -84,10 +85,10 @@ namespace Launcher
 				var files = ExtraFilesLookUp.LoadableFiles;
 
 				// Add files that are available to the list.
-				foreach (var file in from filePath in value
-									 let fileDesc = files.FirstOrDefault(x => x.FullPath == filePath)
-									 where fileDesc != null
-									 select fileDesc)
+				foreach (FileDesc file in from filePath in value
+										  let fileDesc = files.FirstOrDefault(x => x.FullPath == filePath)
+										  where fileDesc != null
+										  select fileDesc)
 				{
 					this.FileSelection.Add(file);
 					file.Selected = true;
@@ -113,7 +114,7 @@ namespace Launcher
 
 			this.InitializeComponent();
 
-			var allFilesCollView = CollectionViewSource.GetDefaultView(this.AllFilesListBox.ItemsSource);
+			ICollectionView allFilesCollView = CollectionViewSource.GetDefaultView(this.AllFilesListBox.ItemsSource);
 			allFilesCollView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
 
 			ExtraFilesLookUp.LoadableFiles.CollectionChanged += this.RemoveUnavailableSelection;
@@ -135,7 +136,7 @@ namespace Launcher
 
 		private void ClearSelection()
 		{
-			foreach (var file in this.FileSelection.OfType<FileDesc>())
+			foreach (FileDesc file in this.FileSelection.OfType<FileDesc>())
 			{
 				file.Selected = false;
 			}
@@ -151,7 +152,7 @@ namespace Launcher
 				case NotifyCollectionChangedAction.Replace:
 				case NotifyCollectionChangedAction.Reset:
 
-					for (var i = 0; i < this.FileSelection.Count; i++)
+					for (int i = 0; i < this.FileSelection.Count; i++)
 					{
 						var file = this.FileSelection[i] as FileDesc;
 

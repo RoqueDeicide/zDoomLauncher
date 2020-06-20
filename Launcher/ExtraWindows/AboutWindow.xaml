@@ -6,20 +6,31 @@
 		ui:WindowHelper.UseModernWindowStyle="True"
         ui:ThemeManager.IsThemeAware="True">
 	<Grid>
-		<TextBox x:Name="AssemblyTitleTextBox" HorizontalAlignment="Left" Margin="88,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="262" VerticalContentAlignment="Center" />
-		<Label Content="Title" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="32" VerticalContentAlignment="Center" />
+		<TextBox x:Name="AssemblyTitleTextBox" HorizontalAlignment="Left" Margin="88,10,0,0" TextWrapping="Wrap"
+		         VerticalAlignment="Top" Width="262" VerticalContentAlignment="Center" />
+		<Label Content="Title" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="32"
+		       VerticalContentAlignment="Center" />
 		<Label Content="Description" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" />
-		<Label Content="Product" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top" Height="32" VerticalContentAlignment="Center" />
-		<Label Content="Copyright" HorizontalAlignment="Left" Margin="10,144,0,0" VerticalAlignment="Top" Height="32" VerticalContentAlignment="Center" />
-		<Label Content="Program version" HorizontalAlignment="Left" Margin="10,181,0,0" VerticalAlignment="Top" Height="32" VerticalContentAlignment="Center" />
-		<Label Content="File version" HorizontalAlignment="Left" Margin="11,213,0,0" VerticalAlignment="Top" Height="32" VerticalContentAlignment="Center" Width="80" />
-		<TextBox x:Name="AssemblyDescriptionTextBox" HorizontalAlignment="Left" Height="55" Margin="88,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="262" />
-		<TextBox x:Name="AssemblyProductTextBox" HorizontalAlignment="Left" Margin="88,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="262" />
-		<TextBox x:Name="AssemblyCopyrightTextBox" HorizontalAlignment="Left" Margin="88,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="262" />
-		<TextBox x:Name="AssemblyVersionTextBox" HorizontalAlignment="Left" Margin="116,181,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="234" VerticalContentAlignment="Center" />
-		<TextBox x:Name="AssemblyFileVersionTextBox" HorizontalAlignment="Left" Margin="116,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="234" VerticalContentAlignment="Center" />
+		<Label Content="Product" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top" Height="32"
+		       VerticalContentAlignment="Center" />
+		<Label Content="Copyright" HorizontalAlignment="Left" Margin="10,144,0,0" VerticalAlignment="Top" Height="32"
+		       VerticalContentAlignment="Center" />
+		<Label Content="Program version" HorizontalAlignment="Left" Margin="10,181,0,0" VerticalAlignment="Top" Height="32"
+		       VerticalContentAlignment="Center" />
+		<Label Content="File version" HorizontalAlignment="Left" Margin="11,213,0,0" VerticalAlignment="Top" Height="32"
+		       VerticalContentAlignment="Center" Width="80" />
+		<TextBox x:Name="AssemblyDescriptionTextBox" HorizontalAlignment="Left" Height="55" Margin="88,47,0,0"
+		         TextWrapping="Wrap" VerticalAlignment="Top" Width="262" />
+		<TextBox x:Name="AssemblyProductTextBox" HorizontalAlignment="Left" Margin="88,107,0,0" TextWrapping="Wrap"
+		         VerticalAlignment="Top" Width="262" />
+		<TextBox x:Name="AssemblyCopyrightTextBox" HorizontalAlignment="Left" Margin="88,144,0,0" TextWrapping="Wrap"
+		         VerticalAlignment="Top" Width="262" />
+		<TextBox x:Name="AssemblyVersionTextBox" HorizontalAlignment="Left" Margin="116,181,0,0" TextWrapping="Wrap"
+		         VerticalAlignment="Top" Width="234" VerticalContentAlignment="Center" />
+		<TextBox x:Name="AssemblyFileVersionTextBox" HorizontalAlignment="Left" Margin="116,218,0,0" TextWrapping="Wrap"
+		         VerticalAlignment="Top" Width="234" VerticalContentAlignment="Center" />
 		<RichTextBox HorizontalAlignment="Left" Height="105" Margin="10,255,0,0" VerticalAlignment="Top"
-					 Width="340" IsDocumentEnabled="True" IsReadOnly="True">
+		             Width="340" IsDocumentEnabled="True" IsReadOnly="True">
 			<RichTextBox.Resources>
 				<Style TargetType="Hyperlink">
 					<Setter Property="Cursor" Value="Hand" />
@@ -30,8 +41,10 @@
 				<Paragraph>
 					<Run>This project uses icons from</Run>
 					<Hyperlink NavigateUri="http://p.yusukekamiyamane.com/">Fugue Icons</Hyperlink>
-					<Run>Pack by Yusuke Kamiyamane, letter Z with grey background icon by Supratim Nayak (HYDRATTZ)
-						and icons from the website</Run>
+					<Run>
+						Pack by Yusuke Kamiyamane, letter Z with grey background icon by Supratim Nayak (HYDRATTZ)
+						and icons from the website
+					</Run>
 					<Hyperlink NavigateUri="http://icons8.com">Icons8</Hyperlink>
 					<Run>.</Run>
 				</Paragraph>

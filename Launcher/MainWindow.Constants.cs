@@ -11,12 +11,12 @@
 		// Extension to use for application configuration file that contains the data in binary format.
 		private const string AppConfigurationBinaryExtension = "binaryConfig";
 
-		// Name of the application configuration entry that contains the path to the folder were Doom source port files are
-		// located.
+		// Name of the application configuration entry that contains the path to the folder were Doom source port files
+		// are located.
 		private const string GameFolderEntryName = "zDoomInstallationFolder";
 
-		// Name of the application configuration entry that contains the full name of the file that contains last used launch
-		// configuration.
+		// Name of the application configuration entry that contains the full name of the file that contains last used
+		// launch configuration.
 		private const string LastConfigurationFileEntryName = "LastLaunchConfigurationFile";
 
 		// Name of the application configuration entry that contains the name of the last used executable file.

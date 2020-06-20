@@ -7,7 +7,7 @@ namespace Launcher
 	/// </summary>
 	public static class EnumExtensions
 	{
-		[ThreadStatic] private static Enum getNameValueCache = null;
+		[ThreadStatic] private static Enum getNameValueCache;
 
 		/// <summary>
 		/// Gets the name of the constant in the enumeration.

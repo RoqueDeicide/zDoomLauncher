@@ -8,8 +8,8 @@ namespace Launcher
 {
 	public partial class ExtraFilesSelectionBox
 	{
-		// A point at which the mouse left button is clicked. Used to prevent the drag'n'drop operation from happening when
-		// the user simply clicks on the list box for selected files.
+		// A point at which the mouse left button is clicked. Used to prevent the drag'n'drop operation from happening
+		// when the user simply clicks on the list box for selected files.
 		private Point dragStartPoint;
 
 		private void SaveCurrentMousePosition(object sender, MouseButtonEventArgs e)
@@ -20,8 +20,8 @@ namespace Launcher
 		private void AttemptInitiateDragDrop(object sender, MouseEventArgs e)
 		{
 			// Check the new mouse position against the saved one.
-			var currentPosition = e.GetPosition(null);
-			var delta           = currentPosition - this.dragStartPoint;
+			Point currentPosition = e.GetPosition(null);
+			Vector delta           = currentPosition - this.dragStartPoint;
 
 			// See, if the mouse went sufficiently far away from the point of the click.
 			if (e.LeftButton == MouseButtonState.Released ||
@@ -48,11 +48,11 @@ namespace Launcher
 				return;
 			}
 
-			var source = e.Data.GetData(typeof(FileDesc));
-			var target = listBoxItem.DataContext;
+			object source = e.Data.GetData(typeof(FileDesc));
+			object target = listBoxItem.DataContext;
 
-			var sourceIndex = this.FileSelection.IndexOf(source);
-			var targetIndex = this.FileSelection.IndexOf(target);
+			int sourceIndex = this.FileSelection.IndexOf(source);
+			int targetIndex = this.FileSelection.IndexOf(target);
 
 			var targetFile = (FileDesc) target;
 			if (targetFile.DragOverBottom == Visibility.Visible)
@@ -74,12 +74,12 @@ namespace Launcher
 				return;
 			}
 
-			var source = this.FileSelection[sourceIndex];
+			object source = this.FileSelection[sourceIndex];
 
 			if (sourceIndex < destinationIndex)
 			{
-				// Removal of the item from the list causes the destination index to point at the item 1 further away from
-				// the start.
+				// Removal of the item from the list causes the destination index to point at the item 1 further away
+				// from the start.
 				this.FileSelection.RemoveAt(sourceIndex);
 				this.FileSelection.Insert(destinationIndex - 1, source);
 			}
@@ -105,8 +105,8 @@ namespace Launcher
 			Debug.Assert(cp != null, "cp != null");
 
 			// Check the coordinates of the mouse relative to the ContentPresenter of the list box item.
-			var position   = e.GetPosition(cp);
-			var halfHeight = (int) item.ActualHeight / 2; // 0-9: upper half, 10-19: lower half.
+			Point position   = e.GetPosition(cp);
+			int halfHeight = (int) item.ActualHeight / 2; // 0-9: upper half, 10-19: lower half.
 
 			if (position.Y < halfHeight)
 			{

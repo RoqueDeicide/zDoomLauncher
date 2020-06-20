@@ -59,7 +59,7 @@ namespace Launcher
 		[NotifyPropertyChangedInvocator]
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
-			var handler = this.PropertyChanged;
+			PropertyChangedEventHandler handler = this.PropertyChanged;
 			handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}

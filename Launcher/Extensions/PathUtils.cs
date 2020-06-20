@@ -17,7 +17,7 @@ namespace Launcher
 		{
 			var pathUri = new Uri(path, UriKind.RelativeOrAbsolute);
 
-			var localPath = pathUri.LocalPath;
+			string localPath = pathUri.LocalPath;
 
 			return localPath;
 		}
@@ -54,10 +54,10 @@ namespace Launcher
 		public static string ToRelativePath(Uri fullUri, Uri folderUri)
 		{
 			// Create the relative URI.
-			var relativeUri = folderUri.MakeRelativeUri(fullUri);
+			Uri relativeUri = folderUri.MakeRelativeUri(fullUri);
 
 			// Convert URI to its text representation.
-			var relativePath = relativeUri.ToString();
+			string relativePath = relativeUri.ToString();
 
 			// Unescape the URI string (e.g. convert %20 to spaces).
 			relativePath = Uri.UnescapeDataString(relativePath);
@@ -71,8 +71,8 @@ namespace Launcher
 		/// </summary>
 		/// <param name="folderPath">Path to the folder.</param>
 		/// <returns>
-		/// If <paramref name="folderPath"/> ends with a backslash, then it gets returned as is, otherwise a new string that
-		/// represents <paramref name="folderPath"/> with an appended backslash is returned.
+		/// If <paramref name="folderPath"/> ends with a backslash, then it gets returned as is, otherwise a new string
+		/// that represents <paramref name="folderPath"/> with an appended backslash is returned.
 		/// </returns>
 		/// <exception cref="ArgumentException">Cannot make a path to the file end with a backslash.</exception>
 		public static string EndWithBackSlash(string folderPath)

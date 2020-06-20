@@ -7,6 +7,6 @@
         ui:ThemeManager.IsThemeAware="True">
 	<Grid>
 		<TextBox x:Name="CommandLineTextBox" Margin="10,10,10,47" TextWrapping="Wrap" Focusable="False" />
-		<RichTextBox x:Name="CharacterCountTextBox" Height="32" Margin="10,0,10,10" VerticalAlignment="Bottom" Focusable="False" VerticalContentAlignment="Center"/>
+		<RichTextBox x:Name="CharacterCountTextBox" Height="32" Margin="10,0,10,10" VerticalAlignment="Bottom" Focusable="False" VerticalContentAlignment="Center" />
 	</Grid>
 </Window>

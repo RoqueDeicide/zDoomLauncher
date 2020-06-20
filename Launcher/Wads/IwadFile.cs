@@ -55,9 +55,9 @@ namespace Launcher
 		/// </summary>
 		/// <returns>
 		/// A value that indicates the relative order of the objects being compared. The return value has the following
-		/// meanings: Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.Zero This
-		/// object is equal to <paramref name="other"/>. Greater than zero This object is greater than <paramref
-		/// name="other"/>.
+		/// meanings: Value Meaning Less than zero means this object is less than the <paramref name="other"/>
+		/// parameter. Zero means this object is equal to <paramref name="other"/>. Greater than zero means this object
+		/// is greater than <paramref name="other"/>.
 		/// </returns>
 		/// <param name="other">An object to compare with this object.</param>
 		public int CompareTo(IwadFile other)

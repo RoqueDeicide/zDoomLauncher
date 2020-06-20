@@ -12,8 +12,8 @@ namespace Launcher
 		#region Fields
 
 		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when they are moused
-		/// over.
+		/// A dependency property that represents the brush that is used to render the spinner buttons when they are
+		/// moused over.
 		/// </summary>
 		public static readonly DependencyProperty HighlightedBrushProperty =
 			DependencyProperty.Register("HighlightedBrush", typeof(Brush), typeof(SpinnerButtons),
@@ -22,7 +22,8 @@ namespace Launcher
 											 FrameworkPropertyMetadataOptions.AffectsRender));
 
 		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when they are pressed.
+		/// A dependency property that represents the brush that is used to render the spinner buttons when they are
+		/// pressed.
 		/// </summary>
 		public static readonly DependencyProperty PressedBrushProperty =
 			DependencyProperty.Register("PressedBrush", typeof(Brush), typeof(SpinnerButtons),
@@ -161,7 +162,7 @@ namespace Launcher
 		/// <param name="e">Event arguments.</param>
 		protected virtual void OnClickUp(RoutedEventArgs e)
 		{
-			var handler = this.ClickUp;
+			RoutedEventHandler handler = this.ClickUp;
 			handler?.Invoke(this, e);
 		}
 
@@ -171,7 +172,7 @@ namespace Launcher
 		/// <param name="e">Event arguments.</param>
 		protected virtual void OnClickDown(RoutedEventArgs e)
 		{
-			var handler = this.ClickDown;
+			RoutedEventHandler handler = this.ClickDown;
 			handler?.Invoke(this, e);
 		}
 

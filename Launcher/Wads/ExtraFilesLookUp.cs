@@ -31,7 +31,8 @@ namespace Launcher
 		public static readonly ObservableCollection<string> Directories = new ObservableCollection<string>();
 
 		/// <summary>
-		/// An observable collection of absolute paths to all loadable files that were found in <see cref="Directories"/>.
+		/// An observable collection of absolute paths to all loadable files that were found in <see
+		/// cref="Directories"/>.
 		/// </summary>
 		public static readonly ObservableCollection<FileDesc> LoadableFiles =
 			new ObservableCollection<FileDesc>();
@@ -59,7 +60,6 @@ namespace Launcher
 		}
 
 		#endregion
-
 
 		#region Construction
 
@@ -109,24 +109,24 @@ namespace Launcher
 
 		private static bool IsLoadableFile(string filePath)
 		{
-			var fileName = Path.GetFileName(filePath);
+			string fileName = Path.GetFileName(filePath);
 			if (fileName == null)
 			{
 				return false;
 			}
 
 			fileName = fileName.ToLowerInvariant();
-			var extension = Path.GetExtension(fileName).ToLowerInvariant();
+			string extension = Path.GetExtension(fileName).ToLowerInvariant();
 
 			bool Predicate(IwadFile iwad) => iwad.FileName.Equals(fileName);
 
 #if DEBUG
 			// For debugger.
-			var isIwad = Iwads.SupportedIwads.Any(Predicate);
+			bool isIwad = Iwads.SupportedIwads.Any(Predicate);
 
-			var isLoadable = extension == ".wad" || extension == ".pk3";
+			bool isLoadable = extension == ".wad" || extension == ".pk3";
 
-			var isBlacklisted = WadBlacklist.Contains(fileName);
+			bool isBlacklisted = WadBlacklist.Contains(fileName);
 
 			return !isIwad && isLoadable && !isBlacklisted;
 #else
@@ -142,7 +142,7 @@ namespace Launcher
 		public static void Refresh()
 		{
 			// Refresh directories.
-			for (var i = 0; i < Directories.Count; i++)
+			for (int i = 0; i < Directories.Count; i++)
 			{
 				if (!Directory.Exists(Directories[i]))
 				{
@@ -157,7 +157,7 @@ namespace Launcher
 		private static void RefreshFiles()
 		{
 			// Remove files that don't exist.
-			for (var i = 0; i < LoadableFiles.Count; i++)
+			for (int i = 0; i < LoadableFiles.Count; i++)
 			{
 				if (!File.Exists(LoadableFiles[i].FullPath))
 				{
@@ -165,7 +165,7 @@ namespace Launcher
 				}
 			}
 
-			foreach (var directory in Directories)
+			foreach (string directory in Directories)
 			{
 				RefreshFilesInDirectory(directory);
 			}
@@ -175,13 +175,13 @@ namespace Launcher
 		{
 			//int currentEnumeratedFileIndex = 0;
 
-			// This should point at the first file from current directory. All files from the same directory should be in the
-			// continuous sequence within the collection.
-			var currentCollectionFileIndex = LoadableFiles.IndexOfToEnd(x => x.Directory == directory);
+			// This should point at the first file from current directory. All files from the same directory should be
+			// in the continuous sequence within the collection.
+			int currentCollectionFileIndex = LoadableFiles.IndexOfToEnd(x => x.Directory == directory);
 
 			var enumeratedFiles = GetLoadableFiles(directory);
 
-			foreach (var enumeratedFile in enumeratedFiles)
+			foreach (string enumeratedFile in enumeratedFiles)
 			{
 				if (currentCollectionFileIndex ==
 					LoadableFiles.Count || // Make sure we don't get index out of range error.
@@ -241,9 +241,9 @@ namespace Launcher
 
 		private static void AddFilesFromDirectories(IEnumerable<string> directories)
 		{
-			foreach (var loadableFile in from directory in directories
-										 from file in GetLoadableFiles(directory)
-										 select file)
+			foreach (string loadableFile in from directory in directories
+											from file in GetLoadableFiles(directory)
+											select file)
 			{
 				LoadableFiles.Add(new FileDesc(loadableFile));
 			}
@@ -251,9 +251,9 @@ namespace Launcher
 
 		private static void RemoveFilesInDirectories(IEnumerable<string> directories)
 		{
-			foreach (var directory in directories)
+			foreach (string directory in directories)
 			{
-				for (var i = 0; i < LoadableFiles.Count; i++)
+				for (int i = 0; i < LoadableFiles.Count; i++)
 				{
 					if (LoadableFiles[i].Directory == directory)
 					{

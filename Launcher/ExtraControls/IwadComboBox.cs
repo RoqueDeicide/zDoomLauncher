@@ -43,7 +43,7 @@ namespace Launcher
 		/// <param name="fileName">Name of the file that represents the IWAD.</param>
 		public void Select(string fileName)
 		{
-			var index = this.Files.IndexOf(x => x.FileName == fileName);
+			int index = this.Files.IndexOf(x => x.FileName == fileName);
 
 			if (index != -1)
 			{

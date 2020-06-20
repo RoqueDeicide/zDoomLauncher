@@ -5,7 +5,7 @@ using System.Windows.Media;
 namespace Launcher
 {
 	/// <summary>
-	/// Represents a single button in <see cref="NumericUpDown"/> control.
+	/// Represents a button that represents either a arrow down or up.
 	/// </summary>
 	public class SpinnerButton : Button
 	{

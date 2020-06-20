@@ -27,8 +27,8 @@ namespace Launcher.Utilities
 			}
 			catch (Exception ex)
 			{
-				var initial = typeof(InitialType).FullName;
-				var result  = typeof(ResultType).FullName;
+				string initial = typeof(InitialType).FullName;
+				string result  = typeof(ResultType).FullName;
 				throw new InvalidCastException($"Unable to convert objects of type {initial} to {result}.", ex);
 			}
 		}
@@ -60,15 +60,15 @@ namespace Launcher.Utilities
 			}
 			catch (Exception ex)
 			{
-				var initial = typeof(InitialType).FullName;
-				var result  = typeof(ResultType).FullName;
+				string initial = typeof(InitialType).FullName;
+				string result  = typeof(ResultType).FullName;
 				throw new InvalidCastException($"Unable to convert objects of type {initial} to {result}.", ex);
 			}
 		}
 
 		/// <summary>
-		/// Attempts to convert a value of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>. This
-		/// function avoids boxing for value types.
+		/// Attempts to convert a value of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>.
+		/// This function avoids boxing for value types.
 		/// </summary>
 		/// <typeparam name="InitialType">Initial type of the value.</typeparam>
 		/// <param name="value"> Value to convert to <typeparamref name="ResultType"/>.</param>
@@ -89,8 +89,8 @@ namespace Launcher.Utilities
 		}
 
 		/// <summary>
-		/// Attempts to convert a value of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/> and
-		/// checks for overflow. This function avoids boxing for value types.
+		/// Attempts to convert a value of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>
+		/// and checks for overflow. This function avoids boxing for value types.
 		/// </summary>
 		/// <typeparam name="InitialType">Initial type of the value.</typeparam>
 		/// <param name="value"> Value to convert to <typeparamref name="ResultType"/>.</param>
@@ -117,15 +117,15 @@ namespace Launcher.Utilities
 
 			private static Func<InitialType, ResultType> GetUnchecked()
 			{
-				var parameter = Expression.Parameter(typeof(InitialType));
-				var convert   = Expression.Convert(parameter, typeof(ResultType));
+				ParameterExpression parameter = Expression.Parameter(typeof(InitialType));
+				UnaryExpression convert   = Expression.Convert(parameter, typeof(ResultType));
 				return Expression.Lambda<Func<InitialType, ResultType>>(convert, parameter).Compile();
 			}
 
 			private static Func<InitialType, ResultType> GetChecked()
 			{
-				var parameter = Expression.Parameter(typeof(InitialType));
-				var convert   = Expression.ConvertChecked(parameter, typeof(ResultType));
+				ParameterExpression parameter = Expression.Parameter(typeof(InitialType));
+				UnaryExpression convert   = Expression.ConvertChecked(parameter, typeof(ResultType));
 				return Expression.Lambda<Func<InitialType, ResultType>>(convert, parameter).Compile();
 			}
 		}

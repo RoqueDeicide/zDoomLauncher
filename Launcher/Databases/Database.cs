@@ -18,18 +18,20 @@ namespace Launcher.Databases
 	public static class DatabaseGlobals
 	{
 		/// <summary>
-		/// <see cref="int"/> instance that indicates beginning of group of sub-entries in binary representation of database
-		/// entry.
+		/// <see cref="int"/> instance that indicates beginning of group of sub-entries in binary representation of
+		/// database entry.
 		/// </summary>
 		public static readonly int SubEntriesStartMarker = 132383;
 
 		/// <summary>
-		/// <see cref="int"/> instance that indicates end of group of sub-entries in binary representation of database entry.
+		/// <see cref="int"/> instance that indicates end of group of sub-entries in binary representation of database
+		/// entry.
 		/// </summary>
 		public static readonly int SubEntriesEndMarker = 172383;
 
 		/// <summary>
-		/// <see cref="int"/> instance that indicates beginning of database entry in binary representation of database entry.
+		/// <see cref="int"/> instance that indicates beginning of database entry in binary representation of database
+		/// entry.
 		/// </summary>
 		public static readonly int EntryStartMarker = 1731;
 
@@ -59,7 +61,8 @@ namespace Launcher.Databases
 		public static readonly int BinaryDatabaseFileEndMarker = 2959;
 
 		/// <summary>
-		/// Gets the list of attributes that designate registered classes derived from <see cref="DatabaseEntryContent"/>.
+		/// Gets the list of attributes that designate registered classes derived from <see
+		/// cref="DatabaseEntryContent"/>.
 		/// </summary>
 		[NotNull] public static List<EntryContentAttribute> RegisteredContentTypes;
 
@@ -119,7 +122,6 @@ namespace Launcher.Databases
 		public int Count => this.topLevelEntries.Count;
 
 		#endregion
-
 
 		#region Interface
 
@@ -192,7 +194,9 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Determines whether this database contains an entry with specified name.
 		/// </summary>
-		/// <param name="name">             Name of the entry which presence in this database needs to be determined.</param>
+		/// <param name="name">             
+		/// Name of the entry which presence in this database needs to be determined.
+		/// </param>
 		/// <param name="searchLowerLevels">Indicates whether to search in sub-entries.</param>
 		/// <returns>True, if this database contains an entry with specified name, otherwise returns false.</returns>
 		public bool Contains(string name, bool searchLowerLevels)
@@ -227,8 +231,8 @@ namespace Launcher.Databases
 				File.Create(file).Close();
 			}
 
-			var rawExtension = Path.GetExtension(file);
-			var extension    = rawExtension?.Substring(1);
+			string rawExtension = Path.GetExtension(file);
+			string extension    = rawExtension?.Substring(1);
 
 			if (extension == this.BinaryFileExtension)
 			{
@@ -240,8 +244,11 @@ namespace Launcher.Databases
 			}
 			else
 			{
-				throw new ArgumentException(
-											$"Database.Save: Unable to recognize file extension. Use [{this.XmlFileExtension}] for Xml files and [{this.BinaryFileExtension}] for binaries. File that has been attempted to be saved: [{file}]. Extension is [{extension}]");
+				var m = new StringBuilder(100);
+				m.Append("Database.Save: Unable to recognize file extension. ");
+				m.Append($"Use [{this.XmlFileExtension}] for Xml files and [{this.BinaryFileExtension}] for binaries. ");
+				m.Append($"File that has been attempted to be saved: [{file}]. Extension is [{extension}]");
+				throw new ArgumentException(m.ToString());
 			}
 		}
 
@@ -258,8 +265,8 @@ namespace Launcher.Databases
 				throw new FileNotFoundException("Database.Load: File does not exist.");
 			}
 
-			var rawExtension = Path.GetExtension(file);
-			var extension    = rawExtension?.Substring(1);
+			string rawExtension = Path.GetExtension(file);
+			string extension    = rawExtension?.Substring(1);
 
 			if (extension == this.BinaryFileExtension)
 			{
@@ -314,7 +321,7 @@ namespace Launcher.Databases
 			var fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None);
 			using var bw = new BinaryWriter(fs, Encoding.UTF8);
 			bw.Write(DatabaseGlobals.BinaryDatabaseFileIdentifier);
-			foreach (var key in this.topLevelEntries.Keys)
+			foreach (string key in this.topLevelEntries.Keys)
 			{
 				bw.Write(DatabaseGlobals.EntryStartMarker);
 				this.topLevelEntries[key].ToBinary(bw);
@@ -343,12 +350,12 @@ namespace Launcher.Databases
 		private void SaveXml(string file)
 		{
 			var document    = new XmlDocument();
-			var declaration = document.CreateXmlDeclaration("1.0", null, null);
+			XmlDeclaration declaration = document.CreateXmlDeclaration("1.0", null, null);
 			document.AppendChild(declaration);
-			var root = document.CreateElement("Data");
-			foreach (var key in this.topLevelEntries.Keys)
+			XmlElement root = document.CreateElement("Data");
+			foreach (string key in this.topLevelEntries.Keys)
 			{
-				var currentEntryElement = document.CreateElement(key);
+				XmlElement currentEntryElement = document.CreateElement(key);
 				this.topLevelEntries[key].ToXml(document, currentEntryElement);
 				root.AppendChild(currentEntryElement);
 			}
@@ -443,8 +450,8 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <typeparam name="T">Type of the content.</typeparam>
 		/// <returns>
-		/// Content of this entry if <typeparamref name="T"/> matches the type of content of this entry. Otherwise returns
-		/// default value of <typeparamref name="T"/>.
+		/// Content of this entry if <typeparamref name="T"/> matches the type of content of this entry. Otherwise
+		/// returns default value of <typeparamref name="T"/>.
 		/// </returns>
 		public T GetContent<T>() where T : DatabaseEntryContent
 		{
@@ -479,8 +486,8 @@ namespace Launcher.Databases
 		/// Creates binary representation of this entry and its sub-entries.
 		/// </summary>
 		/// <param name="bw">
-		/// <see cref="BinaryWriter"/> object that provides access to binary stream to which binary representation of this
-		/// entry is written to.
+		/// <see cref="BinaryWriter"/> object that provides access to binary stream to which binary representation of
+		/// this entry is written to.
 		/// </param>
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		/// <exception cref="ObjectDisposedException">The stream is closed.</exception>
@@ -503,7 +510,7 @@ namespace Launcher.Databases
 			if (this.SubEntries.Count == 0) return;
 
 			bw.Write(DatabaseGlobals.SubEntriesStartMarker);
-			foreach (var key in this.SubEntries.Keys)
+			foreach (string key in this.SubEntries.Keys)
 			{
 				bw.Write(DatabaseGlobals.EntryStartMarker);
 				this.SubEntries[key].ToBinary(bw);
@@ -516,8 +523,8 @@ namespace Launcher.Databases
 		/// Parses given binary data into database entry.
 		/// </summary>
 		/// <param name="br">
-		/// <see cref="BinaryReader"/> object that provides access to binary stream which contains binary representation of
-		/// database entry.
+		/// <see cref="BinaryReader"/> object that provides access to binary stream which contains binary representation
+		/// of database entry.
 		/// </param>
 		/// <exception cref="EndOfStreamException">The end of the stream is reached.</exception>
 		/// <exception cref="IOException">An I/O error occurs.</exception>
@@ -531,18 +538,20 @@ namespace Launcher.Databases
 		/// </exception>
 		/// <exception cref="TargetInvocationException">The invoked constructor throws an exception.</exception>
 		/// <exception cref="TargetParameterCountException">An incorrect number of parameters was passed.</exception>
-		/// <exception cref="SecurityException">The caller does not have the necessary code access permission.</exception>
+		/// <exception cref="SecurityException">
+		/// The caller does not have the necessary code access permission.
+		/// </exception>
 		public void FromBinary(BinaryReader br)
 		{
 			this.Name = br.ReadLongString(Encoding.UTF8);
 			// Read the content. Use attributes to identify appropriate type.
-			var contentMarker = br.ReadInt32();
+			int contentMarker = br.ReadInt32();
 			if (contentMarker == DatabaseGlobals.EntryContentPresentMarker)
 			{
-				var contentType =
+				EntryContentAttribute contentType =
 					DatabaseGlobals.RegisteredContentTypes.Find(x => x.TypeHash == br.ReadInt32());
 
-				var constructor =
+				ConstructorInfo constructor =
 					contentType?.AttributedClass.GetConstructor(Type.EmptyTypes);
 				if (constructor != null)
 				{
@@ -576,9 +585,9 @@ namespace Launcher.Databases
 			if (this.Content != null)
 			{
 				hostElement.SetAttribute("hasContent", "1");
-				var contentTypeObject = this.Content.GetType();
-				var attr = DatabaseGlobals.RegisteredContentTypes.Find(x => x.AttributedClass == contentTypeObject);
-				var contentElement = document.CreateElement(attr.TypeName);
+				Type contentTypeObject = this.Content.GetType();
+				EntryContentAttribute attr = DatabaseGlobals.RegisteredContentTypes.Find(x => x.AttributedClass == contentTypeObject);
+				XmlElement contentElement = document.CreateElement(attr.TypeName);
 				this.Content.ToXml(document, contentElement);
 				hostElement.AppendChild(contentElement);
 			}
@@ -589,9 +598,9 @@ namespace Launcher.Databases
 
 			if (this.SubEntries.Count == 0) return;
 
-			foreach (var key in this.SubEntries.Keys)
+			foreach (string key in this.SubEntries.Keys)
 			{
-				var currentSubEntryElement = document.CreateElement(key);
+				XmlElement currentSubEntryElement = document.CreateElement(key);
 				this.SubEntries[key].ToXml(document, currentSubEntryElement);
 				hostElement.AppendChild(currentSubEntryElement);
 			}
@@ -601,8 +610,8 @@ namespace Launcher.Databases
 		/// Parses given Xml data as representation of the <see cref="DatabaseEntry"/> instance.
 		/// </summary>
 		/// <param name="element">
-		/// <see cref="XmlElement"/> object that provides access to Xml representation of this <see cref="DatabaseEntry"/>
-		/// object.
+		/// <see cref="XmlElement"/> object that provides access to Xml representation of this <see
+		/// cref="DatabaseEntry"/> object.
 		/// </param>
 		/// <exception cref="MemberAccessException">
 		/// The class is abstract.-or- The constructor is a class initializer.
@@ -613,13 +622,15 @@ namespace Launcher.Databases
 		/// </exception>
 		/// <exception cref="TargetInvocationException">The invoked constructor throws an exception.</exception>
 		/// <exception cref="TargetParameterCountException">An incorrect number of parameters was passed.</exception>
-		/// <exception cref="SecurityException">The caller does not have the necessary code access permission.</exception>
+		/// <exception cref="SecurityException">
+		/// The caller does not have the necessary code access permission.
+		/// </exception>
 		public void FromXml(XmlElement element)
 		{
 			this.Name = element.Name;
-			var minimalAmountOfChildNodes = 0;
+			int minimalAmountOfChildNodes = 0;
 			var children                  = new List<XmlElement>(element.ChildNodes.Count);
-			for (var i = 0; i < element.ChildNodes.Count; i++)
+			for (int i = 0; i < element.ChildNodes.Count; i++)
 			{
 				if (element.ChildNodes[i] is XmlElement item)
 				{
@@ -629,11 +640,11 @@ namespace Launcher.Databases
 
 			if (element.GetAttribute("hasContent") == "1")
 			{
-				var contentElement = children[0];
-				var contentType =
+				XmlElement contentElement = children[0];
+				EntryContentAttribute contentType =
 					DatabaseGlobals.RegisteredContentTypes.Find(x => x.TypeName == contentElement.Name);
 
-				var constructor =
+				ConstructorInfo constructor =
 					contentType?.AttributedClass.GetConstructor(Type.EmptyTypes);
 				if (constructor != null)
 				{
@@ -645,7 +656,7 @@ namespace Launcher.Databases
 
 			if (element.ChildNodes.Count <= minimalAmountOfChildNodes) return;
 
-			foreach (var subEntry in children)
+			foreach (XmlElement subEntry in children)
 			{
 				var currentEntry = new DatabaseEntry();
 				currentEntry.FromXml(subEntry);
@@ -727,7 +738,7 @@ namespace Launcher.Databases
 			this.TypeName        = name;
 			this.AttributedClass = type;
 			this.TypeHash        = name.GetHashCode();
-			var other = DatabaseGlobals.RegisteredContentTypes.FirstOrDefault(x => x.TypeHash == this.TypeHash);
+			EntryContentAttribute other = DatabaseGlobals.RegisteredContentTypes.FirstOrDefault(x => x.TypeHash == this.TypeHash);
 			if (other != null)
 			{
 				throw new Exception(

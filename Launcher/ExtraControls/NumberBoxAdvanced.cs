@@ -8,9 +8,9 @@ namespace Launcher
 	/// A UI Element that represents a text field for input of numbers.
 	/// </summary>
 	/// <remarks>
-	/// This type of number box allows a default value to be used whenever the box is cleared. That means
-	/// <see cref="NumberBox.ValueChanged"/> event will be fired twice if <see cref="DefaultValue"/> is set to
-	/// an actual number and the first event is raised with an <see cref="double.NaN"/> value.
+	/// This type of number box allows a default value to be used whenever the box is cleared. That means <see
+	/// cref="NumberBox.ValueChanged"/> event will be fired twice if <see cref="DefaultValue"/> is set to an actual
+	/// number and the first event is raised with an <see cref="double.NaN"/> value.
 	/// </remarks>
 	public class NumberBoxAdvanced : NumberBox
 	{
@@ -22,6 +22,7 @@ namespace Launcher
 										typeof(double),
 										typeof(NumberBoxAdvanced),
 										new PropertyMetadata(default(double)));
+
 		/// <summary>
 		/// Gets or sets a default value of this number box.
 		/// </summary>
@@ -30,11 +31,13 @@ namespace Launcher
 			get => (double) this.GetValue(DefaultValueProperty);
 			set => this.SetValue(DefaultValueProperty, value);
 		}
+
 		static NumberBoxAdvanced()
 		{
 			DefaultStyleKeyProperty.OverrideMetadata(typeof(NumberBoxAdvanced),
 													 new FrameworkPropertyMetadata(typeof(NumberBoxAdvanced)));
 		}
+
 		/// <summary>
 		/// Creates a default instance of this type.
 		/// </summary>
@@ -64,9 +67,9 @@ namespace Launcher
 				this.ThrowError<Exception>("has its default value set out of range.");
 			}
 #endif
-			var def = MathExtra.Clamp(this.DefaultValue,
-									  double.IsNaN(this.Minimum) ? double.MinValue : this.Minimum,
-									  double.IsNaN(this.Maximum) ? double.MaxValue : this.Maximum);
+			double def = MathExtra.Clamp(this.DefaultValue,
+										 double.IsNaN(this.Minimum) ? double.MinValue : this.Minimum,
+										 double.IsNaN(this.Maximum) ? double.MaxValue : this.Maximum);
 			this.Value = def;
 		}
 

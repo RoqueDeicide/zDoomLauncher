@@ -10,8 +10,8 @@ namespace Launcher
 	public static class WpfExtensions
 	{
 		/// <summary>
-		/// Looks through the sequence of parents of given dependency object in search for a first occurrence of a parent of
-		/// type <typeparamref name="ParentType"/>.
+		/// Looks through the sequence of parents of given dependency object in search for a first occurrence of a
+		/// parent of type <typeparamref name="ParentType"/>.
 		/// </summary>
 		/// <typeparam name="ParentType">Type of parent to look for.</typeparam>
 		/// <param name="child">A dependency which parents need to be looked through.</param>
@@ -25,7 +25,7 @@ namespace Launcher
 				return null;
 			}
 
-			var currentParent = VisualTreeHelper.GetParent(child);
+			DependencyObject currentParent = VisualTreeHelper.GetParent(child);
 			while (currentParent != null)
 			{
 				if (currentParent is ParentType typedParent)
@@ -40,7 +40,8 @@ namespace Launcher
 		}
 
 		/// <summary>
-		/// Looks through the visual tree of the given dependency object in search for a child element of specified type.
+		/// Looks through the visual tree of the given dependency object in search for a child element of specified
+		/// type.
 		/// </summary>
 		/// <typeparam name="ChildType">Type of a child element to look for.</typeparam>
 		/// <param name="depObject">Dependency object which visual tree needs to be searched.</param>
@@ -54,9 +55,9 @@ namespace Launcher
 				return null;
 			}
 
-			for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObject); i++)
+			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObject); i++)
 			{
-				var child = VisualTreeHelper.GetChild(depObject, i);
+				DependencyObject child = VisualTreeHelper.GetChild(depObject, i);
 
 				if (child is ChildType visualChild)
 				{
@@ -72,6 +73,7 @@ namespace Launcher
 
 			return null;
 		}
+
 		/// <summary>
 		/// Converts WinRT color to WPF color.
 		/// </summary>
