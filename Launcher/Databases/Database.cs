@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -143,14 +142,22 @@ namespace Launcher.Databases
 		/// </summary>
 		public Database(string xmlExt, string binExt)
 		{
-			Contract.Requires(!string.IsNullOrWhiteSpace(xmlExt) && xmlExt.All(char.IsLetterOrDigit),
-							  "Invalid extension for XML files: extension must not be null or empty and " +
-							  "must only contain letters and/or digits.");
-			Contract.Requires(!string.IsNullOrWhiteSpace(xmlExt) && xmlExt.All(char.IsLetterOrDigit),
-							  "Invalid extension for binary files: extension must not be null or empty and " +
-							  "must only contain letters and/or digits.");
-			Contract.Requires(xmlExt != binExt,
-							  "Extensions for XML and binary files must be different.");
+			if (string.IsNullOrWhiteSpace(xmlExt) || xmlExt.Any(x => !char.IsLetterOrDigit(x)))
+			{
+				throw new ArgumentNullException("Invalid extension for XML files: extension must not be null " +
+												"or empty and must only contain letters and/or digits.");
+			}
+
+			if (string.IsNullOrWhiteSpace(binExt) || binExt.Any(x => !char.IsLetterOrDigit(x)))
+			{
+				throw new ArgumentNullException("Invalid extension for binary files: extension must not be null " +
+												"or empty and must only contain letters and/or digits.");
+			}
+
+			if (xmlExt == binExt)
+			{
+				throw new ArgumentException("Extensions for XML and binary files must be different.");
+			}
 
 			this.topLevelEntries     = new SortedList<string, DatabaseEntry>();
 			this.BinaryFileExtension = binExt;
@@ -318,7 +325,7 @@ namespace Launcher.Databases
 
 		private void SaveBinary(string file)
 		{
-			var fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None);
+			var       fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None);
 			using var bw = new BinaryWriter(fs, Encoding.UTF8);
 			bw.Write(DatabaseGlobals.BinaryDatabaseFileIdentifier);
 			foreach (string key in this.topLevelEntries.Keys)
@@ -331,7 +338,7 @@ namespace Launcher.Databases
 
 		private void LoadBinary(string file)
 		{
-			var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
+			var       fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
 			using var br = new BinaryReader(fs, Encoding.UTF8);
 			if (br.ReadInt32() != DatabaseGlobals.BinaryDatabaseFileIdentifier)
 			{
@@ -349,7 +356,7 @@ namespace Launcher.Databases
 
 		private void SaveXml(string file)
 		{
-			var document    = new XmlDocument();
+			var            document    = new XmlDocument();
 			XmlDeclaration declaration = document.CreateXmlDeclaration("1.0", null, null);
 			document.AppendChild(declaration);
 			XmlElement root = document.CreateElement("Data");
@@ -555,7 +562,7 @@ namespace Launcher.Databases
 					contentType?.AttributedClass.GetConstructor(Type.EmptyTypes);
 				if (constructor != null)
 				{
-					this.Content = (DatabaseEntryContent) constructor.Invoke(null);
+					this.Content = (DatabaseEntryContent)constructor.Invoke(null);
 					this.Content.FromBinary(br);
 				}
 			}
@@ -586,7 +593,8 @@ namespace Launcher.Databases
 			{
 				hostElement.SetAttribute("hasContent", "1");
 				Type contentTypeObject = this.Content.GetType();
-				EntryContentAttribute attr = DatabaseGlobals.RegisteredContentTypes.Find(x => x.AttributedClass == contentTypeObject);
+				EntryContentAttribute attr =
+					DatabaseGlobals.RegisteredContentTypes.Find(x => x.AttributedClass == contentTypeObject);
 				XmlElement contentElement = document.CreateElement(attr.TypeName);
 				this.Content.ToXml(document, contentElement);
 				hostElement.AppendChild(contentElement);
@@ -648,7 +656,7 @@ namespace Launcher.Databases
 					contentType?.AttributedClass.GetConstructor(Type.EmptyTypes);
 				if (constructor != null)
 				{
-					this.Content = (DatabaseEntryContent) constructor.Invoke(null);
+					this.Content = (DatabaseEntryContent)constructor.Invoke(null);
 					this.Content.FromXml(contentElement);
 					minimalAmountOfChildNodes++;
 				}
@@ -738,7 +746,8 @@ namespace Launcher.Databases
 			this.TypeName        = name;
 			this.AttributedClass = type;
 			this.TypeHash        = name.GetHashCode();
-			EntryContentAttribute other = DatabaseGlobals.RegisteredContentTypes.FirstOrDefault(x => x.TypeHash == this.TypeHash);
+			EntryContentAttribute other =
+				DatabaseGlobals.RegisteredContentTypes.FirstOrDefault(x => x.TypeHash == this.TypeHash);
 			if (other != null)
 			{
 				throw new Exception(
