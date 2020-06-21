@@ -37,10 +37,10 @@ namespace Launcher
 			// Save window position and size if redefined.
 			if (this.windowPosition != null)
 			{
-				content = new VectorContent(2)
+				content = new VectorContent<double>(2)
 						  {
-							  X = Convert.ToDecimal(this.windowPosition.Value.X),
-							  Y = Convert.ToDecimal(this.windowPosition.Value.Y)
+							  X = this.windowPosition.Value.X,
+							  Y = this.windowPosition.Value.Y
 						  };
 				entry = new DatabaseEntry(MainWindowPositionEntryName, content);
 				appConfigurationDatabase.AddEntry(entry);
@@ -48,10 +48,10 @@ namespace Launcher
 
 			if (this.windowSize != null)
 			{
-				content = new VectorContent(2)
+				content = new VectorContent<double>(2)
 						  {
-							  X = Convert.ToDecimal(this.windowSize.Value.Width),
-							  Y = Convert.ToDecimal(this.windowSize.Value.Height)
+							  X = (this.windowSize.Value.Width),
+							  Y = (this.windowSize.Value.Height)
 						  };
 				entry = new DatabaseEntry(MainWindowSizeEntryName, content);
 				appConfigurationDatabase.AddEntry(entry);
@@ -73,7 +73,7 @@ namespace Launcher
 			if (ThemeManager.Current.AccentColor != null)
 			{
 				Color c = ThemeManager.Current.AccentColor.Value;
-				content = new VectorContent(4)
+				content = new VectorContent<byte>(4)
 						  {
 							  R = c.R,
 							  G = c.G,
@@ -129,16 +129,20 @@ namespace Launcher
 				this.currentExeFile    = TryGetEntryText(appConfigurationDatabase, LastExeFileEntryName);
 
 				// Load custom size and position of the main window, if available.
-				VectorContent numbers = TryGetVector(appConfigurationDatabase, MainWindowPositionEntryName);
-				if (numbers != null)
+				if (appConfigurationDatabase.Contains(MainWindowPositionEntryName))
 				{
-					this.windowPosition = new Point(Convert.ToDouble(numbers.X), Convert.ToDouble(numbers.Y));
+					var doubles = appConfigurationDatabase[MainWindowPositionEntryName]
+					   .GetContent<VectorContent<double>>();
+
+					this.windowPosition = new Point(doubles.X, doubles.Y);
 				}
 
-				numbers = TryGetVector(appConfigurationDatabase, MainWindowSizeEntryName);
-				if (numbers != null)
+				if (appConfigurationDatabase.Contains(MainWindowSizeEntryName))
 				{
-					this.windowSize = new Size(Convert.ToDouble(numbers.X), Convert.ToDouble(numbers.Y));
+					var doubles = appConfigurationDatabase[MainWindowSizeEntryName]
+					   .GetContent<VectorContent<double>>();
+
+					this.windowSize = new Size(doubles.X, doubles.Y);
 				}
 
 				this.maximized = appConfigurationDatabase.Contains(MainWindowMaximizedEntryName);
@@ -152,16 +156,12 @@ namespace Launcher
 										  .Value;
 				}
 
-				VectorContent accentColors = TryGetVector(appConfigurationDatabase, PreferredAccentColorEntryName);
-				if (accentColors != null)
+				if (appConfigurationDatabase.Contains(PreferredAccentColorEntryName))
 				{
-					ThemeManager.Current.AccentColor = new Color
-													   {
-														   R = Convert.ToByte(accentColors.R),
-														   G = Convert.ToByte(accentColors.G),
-														   B = Convert.ToByte(accentColors.B),
-														   A = Convert.ToByte(accentColors.A)
-													   };
+					var bytes = appConfigurationDatabase[PreferredAccentColorEntryName]
+					   .GetContent<VectorContent<byte>>();
+
+					ThemeManager.Current.AccentColor = new Color {R = bytes.R, G = bytes.G, B = bytes.B, A = bytes.A};
 				}
 
 				if (appConfigurationDatabase.Contains(LoadableFilesDirectoriesEntryName, false))
@@ -195,13 +195,6 @@ namespace Launcher
 			}
 
 			return null;
-		}
-
-		private static VectorContent TryGetVector(Database appConfigurationDatabase, string entryName)
-		{
-			return appConfigurationDatabase.Contains(entryName, false)
-					   ? appConfigurationDatabase[entryName].GetContent<VectorContent>()
-					   : null;
 		}
 	}
 }

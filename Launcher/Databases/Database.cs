@@ -725,7 +725,7 @@ namespace Launcher.Databases
 	/// <summary>
 	/// Represents an attribute that is applied to classes derived from <see cref="DatabaseEntryContent"/>.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+	[AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
 	public sealed class EntryContentAttribute : Attribute
 	{
 		/// <summary>

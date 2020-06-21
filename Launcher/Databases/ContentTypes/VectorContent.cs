@@ -3,21 +3,87 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml;
+using Launcher.Utilities;
 
 namespace Launcher.Databases
 {
 	/// <summary>
 	/// Represents content of the database entry that contains a vector.
 	/// </summary>
-	[EntryContent("Vector", typeof(VectorContent))]
-	public class VectorContent : DatabaseEntryContent, IEnumerable<decimal>, IEquatable<VectorContent>
+	/// <typeparam name="ComponentType">Type of vector components.</typeparam>
+	[EntryContent("VectorByte",    typeof(VectorContent<byte>))]
+	[EntryContent("VectorInt16",   typeof(VectorContent<short>))]
+	[EntryContent("VectorInt32",   typeof(VectorContent<int>))]
+	[EntryContent("VectorInt64",   typeof(VectorContent<long>))]
+	[EntryContent("VectorSingle",  typeof(VectorContent<float>))]
+	[EntryContent("VectorDouble",  typeof(VectorContent<double>))]
+	[EntryContent("VectorDecimal", typeof(VectorContent<decimal>))]
+	public class VectorContent<ComponentType> : DatabaseEntryContent,
+												IEnumerable<ComponentType>,
+												IEquatable<VectorContent<ComponentType>>
+		where ComponentType : IEquatable<ComponentType>
 	{
 		#region Fields
 
-		private decimal[] components;
+		private ComponentType[] components;
 
-		private static readonly string[] ComponentNames = {"X", "Y", "Z", "W"};
+		private static readonly string[]                            ComponentNames = {"X", "Y", "Z", "W"};
+		private static readonly MethodInfo                          ParseMethod;
+		private static readonly Action<BinaryWriter, ComponentType> Write;
+		private static readonly Func<BinaryReader, ComponentType>   Read;
+
+		static VectorContent()
+		{
+			ParseMethod = typeof(ComponentType).GetMethod("Parse", new[] {typeof(string)});
+			if (ParseMethod == null)
+			{
+				throw new Exception($"{typeof(ComponentType).FullName} type doesn't have static Parse method.");
+			}
+
+			switch (typeof(ComponentType).Name)
+			{
+				case nameof(Byte):
+					Write = (writer, component) => writer.Write(Cast<byte>.From(component));
+					Read  = reader => Cast<ComponentType>.From(reader.ReadByte());
+					break;
+
+				case nameof(Int16):
+					Write = (writer, component) => writer.Write(Cast<short>.From(component));
+					Read  = reader => Cast<ComponentType>.From(reader.ReadInt16());
+					break;
+
+				case nameof(Int32):
+					Write = (writer, component) => writer.Write(Cast<int>.From(component));
+					Read  = reader => Cast<ComponentType>.From(reader.ReadInt32());
+					break;
+
+				case nameof(Int64):
+					Write = (writer, component) => writer.Write(Cast<long>.From(component));
+					Read  = reader => Cast<ComponentType>.From(reader.ReadInt64());
+					break;
+
+				case nameof(Single):
+					Write = (writer, component) => writer.Write(Cast<float>.From(component));
+					Read  = reader => Cast<ComponentType>.From(reader.ReadSingle());
+					break;
+
+				case nameof(Double):
+					Write = (writer, component) =>
+							{
+								double d = Cast<double>.From(component);
+								writer.Write(d);
+							};
+					Read  = reader => Cast<ComponentType>.From(reader.ReadDouble());
+					break;
+
+				case nameof(Decimal):
+					Write = (writer, component) => writer.Write(Cast<decimal>.From(component));
+					Read  = reader => Cast<ComponentType>.From(reader.ReadDecimal());
+					break;
+			}
+		}
 
 		#endregion
 
@@ -28,7 +94,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="index">Zero-based index of the component to access.</param>
 		/// <returns>Requested component.</returns>
-		public decimal this[int index]
+		public ComponentType this[int index]
 		{
 			get => this.components[index];
 			set => this.components[index] = value;
@@ -42,7 +108,7 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Gets or sets the first component of the vector.
 		/// </summary>
-		public decimal X
+		public ComponentType X
 		{
 			get => this.components[0];
 			set => this.components[0] = value;
@@ -51,7 +117,7 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Gets or sets the first component of the vector.
 		/// </summary>
-		public decimal R
+		public ComponentType R
 		{
 			get => this.components[0];
 			set => this.components[0] = value;
@@ -60,7 +126,7 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Gets or sets the second component of the vector.
 		/// </summary>
-		public decimal Y
+		public ComponentType Y
 		{
 			get => this.components[1];
 			set => this.components[1] = value;
@@ -69,7 +135,7 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Gets or sets the second component of the vector.
 		/// </summary>
-		public decimal G
+		public ComponentType G
 		{
 			get => this.components[1];
 			set => this.components[1] = value;
@@ -78,7 +144,7 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Gets or sets the third component of the vector.
 		/// </summary>
-		public decimal Z
+		public ComponentType Z
 		{
 			get => this.components[2];
 			set => this.components[2] = value;
@@ -87,7 +153,7 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Gets or sets the third component of the vector.
 		/// </summary>
-		public decimal B
+		public ComponentType B
 		{
 			get => this.components[2];
 			set => this.components[2] = value;
@@ -96,7 +162,7 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Gets or sets the fourth component of the vector.
 		/// </summary>
-		public decimal W
+		public ComponentType W
 		{
 			get => this.components[3];
 			set => this.components[3] = value;
@@ -105,7 +171,7 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Gets or sets the fourth component of the vector.
 		/// </summary>
-		public decimal A
+		public ComponentType A
 		{
 			get => this.components[3];
 			set => this.components[3] = value;
@@ -127,7 +193,7 @@ namespace Launcher.Databases
 		/// <param name="count">Number of components in the vector.</param>
 		public VectorContent(int count)
 		{
-			this.components = new decimal [count];
+			this.components = new ComponentType [count];
 		}
 
 		/// <summary>
@@ -139,7 +205,7 @@ namespace Launcher.Databases
 			bw.Write(this.components.Length);
 			for (int i = 0; i < this.components.Length; i++)
 			{
-				bw.Write(this.components[i]);
+				Write(bw, this.components[i]);
 			}
 		}
 
@@ -150,10 +216,10 @@ namespace Launcher.Databases
 		public override void FromBinary(BinaryReader br)
 		{
 			int count = br.ReadInt32();
-			this.components = new decimal[count];
+			this.components = new ComponentType[count];
 			for (int i = 0; i < count; i++)
 			{
-				this.components[i] = br.ReadDecimal();
+				this.components[i] = Read(br);
 			}
 		}
 
@@ -174,12 +240,15 @@ namespace Launcher.Databases
 		/// Reads Xml representation of this content from the <see cref="XmlElement"/>.
 		/// </summary>
 		/// <param name="element"><see cref="XmlElement"/> that will contain data.</param>
+		/// <exception cref="Exception">
+		/// Thrown when <typeparamref name="ComponentType"/> has no static method named Parse.
+		/// </exception>
 		public override void FromXml(XmlElement element)
 		{
-			var list = new List<decimal>(ComponentNames.Length);
+			var list = new List<ComponentType>(ComponentNames.Length);
 			list.AddRange(from t in ComponentNames
 						  where element.HasAttribute(t)
-						  select Convert.ToDecimal(element.GetAttribute(t)));
+						  select (ComponentType)ParseMethod.Invoke(null, new object[] {element.GetAttribute(t)}));
 
 			this.components = list.ToArray();
 		}
@@ -188,7 +257,7 @@ namespace Launcher.Databases
 		/// Gets the enumerator.
 		/// </summary>
 		/// <returns>The enumerator.</returns>
-		public IEnumerator<decimal> GetEnumerator()
+		public IEnumerator<ComponentType> GetEnumerator()
 		{
 			for (int i = 0; i < this.Count; i++)
 			{
@@ -210,7 +279,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="other">Another instance of this type.</param>
 		/// <returns>Whether content within this object is equal to another.</returns>
-		public bool Equals(VectorContent other)
+		public bool Equals(VectorContent<ComponentType> other)
 		{
 			if (ReferenceEquals(this, other))
 			{
@@ -224,7 +293,8 @@ namespace Launcher.Databases
 
 			if (this.Count == other.Count)
 			{
-				return this.X == other.X && this.Y == other.Y && this.Z == other.Z && this.W == other.W;
+				return this.X.Equals(other.X) && this.Y.Equals(other.Y) &&
+					   this.Z.Equals(other.Z) && this.W.Equals(other.W);
 			}
 
 			return false;
