@@ -66,7 +66,7 @@ namespace Launcher.Databases
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public override void FromBinary(BinaryReader br)
 		{
-			br.ReadLongString(Encoding.UTF8);
+			this.Text = br.ReadLongString(Encoding.UTF8);
 		}
 
 		/// <summary>
