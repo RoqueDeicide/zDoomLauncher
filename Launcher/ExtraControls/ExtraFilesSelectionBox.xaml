@@ -40,7 +40,7 @@
 				<ListBox x:Name="AllFilesListBox"
 				         ItemsSource="{x:Static local:ExtraFilesLookUp.LoadableFiles}"
 				         BorderThickness="0"
-				         ItemContainerStyle="{StaticResource FileListItem}">
+				         ItemContainerStyle="{StaticResource FileListItem}" Margin="0,0,0,16">
 					<ListBox.GroupStyle>
 						<GroupStyle HeaderTemplate="{StaticResource LoadableFilesGroupHeader}" />
 					</ListBox.GroupStyle>
@@ -59,7 +59,7 @@
 				<ListBox x:Name="SelectedFilesListBox" BorderThickness="0"
 				         ItemsSource="{Binding Path=FileSelection, ElementName=FileSelectionUserControl}"
 				         ItemContainerStyle="{StaticResource SelectedFileListItem}"
-				         PreviewMouseMove="AttemptInitiateDragDrop">
+				         PreviewMouseMove="AttemptInitiateDragDrop" Margin="0,0,0,16">
 					<ListBox.ItemTemplate>
 						<DataTemplate DataType="local:FileDesc">
 							<Grid>
