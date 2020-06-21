@@ -197,7 +197,13 @@
     <Compile Include="Configs\ILaunchConfiguration.cs" />
     <Compile Include="Configs\LaunchConfiguration.cs" />
     <Compile Include="Configs\LaunchConfiguration.SaveLoad.cs" />
-    <Compile Include="Databases\ContentTypes.cs" />
+    <Compile Include="Databases\ContentTypeInterfaces.cs" />
+    <Compile Include="Databases\ContentTypes\BooleanContent.cs" />
+    <Compile Include="Databases\ContentTypes\DecimalContent.cs" />
+    <Compile Include="Databases\ContentTypes\DoubleContent.cs" />
+    <Compile Include="Databases\ContentTypes\IntegerContent.cs" />
+    <Compile Include="Databases\ContentTypes\TextContent.cs" />
+    <Compile Include="Databases\ContentTypes\VectorContent.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Extensions\BinaryIOExtension.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
@@ -339,6 +345,7 @@
       <Version>1.1.0</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
