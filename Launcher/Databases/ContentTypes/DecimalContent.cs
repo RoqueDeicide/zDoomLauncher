@@ -5,7 +5,6 @@ using System.Xml;
 
 namespace Launcher.Databases
 {
-
 	/// <summary>
 	/// Represents an object that provides access to decimal content of database entry.
 	/// </summary>
@@ -127,7 +126,7 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(DoubleContent other)
 		{
-			return other != null && this.Value == (decimal) other.Value;
+			return other != null && this.Value == (decimal)other.Value;
 		}
 
 		/// <summary>
@@ -147,7 +146,7 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(ulong other)
 		{
-			return this.Value == (long) other;
+			return this.Value == (long)other;
 		}
 
 		/// <summary>
@@ -187,7 +186,7 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(float other)
 		{
-			return this.Value == (decimal) other;
+			return this.Value == (decimal)other;
 		}
 
 		/// <summary>
@@ -197,7 +196,7 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(double other)
 		{
-			return this.Value == (decimal) other;
+			return this.Value == (decimal)other;
 		}
 
 		#endregion

@@ -88,7 +88,7 @@ namespace Launcher.Configs
 			var folderUri  = new Uri(PathUtils.EndWithBackSlash(gameFolder), UriKind.Absolute);
 
 			// Maximal number of digits that can used to designate an index of the entry.
-			int digitCount = (int) Math.Floor(Math.Log10(this.ExtraFiles.Count) + 1);
+			int digitCount = (int)Math.Floor(Math.Log10(this.ExtraFiles.Count) + 1);
 			for (int i = 0; i < this.ExtraFiles.Count; i++)
 			{
 				string filePath = this.ExtraFiles[i];
@@ -171,7 +171,7 @@ namespace Launcher.Configs
 			config.TimeLimit = database.GetInteger(nameof(config.TimeLimit));
 
 			// Turbo mode.
-			config.TurboMode = (byte?) database.GetInteger(nameof(config.TurboMode));
+			config.TurboMode = (byte?)database.GetInteger(nameof(config.TurboMode));
 
 			// Difficulty.
 			config.Difficulty = database.GetInteger(nameof(config.Difficulty));
@@ -188,9 +188,9 @@ namespace Launcher.Configs
 				return;
 			}
 
-			string          doomWadDir    = ExtraFilesLookUp.DoomWadDirectory;
-			DatabaseEntry          filesEntry    = database["ExtraFiles"];
-			const string entryNamePart = "ExtraFile";
+			string        doomWadDir    = ExtraFilesLookUp.DoomWadDirectory;
+			DatabaseEntry filesEntry    = database["ExtraFiles"];
+			const string  entryNamePart = "ExtraFile";
 
 			// Restore full paths.
 			var paths = from nameEntry in filesEntry.SubEntries
@@ -247,7 +247,7 @@ namespace Launcher.Configs
 				using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
 				{
 					var formatter = new BinaryFormatter();
-					config = (LaunchConfiguration) formatter.Deserialize(fs);
+					config = (LaunchConfiguration)formatter.Deserialize(fs);
 				}
 
 				string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
@@ -307,7 +307,7 @@ namespace Launcher.Configs
 		internal static void AddContent(this Database database, string entryName, string textContent)
 		{
 			TextContent content = string.IsNullOrEmpty(textContent) ? null : new TextContent(textContent);
-			var entry   = new DatabaseEntry(entryName, content);
+			var         entry   = new DatabaseEntry(entryName, content);
 
 			database.AddEntry(entry);
 		}
@@ -361,7 +361,7 @@ namespace Launcher.Configs
 
 			if (value == null) return default;
 
-			EnumType enumValue = Cast<EnumType>.From((int) value.Value);
+			EnumType enumValue = Cast<EnumType>.From((int)value.Value);
 			return enumValue;
 		}
 
@@ -369,7 +369,7 @@ namespace Launcher.Configs
 		{
 			if (database.Contains(entryName, false))
 			{
-				return (int?) database[entryName].GetContent<IntegerContent>()?.Value;
+				return (int?)database[entryName].GetContent<IntegerContent>()?.Value;
 			}
 
 			return null;

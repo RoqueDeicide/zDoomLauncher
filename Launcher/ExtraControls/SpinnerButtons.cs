@@ -67,7 +67,7 @@ namespace Launcher
 		/// </summary>
 		public Brush HighlightedBrush
 		{
-			get => (Brush) this.GetValue(HighlightedBrushProperty);
+			get => (Brush)this.GetValue(HighlightedBrushProperty);
 			set => this.SetValue(HighlightedBrushProperty, value);
 		}
 
@@ -76,7 +76,7 @@ namespace Launcher
 		/// </summary>
 		public Brush PressedBrush
 		{
-			get => (Brush) this.GetValue(PressedBrushProperty);
+			get => (Brush)this.GetValue(PressedBrushProperty);
 			set => this.SetValue(PressedBrushProperty, value);
 		}
 
@@ -85,7 +85,7 @@ namespace Launcher
 		/// </summary>
 		public Brush DisabledBrush
 		{
-			get => (Brush) this.GetValue(DisabledBrushProperty);
+			get => (Brush)this.GetValue(DisabledBrushProperty);
 			set => this.SetValue(DisabledBrushProperty, value);
 		}
 
@@ -94,7 +94,7 @@ namespace Launcher
 		/// </summary>
 		public bool AtBottom
 		{
-			get => (bool) this.GetValue(AtBottomProperty);
+			get => (bool)this.GetValue(AtBottomProperty);
 			set => this.SetValue(AtBottomProperty, value);
 		}
 
@@ -103,7 +103,7 @@ namespace Launcher
 		/// </summary>
 		public bool AtTop
 		{
-			get => (bool) this.GetValue(AtTopProperty);
+			get => (bool)this.GetValue(AtTopProperty);
 			set => this.SetValue(AtTopProperty, value);
 		}
 

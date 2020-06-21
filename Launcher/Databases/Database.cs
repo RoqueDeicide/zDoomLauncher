@@ -347,7 +347,7 @@ namespace Launcher.Databases
 			}
 
 			while (br.BaseStream.Position < br.BaseStream.Length - 4 &&
-				   br.ReadInt32() != DatabaseGlobals.BinaryDatabaseFileEndMarker)
+				   br.ReadInt32()         != DatabaseGlobals.BinaryDatabaseFileEndMarker)
 			{
 				var currentEntry = new DatabaseEntry();
 				currentEntry.FromBinary(br);

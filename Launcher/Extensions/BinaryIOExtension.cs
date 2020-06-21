@@ -42,7 +42,7 @@ namespace Launcher
 		public static long ReadLongString(this BinaryReader reader, out string s, Encoding encoding)
 		{
 			long numberOfBytes = reader.ReadInt64();
-			var bytesOfText   = new byte[numberOfBytes];
+			var  bytesOfText   = new byte[numberOfBytes];
 			for (long i = 0; i < numberOfBytes; i++)
 			{
 				bytesOfText[i] = reader.ReadByte();
@@ -63,7 +63,7 @@ namespace Launcher
 		public static string ReadLongString(this BinaryReader reader, Encoding encoding)
 		{
 			long numberOfBytes = reader.ReadInt64();
-			var bytesOfText   = new byte[numberOfBytes];
+			var  bytesOfText   = new byte[numberOfBytes];
 			for (long i = 0; i < numberOfBytes; i++)
 			{
 				bytesOfText[i] = reader.ReadByte();

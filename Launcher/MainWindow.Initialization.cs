@@ -117,7 +117,7 @@ namespace Launcher
 					if (selectedItem?.Tag is IConvertible mode)
 					{
 						this.config.PixelMode =
-							(PixelMode) mode.ToInt32(CultureInfo.InvariantCulture);
+							(PixelMode)mode.ToInt32(CultureInfo.InvariantCulture);
 					}
 				};
 		}
@@ -156,7 +156,7 @@ namespace Launcher
 				UiSettings.Current.ColorValuesChanged += (sender, args) =>
 														 {
 															 this
-																.Dispatcher.BeginInvoke((Action) UpdateOSThemeMenuItem);
+																.Dispatcher.BeginInvoke((Action)UpdateOSThemeMenuItem);
 														 };
 
 				ThemeManager.AddActualThemeChangedHandler(this, (sender, args) => UpdateOSThemeMenuItem());

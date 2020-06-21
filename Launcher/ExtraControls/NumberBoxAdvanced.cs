@@ -18,9 +18,7 @@ namespace Launcher
 		/// A <see cref="DependencyProperty"/> that defines a default value for the number box.
 		/// </summary>
 		public static readonly DependencyProperty DefaultValueProperty =
-			DependencyProperty.Register("DefaultValue",
-										typeof(double),
-										typeof(NumberBoxAdvanced),
+			DependencyProperty.Register("DefaultValue", typeof(double), typeof(NumberBoxAdvanced),
 										new PropertyMetadata(default(double)));
 
 		/// <summary>
@@ -28,7 +26,7 @@ namespace Launcher
 		/// </summary>
 		public double DefaultValue
 		{
-			get => (double) this.GetValue(DefaultValueProperty);
+			get => (double)this.GetValue(DefaultValueProperty);
 			set => this.SetValue(DefaultValueProperty, value);
 		}
 
@@ -73,11 +71,11 @@ namespace Launcher
 			this.Value = def;
 		}
 
-		private void ThrowError<E>(string message) where E:Exception
+		private void ThrowError<E>(string message) where E : Exception
 		{
 			var e = (E)Activator.CreateInstance(typeof(E), @$"{(string.IsNullOrEmpty(this.Name)
-																 ? "An unnamed NumberBox"
-																 : $"A NumberBox named {this.Name}")} {message}");
+																	? "An unnamed NumberBox"
+																	: $"A NumberBox named {this.Name}")} {message}");
 			throw e;
 		}
 	}

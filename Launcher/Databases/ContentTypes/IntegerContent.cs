@@ -143,7 +143,7 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(ulong other)
 		{
-			return this.Value == (long) other;
+			return this.Value == (long)other;
 		}
 
 		/// <summary>

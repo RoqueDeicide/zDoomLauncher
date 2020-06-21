@@ -20,7 +20,7 @@ namespace Launcher
 		private void AttemptInitiateDragDrop(object sender, MouseEventArgs e)
 		{
 			// Check the new mouse position against the saved one.
-			Point currentPosition = e.GetPosition(null);
+			Point  currentPosition = e.GetPosition(null);
 			Vector delta           = currentPosition - this.dragStartPoint;
 
 			// See, if the mouse went sufficiently far away from the point of the click.
@@ -54,7 +54,7 @@ namespace Launcher
 			int sourceIndex = this.FileSelection.IndexOf(source);
 			int targetIndex = this.FileSelection.IndexOf(target);
 
-			var targetFile = (FileDesc) target;
+			var targetFile = (FileDesc)target;
 			if (targetFile.DragOverBottom == Visibility.Visible)
 			{
 				// Insert below the targeted item, rather then above.
@@ -106,7 +106,7 @@ namespace Launcher
 
 			// Check the coordinates of the mouse relative to the ContentPresenter of the list box item.
 			Point position   = e.GetPosition(cp);
-			int halfHeight = (int) item.ActualHeight / 2; // 0-9: upper half, 10-19: lower half.
+			int   halfHeight = (int)item.ActualHeight / 2; // 0-9: upper half, 10-19: lower half.
 
 			if (position.Y < halfHeight)
 			{

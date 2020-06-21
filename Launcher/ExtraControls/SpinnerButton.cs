@@ -33,7 +33,7 @@ namespace Launcher
 		/// </summary>
 		public bool IsUp
 		{
-			get => (bool) this.GetValue(IsUpProperty);
+			get => (bool)this.GetValue(IsUpProperty);
 			set => this.SetValue(IsUpProperty, value);
 		}
 
@@ -42,7 +42,7 @@ namespace Launcher
 		/// </summary>
 		public PointCollection Geometry
 		{
-			get => (PointCollection) this.GetValue(GeometryProperty);
+			get => (PointCollection)this.GetValue(GeometryProperty);
 			set => this.SetValue(GeometryProperty, value);
 		}
 

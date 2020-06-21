@@ -209,6 +209,7 @@ namespace Launcher
 					sv.ScrollToTop();
 				}
 			}
+
 			e.Handled = true;
 		}
 	}

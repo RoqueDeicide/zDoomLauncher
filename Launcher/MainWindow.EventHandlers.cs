@@ -41,7 +41,7 @@ namespace Launcher
 
 			this.config.Width = this.WidthCheckBox.IsChecked == true
 									? Convert.ToInt32(args.NewValue)
-									: (int?) null;
+									: (int?)null;
 		}
 
 		private void UpdateHeightValue(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
@@ -53,7 +53,7 @@ namespace Launcher
 
 			this.config.Height = this.HeightCheckBox.IsChecked == true
 									 ? Convert.ToInt32(args.NewValue)
-									 : (int?) null;
+									 : (int?)null;
 		}
 
 		#endregion
@@ -71,7 +71,7 @@ namespace Launcher
 
 			int flag = convertibleFlag.ToInt32(CultureInfo.InvariantCulture);
 			// Set the flag.
-			this.config.DisableFlags |= (DisableOptions) flag;
+			this.config.DisableFlags |= (DisableOptions)flag;
 		}
 
 		private void DisableOption(object sender, RoutedEventArgs e)
@@ -85,7 +85,7 @@ namespace Launcher
 
 			int flag = convertibleFlag.ToInt32(CultureInfo.InvariantCulture);
 			// Remove the flag.
-			this.config.DisableFlags &= (DisableOptions) ~flag;
+			this.config.DisableFlags &= (DisableOptions)~flag;
 		}
 
 		#endregion
@@ -141,7 +141,7 @@ namespace Launcher
 
 			this.config.TurboMode = this.TurboIndicator.IsChecked == true
 										? Convert.ToByte(args.NewValue)
-										: (byte?) null;
+										: (byte?)null;
 		}
 
 		private void EnableTimeLimit(object sender, RoutedEventArgs e)
@@ -163,7 +163,7 @@ namespace Launcher
 
 			this.config.TimeLimit = this.TimeLimitIndicator.IsChecked == true
 										? Convert.ToByte(args.NewValue)
-										: (byte?) null;
+										: (byte?)null;
 		}
 
 		private void EnableCustomDifficulty(object sender, RoutedEventArgs e)
@@ -185,7 +185,7 @@ namespace Launcher
 
 			this.config.Difficulty = this.DifficultyIndicator.IsChecked == true
 										 ? Convert.ToByte(args.NewValue)
-										 : (int?) null;
+										 : (int?)null;
 		}
 
 		#endregion
@@ -266,7 +266,7 @@ namespace Launcher
 			if (!episodeValue.IsNaN() && this.LoadMapIndicator != null && this.LoadMapIndicator.IsChecked == true &&
 				this.EpisodicIwadIsSelected() && !this.settingUpStartUp)
 			{
-				this.config.AutoStartFile = this.config.AutoStartFile.ChangeNumber(0, (int) episodeValue);
+				this.config.AutoStartFile = this.config.AutoStartFile.ChangeNumber(0, (int)episodeValue);
 			}
 		}
 
@@ -279,7 +279,7 @@ namespace Launcher
 			{
 				this.config.AutoStartFile =
 					this.config.AutoStartFile.ChangeNumber(this.EpisodicIwadIsSelected() ? 1 : 0,
-														   (int) mapValue);
+														   (int)mapValue);
 			}
 		}
 

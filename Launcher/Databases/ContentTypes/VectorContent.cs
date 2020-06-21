@@ -75,7 +75,7 @@ namespace Launcher.Databases
 								double d = Cast<double>.From(component);
 								writer.Write(d);
 							};
-					Read  = reader => Cast<ComponentType>.From(reader.ReadDouble());
+					Read = reader => Cast<ComponentType>.From(reader.ReadDouble());
 					break;
 
 				case nameof(Decimal):

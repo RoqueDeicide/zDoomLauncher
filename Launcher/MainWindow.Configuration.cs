@@ -65,7 +65,7 @@ namespace Launcher
 			// Save preferred theme and accent color.
 			if (ThemeManager.Current.ApplicationTheme != null)
 			{
-				content = new IntegerContent((long) ThemeManager.Current.ApplicationTheme.Value);
+				content = new IntegerContent((long)ThemeManager.Current.ApplicationTheme.Value);
 				entry   = new DatabaseEntry(PreferredThemeEntryName, content);
 				appConfigurationDatabase.AddEntry(entry);
 			}
@@ -151,9 +151,9 @@ namespace Launcher
 				if (appConfigurationDatabase.Contains(PreferredThemeEntryName))
 				{
 					ThemeManager.Current.ApplicationTheme =
-						(ApplicationTheme) appConfigurationDatabase[PreferredThemeEntryName]
-										  .GetContent<IntegerContent>()
-										  .Value;
+						(ApplicationTheme)appConfigurationDatabase[PreferredThemeEntryName]
+										 .GetContent<IntegerContent>()
+										 .Value;
 				}
 
 				if (appConfigurationDatabase.Contains(PreferredAccentColorEntryName))

@@ -59,7 +59,7 @@ namespace Launcher
 		/// <returns>Text representation of the collection.</returns>
 		public static string ContentsToString<T>(this IEnumerable<T> collection, string separator)
 		{
-			var builder = new StringBuilder();
+			var       builder    = new StringBuilder();
 			using var enumerator = collection.GetEnumerator();
 			enumerator.Reset();
 			enumerator.MoveNext();
@@ -141,10 +141,10 @@ namespace Launcher
 		public static string ChangeNumber(this string text, int index, int number)
 		{
 			// Find the number with specified index.
-			int currentCharacterIndex = 0;     // Index of the character we are currently processing.
+			int  currentCharacterIndex = 0;     // Index of the character we are currently processing.
 			bool goingThroughTheNumber = false; // Was the previous character a digit?
-			int currentNumberIndex    = -1;    // Index of the number in a string.
-			int currentNumberStart    = -1;    // Index of the first digit of current/last number.
+			int  currentNumberIndex    = -1;    // Index of the number in a string.
+			int  currentNumberStart    = -1;    // Index of the first digit of current/last number.
 			bool foundOurNumber        = false; // Did we find the number we needed?
 			while (currentCharacterIndex < text.Length)
 			{

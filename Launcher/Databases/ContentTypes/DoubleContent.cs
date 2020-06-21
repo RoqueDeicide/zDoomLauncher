@@ -117,7 +117,7 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(DecimalContent other)
 		{
-			return other != null && Math.Abs(this.Value - (double) other.Value) < 0.000001;
+			return other != null && Math.Abs(this.Value - (double)other.Value) < 0.000001;
 		}
 
 		/// <summary>
@@ -147,7 +147,7 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(ulong other)
 		{
-			return Math.Abs(this.Value - (long) other) < 0.000001;
+			return Math.Abs(this.Value - (long)other) < 0.000001;
 		}
 
 		/// <summary>
@@ -177,7 +177,7 @@ namespace Launcher.Databases
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		public bool Equals(decimal other)
 		{
-			return Math.Abs(this.Value - (double) other) < 0.000001;
+			return Math.Abs(this.Value - (double)other) < 0.000001;
 		}
 
 		/// <summary>

@@ -118,14 +118,14 @@ namespace Launcher.Utilities
 			private static Func<InitialType, ResultType> GetUnchecked()
 			{
 				ParameterExpression parameter = Expression.Parameter(typeof(InitialType));
-				UnaryExpression convert   = Expression.Convert(parameter, typeof(ResultType));
+				UnaryExpression     convert   = Expression.Convert(parameter, typeof(ResultType));
 				return Expression.Lambda<Func<InitialType, ResultType>>(convert, parameter).Compile();
 			}
 
 			private static Func<InitialType, ResultType> GetChecked()
 			{
 				ParameterExpression parameter = Expression.Parameter(typeof(InitialType));
-				UnaryExpression convert   = Expression.ConvertChecked(parameter, typeof(ResultType));
+				UnaryExpression     convert   = Expression.ConvertChecked(parameter, typeof(ResultType));
 				return Expression.Lambda<Func<InitialType, ResultType>>(convert, parameter).Compile();
 			}
 		}

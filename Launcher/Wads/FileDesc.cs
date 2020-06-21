@@ -125,10 +125,10 @@ namespace Launcher
 		/// <param name="fullPath">Full path to the file.</param>
 		public FileDesc(string fullPath)
 		{
-			this.FullPath = fullPath;
-			this.FileName = Path.GetFileName(fullPath);
+			this.FullPath  = fullPath;
+			this.FileName  = Path.GetFileName(fullPath);
 			this.Directory = Path.GetDirectoryName(fullPath);
-			this.Selected = false;
+			this.Selected  = false;
 		}
 
 		#endregion

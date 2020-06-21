@@ -15,8 +15,7 @@ namespace Launcher
 		/// <returns>The path that doesn't contain redirection markers (like ..\).</returns>
 		public static string GetLocalPath(string path)
 		{
-			var pathUri = new Uri(path, UriKind.RelativeOrAbsolute);
-
+			var    pathUri   = new Uri(path, UriKind.RelativeOrAbsolute);
 			string localPath = pathUri.LocalPath;
 
 			return localPath;
