@@ -346,7 +346,8 @@ namespace Launcher.Databases
 					ArgumentException($"Database.LoadBinary: Unable to recognize format of the file. File: {file}");
 			}
 
-			while (br.ReadInt32() != DatabaseGlobals.BinaryDatabaseFileEndMarker)
+			while (br.BaseStream.Position < br.BaseStream.Length - 4 &&
+				   br.ReadInt32() != DatabaseGlobals.BinaryDatabaseFileEndMarker)
 			{
 				var currentEntry = new DatabaseEntry();
 				currentEntry.FromBinary(br);
@@ -521,6 +522,7 @@ namespace Launcher.Databases
 			{
 				bw.Write(DatabaseGlobals.EntryStartMarker);
 				this.SubEntries[key].ToBinary(bw);
+				bw.Write(DatabaseGlobals.EntryEndMarker);
 			}
 
 			bw.Write(DatabaseGlobals.SubEntriesEndMarker);
@@ -555,8 +557,9 @@ namespace Launcher.Databases
 			int contentMarker = br.ReadInt32();
 			if (contentMarker == DatabaseGlobals.EntryContentPresentMarker)
 			{
+				int typeHash = br.ReadInt32();
 				EntryContentAttribute contentType =
-					DatabaseGlobals.RegisteredContentTypes.Find(x => x.TypeHash == br.ReadInt32());
+					DatabaseGlobals.RegisteredContentTypes.Find(x => x.TypeHash == typeHash);
 
 				ConstructorInfo constructor =
 					contentType?.AttributedClass.GetConstructor(Type.EmptyTypes);
@@ -567,13 +570,21 @@ namespace Launcher.Databases
 				}
 			}
 
+			int subsOrEndMarker = br.ReadInt32();
+			if (subsOrEndMarker == DatabaseGlobals.EntryEndMarker)
+			{
+				return;
+			}
+
 			// Read sub-entries.
-			while (br.ReadInt32() != DatabaseGlobals.EntryEndMarker)
+			while (br.ReadInt32() != DatabaseGlobals.SubEntriesEndMarker)
 			{
 				var currentSubEntry = new DatabaseEntry();
 				currentSubEntry.FromBinary(br);
 				this.SubEntries.Add(currentSubEntry.Name, currentSubEntry);
 			}
+
+			br.ReadInt32();
 		}
 
 		/// <summary>
