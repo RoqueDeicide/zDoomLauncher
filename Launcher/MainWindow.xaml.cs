@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
 using Launcher.Annotations;
 using Launcher.Configs;
@@ -233,7 +232,7 @@ namespace Launcher
 
 			this.TestButton.Resources["CommandLineText"] = commandLine;
 
-			if (commandLine.Length > 2080)
+			if (commandLine.Length > CommandLineMaxLength)
 			{
 				this.TestButton.Resources["FlyoutColor"] = new SolidColorBrush(Colors.Red);
 				this.TestButton.Resources["FlyoutSymbol"] = Symbol.Cancel;
