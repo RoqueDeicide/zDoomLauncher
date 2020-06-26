@@ -17,12 +17,17 @@
 				<Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
 				<Setter Property="FontSize" Value="16" />
 				<Setter Property="Content" Value="&#xE72C;" />
+				<Setter Property="Width" Value="32" />
+				<Setter Property="Height" Value="32" />
 			</Style>
-			<Style x:Key="SelectFileSystemEntryButtonStyle" TargetType="{x:Type Button}"
+			<Style x:Key="SelectFileSystemEntryButtonStyle" TargetType="Button"
 			       BasedOn="{StaticResource {x:Type Button}}">
 				<Setter Property="Padding" Value="2" />
+				<Setter Property="Width" Value="32" />
+				<Setter Property="Height" Value="32" />
 			</Style>
-			<Style x:Key="SelectFileSystemEntryThemedButtonStyle" TargetType="Button">
+			<Style x:Key="SelectFileSystemEntryThemedButtonStyle" TargetType="Button"
+			       BasedOn="{StaticResource SelectFileSystemEntryButtonStyle}">
 				<Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundAccentBrush}" />
 				<Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
 			</Style>
@@ -63,6 +68,7 @@
 			<Style TargetType="{x:Type local:IwadComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" />
 			<Style TargetType="local:NumberBoxAdvanced" BasedOn="{StaticResource {x:Type ui:NumberBox}}">
 				<Setter Property="SpinButtonPlacementMode" Value="Compact" />
+				<Setter Property="Height" Value="32" />
 			</Style>
 		</ResourceDictionary>
 	</Application.Resources>

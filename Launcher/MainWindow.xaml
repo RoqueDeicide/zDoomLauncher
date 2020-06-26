@@ -30,10 +30,12 @@
 		            Orientation="Horizontal">
 			<StackPanel.Style>
 				<Style TargetType="StackPanel">
-					<Setter Property="TextElement.Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+					<Setter Property="TextElement.Foreground"
+					        Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding IsActive, ElementName=Window}" Value="False">
-							<Setter Property="TextElement.Foreground" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+							<Setter Property="TextElement.Foreground"
+							        Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
 						</DataTrigger>
 					</Style.Triggers>
 				</Style>
@@ -152,7 +154,7 @@
 				<MenuItem Header="Accent Color" Click="ShowAccentColorPickerDialog">
 					<MenuItem.Icon>
 						<Rectangle Stroke="{DynamicResource SystemControlForegroundBaseHighBrush}"
-						        Width="32" Height="32">
+						           Width="32" Height="32">
 							<Rectangle.Fill>
 								<SolidColorBrush>
 									<SolidColorBrush.Color>
@@ -191,82 +193,131 @@
 				                   HorizontalAlignment="Stretch">
 					<prog:IwadComboBox.ItemTemplate>
 						<DataTemplate DataType="prog:IwadFile">
-							<TextBlock Text="{Binding Path=Name}" />
+							<TextBlock Text="{Binding Name}" />
 						</DataTemplate>
 					</prog:IwadComboBox.ItemTemplate>
 				</prog:IwadComboBox>
 				<Label Content="Extra Files" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Height="32"
 				       VerticalContentAlignment="Center" />
 				<Button x:Name="ExtraFilesRefreshButton" Margin="0,84,10,0" VerticalAlignment="Top" Click="RefreshExtraFiles"
-				        HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}" Height="32" Width="32" />
+				        HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}" />
 			</Grid>
-			<Grid Grid.Row="0" Grid.Column="1">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="24" />
-					<RowDefinition />
-				</Grid.RowDefinitions>
-				<ListBox Grid.Row="1" Margin="6,5,6,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-					<CheckBox x:Name="NoMonstersIndicator" Content="No Monsters" Checked="DisableMonsters" Unchecked="EnableMonsters" />
-					<CheckBox x:Name="FastMonstersIndicator" Content="Fast Monsters" Checked="EnableFastMonsters"
-					          Unchecked="DisableFastMonsters" />
-					<CheckBox x:Name="RespawningMonstersIndicator" Content="Respawning Monsters" Checked="EnableRespawn"
-					          Unchecked="DisableRespawn" />
-				</ListBox>
-				<Label Grid.Row="0" Content="Game-Play Options" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top"
+			<StackPanel Grid.Row="0" Grid.Column="1">
+				<Label Content="Game-Play Options" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,5,0,0"
 				       Height="19" Width="120" />
-			</Grid>
-			<Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="24" />
-					<RowDefinition />
-				</Grid.RowDefinitions>
-				<Label Content="Disable" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" Width="102"
-				       Height="19" />
-				<ListBox Grid.Row="1" x:Name="DisableFlagsList" Margin="6,5,6,0"
-				         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-					<CheckBox Content="Auto-Load Files" Name="AutoLoadItem" Checked="EnableOption" Unchecked="DisableOption" Tag="128" />
-					<CheckBox Content="CD Audio" Name="CdAudioItem" Checked="EnableOption" Unchecked="DisableOption" Tag="1" />
-					<CheckBox Content="Idling" Name="IdlingItem" Checked="EnableOption" Unchecked="DisableOption" Tag="2" />
-					<CheckBox Content="Sound Effects" Name="SfxItem" Checked="EnableOption" Unchecked="DisableOption" Tag="16" />
-					<CheckBox Content="Music" Name="MusicItem" Checked="EnableOption" Unchecked="DisableOption" Tag="8" />
-					<CheckBox Content="JoyStick" Name="JoyStickItem" Checked="EnableOption" Unchecked="DisableOption" Tag="4" />
-					<CheckBox Content="Startup Screens" Name="StartupScreensItem" Checked="EnableOption" Unchecked="DisableOption"
-					          Tag="32" />
-					<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Checked="EnableOption" Unchecked="DisableOption"
-					          Tag="64" />
-					<CheckBox Content="Block Map Loading" Name="IgnoreBlockMapItem" Checked="EnableIgnoreBlockMap"
-					          Unchecked="DisableIgnoreBlockMap" />
+				<ListBox Margin="6,5,6,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+					<CheckBox x:Name="NoMonstersIndicator" Content="No Monsters"
+					          Checked="DisableMonsters" Unchecked="EnableMonsters" />
+					<CheckBox x:Name="FastMonstersIndicator" Content="Fast Monsters"
+					          Checked="EnableFastMonsters" Unchecked="DisableFastMonsters" />
+					<CheckBox x:Name="RespawningMonstersIndicator" Content="Respawning Monsters"
+					          Checked="EnableRespawn" Unchecked="DisableRespawn" />
 				</ListBox>
-			</Grid>
+			</StackPanel>
+			<StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
+				<Label Content="Disable" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,5,0,0"
+				       Width="102" Height="19" />
+				<ListBox x:Name="DisableFlagsList" Margin="6,5,6,0"
+				         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+					<CheckBox Content="Auto-Load Files" Name="AutoLoadItem"
+					          Checked="EnableOption" Unchecked="DisableOption" Tag="128" />
+					<CheckBox Content="CD Audio" Name="CdAudioItem"
+					          Checked="EnableOption" Unchecked="DisableOption" Tag="1" />
+					<CheckBox Content="Idling" Name="IdlingItem"
+					          Checked="EnableOption" Unchecked="DisableOption" Tag="2" />
+					<CheckBox Content="Sound Effects" Name="SfxItem"
+					          Checked="EnableOption" Unchecked="DisableOption" Tag="16" />
+					<CheckBox Content="Music" Name="MusicItem"
+					          Checked="EnableOption" Unchecked="DisableOption" Tag="8" />
+					<CheckBox Content="JoyStick" Name="JoyStickItem"
+					          Checked="EnableOption" Unchecked="DisableOption" Tag="4" />
+					<CheckBox Content="Startup Screens" Name="StartupScreensItem"
+					          Checked="EnableOption" Unchecked="DisableOption" Tag="32" />
+					<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem"
+					          Checked="EnableOption" Unchecked="DisableOption" Tag="64" />
+					<CheckBox Content="Block Map Loading" Name="IgnoreBlockMapItem"
+					          Checked="EnableIgnoreBlockMap" Unchecked="DisableIgnoreBlockMap" />
+				</ListBox>
+			</StackPanel>
 			<StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
-				<Label Content="Custom Resolution" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="19"
-				       Width="116" />
-				<CheckBox x:Name="WidthCheckBox" Content="Width" HorizontalAlignment="Left" Margin="10,0,0,0"
-				          VerticalAlignment="Top" ToolTip="Check this to be able to change the width of the picture."
+				<StackPanel.Resources>
+					<Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+						<Setter Property="HorizontalAlignment" Value="Left" />
+						<Setter Property="Margin" Value="10,5,0,0" />
+						<Setter Property="Height" Value="19" />
+					</Style>
+					<Style TargetType="prog:NumberBoxAdvanced"
+					       BasedOn="{StaticResource {x:Type prog:NumberBoxAdvanced}}">
+						<Setter Property="Margin" Value="10,5,10,0" />
+						<Setter Property="Height" Value="32" />
+						<Setter Property="Minimum" Value="360" />
+						<Setter Property="Maximum" Value="3840" />
+						<Setter Property="SmallChange" Value="20" />
+						<Setter Property="LargeChange" Value="100" />
+					</Style>
+				</StackPanel.Resources>
+				<Label Content="Custom Resolution" />
+				<CheckBox x:Name="WidthCheckBox" Content="Width" Margin="10,0,0,0"
+				          ToolTip="Check this to be able to change the width of the picture."
 				          Checked="EnableWidthField" Unchecked="DisableWidthField" Width="120" />
 				<prog:NumberBoxAdvanced x:Name="WidthValueField"
-				                        Margin="10,5,10,0" VerticalAlignment="Top" Height="32"
 				                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
-				                        Value="1280" Maximum="3840" Minimum="360" SmallChange="20" LargeChange="100"
-				                        ValueChanged="UpdateWidthValue" DefaultValue="1280" />
-				<CheckBox x:Name="HeightCheckBox" Content="Height" HorizontalAlignment="Left" Margin="10,5,0,0"
-				          VerticalAlignment="Top" ToolTip="Check this to be able to change the height of the picture."
+				                        Value="1280" DefaultValue="1280" ValueChanged="UpdateWidthValue" />
+				<CheckBox x:Name="HeightCheckBox" Content="Height" Margin="10,5,0,0"
+				          ToolTip="Check this to be able to change the height of the picture."
 				          Checked="EnableHeightField" Unchecked="DisableHeightField" Height="32" Width="120" />
 				<prog:NumberBoxAdvanced x:Name="HeightValueField"
-				                        Margin="10,5,10,0" VerticalAlignment="Top" Height="32"
 				                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
-				                        Value="720" Maximum="3840" Minimum="360" SmallChange="20" LargeChange="100"
-				                        ValueChanged="UpdateHeightValue" DefaultValue="720" />
-				<Label Content="Pixel Mode" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="74"
-				       Height="19" />
-				<ComboBox Margin="10,5,0,0" VerticalAlignment="Top" Name="PixelModeComboBox" Width="100">
-					<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen." Name="SinglePixelComboBoxItem" />
+				                        Value="720" DefaultValue="720" ValueChanged="UpdateHeightValue" />
+				<Label Content="Pixel Mode" />
+				<ComboBox Margin="10,5,0,0" Name="PixelModeComboBox" Width="100">
+					<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen."
+					              Name="SinglePixelComboBoxItem" />
 					<ComboBoxItem Content="Double" Tag="1" ToolTip="Force renderer to use pixel doubling."
 					              Name="DoublePixelComboBoxItem" />
 					<ComboBoxItem Content="Quad" Tag="2" ToolTip="Force renderer to use pixel quadrupling."
 					              Name="QuadPixelComboBoxItem" />
 				</ComboBox>
 			</StackPanel>
+			<Grid Grid.Row="1" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="7*" />
+					<ColumnDefinition Width="5*" />
+				</Grid.ColumnDefinitions>
+				<StackPanel Grid.Column="0" SnapsToDevicePixels="True">
+					<StackPanel.Resources>
+						<Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+							<Setter Property="Margin" Value="7,5,0,0" />
+							<Setter Property="Height" Value="32" />
+							<Setter Property="MinWidth" Value="95" />
+						</Style>
+					</StackPanel.Resources>
+					<CheckBox x:Name="TurboIndicator" Content="Turbo"
+					          Checked="EnableTurbo" Unchecked="DisableTurbo" />
+					<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit"
+					          Checked="EnableTimeLimit" Unchecked="DisableTimeLimit" />
+					<CheckBox x:Name="DifficultyIndicator" Content="Difficulty"
+					          Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty" />
+				</StackPanel>
+				<StackPanel Grid.Column="1">
+					<StackPanel.Resources>
+						<Style TargetType="prog:NumberBoxAdvanced"
+						       BasedOn="{StaticResource {x:Type prog:NumberBoxAdvanced}}">
+							<Setter Property="Margin" Value="0,5,0,0" />
+							<Setter Property="Width" Value="64" />
+							<Setter Property="Height" Value="32" />
+							<Setter Property="Minimum" Value="0" />
+							<Setter Property="Maximum" Value="255" />
+						</Style>
+					</StackPanel.Resources>
+					<prog:NumberBoxAdvanced x:Name="TurboValueField"
+					                        Minimum="10" Value="100" ValueChanged="UpdateTurboField" />
+					<prog:NumberBoxAdvanced x:Name="TimeLimitValueField"
+					                        Value="20" ValueChanged="UpdateTimeLimitField" />
+					<prog:NumberBoxAdvanced x:Name="DifficultyValueField"
+					                        Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField" />
+				</StackPanel>
+			</Grid>
 			<GroupBox Header="Start With" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -275,20 +326,19 @@
 					</Grid.ColumnDefinitions>
 					<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,10,0,0"
 					             VerticalAlignment="Top" Checked="SwitchToSave" Height="32" MinWidth="40" />
-					<TextBox x:Name="LoadGameTextBox" Height="32" Margin="82,10,47,0" TextWrapping="Wrap" VerticalAlignment="Top"
+					<TextBox x:Name="LoadGameTextBox" Margin="82,10,47,0" TextWrapping="Wrap" VerticalAlignment="Top"
 					         ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile" Grid.Column="0" />
 					<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,47,0,0"
 					             VerticalAlignment="Top" Checked="SwitchToDemo" Grid.Column="0" Height="32" MinWidth="40" />
 					<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="10,10,0,0"
 					             VerticalAlignment="Top" Checked="SwitchToMap" Grid.Column="1" Height="32" MinWidth="40" />
-					<TextBox x:Name="PlayDemoTextBox" Height="32" Margin="82,47,47,0" TextWrapping="Wrap" VerticalAlignment="Top"
+					<TextBox x:Name="PlayDemoTextBox" Margin="82,47,47,0" TextWrapping="Wrap" VerticalAlignment="Top"
 					         ToolTip="Path to the demo file." TextChanged="UpdateDemoFile" Grid.Column="0" />
 					<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="10,84,0,0"
 					             VerticalAlignment="Top" Checked="SwitchToNothing" Grid.Column="0" IsChecked="True" Height="32"
 					             Width="120" />
 					<prog:NumberBoxAdvanced x:Name="EpisodeValueField" Grid.Column="1"
 					                        HorizontalAlignment="Left" Margin="123,47,0,0" VerticalAlignment="Top"
-					                        Height="32"
 					                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
 					                        ValueChanged="UpdateEpisodeIndex" />
 					<Label Content="Episode" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top"
@@ -297,14 +347,12 @@
 					       Height="32" Width="28" VerticalContentAlignment="Center" />
 					<prog:NumberBoxAdvanced x:Name="MapValueField" Grid.Column="1"
 					                        HorizontalAlignment="Left" Margin="232,47,0,0" VerticalAlignment="Top"
-					                        Height="32"
 					                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
 					                        ValueChanged="UpdateMapIndex" />
 					<Button HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"
-					        Style="{DynamicResource SelectFileButtonStyle}" Click="SelectSaveGameFile" Grid.Column="0" Height="32"
-					        Width="32" />
+					        Style="{DynamicResource SelectFileButtonStyle}" Click="SelectSaveGameFile" Grid.Column="0" />
 					<Button HorizontalAlignment="Right" Margin="0,47,10,0" VerticalAlignment="Top"
-					        Style="{DynamicResource SelectFileButtonStyle}" Height="32" Width="32" Click="SelectDemoFile"
+					        Style="{DynamicResource SelectFileButtonStyle}" Click="SelectDemoFile"
 					        Grid.Column="0" />
 					<RadioButton x:Name="LoadNamedMapIndicator" Content="Named Map" HorizontalAlignment="Left" Margin="10,47,0,0"
 					             VerticalAlignment="Bottom" Checked="SwitchToNamedMap" Grid.Column="1" Height="32" MinWidth="40" />
@@ -314,29 +362,6 @@
 					         TextChanged="UpdateMapName" Grid.Column="1" />
 				</Grid>
 			</GroupBox>
-			<Grid Grid.Row="1" Grid.Column="1">
-				<CheckBox x:Name="TurboIndicator" Content="Turbo" HorizontalAlignment="Left" Margin="6,10,0,0"
-				          VerticalAlignment="Top" Checked="EnableTurbo" Unchecked="DisableTurbo" Height="32" Width="95"
-				          MinWidth="90" />
-				<prog:NumberBoxAdvanced x:Name="TurboValueField"
-				                        HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"
-				                        Width="64" Height="32"
-				                        Minimum="10" Value="100" ValueChanged="UpdateTurboField" Maximum="255" />
-				<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" HorizontalAlignment="Left" Margin="6,47,0,0"
-				          VerticalAlignment="Top" Checked="EnableTimeLimit" Unchecked="DisableTimeLimit" Height="32" Width="95"
-				          MinWidth="95" />
-				<prog:NumberBoxAdvanced x:Name="TimeLimitValueField"
-				                        HorizontalAlignment="Right" Margin="0,47,10,0" VerticalAlignment="Top"
-				                        Width="64" Height="32"
-				                        Value="20" ValueChanged="UpdateTimeLimitField" Minimum="0" Maximum="255" />
-				<prog:NumberBoxAdvanced x:Name="DifficultyValueField"
-				                        HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom"
-				                        Width="64" Height="32"
-				                        Minimum="0" Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField" />
-				<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" HorizontalAlignment="Left" Margin="6,84,0,0"
-				          VerticalAlignment="Top" Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty" Height="32"
-				          Width="95" MinWidth="95" />
-			</Grid>
 			<Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">
 				<Label Content="Save Directory" VerticalAlignment="Top" RenderTransformOrigin="0.474,0.538"
 				       HorizontalAlignment="Left" Width="123" />
@@ -356,10 +381,10 @@
 				          SelectionChanged="ExeFileSelected" SelectedValuePath="Content" HorizontalAlignment="Right" Width="197"
 				          VerticalAlignment="Top" />
 				<Button x:Name="ExeFilesRefreshButton" Margin="0,146,212,0" VerticalAlignment="Top" Click="RefreshExeFiles"
-				        HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}" Height="32" Width="32" />
+				        HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}" />
 				<TextBox x:Name="ExtraOptionsTextBox" Margin="0,146,249,10" TextWrapping="Wrap" TextChanged="UpdateExtraOptions" />
-				<Button x:Name="TestButton" Content="Test"
-				        VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,147,10" Width="97">
+				<Button x:Name="TestButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,123,10"
+				        Width="121">
 					<Button.Resources>
 						<SolidColorBrush x:Key="FlyoutColor" Color="#FF00FF00" />
 						<ui:Symbol x:Key="FlyoutSymbol">Accept</ui:Symbol>
@@ -393,13 +418,14 @@
 							</Border>
 						</ui:Flyout>
 					</ui:FlyoutService.Flyout>
+					<TextBlock TextWrapping="Wrap" TextAlignment="Center">Show Command Line</TextBlock>
 				</Button>
 				<Button Content="Launch" Margin="0,0,10,10" Click="LaunchTheGame" VerticalAlignment="Bottom"
 				        HorizontalAlignment="Right" Width="97" />
 				<Button HorizontalAlignment="Right" Margin="0,24,10,0" VerticalAlignment="Top"
-				        Style="{DynamicResource SelectFolderButtonStyle}" Height="32" Width="32" Click="SelectSaveDirectory" />
+				        Style="{DynamicResource SelectFolderButtonStyle}" Click="SelectSaveDirectory" />
 				<Button HorizontalAlignment="Right" Margin="0,85,10,0" VerticalAlignment="Top"
-				        Style="{DynamicResource SelectFolderButtonStyle}" Height="32" Width="32" Click="SelectConfigPath" />
+				        Style="{DynamicResource SelectFolderButtonStyle}" Click="SelectConfigPath" />
 			</Grid>
 			<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="11,7,10,10" Height="Auto" Grid.Row="1" Grid.RowSpan="3"
 			                             Grid.Column="0" />
