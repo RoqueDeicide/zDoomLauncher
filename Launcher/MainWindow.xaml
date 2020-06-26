@@ -119,6 +119,9 @@
 				<ui:RadioMenuItem x:Name="LightThemeMenuItem" Header="Light Theme"
 				                  ToolTip="Force this program to use light theme."
 				                  GroupName="Theme">
+					<ui:RadioMenuItem.Icon>
+						<Rectangle Width="32" Height="32" Stroke="Black" Fill="White" />
+					</ui:RadioMenuItem.Icon>
 					<ui:RadioMenuItem.IsChecked>
 						<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
 						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Light" />
@@ -127,6 +130,9 @@
 				<ui:RadioMenuItem x:Name="DarkThemeMenuItem" Header="Dark Theme"
 				                  ToolTip="Force this program to use dark theme."
 				                  GroupName="Theme">
+					<ui:RadioMenuItem.Icon>
+						<Rectangle Width="32" Height="32" Stroke="White" Fill="Black" />
+					</ui:RadioMenuItem.Icon>
 					<ui:RadioMenuItem.IsChecked>
 						<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
 						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Dark" />
@@ -135,12 +141,28 @@
 				<ui:RadioMenuItem x:Name="OSThemeMenuItem"
 				                  ToolTip="Let the operating system choose the theme."
 				                  GroupName="Theme">
+					<ui:RadioMenuItem.Icon>
+						<Rectangle x:Name="OSThemeRectangle" Width="32" Height="32" />
+					</ui:RadioMenuItem.Icon>
 					<ui:RadioMenuItem.IsChecked>
 						<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
 						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="null" />
 					</ui:RadioMenuItem.IsChecked>
 				</ui:RadioMenuItem>
-				<MenuItem Header="Accent Color" Click="ShowAccentColorPickerDialog" />
+				<MenuItem Header="Accent Color" Click="ShowAccentColorPickerDialog">
+					<MenuItem.Icon>
+						<Rectangle Stroke="{DynamicResource SystemControlForegroundBaseHighBrush}"
+						        Width="32" Height="32">
+							<Rectangle.Fill>
+								<SolidColorBrush>
+									<SolidColorBrush.Color>
+										<Binding Path="ActualAccentColor" Source="{x:Static ui:ThemeManager.Current}" />
+									</SolidColorBrush.Color>
+								</SolidColorBrush>
+							</Rectangle.Fill>
+						</Rectangle>
+					</MenuItem.Icon>
+				</MenuItem>
 			</MenuItem>
 		</Menu>
 		<Grid Grid.Row="2">
