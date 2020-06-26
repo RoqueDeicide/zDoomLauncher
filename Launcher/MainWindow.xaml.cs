@@ -26,6 +26,17 @@ namespace Launcher
 		private HelpWindow        helpWindow;
 		private AccentColorPicker accentColorPicker;
 
+		private (string path, string args) CommandLine
+		{
+			get
+			{
+				string appPath = PathIO.Combine(this.zDoomFolder, this.currentExeFile);
+				string commandLineArguments = this.config.GetCommandLine(this.zDoomFolder);
+
+				return (appPath, commandLineArguments);
+			}
+		}
+
 		public MainWindow()
 		{
 			this.settingUpStartUp = false;
@@ -127,15 +138,14 @@ namespace Launcher
 
 		private void Launch(string appFileName)
 		{
-			string appFile     = PathIO.Combine(this.zDoomFolder, appFileName);
-			string commandLine = this.config.GetCommandLine(this.zDoomFolder);
+			(string path, string args) = this.CommandLine;
 
-			bool appExists       = File.Exists(appFile);
-			bool commandLineFits = commandLine.Length + appFile.Length <= CommandLineMaxLength;
+			bool appExists       = File.Exists(path);
+			bool commandLineFits = path.Length + args.Length + 1 <= CommandLineMaxLength;
 
 			if (appExists && commandLineFits)
 			{
-				Process.Start(appFile, commandLine);
+				Process.Start(path, args);
 			}
 			else
 			{
