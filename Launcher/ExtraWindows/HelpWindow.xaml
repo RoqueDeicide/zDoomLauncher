@@ -5,7 +5,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:ThemeManager.IsThemeAware="True">
-    <Grid>
+	<Grid>
 		<FlowDocumentScrollViewer>
 			<FlowDocument>
 				<Paragraph>
@@ -152,7 +152,7 @@
 				<Paragraph>
 					<Italic>Game-Play Options</Italic>
 				</Paragraph>
-					<Table>
+				<Table>
 					<Table.Columns>
 						<TableColumn Width="170" />
 						<TableColumn Width="300*" />

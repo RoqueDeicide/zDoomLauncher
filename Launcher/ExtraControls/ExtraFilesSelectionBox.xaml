@@ -47,7 +47,7 @@
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<CheckBox Click="ToggleFileSelection" Content="{Binding FileName}"
-							          ToolTip="{Binding Directory}"/>
+							          ToolTip="{Binding Directory}" />
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>

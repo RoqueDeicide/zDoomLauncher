@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="About Launcher" Height="398.503" Width="366" ResizeMode="NoResize"
         xmlns:ui="http://schemas.modernwpf.com/2019"
-		ui:WindowHelper.UseModernWindowStyle="True"
+        ui:WindowHelper.UseModernWindowStyle="True"
         ui:ThemeManager.IsThemeAware="True">
 	<Grid>
 		<TextBox x:Name="AssemblyTitleTextBox" HorizontalAlignment="Left" Margin="88,10,0,0" TextWrapping="Wrap"
