@@ -6,7 +6,8 @@
 		xmlns:prog="clr-namespace:Launcher"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 		xmlns:ui="http://schemas.modernwpf.com/2019"
-        Title="zDoom Launcher" Height="800" Width="850" MinHeight="800" MinWidth="850"
+		xmlns:system="clr-namespace:System;assembly=mscorlib"
+		Title="zDoom Launcher" Height="800" Width="850" MinHeight="800" MinWidth="850"
 		Closing="MainWindowClosing" Loaded="DealWithWindowPositionSize"
         ui:WindowHelper.UseModernWindowStyle="True"
 		ui:TitleBar.ExtendViewIntoTitleBar="True"
@@ -278,7 +279,42 @@
 				<ComboBox Margin="0,146,10,0" x:Name="ExeFileNameComboBox" IsReadOnly="True" ToolTip="This list can be refreshed with a &quot;Refresh&quot; button." SelectionChanged="ExeFileSelected" SelectedValuePath="Content" HorizontalAlignment="Right" Width="197" VerticalAlignment="Top" />
 				<Button x:Name="ExeFilesRefreshButton" Margin="0,146,212,0" VerticalAlignment="Top" Click="RefreshExeFiles" HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}" Height="32" Width="32" />
 				<TextBox x:Name="ExtraOptionsTextBox" Margin="0,146,249,10" TextWrapping="Wrap" TextChanged="UpdateExtraOptions" />
-				<Button Content="Test" Margin="0,0,147,10" Click="ShowCommandLine" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97" />
+				<Button x:Name="TestButton" Content="Test"
+				        VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,147,10" Width="97">
+					<Button.Resources>
+						<SolidColorBrush x:Key="FlyoutColor" Color="#FF00FF00" />
+						<ui:Symbol x:Key="FlyoutSymbol">Accept</ui:Symbol>
+						<system:String x:Key="CommandLineText">Empty</system:String>
+					</Button.Resources>
+					<ui:FlyoutService.Flyout>
+						<ui:Flyout Placement="Top" Opening="UpdateTestCommandLine">
+							<ui:Flyout.FlyoutPresenterStyle>
+								<Style TargetType="ui:FlyoutPresenter">
+									<Setter Property="MaxWidth" Value="640" />
+								</Style>
+							</ui:Flyout.FlyoutPresenterStyle>
+							<Border BorderThickness="2" BorderBrush="{DynamicResource FlyoutColor}">
+								<Grid>
+									<RichTextBox MaxWidth="600">
+										<FlowDocument>
+											<Paragraph>
+												<Floater HorizontalAlignment="Right" Width="20" Padding="0">
+													<BlockUIContainer>
+														<Border Background="{DynamicResource FlyoutColor}"
+														        Height="20" Width="20">
+															<ui:SymbolIcon Symbol="{DynamicResource FlyoutSymbol}"/>
+														</Border>
+													</BlockUIContainer>
+												</Floater>
+												<Run Text="{DynamicResource CommandLineText}" />
+											</Paragraph>
+										</FlowDocument>
+									</RichTextBox>
+								</Grid>
+							</Border>
+						</ui:Flyout>
+					</ui:FlyoutService.Flyout>
+				</Button>
 				<Button Content="Launch" Margin="0,0,10,10" Click="LaunchTheGame" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="97" />
 				<Button HorizontalAlignment="Right" Margin="0,24,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFolderButtonStyle}" Height="32" Width="32" Click="SelectSaveDirectory" />
 				<Button HorizontalAlignment="Right" Margin="0,85,10,0" VerticalAlignment="Top" Style="{DynamicResource SelectFolderButtonStyle}" Height="32" Width="32" Click="SelectConfigPath" />

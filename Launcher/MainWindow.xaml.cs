@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media;
 using Launcher.Annotations;
 using Launcher.Configs;
 using Launcher.Logging;
@@ -223,13 +225,24 @@ namespace Launcher
 			this.Close();
 		}
 
-		private void ShowCommandLine(object sender, RoutedEventArgs e)
+		private void UpdateTestCommandLine(object sender, object e)
 		{
-			string appPath = Path.Combine(this.zDoomFolder, this.currentExeFile);
+			(string path, string args) = this.CommandLine;
 
-			string commandLineArgs = this.config.GetCommandLine(this.zDoomFolder);
+			string commandLine = $"{path} {args}";
 
-			new CommandLineWindow($"{appPath} {commandLineArgs}").ShowDialog();
+			this.TestButton.Resources["CommandLineText"] = commandLine;
+
+			if (commandLine.Length > 2080)
+			{
+				this.TestButton.Resources["FlyoutColor"] = new SolidColorBrush(Colors.Red);
+				this.TestButton.Resources["FlyoutSymbol"] = Symbol.Cancel;
+			}
+			else
+			{
+				this.TestButton.Resources["FlyoutColor"]  = new SolidColorBrush(Colors.Green);
+				this.TestButton.Resources["FlyoutSymbol"] = Symbol.Accept;
+			}
 		}
 
 		private bool IsCurrentZDoomFolderValid()
