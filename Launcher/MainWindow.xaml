@@ -175,10 +175,10 @@
 				<RowDefinition />
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition MinWidth="250" />
-				<ColumnDefinition Width="180" />
+				<ColumnDefinition MinWidth="250" Width="250*" />
+				<ColumnDefinition Width="238" />
 				<ColumnDefinition Width="165" />
-				<ColumnDefinition />
+				<ColumnDefinition Width="189*" />
 			</Grid.ColumnDefinitions>
 			<Grid Grid.Row="0" Grid.Column="0">
 				<Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="32"
@@ -248,13 +248,15 @@
 					</Style>
 					<Style TargetType="prog:NumberBoxAdvanced"
 					       BasedOn="{StaticResource {x:Type prog:NumberBoxAdvanced}}">
-						<Setter Property="Margin" Value="10,5,10,0" />
+						<Setter Property="Margin" Value="10,5,0,0" />
 						<Setter Property="Height" Value="32" />
-						<Setter Property="Width" Value="80" />
+						<Setter Property="Width" Value="150" />
+						<Setter Property="HorizontalAlignment" Value="Left" />
 						<Setter Property="Minimum" Value="360" />
 						<Setter Property="Maximum" Value="3840" />
 						<Setter Property="SmallChange" Value="20" />
 						<Setter Property="LargeChange" Value="100" />
+						<Setter Property="SpinButtonPlacementMode" Value="Inline" />
 					</Style>
 				</StackPanel.Resources>
 				<Label Content="Custom Resolution" />
@@ -263,15 +265,15 @@
 				          Checked="EnableWidthField" Unchecked="DisableWidthField" Width="120" />
 				<prog:NumberBoxAdvanced x:Name="WidthValueField"
 				                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
-				                        Value="1280" DefaultValue="1280" ValueChanged="UpdateWidthValue" HorizontalAlignment="Left" Margin="10,5,0,0" />
+				                        Value="1280" DefaultValue="1280" ValueChanged="UpdateWidthValue" />
 				<CheckBox x:Name="HeightCheckBox" Content="Height" Margin="10,5,0,0"
 				          ToolTip="Check this to be able to change the height of the picture."
 				          Checked="EnableHeightField" Unchecked="DisableHeightField" Height="32" Width="120" />
 				<prog:NumberBoxAdvanced x:Name="HeightValueField"
 				                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
-				                        Value="720" DefaultValue="720" ValueChanged="UpdateHeightValue" HorizontalAlignment="Left" Margin="10,5,0,0" />
+				                        Value="720" DefaultValue="720" ValueChanged="UpdateHeightValue" />
 				<Label Content="Pixel Mode" />
-				<ComboBox Margin="10,5,0,0" Name="PixelModeComboBox" Width="100">
+				<ComboBox Margin="10,5,0,0" Name="PixelModeComboBox" Width="116">
 					<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen."
 					              Name="SinglePixelComboBoxItem" />
 					<ComboBoxItem Content="Double" Tag="1" ToolTip="Force renderer to use pixel doubling."
@@ -282,8 +284,8 @@
 			</StackPanel>
 			<Grid Grid.Row="1" Grid.Column="1">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="7*" />
-					<ColumnDefinition Width="5*" />
+					<ColumnDefinition Width="8*" />
+					<ColumnDefinition Width="9*" />
 				</Grid.ColumnDefinitions>
 				<StackPanel Grid.Column="0" SnapsToDevicePixels="True">
 					<StackPanel.Resources>
@@ -305,7 +307,7 @@
 						<Style TargetType="prog:NumberBoxAdvanced"
 						       BasedOn="{StaticResource {x:Type prog:NumberBoxAdvanced}}">
 							<Setter Property="Margin" Value="0,5,0,0" />
-							<Setter Property="Width" Value="64" />
+							<Setter Property="Width" Value="106" />
 							<Setter Property="Height" Value="32" />
 							<Setter Property="Minimum" Value="0" />
 							<Setter Property="Maximum" Value="255" />
