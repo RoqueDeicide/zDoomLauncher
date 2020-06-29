@@ -250,6 +250,7 @@
 					       BasedOn="{StaticResource {x:Type prog:NumberBoxAdvanced}}">
 						<Setter Property="Margin" Value="10,5,10,0" />
 						<Setter Property="Height" Value="32" />
+						<Setter Property="Width" Value="80" />
 						<Setter Property="Minimum" Value="360" />
 						<Setter Property="Maximum" Value="3840" />
 						<Setter Property="SmallChange" Value="20" />
@@ -262,13 +263,13 @@
 				          Checked="EnableWidthField" Unchecked="DisableWidthField" Width="120" />
 				<prog:NumberBoxAdvanced x:Name="WidthValueField"
 				                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
-				                        Value="1280" DefaultValue="1280" ValueChanged="UpdateWidthValue" />
+				                        Value="1280" DefaultValue="1280" ValueChanged="UpdateWidthValue" HorizontalAlignment="Left" Margin="10,5,0,0" />
 				<CheckBox x:Name="HeightCheckBox" Content="Height" Margin="10,5,0,0"
 				          ToolTip="Check this to be able to change the height of the picture."
 				          Checked="EnableHeightField" Unchecked="DisableHeightField" Height="32" Width="120" />
 				<prog:NumberBoxAdvanced x:Name="HeightValueField"
 				                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
-				                        Value="720" DefaultValue="720" ValueChanged="UpdateHeightValue" />
+				                        Value="720" DefaultValue="720" ValueChanged="UpdateHeightValue" HorizontalAlignment="Left" Margin="10,5,0,0" />
 				<Label Content="Pixel Mode" />
 				<ComboBox Margin="10,5,0,0" Name="PixelModeComboBox" Width="100">
 					<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen."
