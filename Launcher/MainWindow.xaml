@@ -319,47 +319,121 @@
 				</StackPanel>
 			</Grid>
 			<GroupBox Header="Start With" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
-				<Grid>
+				<Grid Grid.IsSharedSizeScope="True">
+					<Grid.Resources>
+						<LinearGradientBrush x:Key="SelectedStartMethodBrush" Opacity="0.5">
+							<LinearGradientBrush.GradientStops>
+								<GradientStop Offset="0" Color="{DynamicResource SystemAccentColor}" />
+								<GradientStop Offset="0.3" Color="Transparent" />
+								<GradientStop Offset="1" Color="Transparent" />
+							</LinearGradientBrush.GradientStops>
+						</LinearGradientBrush>
+					</Grid.Resources>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="143*" />
 						<ColumnDefinition Width="153*" />
 					</Grid.ColumnDefinitions>
-					<RadioButton x:Name="LoadSaveIndicator" Content="Load" HorizontalAlignment="Left" Margin="10,10,0,0"
-					             VerticalAlignment="Top" Checked="SwitchToSave" Height="32" MinWidth="40" />
-					<TextBox x:Name="LoadGameTextBox" Margin="82,10,47,0" TextWrapping="Wrap" VerticalAlignment="Top"
-					         ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile" Grid.Column="0" />
-					<RadioButton x:Name="LoadDemoIndicator" Content="Demo" HorizontalAlignment="Left" Margin="10,47,0,0"
-					             VerticalAlignment="Top" Checked="SwitchToDemo" Grid.Column="0" Height="32" MinWidth="40" />
-					<RadioButton x:Name="LoadMapIndicator" Content="Map" HorizontalAlignment="Left" Margin="10,10,0,0"
-					             VerticalAlignment="Top" Checked="SwitchToMap" Grid.Column="1" Height="32" MinWidth="40" />
-					<TextBox x:Name="PlayDemoTextBox" Margin="82,47,47,0" TextWrapping="Wrap" VerticalAlignment="Top"
-					         ToolTip="Path to the demo file." TextChanged="UpdateDemoFile" Grid.Column="0" />
-					<RadioButton x:Name="LoadNothingIndicator" Content="Nothing" HorizontalAlignment="Left" Margin="10,84,0,0"
-					             VerticalAlignment="Top" Checked="SwitchToNothing" Grid.Column="0" IsChecked="True" Height="32"
-					             Width="120" />
-					<prog:NumberBoxAdvanced x:Name="EpisodeValueField" Grid.Column="1"
-					                        HorizontalAlignment="Left" Margin="123,47,0,0" VerticalAlignment="Top"
-					                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
-					                        ValueChanged="UpdateEpisodeIndex" />
-					<Label Content="Episode" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top"
-					       RenderTransformOrigin="0.51,0.538" Grid.Column="1" Height="32" Width="48" VerticalContentAlignment="Center" />
-					<Label Content="Map" HorizontalAlignment="Left" Margin="232,10,0,0" VerticalAlignment="Top" Grid.Column="1"
-					       Height="32" Width="28" VerticalContentAlignment="Center" />
-					<prog:NumberBoxAdvanced x:Name="MapValueField" Grid.Column="1"
-					                        HorizontalAlignment="Left" Margin="232,47,0,0" VerticalAlignment="Top"
-					                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
-					                        ValueChanged="UpdateMapIndex" />
-					<Button HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top"
-					        Style="{DynamicResource SelectFileButtonStyle}" Click="SelectSaveGameFile" Grid.Column="0" />
-					<Button HorizontalAlignment="Right" Margin="0,47,10,0" VerticalAlignment="Top"
-					        Style="{DynamicResource SelectFileButtonStyle}" Click="SelectDemoFile"
-					        Grid.Column="0" />
-					<RadioButton x:Name="LoadNamedMapIndicator" Content="Named Map" HorizontalAlignment="Left" Margin="10,47,0,0"
-					             VerticalAlignment="Bottom" Checked="SwitchToNamedMap" Grid.Column="1" Height="32" MinWidth="40" />
-					<TextBox x:Name="LoadNamedMapTextBox" Height="32" Margin="123,47,10,0" TextWrapping="Wrap"
-					         VerticalAlignment="Bottom"
-					         ToolTip="Name of the map to load. Useful when loading custom map packs. List of maps can be seen by launching the game and typing listmaps command in the console."
-					         TextChanged="UpdateMapName" Grid.Column="1" />
+					<Grid Grid.Column="0" Height="36" VerticalAlignment="Top">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="80" SharedSizeGroup="StartLeftRadioButtonsGroup" />
+							<ColumnDefinition />
+							<ColumnDefinition Width="48" SharedSizeGroup="StartFileButtonsGroup" MaxWidth="48" />
+						</Grid.ColumnDefinitions>
+						<Grid.Style>
+							<Style TargetType="Grid">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding IsChecked, ElementName=LoadSaveIndicator}" Value="True">
+										<Setter Property="Background" Value="{DynamicResource SelectedStartMethodBrush}" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Grid.Style>
+						<RadioButton Grid.Column="0" x:Name="LoadSaveIndicator" Content="Load"
+						             Height="32" MinWidth="40" Margin="10,2,0,2"
+						             Checked="SwitchToSave" GroupName="StartWithMethodRadioButtonGroup" />
+						<TextBox Grid.Column="1" x:Name="LoadGameTextBox" TextWrapping="Wrap"
+						         ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile" />
+						<Button Grid.Column="2" Style="{DynamicResource SelectFileButtonStyle}"
+						        Click="SelectSaveGameFile" HorizontalAlignment="Center" />
+					</Grid>
+					<Grid x:Name="LoadDemoGrid" Grid.Column="0" Height="36" VerticalAlignment="Top" Margin="0,41,0,0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition SharedSizeGroup="StartLeftRadioButtonsGroup" />
+							<ColumnDefinition />
+							<ColumnDefinition SharedSizeGroup="StartFileButtonsGroup" />
+						</Grid.ColumnDefinitions>
+						<Grid.Style>
+							<Style TargetType="Grid">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding IsChecked, ElementName=LoadDemoIndicator}" Value="True">
+										<Setter Property="Background" Value="{DynamicResource SelectedStartMethodBrush}" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Grid.Style>
+						<RadioButton Grid.Column="0" x:Name="LoadDemoIndicator" Content="Demo"
+						             Height="32" MinWidth="40" Margin="10,0,0,0"
+						             Checked="SwitchToDemo" GroupName="StartWithMethodRadioButtonGroup" />
+						<TextBox Grid.Column="1" x:Name="PlayDemoTextBox" TextWrapping="Wrap"
+						         ToolTip="Path to the demo file." TextChanged="UpdateDemoFile" />
+						<Button Grid.Column="2" Style="{DynamicResource SelectFileButtonStyle}" Click="SelectDemoFile"
+						        HorizontalAlignment="Center" />
+					</Grid>
+					<RadioButton Grid.Column="0" x:Name="LoadNothingIndicator" Content="Nothing"
+					             HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top"
+					             Height="32" Width="120"
+					             Checked="SwitchToNothing" IsChecked="True" GroupName="StartWithMethodRadioButtonGroup" />
+					<Grid Grid.Column="1" Height="78" VerticalAlignment="Top">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition SharedSizeGroup="StartRightRadioButtonsGroup" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<Grid.Style>
+							<Style TargetType="Grid">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding IsChecked, ElementName=LoadMapIndicator}" Value="True">
+										<Setter Property="Background" Value="{DynamicResource SelectedStartMethodBrush}" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Grid.Style>
+						<RadioButton x:Name="LoadMapIndicator" Height="32" MinWidth="40"
+						             Content="Map" HorizontalAlignment="Left" Margin="10,0,0,0"
+						             Checked="SwitchToMap" GroupName="StartWithMethodRadioButtonGroup" />
+						<Label Grid.Column="1" Content="Episode" Height="32" Width="48" HorizontalAlignment="Left"
+						       VerticalContentAlignment="Center" Margin="10,0,0,47" />
+						<prog:NumberBoxAdvanced Grid.Column="1" x:Name="EpisodeValueField"
+						                        Width="80" HorizontalAlignment="Left" Margin="10,36,0,10"
+						                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
+						                        ValueChanged="UpdateEpisodeIndex" />
+						<Label Grid.Column="1" Content="Map" Height="32" Width="28" HorizontalAlignment="Right"
+						       VerticalContentAlignment="Center" Margin="0,0,62,47" />
+						<prog:NumberBoxAdvanced Grid.Column="1" x:Name="MapValueField"
+						                        Width="80" Margin="0,36,10,10" HorizontalAlignment="Right"
+						                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
+						                        ValueChanged="UpdateMapIndex" />
+					</Grid>
+					<Grid Grid.Column="1" Height="36" Margin="0,80,0,0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition SharedSizeGroup="StartRightRadioButtonsGroup" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<Grid.Style>
+							<Style TargetType="Grid">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding IsChecked, ElementName=LoadNamedMapIndicator}" Value="True">
+										<Setter Property="Background" Value="{DynamicResource SelectedStartMethodBrush}" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Grid.Style>
+						<RadioButton Grid.Column="0" x:Name="LoadNamedMapIndicator" Content="Named Map"
+						             Height="32" MinWidth="40" Margin="10,0,0,0"
+						             Checked="SwitchToNamedMap" GroupName="StartWithMethodRadioButtonGroup" />
+						<TextBox Grid.Column="1" x:Name="LoadNamedMapTextBox" Height="32" TextWrapping="Wrap"
+						         ToolTip="Name of the map to load. Useful when loading custom map packs. List of maps can be seen by launching the game and typing listmaps command in the console."
+						         TextChanged="UpdateMapName" Margin="10,0" />
+					</Grid>
 				</Grid>
 			</GroupBox>
 			<Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">
