@@ -31,7 +31,7 @@ namespace Launcher
 		{
 			get
 			{
-				string appPath = PathIO.Combine(this.zDoomFolder, this.currentExeFile);
+				string appPath              = PathIO.Combine(this.zDoomFolder, this.currentExeFile);
 				string commandLineArguments = this.config.GetCommandLine(this.zDoomFolder);
 
 				return (appPath, commandLineArguments);
@@ -234,7 +234,7 @@ namespace Launcher
 
 			if (commandLine.Length > CommandLineMaxLength)
 			{
-				this.TestButton.Resources["FlyoutColor"] = new SolidColorBrush(Colors.Red);
+				this.TestButton.Resources["FlyoutColor"]  = new SolidColorBrush(Colors.Red);
 				this.TestButton.Resources["FlyoutSymbol"] = Symbol.Cancel;
 			}
 			else

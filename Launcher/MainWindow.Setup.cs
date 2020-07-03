@@ -97,19 +97,18 @@ namespace Launcher
 
 				case StartupFile.Map:
 					var regex = new Regex("\\d+");
-					var indexes = from Match match in regex.Matches(this.config.AutoStartFile)
-								  select match.Value;
-					var numbers = indexes.ToArray();
-					switch (numbers.Length)
+					var indexes = (from Match match in regex.Matches(this.config.AutoStartFile)
+								   select match.Value).ToArray();
+					switch (indexes.Length)
 					{
 						case 1:
 							this.EpisodeValueField.Value = 0;
-							this.MapValueField.Value     = int.Parse(numbers[0]);
+							this.MapValueField.Value     = int.Parse(indexes[0]);
 							break;
 
 						case 2:
-							this.EpisodeValueField.Value = int.Parse(numbers[0]);
-							this.MapValueField.Value     = int.Parse(numbers[1]);
+							this.EpisodeValueField.Value = int.Parse(indexes[0]);
+							this.MapValueField.Value     = int.Parse(indexes[1]);
 							break;
 
 						default:
