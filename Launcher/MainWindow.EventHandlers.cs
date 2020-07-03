@@ -352,12 +352,24 @@ namespace Launcher
 									   ? ""
 									   : selectedFile.FileName;
 
-			if (this.LoadMapIndicator.IsChecked == true)
+			if (this.config.IwadPath != "")
 			{
-				// Update the value in case selection of IWAD moves from episodic to non-episodic one or vice-versa.
-				this.config.AutoStartFile = this.EpisodicIwadIsSelected()
-												? $"{this.EpisodeValueField.Value} {this.MapValueField.Value}"
-												: $"{this.MapValueField.Value}";
+				// Enable "start with map" radio button in case it was disabled.
+				this.LoadMapIndicator.IsEnabled = true;
+
+				if (this.LoadMapIndicator.IsChecked == true)
+				{
+					// Update the value in case selection of IWAD moves from episodic to non-episodic one or vice-versa.
+					this.config.AutoStartFile = this.EpisodicIwadIsSelected()
+													? $"{this.EpisodeValueField.Value} {this.MapValueField.Value}"
+													: $"{this.MapValueField.Value}";
+				}
+			}
+			else
+			{
+				// Disable indexed map radio button and switch to "start with nothing" radio button.
+				this.LoadNothingIndicator.IsChecked = true;
+				this.LoadMapIndicator.IsEnabled = false;
 			}
 		}
 

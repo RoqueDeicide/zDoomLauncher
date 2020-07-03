@@ -130,6 +130,13 @@ namespace Launcher
 			}
 
 			this.settingUpStartUp = false;
+
+			// Prevent indexed map from being chosen, if Iwad file isn't specified.
+			if (string.IsNullOrEmpty(this.config.IwadPath))
+			{
+				this.LoadMapIndicator.IsEnabled     = false;
+				this.LoadNothingIndicator.IsChecked = true;
+			}
 		}
 
 		private void SetupGamePlay()

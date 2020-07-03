@@ -190,7 +190,8 @@
 				<prog:IwadComboBox Margin="52,47,10,0" VerticalAlignment="Top"
 				                   x:Name="IwadComboBox" DropDownClosed="SelectIwad"
 				                   ItemsSource="{Binding RelativeSource={RelativeSource Self}, Path=Files}"
-				                   HorizontalAlignment="Stretch">
+				                   HorizontalAlignment="Stretch"
+				                   ToolTip="Select an IWAD file to use as a basis. Not selecting anything will cause zDoom to prompt you with IWAD selection dialog, so selection isn't necessary, however some Start With options will not be accessible.">
 					<prog:IwadComboBox.ItemTemplate>
 						<DataTemplate DataType="prog:IwadFile">
 							<TextBlock Text="{Binding Name}" />
@@ -434,7 +435,7 @@
 						             Height="32" MinWidth="40" Margin="10,0,0,0"
 						             Checked="SwitchToNamedMap" GroupName="StartWithMethodRadioButtonGroup" />
 						<TextBox Grid.Column="1" x:Name="LoadNamedMapTextBox" Height="32" TextWrapping="Wrap"
-						         ToolTip="Name of the map to load. Useful when loading custom map packs. List of maps can be seen by launching the game and typing listmaps command in the console."
+						         ToolTip="Name of the map to load. Useful when loading custom map packs. List of maps can be seen by launching the game and typing &quot;listmaps&quot; command in the console."
 						         TextChanged="UpdateMapName" Margin="10,0" />
 					</Grid>
 				</Grid>
