@@ -219,27 +219,28 @@
 			<StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
 				<Label Content="Disable" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,5,0,0"
 				       Width="102" Height="19" />
-				<ListBox x:Name="DisableFlagsList" Margin="6,5,6,0"
-				         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-					<CheckBox Content="Auto-Load Files" Name="AutoLoadItem" Click="ToggleOption" Tag="128"
-					          ToolTip="Check this box to prevent automatic load of files specified in &quot;AutoLoad&quot; section of the config file, as well as &quot;zvox.wad&quot; and files from &quot;skins&quot; directory." />
-					<CheckBox Content="CD Audio" Name="CdAudioItem" Click="ToggleOption" Tag="1"
-					          ToolTip="Check this box to disable CD audio." />
-					<CheckBox Content="Idling" Name="IdlingItem" Click="ToggleOption" Tag="2"
-					          ToolTip="Check this box to prevent zDoom from lowering its priority when minimized." />
-					<CheckBox Content="Sound Effects" Name="SfxItem" Click="ToggleOption" Tag="16"
-					          ToolTip="Check this box to disable the sound effects." />
-					<CheckBox Content="Music" Name="MusicItem" Click="ToggleOption" Tag="8"
-					          ToolTip="Check this box to disable music playback." />
-					<CheckBox Content="JoyStick" Name="JoyStickItem" Click="ToggleOption" Tag="4"
-					          ToolTip="Check this box to disable joystick support in case non-USB device is plugged in to stop the game from slowing down by polling the joystick input." />
-					<CheckBox Content="Startup Screens" Name="StartupScreensItem" Click="ToggleOption" Tag="32"
-					          ToolTip="Check this box to disable start-up screens that are used by Heretic, Hexen and Strife." />
-					<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Click="ToggleOption" Tag="64"
-					          ToolTip="Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife." />
-					<CheckBox Content="Block Map Loading" Name="IgnoreBlockMapItem" Click="ToggleIgnoreBlockMap"
-					          ToolTip="Check this box to have the game generate the block map information instead of loading it." />
-				</ListBox>
+					<ListBox x:Name="DisableFlagsList" Margin="6,5,6,0"
+					         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					         ScrollViewer.VerticalScrollBarVisibility="Visible" Height="234">
+						<CheckBox Content="Auto-Load Files" Name="AutoLoadItem" Click="ToggleOption" Tag="128"
+						          ToolTip="Check this box to prevent automatic load of files specified in &quot;AutoLoad&quot; section of the config file, as well as &quot;zvox.wad&quot; and files from &quot;skins&quot; directory." />
+						<CheckBox Content="CD Audio" Name="CdAudioItem" Click="ToggleOption" Tag="1"
+						          ToolTip="Check this box to disable CD audio." />
+						<CheckBox Content="Idling" Name="IdlingItem" Click="ToggleOption" Tag="2"
+						          ToolTip="Check this box to prevent zDoom from lowering its priority when minimized." />
+						<CheckBox Content="Sound Effects" Name="SfxItem" Click="ToggleOption" Tag="16"
+						          ToolTip="Check this box to disable the sound effects." />
+						<CheckBox Content="Music" Name="MusicItem" Click="ToggleOption" Tag="8"
+						          ToolTip="Check this box to disable music playback." />
+						<CheckBox Content="JoyStick" Name="JoyStickItem" Click="ToggleOption" Tag="4"
+						          ToolTip="Check this box to disable joystick support in case non-USB device is plugged in to stop the game from slowing down by polling the joystick input." />
+						<CheckBox Content="Startup Screens" Name="StartupScreensItem" Click="ToggleOption" Tag="32"
+						          ToolTip="Check this box to disable start-up screens that are used by Heretic, Hexen and Strife." />
+						<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Click="ToggleOption" Tag="64"
+						          ToolTip="Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife." />
+						<CheckBox Content="Block Map Loading" Name="IgnoreBlockMapItem" Click="ToggleIgnoreBlockMap"
+						          ToolTip="Check this box to have the game generate the block map information instead of loading it." />
+					</ListBox>
 			</StackPanel>
 			<StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
 				<StackPanel.Resources>
