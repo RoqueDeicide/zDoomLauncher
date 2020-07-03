@@ -12,24 +12,18 @@ namespace Launcher
 		#region Resolution
 
 		// Nullify resolution, if it has been checked, otherwise give it existing value.
-		private void EnableWidthField(object sender, RoutedEventArgs e)
+		private void ToggleWidthField(object sender, RoutedEventArgs e)
 		{
-			this.config.Width = Convert.ToInt32(this.WidthValueField.Value);
+			this.config.Width = this.WidthCheckBox.IsChecked == true
+									? Convert.ToInt32(this.WidthValueField.Value)
+									: (int?)null;
 		}
 
-		private void EnableHeightField(object sender, RoutedEventArgs e)
+		private void ToggleHeightField(object sender, RoutedEventArgs e)
 		{
-			this.config.Height = Convert.ToInt32(this.HeightValueField.Value);
-		}
-
-		private void DisableHeightField(object sender, RoutedEventArgs e)
-		{
-			this.config.Height = null;
-		}
-
-		private void DisableWidthField(object sender, RoutedEventArgs e)
-		{
-			this.config.Width = null;
+			this.config.Height = this.HeightCheckBox.IsChecked == true
+									 ? Convert.ToInt32(this.HeightValueField.Value)
+									 : (int?)null;
 		}
 
 		private void UpdateWidthValue(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
@@ -60,7 +54,7 @@ namespace Launcher
 
 		#region Disables
 
-		private void EnableOption(object sender, RoutedEventArgs e)
+		private void ToggleOption(object sender, RoutedEventArgs e)
 		{
 			var item = sender as CheckBox;
 
@@ -70,66 +64,45 @@ namespace Launcher
 			}
 
 			int flag = convertibleFlag.ToInt32(CultureInfo.InvariantCulture);
-			// Set the flag.
-			this.config.DisableFlags |= (DisableOptions)flag;
-		}
-
-		private void DisableOption(object sender, RoutedEventArgs e)
-		{
-			var item = sender as CheckBox;
-
-			if (!(item?.Tag is IConvertible convertibleFlag))
+			if (item.IsChecked == true)
 			{
-				return;
+				// Set the flag.
+				this.config.DisableFlags |= (DisableOptions)flag;
 			}
-
-			int flag = convertibleFlag.ToInt32(CultureInfo.InvariantCulture);
-			// Remove the flag.
-			this.config.DisableFlags &= (DisableOptions)~flag;
+			else
+			{
+				// Remove the flag.
+				this.config.DisableFlags &= (DisableOptions)~flag;
+			}
 		}
 
 		#endregion
 
 		#region GamePlay
 
-		private void DisableMonsters(object sender, RoutedEventArgs e)
+		private void ToggleNoMonsters(object sender, RoutedEventArgs e)
 		{
-			this.config.NoMonsters = true;
+			var isChecked = this.NoMonstersIndicator.IsChecked;
+			this.config.NoMonsters = isChecked.HasValue && isChecked.Value;
 		}
 
-		private void EnableMonsters(object sender, RoutedEventArgs e)
+		private void ToggleFastMonsters(object sender, RoutedEventArgs e)
 		{
-			this.config.NoMonsters = false;
+			var isChecked = this.FastMonstersIndicator.IsChecked;
+			this.config.FastMonsters = isChecked.HasValue && isChecked.Value;
 		}
 
-		private void EnableFastMonsters(object sender, RoutedEventArgs e)
+		private void ToggleRespawningMonsters(object sender, RoutedEventArgs e)
 		{
-			this.config.FastMonsters = true;
+			var isChecked = this.RespawningMonstersIndicator.IsChecked;
+			this.config.RespawningMonsters = isChecked.HasValue && isChecked.Value;
 		}
 
-		private void DisableFastMonsters(object sender, RoutedEventArgs e)
+		private void ToggleTurbo(object sender, RoutedEventArgs e)
 		{
-			this.config.FastMonsters = true;
-		}
-
-		private void EnableRespawn(object sender, RoutedEventArgs e)
-		{
-			this.config.RespawningMonsters = true;
-		}
-
-		private void DisableRespawn(object sender, RoutedEventArgs e)
-		{
-			this.config.RespawningMonsters = true;
-		}
-
-		private void EnableTurbo(object sender, RoutedEventArgs e)
-		{
-			this.config.TurboMode = Convert.ToByte(this.TurboValueField.Value);
-		}
-
-		private void DisableTurbo(object sender, RoutedEventArgs e)
-		{
-			this.config.TurboMode = null;
+			this.config.TurboMode = this.TurboIndicator.IsChecked == true
+										? Convert.ToByte(this.TurboValueField.Value)
+										: (byte?)null;
 		}
 
 		private void UpdateTurboField(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
@@ -144,14 +117,11 @@ namespace Launcher
 										: (byte?)null;
 		}
 
-		private void EnableTimeLimit(object sender, RoutedEventArgs e)
+		private void ToggleTimeLimit(object sender, RoutedEventArgs e)
 		{
-			this.config.TimeLimit = Convert.ToInt32(this.TimeLimitValueField.Value);
-		}
-
-		private void DisableTimeLimit(object sender, RoutedEventArgs e)
-		{
-			this.config.TimeLimit = null;
+			this.config.TimeLimit = this.TimeLimitIndicator.IsChecked == true
+										? Convert.ToInt32(this.TimeLimitValueField.Value)
+										: (int?)null;
 		}
 
 		private void UpdateTimeLimitField(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
@@ -166,14 +136,11 @@ namespace Launcher
 										: (byte?)null;
 		}
 
-		private void EnableCustomDifficulty(object sender, RoutedEventArgs e)
+		private void ToggleCustomDifficulty(object sender, RoutedEventArgs e)
 		{
-			this.config.Difficulty = Convert.ToInt32(this.DifficultyValueField.Value);
-		}
-
-		private void DisableCustomDifficulty(object sender, RoutedEventArgs e)
-		{
-			this.config.Difficulty = null;
+			this.config.Difficulty = this.DifficultyIndicator.IsChecked == true
+										 ? Convert.ToInt32(this.DifficultyValueField.Value)
+										 : (int?)null;
 		}
 
 		private void UpdateCustomDifficultyField(NumberBox numberBox, NumberBoxValueChangedEventArgs args)
@@ -192,14 +159,10 @@ namespace Launcher
 
 		#region Physics
 
-		private void EnableIgnoreBlockMap(object sender, RoutedEventArgs e)
+		private void ToggleIgnoreBlockMap(object sender, RoutedEventArgs e)
 		{
-			this.config.IgnoreBlockMap = true;
-		}
-
-		private void DisableIgnoreBlockMap(object sender, RoutedEventArgs e)
-		{
-			this.config.IgnoreBlockMap = false;
+			var isChecked = this.IgnoreBlockMapItem.IsChecked;
+			this.config.IgnoreBlockMap = isChecked.HasValue && isChecked.Value;
 		}
 
 		#endregion

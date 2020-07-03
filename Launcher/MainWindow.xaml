@@ -202,21 +202,18 @@
 				       VerticalContentAlignment="Center" />
 				<Button x:Name="ExtraFilesRefreshButton" Margin="0,84,10,0" VerticalAlignment="Top" Click="RefreshExtraFiles"
 				        HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}"
-				        ToolTip="Refresh the list of files that can be loaded with the IWAD."/>
+				        ToolTip="Refresh the list of files that can be loaded with the IWAD." />
 			</Grid>
 			<StackPanel Grid.Row="0" Grid.Column="1">
 				<Label Content="Monster Options" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,5,0,0"
 				       Height="19" Width="120" />
 				<ListBox Margin="6,5,6,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-					<CheckBox x:Name="NoMonstersIndicator" Content="No Monsters"
-					          Checked="DisableMonsters" Unchecked="EnableMonsters"
-					          ToolTip="Check this box to prevent the monsters from spawning in the game."/>
-					<CheckBox x:Name="FastMonstersIndicator" Content="Fast Monsters"
-					          Checked="EnableFastMonsters" Unchecked="DisableFastMonsters"
-					          ToolTip="Check this box to make the monsters always be as fast as they are on a nightmare difficulty."/>
-					<CheckBox x:Name="RespawningMonstersIndicator" Content="Respawning Monsters"
-					          Checked="EnableRespawn" Unchecked="DisableRespawn"
-					          ToolTip="Check this box to make the monsters respawn some time after death."/>
+					<CheckBox x:Name="NoMonstersIndicator" Content="No Monsters" Click="ToggleNoMonsters"
+					          ToolTip="Check this box to prevent the monsters from spawning in the game." />
+					<CheckBox x:Name="FastMonstersIndicator" Content="Fast Monsters" Click="ToggleFastMonsters"
+					          ToolTip="Check this box to make the monsters always be as fast as they are on a nightmare difficulty." />
+					<CheckBox x:Name="RespawningMonstersIndicator" Content="Respawning Monsters" Click="ToggleRespawningMonsters"
+					          ToolTip="Check this box to make the monsters respawn some time after death." />
 				</ListBox>
 			</StackPanel>
 			<StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
@@ -224,32 +221,23 @@
 				       Width="102" Height="19" />
 				<ListBox x:Name="DisableFlagsList" Margin="6,5,6,0"
 				         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-					<CheckBox Content="Auto-Load Files" Name="AutoLoadItem"
-					          Checked="EnableOption" Unchecked="DisableOption" Tag="128"
+					<CheckBox Content="Auto-Load Files" Name="AutoLoadItem" Click="ToggleOption" Tag="128"
 					          ToolTip="Check this box to prevent automatic load of files specified in &quot;AutoLoad&quot; section of the config file, as well as &quot;zvox.wad&quot; and files from &quot;skins&quot; directory." />
-					<CheckBox Content="CD Audio" Name="CdAudioItem"
-					          Checked="EnableOption" Unchecked="DisableOption" Tag="1"
+					<CheckBox Content="CD Audio" Name="CdAudioItem" Click="ToggleOption" Tag="1"
 					          ToolTip="Check this box to disable CD audio." />
-					<CheckBox Content="Idling" Name="IdlingItem"
-					          Checked="EnableOption" Unchecked="DisableOption" Tag="2"
+					<CheckBox Content="Idling" Name="IdlingItem" Click="ToggleOption" Tag="2"
 					          ToolTip="Check this box to prevent zDoom from lowering its priority when minimized." />
-					<CheckBox Content="Sound Effects" Name="SfxItem"
-					          Checked="EnableOption" Unchecked="DisableOption" Tag="16"
+					<CheckBox Content="Sound Effects" Name="SfxItem" Click="ToggleOption" Tag="16"
 					          ToolTip="Check this box to disable the sound effects." />
-					<CheckBox Content="Music" Name="MusicItem"
-					          Checked="EnableOption" Unchecked="DisableOption" Tag="8"
+					<CheckBox Content="Music" Name="MusicItem" Click="ToggleOption" Tag="8"
 					          ToolTip="Check this box to disable music playback." />
-					<CheckBox Content="JoyStick" Name="JoyStickItem"
-					          Checked="EnableOption" Unchecked="DisableOption" Tag="4"
+					<CheckBox Content="JoyStick" Name="JoyStickItem" Click="ToggleOption" Tag="4"
 					          ToolTip="Check this box to disable joystick support in case non-USB device is plugged in to stop the game from slowing down by polling the joystick input." />
-					<CheckBox Content="Startup Screens" Name="StartupScreensItem"
-					          Checked="EnableOption" Unchecked="DisableOption" Tag="32"
+					<CheckBox Content="Startup Screens" Name="StartupScreensItem" Click="ToggleOption" Tag="32"
 					          ToolTip="Check this box to disable start-up screens that are used by Heretic, Hexen and Strife." />
-					<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem"
-					          Checked="EnableOption" Unchecked="DisableOption" Tag="64"
+					<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Click="ToggleOption" Tag="64"
 					          ToolTip="Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife." />
-					<CheckBox Content="Block Map Loading" Name="IgnoreBlockMapItem"
-					          Checked="EnableIgnoreBlockMap" Unchecked="DisableIgnoreBlockMap"
+					<CheckBox Content="Block Map Loading" Name="IgnoreBlockMapItem" Click="ToggleIgnoreBlockMap"
 					          ToolTip="Check this box to have the game generate the block map information instead of loading it." />
 				</ListBox>
 			</StackPanel>
@@ -276,13 +264,13 @@
 				<Label Content="Custom Resolution" />
 				<CheckBox x:Name="WidthCheckBox" Content="Width" Margin="10,0,0,0"
 				          ToolTip="Check this to be able to change the width of the picture."
-				          Checked="EnableWidthField" Unchecked="DisableWidthField" Width="120" />
+				          Click="ToggleWidthField" Width="120" />
 				<prog:NumberBoxAdvanced x:Name="WidthValueField"
 				                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
 				                        Value="1280" DefaultValue="1280" ValueChanged="UpdateWidthValue" />
 				<CheckBox x:Name="HeightCheckBox" Content="Height" Margin="10,5,0,0"
 				          ToolTip="Check this to be able to change the height of the picture."
-				          Checked="EnableHeightField" Unchecked="DisableHeightField" Height="32" Width="120" />
+				          Click="ToggleHeightField" Height="32" Width="120" />
 				<prog:NumberBoxAdvanced x:Name="HeightValueField"
 				                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
 				                        Value="720" DefaultValue="720" ValueChanged="UpdateHeightValue" />
@@ -309,14 +297,11 @@
 							<Setter Property="MinWidth" Value="95" />
 						</Style>
 					</StackPanel.Resources>
-					<CheckBox x:Name="TurboIndicator" Content="Turbo"
-					          Checked="EnableTurbo" Unchecked="DisableTurbo"
+					<CheckBox x:Name="TurboIndicator" Content="Turbo" Click="ToggleTurbo"
 					          ToolTip="Check this box to allow changing of the game speed." />
-					<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit"
-					          Checked="EnableTimeLimit" Unchecked="DisableTimeLimit"
+					<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" Click="ToggleTimeLimit"
 					          ToolTip="Check this box to enable the specified time-limit." />
-					<CheckBox x:Name="DifficultyIndicator" Content="Difficulty"
-					          Checked="EnableCustomDifficulty" Unchecked="DisableCustomDifficulty"
+					<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" Click="ToggleCustomDifficulty"
 					          ToolTip="Check this box to enforce specific difficulty when using the &quot;Start with&quot; section." />
 				</StackPanel>
 				<StackPanel Grid.Column="1">
@@ -485,10 +470,10 @@
 				          VerticalAlignment="Top" HorizontalAlignment="Right" Width="197" />
 				<Button x:Name="ExeFilesRefreshButton" Margin="0,146,212,0" VerticalAlignment="Top" Click="RefreshExeFiles"
 				        HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}"
-				        ToolTip="Refresh the list of executable files."/>
+				        ToolTip="Refresh the list of executable files." />
 				<TextBox x:Name="ExtraOptionsTextBox" Margin="0,146,249,10"
 				         TextWrapping="Wrap" TextChanged="UpdateExtraOptions"
-				         ToolTip="This text will be appended at the end of the command-line. Use this field to specify arguments that can't set from the rest of this interface."/>
+				         ToolTip="This text will be appended at the end of the command-line. Use this field to specify arguments that can't set from the rest of this interface." />
 				<Button x:Name="TestButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,123,10"
 				        Width="121" ToolTip="Show the command-line that will be used to launch the game.">
 					<Button.Resources>
