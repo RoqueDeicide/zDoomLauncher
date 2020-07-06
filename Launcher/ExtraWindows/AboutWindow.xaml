@@ -5,32 +5,34 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:ThemeManager.IsThemeAware="True">
+	<Window.Resources>
+		<Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+			<Setter Property="TextWrapping" Value="Wrap" />
+			<Setter Property="Height" Value="32" />
+		</Style>
+		<Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+			<Setter Property="VerticalContentAlignment" Value="Center" />
+		</Style>
+	</Window.Resources>
 	<Grid>
-		<TextBox x:Name="AssemblyTitleTextBox" HorizontalAlignment="Left" Margin="88,10,0,0" TextWrapping="Wrap"
-		         VerticalAlignment="Top" Width="262" VerticalContentAlignment="Center" />
-		<Label Content="Title" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="32"
-		       VerticalContentAlignment="Center" />
-		<Label Content="Description" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" />
-		<Label Content="Product" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top" Height="32"
-		       VerticalContentAlignment="Center" />
-		<Label Content="Copyright" HorizontalAlignment="Left" Margin="10,144,0,0" VerticalAlignment="Top" Height="32"
-		       VerticalContentAlignment="Center" />
-		<Label Content="Program version" HorizontalAlignment="Left" Margin="10,181,0,0" VerticalAlignment="Top" Height="32"
-		       VerticalContentAlignment="Center" />
-		<Label Content="File version" HorizontalAlignment="Left" Margin="11,213,0,0" VerticalAlignment="Top" Height="32"
-		       VerticalContentAlignment="Center" Width="80" />
-		<TextBox x:Name="AssemblyDescriptionTextBox" HorizontalAlignment="Left" Height="55" Margin="88,47,0,0"
-		         TextWrapping="Wrap" VerticalAlignment="Top" Width="262" />
-		<TextBox x:Name="AssemblyProductTextBox" HorizontalAlignment="Left" Margin="88,107,0,0" TextWrapping="Wrap"
-		         VerticalAlignment="Top" Width="262" />
-		<TextBox x:Name="AssemblyCopyrightTextBox" HorizontalAlignment="Left" Margin="88,144,0,0" TextWrapping="Wrap"
-		         VerticalAlignment="Top" Width="262" />
-		<TextBox x:Name="AssemblyVersionTextBox" HorizontalAlignment="Left" Margin="116,181,0,0" TextWrapping="Wrap"
-		         VerticalAlignment="Top" Width="234" VerticalContentAlignment="Center" />
-		<TextBox x:Name="AssemblyFileVersionTextBox" HorizontalAlignment="Left" Margin="116,218,0,0" TextWrapping="Wrap"
-		         VerticalAlignment="Top" Width="234" VerticalContentAlignment="Center" />
-		<RichTextBox HorizontalAlignment="Left" Height="105" Margin="10,255,0,0" VerticalAlignment="Top"
-		             Width="340" IsDocumentEnabled="True" IsReadOnly="True">
+		<TextBox x:Name="AssemblyTitleTextBox" Margin="88,10,10,0" />
+		<Label Content="Title" Margin="10,10,10,0" />
+		<Label Content="Description" Margin="10,47,10,0" />
+		<Label Content="Product" Margin="10,107,10,0" />
+		<Label Content="Copyright" Margin="10,144,10,0" />
+		<Label Content="Program version" Margin="10,181,10,0" />
+		<Label Content="File version" Margin="11,213,10,0" />
+		<TextBox x:Name="AssemblyDescriptionTextBox" Height="55" Margin="88,47,10,0" />
+		<TextBox x:Name="AssemblyProductTextBox" Margin="88,107,10,0" />
+		<TextBox x:Name="AssemblyCopyrightTextBox" Margin="88,144,10,0" />
+		<TextBox x:Name="AssemblyVersionTextBox" Margin="116,181,10,0" />
+		<TextBox x:Name="AssemblyFileVersionTextBox" Margin="116,218,10,0" />
+		<RichTextBox Height="105" Margin="10,255,10,0" VerticalAlignment="Top"
+		             IsDocumentEnabled="True" IsReadOnly="True">
 			<RichTextBox.Resources>
 				<Style TargetType="Hyperlink">
 					<Setter Property="Cursor" Value="Hand" />
