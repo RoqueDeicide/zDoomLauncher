@@ -34,6 +34,7 @@
 			<RichTextBox.Resources>
 				<Style TargetType="Hyperlink">
 					<Setter Property="Cursor" Value="Hand" />
+					<Setter Property="ToolTip" Value="{Binding NavigateUri, RelativeSource={RelativeSource Self}}" />
 					<EventSetter Event="Click" Handler="OpenBrowser" />
 				</Style>
 			</RichTextBox.Resources>
