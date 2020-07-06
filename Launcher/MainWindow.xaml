@@ -238,7 +238,7 @@
 						          ToolTip="Check this box to disable start-up screens that are used by Heretic, Hexen and Strife." />
 						<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Click="ToggleOption" Tag="64"
 						          ToolTip="Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife." />
-						<CheckBox Content="Block Map Loading" Name="IgnoreBlockMapItem" Click="ToggleIgnoreBlockMap"
+						<CheckBox Content="Block Map Load" Name="IgnoreBlockMapItem" Click="ToggleIgnoreBlockMap"
 						          ToolTip="Check this box to have the game generate the block map information instead of loading it." />
 					</ListBox>
 			</StackPanel>
