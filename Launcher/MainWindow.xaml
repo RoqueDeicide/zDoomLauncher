@@ -7,7 +7,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
-        Title="zDoom Launcher" Height="800" Width="850" MinHeight="800" MinWidth="850"
+        Title="zDoom Launcher" Height="850" Width="850" MinHeight="850" MinWidth="850"
         Closing="MainWindowClosing" Loaded="DealWithWindowPositionSize"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
@@ -16,6 +16,9 @@
 		<Style TargetType="{x:Type ListBoxItem}">
 			<Setter Property="Padding" Value="0" />
 			<Setter Property="Margin" Value="0" />
+		</Style>
+		<Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+			<Setter Property="Padding" Value="0,-10,0,5" />
 		</Style>
 	</Window.Resources>
 	<Grid>
@@ -169,8 +172,8 @@
 		</Menu>
 		<Grid Grid.Row="2">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="137" />
-				<RowDefinition Height="126" />
+				<RowDefinition Height="88" />
+				<RowDefinition Height="184" />
 				<RowDefinition Height="182" />
 				<RowDefinition />
 			</Grid.RowDefinitions>
@@ -198,137 +201,151 @@
 						</DataTemplate>
 					</prog:IwadComboBox.ItemTemplate>
 				</prog:IwadComboBox>
-				<Label Content="Extra Files" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Height="32"
-				       VerticalContentAlignment="Center" />
-				<Button x:Name="ExtraFilesRefreshButton" Margin="0,84,10,0" VerticalAlignment="Top" Click="RefreshExtraFiles"
-				        HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}"
-				        ToolTip="Refresh the list of files that can be loaded with the IWAD." />
 			</Grid>
-			<StackPanel Grid.Row="0" Grid.Column="1">
-				<Label Content="Monster Options" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,5,0,0"
-				       Height="19" Width="120" />
-				<ListBox Margin="6,5,6,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-					<CheckBox x:Name="NoMonstersIndicator" Content="No Monsters" Click="ToggleNoMonsters"
-					          ToolTip="Check this box to prevent the monsters from spawning in the game." />
-					<CheckBox x:Name="FastMonstersIndicator" Content="Fast Monsters" Click="ToggleFastMonsters"
-					          ToolTip="Check this box to make the monsters always be as fast as they are on a nightmare difficulty." />
-					<CheckBox x:Name="RespawningMonstersIndicator" Content="Respawning Monsters" Click="ToggleRespawningMonsters"
-					          ToolTip="Check this box to make the monsters respawn some time after death." />
-				</ListBox>
-			</StackPanel>
-			<StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
-				<Label Content="Disable" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,5,0,0"
-				       Width="102" Height="19" />
-				<ListBox x:Name="DisableFlagsList" Margin="6,5,6,0"
-				         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-				         ScrollViewer.VerticalScrollBarVisibility="Visible" Height="234">
-					<CheckBox Content="Auto-Load Files" Name="AutoLoadItem" Click="ToggleOption" Tag="128"
-					          ToolTip="Check this box to prevent automatic load of files specified in &quot;AutoLoad&quot; section of the config file, as well as &quot;zvox.wad&quot; and files from &quot;skins&quot; directory." />
-					<CheckBox Content="CD Audio" Name="CdAudioItem" Click="ToggleOption" Tag="1"
-					          ToolTip="Check this box to disable CD audio." />
-					<CheckBox Content="Idling" Name="IdlingItem" Click="ToggleOption" Tag="2"
-					          ToolTip="Check this box to prevent zDoom from lowering its priority when minimized." />
-					<CheckBox Content="Sound Effects" Name="SfxItem" Click="ToggleOption" Tag="16"
-					          ToolTip="Check this box to disable the sound effects." />
-					<CheckBox Content="Music" Name="MusicItem" Click="ToggleOption" Tag="8"
-					          ToolTip="Check this box to disable music playback." />
-					<CheckBox Content="JoyStick" Name="JoyStickItem" Click="ToggleOption" Tag="4"
-					          ToolTip="Check this box to disable joystick support in case non-USB device is plugged in to stop the game from slowing down by polling the joystick input." />
-					<CheckBox Content="Startup Screens" Name="StartupScreensItem" Click="ToggleOption" Tag="32"
-					          ToolTip="Check this box to disable start-up screens that are used by Heretic, Hexen and Strife." />
-					<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Click="ToggleOption" Tag="64"
-					          ToolTip="Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife." />
-					<CheckBox Content="Block Map Load" Name="IgnoreBlockMapItem" Click="ToggleIgnoreBlockMap"
-					          ToolTip="Check this box to have the game generate the block map information instead of loading it." />
-				</ListBox>
-			</StackPanel>
-			<StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
-				<StackPanel.Resources>
-					<Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
-						<Setter Property="HorizontalAlignment" Value="Left" />
-						<Setter Property="Margin" Value="10,5,0,0" />
-						<Setter Property="Height" Value="19" />
-					</Style>
-					<Style TargetType="prog:NumberBoxAdvanced"
-					       BasedOn="{StaticResource {x:Type prog:NumberBoxAdvanced}}">
-						<Setter Property="Margin" Value="10,5,0,0" />
-						<Setter Property="Height" Value="32" />
-						<Setter Property="Width" Value="150" />
-						<Setter Property="HorizontalAlignment" Value="Left" />
-						<Setter Property="Minimum" Value="360" />
-						<Setter Property="Maximum" Value="3840" />
-						<Setter Property="SmallChange" Value="20" />
-						<Setter Property="LargeChange" Value="100" />
-						<Setter Property="SpinButtonPlacementMode" Value="Inline" />
-					</Style>
-				</StackPanel.Resources>
-				<Label Content="Custom Resolution" />
-				<CheckBox x:Name="WidthCheckBox" Content="Width" Margin="10,0,0,0"
-				          ToolTip="Check this to be able to change the width of the picture."
-				          Click="ToggleWidthField" Width="120" />
-				<prog:NumberBoxAdvanced x:Name="WidthValueField"
-				                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
-				                        Value="1280" DefaultValue="1280" ValueChanged="UpdateWidthValue" />
-				<CheckBox x:Name="HeightCheckBox" Content="Height" Margin="10,5,0,0"
-				          ToolTip="Check this to be able to change the height of the picture."
-				          Click="ToggleHeightField" Height="32" Width="120" />
-				<prog:NumberBoxAdvanced x:Name="HeightValueField"
-				                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
-				                        Value="720" DefaultValue="720" ValueChanged="UpdateHeightValue" />
-				<Label Content="Pixel Mode" />
-				<ComboBox Margin="10,5,0,0" Name="PixelModeComboBox" Width="116">
-					<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen."
-					              Name="SinglePixelComboBoxItem" />
-					<ComboBoxItem Content="Double" Tag="1" ToolTip="Force renderer to use pixel doubling."
-					              Name="DoublePixelComboBoxItem" />
-					<ComboBoxItem Content="Quad" Tag="2" ToolTip="Force renderer to use pixel quadrupling."
-					              Name="QuadPixelComboBoxItem" />
-				</ComboBox>
-			</StackPanel>
-			<Grid Grid.Row="1" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="8*" />
-					<ColumnDefinition Width="9*" />
-				</Grid.ColumnDefinitions>
-				<StackPanel Grid.Column="0" SnapsToDevicePixels="True">
-					<StackPanel.Resources>
-						<Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
-							<Setter Property="Margin" Value="7,5,0,0" />
-							<Setter Property="Height" Value="32" />
-							<Setter Property="MinWidth" Value="95" />
-						</Style>
-					</StackPanel.Resources>
-					<CheckBox x:Name="TurboIndicator" Content="Turbo" Click="ToggleTurbo"
-					          ToolTip="Check this box to allow changing of the game speed." />
-					<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" Click="ToggleTimeLimit"
-					          ToolTip="Check this box to enable the specified time-limit." />
-					<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" Click="ToggleCustomDifficulty"
-					          ToolTip="Check this box to enforce specific difficulty when using the &quot;Start with&quot; section." />
+			<GroupBox Grid.Row="1" Grid.RowSpan="3" Grid.Column="0">
+				<GroupBox.HeaderTemplate>
+					<DataTemplate>
+						<Grid>
+							<TextBlock HorizontalAlignment="Left" Margin="10, 0, 0, 0"
+								Text="Extra Files to Load" />
+							<Button Margin="0,0,10,0" Click="RefreshExtraFiles" HorizontalAlignment="Right"
+							        Style="{DynamicResource RefreshButtonStyle}"
+							        ToolTip="Refresh the list of files that can be loaded with the IWAD." />
+						</Grid>
+					</DataTemplate>
+				</GroupBox.HeaderTemplate>
+				<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="10,0,10,7" />
+			</GroupBox>
+			<GroupBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Header="Gameplay Options">
+				<Grid Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="56*" />
+						<RowDefinition Height="57*" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="8*" />
+						<ColumnDefinition Width="9*" />
+					</Grid.ColumnDefinitions>
+					<ListBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="6,5,6,0"
+					         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+						<CheckBox x:Name="NoMonstersIndicator" Content="No Monsters" Click="ToggleNoMonsters"
+						          ToolTip="Check this box to prevent the monsters from spawning in the game." />
+						<CheckBox x:Name="FastMonstersIndicator" Content="Fast Monsters" Click="ToggleFastMonsters"
+						          ToolTip="Check this box to make the monsters always be as fast as they are on a nightmare difficulty." />
+						<CheckBox x:Name="RespawningMonstersIndicator" Content="Respawning Monsters" Click="ToggleRespawningMonsters"
+						          ToolTip="Check this box to make the monsters respawn some time after death." />
+					</ListBox>
+					<StackPanel Grid.Row="1" Grid.Column="0" SnapsToDevicePixels="True">
+						<StackPanel.Resources>
+							<Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+								<Setter Property="Margin" Value="7,5,0,0" />
+								<Setter Property="Height" Value="32" />
+								<Setter Property="MinWidth" Value="95" />
+							</Style>
+						</StackPanel.Resources>
+						<CheckBox x:Name="TurboIndicator" Content="Turbo" Click="ToggleTurbo"
+						          ToolTip="Check this box to allow changing of the game speed." />
+						<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" Click="ToggleTimeLimit"
+						          ToolTip="Check this box to enable the specified time-limit." />
+						<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" Click="ToggleCustomDifficulty"
+						          ToolTip="Check this box to enforce specific difficulty when using the &quot;Start with&quot; section." />
+					</StackPanel>
+					<StackPanel Grid.Row="1" Grid.Column="1">
+						<StackPanel.Resources>
+							<Style TargetType="prog:NumberBoxAdvanced"
+							       BasedOn="{StaticResource {x:Type prog:NumberBoxAdvanced}}">
+								<Setter Property="Margin" Value="0,5,0,0" />
+								<Setter Property="Width" Value="106" />
+								<Setter Property="Height" Value="32" />
+								<Setter Property="Minimum" Value="0" />
+								<Setter Property="Maximum" Value="255" />
+							</Style>
+						</StackPanel.Resources>
+						<prog:NumberBoxAdvanced x:Name="TurboValueField"
+						                        Minimum="10" Value="100" ValueChanged="UpdateTurboField"
+						                        ToolTip="Percentage of normal speed to set the game speed to (ranges from 10% to 255%)." />
+						<prog:NumberBoxAdvanced x:Name="TimeLimitValueField"
+						                        Value="20" ValueChanged="UpdateTimeLimitField"
+						                        ToolTip="Number of minutes the player is allowed to be on the level before the game advances to the next level." />
+						<prog:NumberBoxAdvanced x:Name="DifficultyValueField"
+						                        Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField"
+						                        ToolTip="Zero-based index of the difficulty level." />
+					</StackPanel>
+				</Grid>
+			</GroupBox>
+			<GroupBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Header="Disable">
+				<StackPanel Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+					<ListBox x:Name="DisableFlagsList" Margin="6,5,6,0"
+					         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					         ScrollViewer.VerticalScrollBarVisibility="Visible" Height="234">
+						<CheckBox Content="Auto-Load Files" Name="AutoLoadItem" Click="ToggleOption" Tag="128"
+						          ToolTip="Check this box to prevent automatic load of files specified in &quot;AutoLoad&quot; section of the config file, as well as &quot;zvox.wad&quot; and files from &quot;skins&quot; directory." />
+						<CheckBox Content="CD Audio" Name="CdAudioItem" Click="ToggleOption" Tag="1"
+						          ToolTip="Check this box to disable CD audio." />
+						<CheckBox Content="Idling" Name="IdlingItem" Click="ToggleOption" Tag="2"
+						          ToolTip="Check this box to prevent zDoom from lowering its priority when minimized." />
+						<CheckBox Content="Sound Effects" Name="SfxItem" Click="ToggleOption" Tag="16"
+						          ToolTip="Check this box to disable the sound effects." />
+						<CheckBox Content="Music" Name="MusicItem" Click="ToggleOption" Tag="8"
+						          ToolTip="Check this box to disable music playback." />
+						<CheckBox Content="JoyStick" Name="JoyStickItem" Click="ToggleOption" Tag="4"
+						          ToolTip="Check this box to disable joystick support in case non-USB device is plugged in to stop the game from slowing down by polling the joystick input." />
+						<CheckBox Content="Startup Screens" Name="StartupScreensItem" Click="ToggleOption" Tag="32"
+						          ToolTip="Check this box to disable start-up screens that are used by Heretic, Hexen and Strife." />
+						<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Click="ToggleOption" Tag="64"
+						          ToolTip="Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife." />
+						<CheckBox Content="Block Map Load" Name="IgnoreBlockMapItem" Click="ToggleIgnoreBlockMap"
+						          ToolTip="Check this box to have the game generate the block map information instead of loading it." />
+					</ListBox>
 				</StackPanel>
-				<StackPanel Grid.Column="1">
+			</GroupBox>
+			<GroupBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Header="Resolution Options">
+				<StackPanel Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
 					<StackPanel.Resources>
+						<Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+							<Setter Property="HorizontalAlignment" Value="Left" />
+							<Setter Property="Margin" Value="10,5,0,0" />
+							<Setter Property="Height" Value="19" />
+						</Style>
 						<Style TargetType="prog:NumberBoxAdvanced"
 						       BasedOn="{StaticResource {x:Type prog:NumberBoxAdvanced}}">
-							<Setter Property="Margin" Value="0,5,0,0" />
-							<Setter Property="Width" Value="106" />
+							<Setter Property="Margin" Value="10,5,0,0" />
 							<Setter Property="Height" Value="32" />
-							<Setter Property="Minimum" Value="0" />
-							<Setter Property="Maximum" Value="255" />
+							<Setter Property="Width" Value="150" />
+							<Setter Property="HorizontalAlignment" Value="Left" />
+							<Setter Property="Minimum" Value="360" />
+							<Setter Property="Maximum" Value="3840" />
+							<Setter Property="SmallChange" Value="20" />
+							<Setter Property="LargeChange" Value="100" />
+							<Setter Property="SpinButtonPlacementMode" Value="Inline" />
 						</Style>
 					</StackPanel.Resources>
-					<prog:NumberBoxAdvanced x:Name="TurboValueField"
-					                        Minimum="10" Value="100" ValueChanged="UpdateTurboField"
-					                        ToolTip="Percentage of normal speed to set the game speed to (ranges from 10% to 255%)." />
-					<prog:NumberBoxAdvanced x:Name="TimeLimitValueField"
-					                        Value="20" ValueChanged="UpdateTimeLimitField"
-					                        ToolTip="Number of minutes the player is allowed to be on the level before the game advances to the next level." />
-					<prog:NumberBoxAdvanced x:Name="DifficultyValueField"
-					                        Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField"
-					                        ToolTip="Zero-based index of the difficulty level." />
+					<CheckBox x:Name="WidthCheckBox" Content="Width" Margin="10,0,0,0"
+					          ToolTip="Check this to be able to change the width of the picture."
+					          Click="ToggleWidthField" Width="120" />
+					<prog:NumberBoxAdvanced x:Name="WidthValueField"
+					                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
+					                        Value="1280" DefaultValue="1280" ValueChanged="UpdateWidthValue" />
+					<CheckBox x:Name="HeightCheckBox" Content="Height" Margin="10,5,0,0"
+					          ToolTip="Check this to be able to change the height of the picture."
+					          Click="ToggleHeightField" Height="32" Width="120" />
+					<prog:NumberBoxAdvanced x:Name="HeightValueField"
+					                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
+					                        Value="720" DefaultValue="720" ValueChanged="UpdateHeightValue" />
+					<Label Content="Pixel Mode" />
+					<ComboBox Margin="10,5,0,0" Name="PixelModeComboBox" Width="116">
+						<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen."
+						              Name="SinglePixelComboBoxItem" />
+						<ComboBoxItem Content="Double" Tag="1" ToolTip="Force renderer to use pixel doubling."
+						              Name="DoublePixelComboBoxItem" />
+						<ComboBoxItem Content="Quad" Tag="2" ToolTip="Force renderer to use pixel quadrupling."
+						              Name="QuadPixelComboBoxItem" />
+					</ComboBox>
 				</StackPanel>
-			</Grid>
+			</GroupBox>
 			<GroupBox Header="Start With" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
-				<Grid Grid.IsSharedSizeScope="True">
+				<Grid Grid.IsSharedSizeScope="True"
+				      Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
 					<Grid.Resources>
 						<LinearGradientBrush x:Key="SelectedStartMethodBrush" Opacity="0.5">
 							<LinearGradientBrush.GradientStops>
@@ -391,7 +408,7 @@
 						        HorizontalAlignment="Center" />
 					</Grid>
 					<RadioButton Grid.Column="0" x:Name="LoadNothingIndicator" Content="Nothing"
-					             HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top"
+					             HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top"
 					             Height="32" Width="120"
 					             Checked="SwitchToNothing" IsChecked="True" GroupName="StartWithMethodRadioButtonGroup" />
 					<Grid Grid.Column="1" Height="78" VerticalAlignment="Top">
@@ -515,8 +532,6 @@
 				<Button HorizontalAlignment="Right" Margin="0,85,10,0" VerticalAlignment="Top"
 				        Style="{DynamicResource SelectFolderButtonStyle}" Click="SelectConfigPath" />
 			</Grid>
-			<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="11,7,10,10" Height="Auto" Grid.Row="1" Grid.RowSpan="3"
-			                             Grid.Column="0" />
 		</Grid>
 	</Grid>
 </Window>
