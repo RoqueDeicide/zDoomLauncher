@@ -219,28 +219,28 @@
 			<StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
 				<Label Content="Disable" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,5,0,0"
 				       Width="102" Height="19" />
-					<ListBox x:Name="DisableFlagsList" Margin="6,5,6,0"
-					         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-					         ScrollViewer.VerticalScrollBarVisibility="Visible" Height="234">
-						<CheckBox Content="Auto-Load Files" Name="AutoLoadItem" Click="ToggleOption" Tag="128"
-						          ToolTip="Check this box to prevent automatic load of files specified in &quot;AutoLoad&quot; section of the config file, as well as &quot;zvox.wad&quot; and files from &quot;skins&quot; directory." />
-						<CheckBox Content="CD Audio" Name="CdAudioItem" Click="ToggleOption" Tag="1"
-						          ToolTip="Check this box to disable CD audio." />
-						<CheckBox Content="Idling" Name="IdlingItem" Click="ToggleOption" Tag="2"
-						          ToolTip="Check this box to prevent zDoom from lowering its priority when minimized." />
-						<CheckBox Content="Sound Effects" Name="SfxItem" Click="ToggleOption" Tag="16"
-						          ToolTip="Check this box to disable the sound effects." />
-						<CheckBox Content="Music" Name="MusicItem" Click="ToggleOption" Tag="8"
-						          ToolTip="Check this box to disable music playback." />
-						<CheckBox Content="JoyStick" Name="JoyStickItem" Click="ToggleOption" Tag="4"
-						          ToolTip="Check this box to disable joystick support in case non-USB device is plugged in to stop the game from slowing down by polling the joystick input." />
-						<CheckBox Content="Startup Screens" Name="StartupScreensItem" Click="ToggleOption" Tag="32"
-						          ToolTip="Check this box to disable start-up screens that are used by Heretic, Hexen and Strife." />
-						<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Click="ToggleOption" Tag="64"
-						          ToolTip="Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife." />
-						<CheckBox Content="Block Map Load" Name="IgnoreBlockMapItem" Click="ToggleIgnoreBlockMap"
-						          ToolTip="Check this box to have the game generate the block map information instead of loading it." />
-					</ListBox>
+				<ListBox x:Name="DisableFlagsList" Margin="6,5,6,0"
+				         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				         ScrollViewer.VerticalScrollBarVisibility="Visible" Height="234">
+					<CheckBox Content="Auto-Load Files" Name="AutoLoadItem" Click="ToggleOption" Tag="128"
+					          ToolTip="Check this box to prevent automatic load of files specified in &quot;AutoLoad&quot; section of the config file, as well as &quot;zvox.wad&quot; and files from &quot;skins&quot; directory." />
+					<CheckBox Content="CD Audio" Name="CdAudioItem" Click="ToggleOption" Tag="1"
+					          ToolTip="Check this box to disable CD audio." />
+					<CheckBox Content="Idling" Name="IdlingItem" Click="ToggleOption" Tag="2"
+					          ToolTip="Check this box to prevent zDoom from lowering its priority when minimized." />
+					<CheckBox Content="Sound Effects" Name="SfxItem" Click="ToggleOption" Tag="16"
+					          ToolTip="Check this box to disable the sound effects." />
+					<CheckBox Content="Music" Name="MusicItem" Click="ToggleOption" Tag="8"
+					          ToolTip="Check this box to disable music playback." />
+					<CheckBox Content="JoyStick" Name="JoyStickItem" Click="ToggleOption" Tag="4"
+					          ToolTip="Check this box to disable joystick support in case non-USB device is plugged in to stop the game from slowing down by polling the joystick input." />
+					<CheckBox Content="Startup Screens" Name="StartupScreensItem" Click="ToggleOption" Tag="32"
+					          ToolTip="Check this box to disable start-up screens that are used by Heretic, Hexen and Strife." />
+					<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Click="ToggleOption" Tag="64"
+					          ToolTip="Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife." />
+					<CheckBox Content="Block Map Load" Name="IgnoreBlockMapItem" Click="ToggleIgnoreBlockMap"
+					          ToolTip="Check this box to have the game generate the block map information instead of loading it." />
+				</ListBox>
 			</StackPanel>
 			<StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
 				<StackPanel.Resources>
@@ -396,8 +396,9 @@
 					             Checked="SwitchToNothing" IsChecked="True" GroupName="StartWithMethodRadioButtonGroup" />
 					<Grid Grid.Column="1" Height="78" VerticalAlignment="Top">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition SharedSizeGroup="StartRightRadioButtonsGroup" />
-							<ColumnDefinition />
+							<ColumnDefinition SharedSizeGroup="StartRightRadioButtonsGroup" Width="115*" />
+							<ColumnDefinition Width="95*" />
+							<ColumnDefinition Width="95*" />
 						</Grid.ColumnDefinitions>
 						<Grid.Style>
 							<Style TargetType="Grid">
@@ -409,19 +410,17 @@
 							</Style>
 						</Grid.Style>
 						<RadioButton x:Name="LoadMapIndicator" Height="32" MinWidth="40"
-						             Content="Map" HorizontalAlignment="Left" Margin="10,0,0,0"
+						             Content="Map" HorizontalAlignment="Left" Margin="10,23,0,23"
 						             Checked="SwitchToMap" GroupName="StartWithMethodRadioButtonGroup"
 						             ToolTip="Check this box to have the game load a map specified by the map and/or episode index." />
 						<Label Grid.Column="1" Content="Episode" Height="32" Width="48" HorizontalAlignment="Left"
-						       VerticalContentAlignment="Center" Margin="10,0,0,47" />
-						<prog:NumberBoxAdvanced Grid.Column="1" x:Name="EpisodeValueField"
-						                        Width="80" HorizontalAlignment="Left" Margin="10,36,0,10"
+						       VerticalContentAlignment="Center" Margin="10,0,0,46" />
+						<prog:NumberBoxAdvanced Grid.Column="1" x:Name="EpisodeValueField" Margin="10,36,5,10"
 						                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
 						                        ValueChanged="UpdateEpisodeIndex" />
-						<Label Grid.Column="1" Content="Map" Height="32" Width="28" HorizontalAlignment="Right"
-						       VerticalContentAlignment="Center" Margin="0,0,62,47" />
-						<prog:NumberBoxAdvanced Grid.Column="1" x:Name="MapValueField"
-						                        Width="80" Margin="0,36,10,10" HorizontalAlignment="Right"
+						<Label Grid.Column="2" Content="Map" Height="32" Width="28" HorizontalAlignment="Left"
+						       VerticalContentAlignment="Center" Margin="5,0,0,46" />
+						<prog:NumberBoxAdvanced Grid.Column="2" x:Name="MapValueField" Margin="5,36,10,10"
 						                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
 						                        ValueChanged="UpdateMapIndex" />
 					</Grid>
@@ -450,21 +449,18 @@
 				</Grid>
 			</GroupBox>
 			<Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">
-				<Label Content="Save Directory" VerticalAlignment="Top" RenderTransformOrigin="0.474,0.538"
-				       HorizontalAlignment="Left" Width="123" />
-				<TextBox x:Name="SaveDirectoryTextBox" Height="23" Margin="0,24,47,0" VerticalAlignment="Top"
-				         TextChanged="UpdateSaveDirectory" TextWrapping="Wrap"
+				<Label Content="Save Directory" VerticalAlignment="Top" HorizontalAlignment="Left" />
+				<TextBox x:Name="SaveDirectoryTextBox" Margin="0,24,47,0" VerticalAlignment="Top"
+				         TextChanged="UpdateSaveDirectory"
 				         ToolTip="Path to the directory where the save files are (to be) stored." />
-				<Label Content="Extra Command-Line Options" Margin="0,122,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"
-				       Width="188" />
-				<Label Content="zDoom Configuration File" Margin="0,61,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"
-				       Width="166" />
-				<TextBox x:Name="ConfigFileTextBox" Height="23" Margin="0,85,47,0" VerticalAlignment="Top"
-				         TextChanged="UpdateConfigFile" TextWrapping="Wrap"
+				<Label Content="Extra Command-Line Options" Margin="0,122,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
+				<Label Content="zDoom Configuration File" Margin="0,61,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
+				<TextBox x:Name="ConfigFileTextBox" Margin="0,85,47,0" VerticalAlignment="Top"
+				         TextChanged="UpdateConfigFile"
 				         ToolTip="Path to the zDoom config file to use." />
-				<Label Content="Executable File Name" Margin="0,122,107,0" VerticalAlignment="Top"
+				<Label Content="Executable File Name" Margin="0,122,112,0" VerticalAlignment="Top"
 				       ToolTip="Name of the executable file that represents the source port to use. Currently only useful for choosing between zDoom, gzDoom and compatible ones."
-				       HorizontalAlignment="Right" Width="137" />
+				       HorizontalAlignment="Right" />
 				<ComboBox Margin="0,146,10,0" x:Name="ExeFileNameComboBox" IsReadOnly="True"
 				          ToolTip="The name of the executable file to use. This list can be refreshed with a &quot;Refresh&quot; button."
 				          SelectionChanged="ExeFileSelected" SelectedValuePath="Content"
