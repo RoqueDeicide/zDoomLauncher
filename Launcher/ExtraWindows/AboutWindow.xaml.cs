@@ -43,5 +43,10 @@ namespace Launcher
 
 			Process.Start(link.NavigateUri.ToString());
 		}
+
+		private void GoToWebsite(object sender, RoutedEventArgs e)
+		{
+			Process.Start("https://github.com/RoqueDeicide/zDoomLauncher");
+		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Launcher.AboutWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="About Launcher" Height="398.503" Width="366" ResizeMode="NoResize"
+        Title="About Launcher" Height="437.503" Width="366" ResizeMode="NoResize"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:ThemeManager.IsThemeAware="True">
@@ -31,7 +31,7 @@
 		<TextBox x:Name="AssemblyCopyrightTextBox" Margin="88,144,10,0" />
 		<TextBox x:Name="AssemblyVersionTextBox" Margin="116,181,10,0" />
 		<TextBox x:Name="AssemblyFileVersionTextBox" Margin="116,218,10,0" />
-		<RichTextBox Height="105" Margin="10,255,10,0" VerticalAlignment="Top"
+		<RichTextBox Height="105" Margin="10,292,10,0" VerticalAlignment="Top"
 		             IsDocumentEnabled="True" IsReadOnly="True">
 			<RichTextBox.Resources>
 				<Style TargetType="Hyperlink">
@@ -53,5 +53,6 @@
 				</Paragraph>
 			</FlowDocument>
 		</RichTextBox>
+		<Button Content="Go to website" HorizontalAlignment="Left" Margin="240,255,0,0" VerticalAlignment="Top" Width="110" Click="GoToWebsite"/>
 	</Grid>
 </Window>
