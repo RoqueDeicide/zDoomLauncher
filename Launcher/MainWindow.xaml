@@ -300,7 +300,8 @@
 				</StackPanel>
 			</GroupBox>
 			<GroupBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Header="Resolution Options">
-				<StackPanel Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+				<StackPanel Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+				            MinWidth="170" MaxWidth="170" HorizontalAlignment="Left">
 					<StackPanel.Resources>
 						<Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
 							<Setter Property="HorizontalAlignment" Value="Left" />
@@ -359,7 +360,7 @@
 						<ColumnDefinition Width="143*" />
 						<ColumnDefinition Width="153*" />
 					</Grid.ColumnDefinitions>
-					<Grid Grid.Column="0" Height="36" VerticalAlignment="Top">
+					<Grid Grid.Column="0" Height="36" VerticalAlignment="Top" Margin="0,10,0,0">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="80" SharedSizeGroup="StartLeftRadioButtonsGroup" />
 							<ColumnDefinition />
@@ -383,7 +384,7 @@
 						<Button Grid.Column="2" Style="{DynamicResource SelectFileButtonStyle}"
 						        Click="SelectSaveGameFile" HorizontalAlignment="Center" />
 					</Grid>
-					<Grid x:Name="LoadDemoGrid" Grid.Column="0" Height="36" VerticalAlignment="Top" Margin="0,41,0,0">
+					<Grid x:Name="LoadDemoGrid" Grid.Column="0" Height="36" VerticalAlignment="Top" Margin="0,51,0,0">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition SharedSizeGroup="StartLeftRadioButtonsGroup" />
 							<ColumnDefinition />
