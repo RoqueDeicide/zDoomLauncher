@@ -23,8 +23,6 @@ namespace Launcher
 	{
 		private const int CommandLineMaxLength = 2080;
 
-		private AboutWindow       aboutWindow;
-		private HelpWindow        helpWindow;
 		private AccentColorPicker accentColorPicker;
 
 		private (string path, string args) CommandLine
@@ -370,16 +368,12 @@ namespace Launcher
 
 		private void OpenAboutWindow(object sender, RoutedEventArgs e)
 		{
-			this.aboutWindow ??= new AboutWindow();
-
-			this.aboutWindow.Show();
+			new AboutWindow().Show();
 		}
 
 		private void OpenHelpWindow(object sender, RoutedEventArgs e)
 		{
-			this.helpWindow ??= new HelpWindow();
-
-			this.helpWindow.Show();
+			new HelpWindow().Show();
 		}
 
 		private void RefreshExtraFiles(object sender, RoutedEventArgs e)
