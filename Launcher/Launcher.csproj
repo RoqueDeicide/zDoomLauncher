@@ -228,7 +228,6 @@
     <Compile Include="ExtraWindows\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ExtraWindows\DirectoryName.cs" />
     <Compile Include="GeneralExtensions.cs" />
     <Compile Include="Wads\IwadFile.cs" />
     <Compile Include="Wads\Iwads.cs" />
@@ -284,17 +283,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\cross.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\folder--pencil.png" />
-    <Resource Include="Resources\folder--plus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\arrow-stop-090.png" />
-    <Resource Include="Resources\arrow-stop-270.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\disk-black.png" />
