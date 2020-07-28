@@ -1,9 +1,42 @@
-﻿using System.Windows;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media;
 using Launcher.Annotations;
 
 namespace Launcher
 {
+	internal enum AccentState
+	{
+		ACCENT_DISABLED                   = 1,
+		ACCENT_ENABLE_GRADIENT            = 0,
+		ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
+		ACCENT_ENABLE_BLURBEHIND          = 3,
+		ACCENT_INVALID_STATE              = 4
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	internal struct AccentPolicy
+	{
+		public AccentState AccentState;
+		public int         AccentFlags;
+		public int         GradientColor;
+		public int         AnimationId;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	internal struct WindowCompositionAttributeData
+	{
+		public WindowCompositionAttribute Attribute;
+		public IntPtr                     Data;
+		public int                        SizeOfData;
+	}
+
+	internal enum WindowCompositionAttribute
+	{
+		WCA_ACCENT_POLICY = 19
+	}
 	/// <summary>
 	/// Defines extension methods for objects that are related to WPF.
 	/// </summary>
@@ -82,6 +115,47 @@ namespace Launcher
 		public static Color ToWpfColor(this Windows.UI.Color color)
 		{
 			return Color.FromArgb(color.A, color.R, color.G, color.B);
+		}
+
+		[DllImport("user32.dll")]
+		private static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+		/// <summary>
+		/// Enables acrylic background effect for the window.
+		/// </summary>
+		/// <param name="window">Window to enable the effect on.</param>
+		public static void EnableAcrylicBackground([NotNull] this Window window)
+		{
+			if (Environment.OSVersion.Platform != PlatformID.Win32NT ||
+				Environment.OSVersion.Version.Major < 10)
+			{
+				return;
+			}
+
+			var helper = new WindowInteropHelper(window);
+
+			var accent = new AccentPolicy {AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND};
+
+			int accentSize = Marshal.SizeOf(accent);
+
+			IntPtr accentPtr = Marshal.AllocHGlobal(accentSize);
+
+			try
+			{
+				Marshal.StructureToPtr(accent, accentPtr, false);
+
+				var data = new WindowCompositionAttributeData
+						   {
+							   Attribute  = WindowCompositionAttribute.WCA_ACCENT_POLICY,
+							   Data       = accentPtr,
+							   SizeOfData = accentSize
+						   };
+
+				SetWindowCompositionAttribute(helper.Handle, ref data);
+			}
+			finally
+			{
+				Marshal.FreeHGlobal(accentPtr);
+			}
 		}
 	}
 }
