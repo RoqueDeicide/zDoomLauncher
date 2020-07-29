@@ -3,7 +3,7 @@
         xmlns:local="clr-namespace:Launcher"
         x:Class="Launcher.Directories"
         Title="Directories to Look for the Files in"
-        Height="480" Width="570" MinHeight="480" MaxWidth="570"
+        Height="480" Width="570" MinHeight="480" MinWidth="570"
         ResizeMode="CanResizeWithGrip" WindowStyle="ToolWindow"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
