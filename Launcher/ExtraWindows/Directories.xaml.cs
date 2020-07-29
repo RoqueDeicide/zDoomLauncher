@@ -54,9 +54,7 @@ namespace Launcher
 
 		private static void AddDirectory(string directory)
 		{
-			var dirList = new List<string>(ExtraFilesLookUp.Directories);
-
-			int index = dirList.BinarySearch(directory);
+			int index = ExtraFilesLookUp.Directories.BinarySearch(directory);
 
 			if (index >= 0)
 			{
@@ -76,9 +74,15 @@ namespace Launcher
 			{
 				return;
 			}
-			
+
 			// Remove the row.
-			ExtraFilesLookUp.Directories.Remove(name);
+			int index = ExtraFilesLookUp.Directories.BinarySearch(name);
+			if (index < 0)
+			{
+				return;
+			}
+
+			ExtraFilesLookUp.Directories.RemoveAt(index);
 		}
 	}
 }
