@@ -10,16 +10,57 @@
 				<ui:ThemeResources />
 				<ui:XamlControlsResources />
 			</ResourceDictionary.MergedDictionaries>
-			<Style x:Key="RefreshButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-				<Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundAccentBrush}" />
-				<Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
-				<Setter Property="Padding" Value="5" />
-				<Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
-				<Setter Property="FontSize" Value="16" />
-				<Setter Property="Content" Value="&#xE72C;" />
-				<Setter Property="Width" Value="32" />
-				<Setter Property="Height" Value="32" />
-			</Style>
+			<ui:BitmapIcon x:Shared="False" x:Key="RefreshIcon"
+			               UriSource="pack://application:,,,/Resources/arrow-circle-double.png" ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="RefreshIconS"
+			               UriSource="pack://application:,,,/Resources/arrow-circle-double.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="SaveIcon" UriSource="pack://application:,,,/Resources/disk-black.png"
+			               ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="SaveIconS" UriSource="pack://application:,,,/Resources/disk-black.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="SaveAsIcon" UriSource="pack://application:,,,/Resources/disks-black.png"
+			               ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="SaveAsIconS" UriSource="pack://application:,,,/Resources/disks-black.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="NewFileIcon" UriSource="pack://application:,,,/Resources/document.png"
+			               ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="NewFileIconS" UriSource="pack://application:,,,/Resources/document.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="OpenIcon"
+			               UriSource="pack://application:,,,/Resources/folder-open-document.png" ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="OpenIconS"
+			               UriSource="pack://application:,,,/Resources/folder-open-document.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="FolderIcon" UriSource="pack://application:,,,/Resources/folder.png"
+			               ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="FolderIconS" UriSource="pack://application:,,,/Resources/folder.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="FoldersIcon" UriSource="pack://application:,,,/Resources/folders-stack.png"
+			               ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="FoldersIconS" UriSource="pack://application:,,,/Resources/folders-stack.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="DocumentIcon"
+			               UriSource="pack://application:,,,/Resources/icons8-document-48.png" ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="DocumentIconS"
+			               UriSource="pack://application:,,,/Resources/icons8-document-48.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="OpenFolderIcon"
+			               UriSource="pack://application:,,,/Resources/icons8-opened-folder-48.png" ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="OpenFolderIconS"
+			               UriSource="pack://application:,,,/Resources/icons8-opened-folder-48.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="InfoIcon" UriSource="pack://application:,,,/Resources/information-white.png"
+			               ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="InfoIconS" UriSource="pack://application:,,,/Resources/information-white.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="StoreSizeIcon" UriSource="pack://application:,,,/Resources/layer-resize.png"
+			               ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="StoreSizeIconS" UriSource="pack://application:,,,/Resources/layer-resize.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="StorePositionIcon"
+			               UriSource="pack://application:,,,/Resources/layers-group.png" ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="StorePositionIconS"
+			               UriSource="pack://application:,,,/Resources/layers-group.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="QuestionIcon" UriSource="pack://application:,,,/Resources/question-white.png"
+			               ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="QuestionIconS"
+			               UriSource="pack://application:,,,/Resources/question-white.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="WindowIcon" UriSource="pack://application:,,,/Resources/ice.png"
+			               ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="WindowIconS" UriSource="pack://application:,,,/Resources/ice.png" />
+			<ui:BitmapIcon x:Shared="False" x:Key="CommandLineIcon" UriSource="pack://application:,,,/Resources/terminal.png"
+			               ShowAsMonochrome="False" />
+			<ui:BitmapIcon x:Shared="False" x:Key="CommandLineIconS" UriSource="pack://application:,,,/Resources/terminal.png" />
 			<Style x:Key="SelectFileSystemEntryButtonStyle" TargetType="Button"
 			       BasedOn="{StaticResource {x:Type Button}}">
 				<Setter Property="Padding" Value="2" />
@@ -36,19 +77,8 @@
 				<Setter Property="ContentTemplate">
 					<Setter.Value>
 						<DataTemplate>
-							<ui:BitmapIcon UriSource="Resources/icons8-document-48.png" />
-						</DataTemplate>
-					</Setter.Value>
-				</Setter>
-			</Style>
-			<Image x:Key="OpenConfigIcon" x:Shared="False" Source="Resources/folder-open-document.png" />
-			<Style x:Key="SelectConfigFileButtonStyle" TargetType="{x:Type Button}"
-			       BasedOn="{StaticResource SelectFileSystemEntryButtonStyle}">
-				<Setter Property="ContentTemplate">
-					<Setter.Value>
-						<DataTemplate>
 							<Grid>
-								<StaticResource ResourceKey="OpenConfigIcon" />
+								<StaticResource ResourceKey="DocumentIconS" />
 							</Grid>
 						</DataTemplate>
 					</Setter.Value>
@@ -59,7 +89,9 @@
 				<Setter Property="ContentTemplate">
 					<Setter.Value>
 						<DataTemplate>
-							<ui:BitmapIcon UriSource="Resources/icons8-opened-folder-48.png" />
+							<Grid>
+								<StaticResource ResourceKey="OpenFolderIconS" />
+							</Grid>
 						</DataTemplate>
 					</Setter.Value>
 				</Setter>

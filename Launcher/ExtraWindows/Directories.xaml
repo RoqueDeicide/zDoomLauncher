@@ -26,17 +26,9 @@
 				<TextBlock Margin="10,0,0,0">Directory List Management</TextBlock>
 			</ui:CommandBar.Content>
 			<ui:AppBarButton Label="Add Directory" Margin="10,0,0,0"
-			                 Click="AddDirectoryNoSubDirectories">
-				<ui:AppBarButton.Icon>
-					<ui:BitmapIcon UriSource="../Resources/folder.png" ShowAsMonochrome="False" />
-				</ui:AppBarButton.Icon>
-			</ui:AppBarButton>
+			                 Click="AddDirectoryNoSubDirectories" Icon="{StaticResource FolderIcon}" />
 			<ui:AppBarButton Label="Add Directory with Sub-entries" Margin="10,0,0,0"
-			                 Click="AddDirectoryWithSubDirectories">
-				<ui:AppBarButton.Icon>
-					<ui:BitmapIcon UriSource="../Resources/folders-stack.png" ShowAsMonochrome="False" />
-				</ui:AppBarButton.Icon>
-			</ui:AppBarButton>
+			                 Click="AddDirectoryWithSubDirectories" Icon="{StaticResource FoldersIcon}" />
 		</ui:CommandBar>
 		<ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,50,0,0">
 			<ListBox x:Name="DirectoriesListBox"
