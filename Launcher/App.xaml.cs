@@ -2,7 +2,10 @@
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using Launcher.Logging;
+using ModernWpf.Controls;
 
 namespace Launcher
 {
@@ -47,6 +50,15 @@ namespace Launcher
 
 					inner = inner.InnerException;
 				}
+			}
+		}
+
+		private void ReplaceIconWithContent(object sender, RoutedEventArgs e)
+		{
+			if (sender is AppBarButton abb && abb.Template.FindName("Content", abb) is ContentPresenter cp)
+			{
+				var binding = new Binding("Content") {Source = abb};
+				cp.SetBinding(ContentPresenter.ContentProperty, binding);
 			}
 		}
 	}

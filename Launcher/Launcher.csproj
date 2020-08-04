@@ -287,11 +287,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\disk-black.png" />
-    <Resource Include="Resources\disk-small-black.png" />
     <Resource Include="Resources\document.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\cross-white.png" />
     <Resource Include="Resources\folder-open-document.png" />
     <Resource Include="Resources\folder.png" />
     <Resource Include="Resources\folders-stack.png" />
@@ -327,7 +325,15 @@
       <Version>1.1.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\ice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\disks-black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\terminal.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

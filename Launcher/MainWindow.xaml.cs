@@ -95,7 +95,7 @@ namespace Launcher
 				Iwads.IwadFolder = this.zDoomFolder;
 			}
 
-			this.RefreshExeFiles(this, null);
+			this.RefreshExeFiles();
 			this.InitializeDialogs();
 			this.InitializeSomeEventHandlers();
 			this.SetupInterface();
@@ -217,28 +217,24 @@ namespace Launcher
 			}
 		}
 
-		private void CloseWindow(object sender, RoutedEventArgs e)
-		{
-			this.Close();
-		}
-
 		private void UpdateTestCommandLine(object sender, object e)
 		{
 			(string path, string args) = this.CommandLine;
 
 			string commandLine = $"{path} {args}";
 
-			this.TestButton.Resources["CommandLineText"] = commandLine;
+			var button = this.CommandLineAppButton;
+			button.Resources["CommandLineText"] = commandLine;
 
 			if (commandLine.Length > CommandLineMaxLength)
 			{
-				this.TestButton.Resources["FlyoutColor"]  = new SolidColorBrush(Colors.Red);
-				this.TestButton.Resources["FlyoutSymbol"] = Symbol.Cancel;
+				button.Resources["FlyoutColor"]  = new SolidColorBrush(Colors.Red);
+				button.Resources["FlyoutSymbol"] = Symbol.Cancel;
 			}
 			else
 			{
-				this.TestButton.Resources["FlyoutColor"]  = new SolidColorBrush(Colors.Green);
-				this.TestButton.Resources["FlyoutSymbol"] = Symbol.Accept;
+				button.Resources["FlyoutColor"]  = new SolidColorBrush(Colors.Green);
+				button.Resources["FlyoutSymbol"] = Symbol.Accept;
 			}
 		}
 
@@ -297,7 +293,7 @@ namespace Launcher
 				Iwads.IwadFolder = this.zDoomFolder;
 			}
 
-			this.RefreshExeFiles(this, null);
+			this.RefreshExeFiles();
 		}
 
 		private void OpenDirectoriesWindow(object sender, RoutedEventArgs e)
@@ -312,7 +308,7 @@ namespace Launcher
 			this.SaveAppConfiguration();
 		}
 
-		private void RefreshExeFiles(object sender, RoutedEventArgs e)
+		private void RefreshExeFiles()
 		{
 			if (this.zDoomFolder == null || this.ExeFileNameComboBox == null)
 			{
@@ -376,7 +372,7 @@ namespace Launcher
 			new HelpWindow().Show();
 		}
 
-		private void RefreshExtraFiles(object sender, RoutedEventArgs e)
+		private void RefreshExtraFiles()
 		{
 			if (this.config?.ExtraFiles == null || this.ExtraFilesBox == null || this.zDoomFolder == null)
 			{
@@ -389,8 +385,8 @@ namespace Launcher
 
 		private void RefreshEverything(object sender, RoutedEventArgs e)
 		{
-			this.RefreshExeFiles(this.ExeFilesRefreshButton, e);
-			this.RefreshExtraFiles(null, e);
+			this.RefreshExeFiles();
+			this.RefreshExtraFiles();
 		}
 
 		private LaunchConfiguration LoadConfiguration(string configFile)

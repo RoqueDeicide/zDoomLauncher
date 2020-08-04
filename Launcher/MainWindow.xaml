@@ -24,8 +24,9 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="40" />
+			<RowDefinition Height="56" />
 			<RowDefinition />
+			<RowDefinition Height="56" />
 		</Grid.RowDefinitions>
 		<StackPanel x:Name="AppTitleBar"
 		            Background="{DynamicResource SystemControlBackgroundAccentBrush}"
@@ -46,134 +47,34 @@
 			<TextBlock FontSize="13" VerticalAlignment="Center" Margin="5, 0, 0, 0"
 			           Text="{Binding ElementName=Window, Path=Title}" />
 		</StackPanel>
-		<Menu Grid.Row="1">
-			<Menu.Resources>
-				<prog:ThemeMenuButtonChecker x:Key="ThemeMenuButtonChecker" />
-			</Menu.Resources>
-			<MenuItem Header="Configurations">
-				<MenuItem Header="New" Click="CreateNewConfiguration">
-					<MenuItem.Icon>
-						<Image Source="Resources/document.png" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<Separator />
-				<MenuItem Header="Save" Click="SaveConfiguration">
-					<MenuItem.Icon>
-						<Image Source="Resources/disk-black.png" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="Save As" Click="SaveConfigurationAs">
-					<MenuItem.Icon>
-						<Image Source="Resources/disk-small-black.png" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="Open" Click="OpenConfiguration" Icon="{StaticResource OpenConfigIcon}" />
-				<Separator />
-				<MenuItem Header="Close" Click="CloseWindow">
-					<MenuItem.Icon>
-						<Image Source="Resources/cross-white.png" />
-					</MenuItem.Icon>
-				</MenuItem>
-			</MenuItem>
-			<MenuItem Header="Source Port">
-				<MenuItem Header="Set Installation Directory" Click="SelectZDoomInstallationFolder">
-					<MenuItem.Icon>
-						<Image Source="Resources/folder.png" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="Change Loadable File Directories" Click="OpenDirectoriesWindow">
-					<MenuItem.Icon>
-						<Image Source="Resources/folders-stack.png" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<Separator />
-				<MenuItem Header="Refresh All Files" Click="RefreshEverything">
-					<MenuItem.Icon>
-						<Image Source="Resources/arrow-circle-double.png" />
-					</MenuItem.Icon>
-				</MenuItem>
-			</MenuItem>
-			<MenuItem Header="Help">
-				<MenuItem Header="Help" HorizontalAlignment="Left" Width="145" Click="OpenHelpWindow">
-					<MenuItem.Icon>
-						<Image Source="Resources/question-white.png" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<Separator HorizontalAlignment="Left" Width="145" />
-				<MenuItem Header="About" HorizontalAlignment="Left" Width="145" Click="OpenAboutWindow">
-					<MenuItem.Icon>
-						<Image Source="Resources/information-white.png" />
-					</MenuItem.Icon>
-				</MenuItem>
-			</MenuItem>
-			<MenuItem Header="Window">
-				<MenuItem Header="Save Window Position" Click="SaveWindowPosition">
-					<MenuItem.Icon>
-						<Image Source="Resources/layers-group.png" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="Save Window Dimensions" Click="SaveWindowDimensions">
-					<MenuItem.Icon>
-						<Image Source="Resources/layer-resize.png" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<Separator />
-				<MenuItem Header="Reset Window Position" Click="ResetWindowPosition" />
-				<MenuItem Header="Reset Window Dimensions" Click="ResetWindowDimensions" />
-				<Separator />
-				<ui:RadioMenuItem x:Name="LightThemeMenuItem" Header="Light Theme"
-				                  ToolTip="Force this program to use light theme."
-				                  GroupName="Theme">
-					<ui:RadioMenuItem.Icon>
-						<Rectangle Width="32" Height="32" Stroke="Black" Fill="White" />
-					</ui:RadioMenuItem.Icon>
-					<ui:RadioMenuItem.IsChecked>
-						<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
-						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Light" />
-					</ui:RadioMenuItem.IsChecked>
-				</ui:RadioMenuItem>
-				<ui:RadioMenuItem x:Name="DarkThemeMenuItem" Header="Dark Theme"
-				                  ToolTip="Force this program to use dark theme."
-				                  GroupName="Theme">
-					<ui:RadioMenuItem.Icon>
-						<Rectangle Width="32" Height="32" Stroke="White" Fill="Black" />
-					</ui:RadioMenuItem.Icon>
-					<ui:RadioMenuItem.IsChecked>
-						<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
-						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Dark" />
-					</ui:RadioMenuItem.IsChecked>
-				</ui:RadioMenuItem>
-				<ui:RadioMenuItem x:Name="OSThemeMenuItem"
-				                  ToolTip="Let the operating system choose the theme."
-				                  GroupName="Theme">
-					<ui:RadioMenuItem.Icon>
-						<Rectangle x:Name="OSThemeRectangle" Width="32" Height="32" />
-					</ui:RadioMenuItem.Icon>
-					<ui:RadioMenuItem.IsChecked>
-						<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
-						         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="null" />
-					</ui:RadioMenuItem.IsChecked>
-				</ui:RadioMenuItem>
-				<MenuItem Header="Accent Color" Click="ShowAccentColorPickerDialog">
-					<MenuItem.Icon>
-						<Rectangle Stroke="{DynamicResource SystemControlForegroundBaseHighBrush}"
-						           Width="32" Height="32">
-							<Rectangle.Fill>
-								<SolidColorBrush>
-									<SolidColorBrush.Color>
-										<Binding Path="ActualAccentColor" Source="{x:Static ui:ThemeManager.Current}" />
-									</SolidColorBrush.Color>
-								</SolidColorBrush>
-							</Rectangle.Fill>
-						</Rectangle>
-					</MenuItem.Icon>
-				</MenuItem>
-			</MenuItem>
-		</Menu>
+		<Grid Grid.Row="1" Background="{DynamicResource CommandBarBackground}">
+			<ui:CommandBar VerticalContentAlignment="Center" HorizontalAlignment="Left"
+			               DefaultLabelPosition="Bottom" OverflowButtonVisibility="Collapsed">
+				<ui:AppBarButton Label="New" Click="CreateNewConfiguration" Icon="{StaticResource NewFileIcon}"
+				                 ToolTip="Click to create a new configuration." />
+				<ui:AppBarButton Label="Save" Click="SaveConfiguration" Icon="{StaticResource SaveIcon}"
+				                 ToolTip="Click to save this configuration." />
+				<ui:AppBarButton Label="Save as" Click="SaveConfigurationAs" Icon="{StaticResource SaveAsIcon}"
+				                 ToolTip="Click to save this configuration into a separate file." />
+				<ui:AppBarButton Label="Open" Click="OpenConfiguration" Icon="{StaticResource OpenIcon}"
+				                 ToolTip="Click to open configuration file." />
+				<ui:AppBarSeparator />
+				<ui:AppBarButton Icon="Play" Label="Play" Click="LaunchTheGame"
+				                 ToolTip="Click to launch the game using current command line." />
+				<ui:AppBarButton Icon="Refresh" Label="Refresh" Click="RefreshEverything"
+				                 ToolTip="Click to refresh the lists of files." />
+				<ui:CommandBar.Content>
+					<StackPanel Orientation="Horizontal">
+						<Label Content="Name" Margin="10,0,0,0" Height="32" VerticalContentAlignment="Center" />
+						<TextBox x:Name="ConfigurationNameTextBox" Width="200" Height="23" Margin="5,0,0,0"
+						         TextChanged="ConfigurationNameChanged" />
+					</StackPanel>
+				</ui:CommandBar.Content>
+			</ui:CommandBar>
+		</Grid>
 		<Grid Grid.Row="2">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="88" />
-				<RowDefinition Height="184" />
+				<RowDefinition Height="272" />
 				<RowDefinition Height="182" />
 				<RowDefinition />
 			</Grid.RowDefinitions>
@@ -183,40 +84,25 @@
 				<ColumnDefinition Width="165" />
 				<ColumnDefinition Width="189*" />
 			</Grid.ColumnDefinitions>
-			<Grid Grid.Row="0" Grid.Column="0">
-				<Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="32"
-				       VerticalContentAlignment="Center" />
-				<TextBox x:Name="ConfigurationNameTextBox" Height="23" Margin="52,10,10,0" TextWrapping="Wrap"
-				         VerticalAlignment="Top" TextChanged="ConfigurationNameChanged" />
-				<Label Content="IWAD" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Height="32"
-				       VerticalContentAlignment="Center" />
-				<prog:IwadComboBox Margin="52,47,10,0" VerticalAlignment="Top"
-				                   x:Name="IwadComboBox" DropDownClosed="SelectIwad"
-				                   ItemsSource="{Binding RelativeSource={RelativeSource Self}, Path=Files}"
-				                   HorizontalAlignment="Stretch"
-				                   ToolTip="Select an IWAD file to use as a basis. Not selecting anything will cause zDoom to prompt you with IWAD selection dialog, so selection isn't necessary, however some Start With options will not be accessible.">
-					<prog:IwadComboBox.ItemTemplate>
-						<DataTemplate DataType="prog:IwadFile">
-							<TextBlock Text="{Binding Name}" />
-						</DataTemplate>
-					</prog:IwadComboBox.ItemTemplate>
-				</prog:IwadComboBox>
-			</Grid>
-			<GroupBox Grid.Row="1" Grid.RowSpan="3" Grid.Column="0">
-				<GroupBox.HeaderTemplate>
-					<DataTemplate>
-						<Grid>
-							<TextBlock HorizontalAlignment="Left" Margin="10, 0, 0, 0"
-								Text="Extra Files to Load" />
-							<Button Margin="0,0,10,0" Click="RefreshExtraFiles" HorizontalAlignment="Right"
-							        Style="{DynamicResource RefreshButtonStyle}"
-							        ToolTip="Refresh the list of files that can be loaded with the IWAD." />
-						</Grid>
-					</DataTemplate>
-				</GroupBox.HeaderTemplate>
-				<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="10,0,10,7" />
+			<GroupBox Grid.RowSpan="3" Grid.Column="0" Header="Extra Files to Load">
+				<Grid>
+					<Label Content="IWAD" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="32"
+					       VerticalContentAlignment="Center" />
+					<prog:IwadComboBox Margin="52,10,10,0" VerticalAlignment="Top"
+					                   x:Name="IwadComboBox" DropDownClosed="SelectIwad"
+					                   ItemsSource="{Binding RelativeSource={RelativeSource Self}, Path=Files}"
+					                   HorizontalAlignment="Stretch"
+					                   ToolTip="Select an IWAD file to use as a basis. Not selecting anything will cause zDoom to prompt you with IWAD selection dialog, so selection isn't necessary, however some Start With options will not be accessible.">
+						<prog:IwadComboBox.ItemTemplate>
+							<DataTemplate DataType="prog:IwadFile">
+								<TextBlock Text="{Binding Name}" />
+							</DataTemplate>
+						</prog:IwadComboBox.ItemTemplate>
+					</prog:IwadComboBox>
+					<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="10,47,10,7" />
+				</Grid>
 			</GroupBox>
-			<GroupBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Header="Gameplay Options">
+			<GroupBox Grid.Row="0" Grid.Column="1" Header="Gameplay Options">
 				<Grid Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="56*" />
@@ -273,7 +159,7 @@
 					</StackPanel>
 				</Grid>
 			</GroupBox>
-			<GroupBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Header="Disable">
+			<GroupBox Grid.Row="0" Grid.Column="2" Header="Disable">
 				<StackPanel Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
 					<ListBox x:Name="DisableFlagsList" Margin="6,5,6,0"
 					         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -299,7 +185,7 @@
 					</ListBox>
 				</StackPanel>
 			</GroupBox>
-			<GroupBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Header="Resolution Options">
+			<GroupBox Grid.Row="0" Grid.Column="3" Header="Resolution Options">
 				<StackPanel Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
 				            MinWidth="170" MaxWidth="170" HorizontalAlignment="Left">
 					<StackPanel.Resources>
@@ -344,7 +230,7 @@
 					</ComboBox>
 				</StackPanel>
 			</GroupBox>
-			<GroupBox Header="Start With" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
+			<GroupBox Header="Start With" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3">
 				<Grid Grid.IsSharedSizeScope="True"
 				      Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
 					<Grid.Resources>
@@ -466,7 +352,7 @@
 					</Grid>
 				</Grid>
 			</GroupBox>
-			<Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">
+			<Grid Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
 				<Label Content="Save Directory" VerticalAlignment="Top" HorizontalAlignment="Left" />
 				<TextBox x:Name="SaveDirectoryTextBox" Margin="0,24,47,0" VerticalAlignment="Top"
 				         TextChanged="UpdateSaveDirectory"
@@ -476,63 +362,158 @@
 				<TextBox x:Name="ConfigFileTextBox" Margin="0,85,47,0" VerticalAlignment="Top"
 				         TextChanged="UpdateConfigFile"
 				         ToolTip="Path to the zDoom config file to use." />
-				<Label Content="Executable File Name" Margin="0,122,112,0" VerticalAlignment="Top"
-				       ToolTip="Name of the executable file that represents the source port to use. Currently only useful for choosing between zDoom, gzDoom and compatible ones."
-				       HorizontalAlignment="Right" />
-				<ComboBox Margin="0,146,10,0" x:Name="ExeFileNameComboBox" IsReadOnly="True"
-				          ToolTip="The name of the executable file to use. This list can be refreshed with a &quot;Refresh&quot; button."
-				          SelectionChanged="ExeFileSelected" SelectedValuePath="Content"
-				          VerticalAlignment="Top" HorizontalAlignment="Right" Width="197" />
-				<Button x:Name="ExeFilesRefreshButton" Margin="0,146,212,0" VerticalAlignment="Top" Click="RefreshExeFiles"
-				        HorizontalAlignment="Right" Style="{DynamicResource RefreshButtonStyle}"
-				        ToolTip="Refresh the list of executable files." />
-				<TextBox x:Name="ExtraOptionsTextBox" Margin="0,146,249,10"
+				<TextBox x:Name="ExtraOptionsTextBox" Margin="0,146,10,10"
 				         TextWrapping="Wrap" TextChanged="UpdateExtraOptions"
 				         ToolTip="This text will be appended at the end of the command-line. Use this field to specify arguments that can't set from the rest of this interface." />
-				<Button x:Name="TestButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,123,10"
-				        Width="121" ToolTip="Show the command-line that will be used to launch the game.">
-					<Button.Resources>
-						<SolidColorBrush x:Key="FlyoutColor" Color="#FF00FF00" />
-						<ui:Symbol x:Key="FlyoutSymbol">Accept</ui:Symbol>
-						<system:String x:Key="CommandLineText">Empty</system:String>
-					</Button.Resources>
-					<ui:FlyoutService.Flyout>
-						<ui:Flyout Placement="Top" Opening="UpdateTestCommandLine">
-							<ui:Flyout.FlyoutPresenterStyle>
-								<Style TargetType="ui:FlyoutPresenter">
-									<Setter Property="MaxWidth" Value="640" />
-								</Style>
-							</ui:Flyout.FlyoutPresenterStyle>
-							<Border BorderThickness="2" BorderBrush="{DynamicResource FlyoutColor}">
-								<Grid>
-									<RichTextBox MaxWidth="600">
-										<FlowDocument>
-											<Paragraph>
-												<Floater HorizontalAlignment="Right" Width="20" Padding="0">
-													<BlockUIContainer>
-														<Border Background="{DynamicResource FlyoutColor}"
-														        Height="20" Width="20">
-															<ui:SymbolIcon Symbol="{DynamicResource FlyoutSymbol}" />
-														</Border>
-													</BlockUIContainer>
-												</Floater>
-												<Run Text="{DynamicResource CommandLineText}" />
-											</Paragraph>
-										</FlowDocument>
-									</RichTextBox>
-								</Grid>
-							</Border>
-						</ui:Flyout>
-					</ui:FlyoutService.Flyout>
-					<TextBlock TextWrapping="Wrap" TextAlignment="Center">Show Command Line</TextBlock>
-				</Button>
-				<Button Content="Launch" Margin="0,0,10,10" Click="LaunchTheGame" VerticalAlignment="Bottom"
-				        HorizontalAlignment="Right" Width="97" />
 				<Button HorizontalAlignment="Right" Margin="0,24,10,0" VerticalAlignment="Top"
 				        Style="{DynamicResource SelectFolderButtonStyle}" Click="SelectSaveDirectory" />
 				<Button HorizontalAlignment="Right" Margin="0,85,10,0" VerticalAlignment="Top"
 				        Style="{DynamicResource SelectFolderButtonStyle}" Click="SelectConfigPath" />
 			</Grid>
 		</Grid>
+		<ui:CommandBar Grid.Row="3" DefaultLabelPosition="Bottom"
+		               VerticalContentAlignment="Center">
+			<ui:CommandBar.Resources>
+				<prog:ThemeMenuButtonChecker x:Key="ThemeMenuButtonChecker" />
+			</ui:CommandBar.Resources>
+			<ui:AppBarButton x:Name="CommandLineAppButton" Icon="{StaticResource CommandLineIcon}"
+			                 Label="Command" Width="100"
+			                 ToolTip="Click to show the full text of the command line that will be used to start the game.">
+				<ui:AppBarButton.Resources>
+					<SolidColorBrush x:Key="FlyoutColor" Color="#FF00FF00" />
+					<ui:Symbol x:Key="FlyoutSymbol">Accept</ui:Symbol>
+					<system:String x:Key="CommandLineText">Empty</system:String>
+				</ui:AppBarButton.Resources>
+				<ui:AppBarButton.Flyout>
+					<ui:Flyout Placement="TopEdgeAlignedLeft" Opening="UpdateTestCommandLine">
+						<ui:Flyout.FlyoutPresenterStyle>
+							<Style TargetType="ui:FlyoutPresenter">
+								<Setter Property="MaxWidth" Value="640" />
+							</Style>
+						</ui:Flyout.FlyoutPresenterStyle>
+						<Border BorderThickness="2" BorderBrush="{DynamicResource FlyoutColor}">
+							<Grid>
+								<RichTextBox MaxWidth="600">
+									<FlowDocument>
+										<Paragraph>
+											<Floater HorizontalAlignment="Right" Width="20" Padding="0">
+												<BlockUIContainer>
+													<Border Background="{DynamicResource FlyoutColor}"
+													        Height="20" Width="20">
+														<ui:SymbolIcon Symbol="{DynamicResource FlyoutSymbol}" />
+													</Border>
+												</BlockUIContainer>
+											</Floater>
+											<Run Text="{DynamicResource CommandLineText}" />
+										</Paragraph>
+									</FlowDocument>
+								</RichTextBox>
+							</Grid>
+						</Border>
+					</ui:Flyout>
+				</ui:AppBarButton.Flyout>
+			</ui:AppBarButton>
+			<ui:AppBarButton Icon="{StaticResource FolderIcon}" Label="Game Path" Click="SelectZDoomInstallationFolder"
+			                 ToolTip="Click to change the zDoom installation directory." />
+			<ui:AppBarButton Icon="{StaticResource FoldersIcon}" Label="File Paths" Click="OpenDirectoriesWindow"
+			                 ToolTip="Click to open a window that manages a list of directories the extra loadable files can found in." />
+			<ui:AppBarSeparator />
+			<ui:AppBarButton Icon="{StaticResource QuestionIcon}" Label="Help" Click="OpenHelpWindow"
+			                 ToolTip="Click to open a window with some information that couldn't fit into tool-tips." />
+			<ui:AppBarButton Icon="{StaticResource InfoIcon}" Label="About" Click="OpenAboutWindow"
+			                 ToolTip="Click to open a window with basic information about this program and credits." />
+			<ui:AppBarSeparator />
+			<ui:AppBarButton Icon="{StaticResource WindowIcon}" Label="Window" Width="85">
+				<ui:AppBarButton.Flyout>
+					<ui:MenuFlyout>
+						<MenuItem Header="Save Window Position" Click="SaveWindowPosition"
+						          Icon="{StaticResource StorePositionIcon}" />
+						<MenuItem Header="Save Window Dimensions" Click="SaveWindowDimensions"
+						          Icon="{StaticResource StoreSizeIcon}" />
+						<Separator />
+						<MenuItem Header="Reset Window Position" Click="ResetWindowPosition" />
+						<MenuItem Header="Reset Window Dimensions" Click="ResetWindowDimensions" />
+					</ui:MenuFlyout>
+				</ui:AppBarButton.Flyout>
+			</ui:AppBarButton>
+			<ui:AppBarButton Label="Theme" Style="{StaticResource AppBarButtonWithContentIcon}" Width="80">
+				<ui:AppBarButton.Content>
+					<Grid>
+						<ui:FontIcon Glyph="&#xE73B;" FontFamily="Segoe MDL2 Assets">
+							<ui:FontIcon.Foreground>
+								<SolidColorBrush Color="{DynamicResource SystemAltHighColor}" />
+							</ui:FontIcon.Foreground>
+						</ui:FontIcon>
+						<ui:FontIcon Glyph="&#xE739;" FontFamily="Segoe MDL2 Assets">
+							<ui:FontIcon.Foreground>
+								<SolidColorBrush Color="{DynamicResource SystemBaseHighColor}" />
+							</ui:FontIcon.Foreground>
+						</ui:FontIcon>
+					</Grid>
+				</ui:AppBarButton.Content>
+				<ui:AppBarButton.Flyout>
+					<ui:MenuFlyout>
+						<ui:RadioMenuItem x:Name="LightThemeMenuItem" Header="Light Theme"
+						                  ToolTip="Force this program to use light theme."
+						                  GroupName="Theme">
+							<ui:RadioMenuItem.Icon>
+								<Rectangle Width="32" Height="32" Stroke="Black" Fill="White" />
+							</ui:RadioMenuItem.Icon>
+							<ui:RadioMenuItem.IsChecked>
+								<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
+								         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Light" />
+							</ui:RadioMenuItem.IsChecked>
+						</ui:RadioMenuItem>
+						<ui:RadioMenuItem x:Name="DarkThemeMenuItem" Header="Dark Theme"
+						                  ToolTip="Force this program to use dark theme."
+						                  GroupName="Theme">
+							<ui:RadioMenuItem.Icon>
+								<Rectangle Width="32" Height="32" Stroke="White" Fill="Black" />
+							</ui:RadioMenuItem.Icon>
+							<ui:RadioMenuItem.IsChecked>
+								<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
+								         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Dark" />
+							</ui:RadioMenuItem.IsChecked>
+						</ui:RadioMenuItem>
+						<ui:RadioMenuItem x:Name="OSThemeMenuItem"
+						                  ToolTip="Let the operating system choose the theme."
+						                  GroupName="Theme">
+							<ui:RadioMenuItem.Icon>
+								<Rectangle x:Name="OSThemeRectangle" Width="32" Height="32" />
+							</ui:RadioMenuItem.Icon>
+							<ui:RadioMenuItem.IsChecked>
+								<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
+								         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="null" />
+							</ui:RadioMenuItem.IsChecked>
+						</ui:RadioMenuItem>
+					</ui:MenuFlyout>
+				</ui:AppBarButton.Flyout>
+			</ui:AppBarButton>
+			<ui:AppBarButton Label="Color" Style="{StaticResource AppBarButtonWithContentIcon}"
+			                 Click="ShowAccentColorPickerDialog">
+				<ui:AppBarButton.Content>
+					<Grid>
+						<ui:FontIcon Glyph="&#xE73B;" FontFamily="Segoe MDL2 Assets">
+							<ui:FontIcon.Foreground>
+								<SolidColorBrush Color="{DynamicResource SystemAccentColor}" />
+							</ui:FontIcon.Foreground>
+						</ui:FontIcon>
+						<ui:FontIcon Glyph="&#xE739;" FontFamily="Segoe MDL2 Assets">
+							<ui:FontIcon.Foreground>
+								<SolidColorBrush Color="{DynamicResource SystemBaseHighColor}" />
+							</ui:FontIcon.Foreground>
+						</ui:FontIcon>
+					</Grid>
+				</ui:AppBarButton.Content>
+			</ui:AppBarButton>
+			<ui:CommandBar.Content>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="Exe" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,10,0" />
+					<ComboBox x:Name="ExeFileNameComboBox" IsReadOnly="True"
+					          ToolTip="The name of the executable file to use. This list can be refreshed with a &quot;Refresh&quot; button."
+					          SelectionChanged="ExeFileSelected" SelectedValuePath="Content" Width="120" />
+				</StackPanel>
+			</ui:CommandBar.Content>
+		</ui:CommandBar>
 	</Grid>
 </Window>
