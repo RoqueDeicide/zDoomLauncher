@@ -45,14 +45,11 @@
 					<Run>This project uses icons from</Run>
 					<Hyperlink NavigateUri="http://p.yusukekamiyamane.com/">Fugue Icons</Hyperlink>
 					<Run>
-						Pack by Yusuke Kamiyamane, letter Z with grey background icon by Supratim Nayak (HYDRATTZ)
-						and icons from the website
+						Pack by Yusuke Kamiyamane and letter Z with grey background icon by Supratim Nayak (HYDRATTZ).
 					</Run>
-					<Hyperlink NavigateUri="http://icons8.com">Icons8</Hyperlink>
-					<Run>.</Run>
 				</Paragraph>
 			</FlowDocument>
 		</RichTextBox>
-		<Button Content="Go to website" HorizontalAlignment="Left" Margin="240,255,0,0" VerticalAlignment="Top" Width="110" Click="GoToWebsite"/>
+		<Button Content="Go to website" HorizontalAlignment="Left" Margin="240,255,0,0" VerticalAlignment="Top" Width="110" Click="GoToWebsite" />
 	</Grid>
 </Window>

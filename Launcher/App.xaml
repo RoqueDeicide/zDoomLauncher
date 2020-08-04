@@ -33,14 +33,6 @@
 			<ui:BitmapIcon x:Shared="False" x:Key="FoldersIcon" UriSource="pack://application:,,,/Resources/folders-stack.png"
 			               ShowAsMonochrome="False" />
 			<ui:BitmapIcon x:Shared="False" x:Key="FoldersIconS" UriSource="pack://application:,,,/Resources/folders-stack.png" />
-			<ui:BitmapIcon x:Shared="False" x:Key="DocumentIcon"
-			               UriSource="pack://application:,,,/Resources/icons8-document-48.png" ShowAsMonochrome="False" />
-			<ui:BitmapIcon x:Shared="False" x:Key="DocumentIconS"
-			               UriSource="pack://application:,,,/Resources/icons8-document-48.png" />
-			<ui:BitmapIcon x:Shared="False" x:Key="OpenFolderIcon"
-			               UriSource="pack://application:,,,/Resources/icons8-opened-folder-48.png" ShowAsMonochrome="False" />
-			<ui:BitmapIcon x:Shared="False" x:Key="OpenFolderIconS"
-			               UriSource="pack://application:,,,/Resources/icons8-opened-folder-48.png" />
 			<ui:BitmapIcon x:Shared="False" x:Key="InfoIcon" UriSource="pack://application:,,,/Resources/information-white.png"
 			               ShowAsMonochrome="False" />
 			<ui:BitmapIcon x:Shared="False" x:Key="InfoIconS" UriSource="pack://application:,,,/Resources/information-white.png" />
@@ -78,7 +70,17 @@
 					<Setter.Value>
 						<DataTemplate>
 							<Grid>
-								<StaticResource ResourceKey="DocumentIconS" />
+								<ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE729;">
+									<ui:FontIcon.Foreground>
+										<Binding Path="Foreground">
+											<Binding.RelativeSource>
+												<RelativeSource Mode="FindAncestor" AncestorType="{x:Type Button}" />
+											</Binding.RelativeSource>
+										</Binding>
+									</ui:FontIcon.Foreground>
+								</ui:FontIcon>
+								<ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C3;"
+								             Foreground="{DynamicResource ButtonForeground}"></ui:FontIcon>
 							</Grid>
 						</DataTemplate>
 					</Setter.Value>
@@ -90,7 +92,17 @@
 					<Setter.Value>
 						<DataTemplate>
 							<Grid>
-								<StaticResource ResourceKey="OpenFolderIconS" />
+								<ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED44;">
+									<ui:FontIcon.Foreground>
+										<Binding Path="Foreground">
+											<Binding.RelativeSource>
+												<RelativeSource Mode="FindAncestor" AncestorType="{x:Type Button}" />
+											</Binding.RelativeSource>
+										</Binding>
+									</ui:FontIcon.Foreground>
+								</ui:FontIcon>
+								<ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED43;"
+								             Foreground="{DynamicResource ButtonForeground}"></ui:FontIcon>
 							</Grid>
 						</DataTemplate>
 					</Setter.Value>

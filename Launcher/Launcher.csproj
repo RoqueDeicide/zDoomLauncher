@@ -311,10 +311,6 @@
     <Resource Include="Resources\layers-group.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icons8-document-48.png" />
-    <Resource Include="Resources\icons8-opened-folder-48.png" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.Contracts">
       <Version>10.0.19041.1</Version>
     </PackageReference>
