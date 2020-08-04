@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Launcher.Configs;
 using ModernWpf.Controls;
+using ModernWpf.Controls.Primitives;
 
 namespace Launcher
 {
@@ -389,6 +390,24 @@ namespace Launcher
 			{
 				this.ConfigFileTextBox.Text =
 					PathUtils.ToRelativePath(this.openConfigFileDialog.FileName, this.zDoomFolder);
+			}
+		}
+
+		private void ShowAttachedFlyout(object sender, RoutedEventArgs e)
+		{
+			if (sender is FrameworkElement element)
+			{
+				FlyoutBase.ShowAttachedFlyout(element);
+			}
+		}
+
+		private void HideAttachedFlyout(object sender, RoutedEventArgs e)
+		{
+			if (sender is FrameworkElement element)
+			{
+				var flyout = FlyoutBase.GetAttachedFlyout(element);
+
+				flyout.Hide();
 			}
 		}
 	}
