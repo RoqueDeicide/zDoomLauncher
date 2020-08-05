@@ -9,7 +9,7 @@
 	<UserControl.Resources>
 		<Style x:Key="FileListItem" TargetType="ListBoxItem">
 			<Setter Property="Height" Value="32" />
-			<Setter Property="Focusable" Value="True" />
+			<Setter Property="Focusable" Value="False" />
 		</Style>
 		<Style x:Key="SelectedFileListItem" TargetType="ListBoxItem"
 		       BasedOn="{StaticResource FileListItem}">
