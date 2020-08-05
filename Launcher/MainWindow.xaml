@@ -59,7 +59,7 @@
 				<ui:AppBarButton Label="Open" Click="OpenConfiguration" Icon="{StaticResource OpenIcon}"
 				                 ToolTip="Click to open configuration file." />
 				<ui:AppBarSeparator />
-				<ui:AppBarButton Icon="Play" Label="Play" Click="LaunchTheGame"
+				<ui:AppBarButton x:Name="LaunchAppButton" Icon="Play" Label="Play" Click="LaunchTheGame"
 				                 ToolTip="Click to launch the game using current command line." />
 				<ui:AppBarButton Icon="Refresh" Label="Refresh" Click="RefreshEverything"
 				                 ToolTip="Click to refresh the lists of files." />

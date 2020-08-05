@@ -358,7 +358,9 @@ namespace Launcher
 			// Update the field.
 			if (this.ExeFileNameComboBox.SelectedItem is ComboBoxItem selectedItem)
 			{
-				this.currentExeFile = selectedItem.Content as string;
+				this.currentExeFile = selectedItem.Content as string ?? "";
+
+				this.UpdateLaunchIcon();
 			}
 		}
 
