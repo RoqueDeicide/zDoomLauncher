@@ -230,7 +230,7 @@
     <Compile Include="ExtraWindows\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GeneralExtensions.cs" />
+    <Compile Include="Extensions\GeneralExtensions.cs" />
     <Compile Include="Wads\IwadFile.cs" />
     <Compile Include="Wads\Iwads.cs" />
     <Compile Include="Logging\Log.cs" />
