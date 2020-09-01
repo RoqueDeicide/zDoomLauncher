@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -11,54 +12,233 @@ namespace Launcher.Configs
 	/// Represents a launch configuration.
 	/// </summary>
 	[Serializable]
-	public partial class LaunchConfiguration : ILaunchConfiguration
+	public partial class LaunchConfiguration : INotifyPropertyChanged
 	{
+		private string         name;
+		private IwadFile       iwadFile;
+		private List<string>   extraFiles;
+		private string         configFile;
+		private bool           ignoreBlockMap;
+		private string         saveDirectory;
+		private string         saveGamePath;
+		private string         demoPath;
+		private int            episodeIndex;
+		private int            mapIndex;
+		private string         mapName;
+		private StartupAction  startupAction;
+		private string         extraOptions;
+		private PixelMode      pixelMode;
+		private bool           specifyWidth;
+		private int            width;
+		private bool           specifyHeight;
+		private int            height;
+		private DisableOptions disableFlags;
+		private bool           fastMonsters;
+		private bool           noMonsters;
+		private bool           respawningMonsters;
+		private bool           specifyTimeLimit;
+		private int            timeLimit;
+		private bool           specifyTurboMode;
+		private byte           turboMode;
+		private bool           specifyDifficulty;
+		private int            difficulty;
+
 		/// <summary>
 		/// Gets or sets the name of this configuration.
 		/// </summary>
-		public string Name { get; set; }
+		public string Name
+		{
+			get => this.name;
+			set
+			{
+				if (this.name == value)
+				{
+					return;
+				}
+
+				this.name = value;
+				this.OnPropertyChanged(nameof(this.Name));
+			}
+		}
 
 		#region Files
 
 		/// <summary>
 		/// Path to IWAD file to use.
 		/// </summary>
-		public string IwadPath { get; set; }
+		public IwadFile IwadFile
+		{
+			get => this.iwadFile;
+			set
+			{
+				if (this.iwadFile == value)
+				{
+					return;
+				}
+
+				this.iwadFile = value;
+				this.OnPropertyChanged(nameof(this.IwadFile));
+			}
+		}
 
 		/// <summary>
 		/// Paths to extra files to load.
 		/// </summary>
-		public List<string> ExtraFiles { get; set; }
+		public List<string> ExtraFiles
+		{
+			get => this.extraFiles;
+			set
+			{
+				if (Equals(value, this.extraFiles)) return;
+				this.extraFiles = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// Path custom config file to use.
 		/// </summary>
-		public string ConfigFile { get; set; }
+		public string ConfigFile
+		{
+			get => this.configFile;
+			set
+			{
+				if (value == this.configFile) return;
+				this.configFile = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// Indicates whether zDoom needs to ignore block map data supplied by the map, and generate it instead.
 		/// </summary>
-		public bool IgnoreBlockMap { get; set; }
+		public bool IgnoreBlockMap
+		{
+			get => this.ignoreBlockMap;
+			set
+			{
+				if (value == this.ignoreBlockMap) return;
+				this.ignoreBlockMap = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// Path to directory to save games to.
 		/// </summary>
-		public string SaveDirectory { get; set; }
+		public string SaveDirectory
+		{
+			get => this.saveDirectory;
+			set
+			{
+				if (value == this.saveDirectory) return;
+				this.saveDirectory = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
-		/// Path to the file that should be started automatically upon startup.
+		/// Path to the file that contains a saved game that should be loaded if <see cref="StartupAction"/> is equal to
+		/// <see cref="Configs.StartupAction.LoadGame"/>.
 		/// </summary>
-		public string AutoStartFile { get; set; }
+		public string SaveGamePath
+		{
+			get => this.saveGamePath;
+			set
+			{
+				if (value == this.saveGamePath) return;
+				this.saveGamePath = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
-		/// Indicates nature of <see cref="AutoStartFile"/>.
+		/// Path to the file that contains a game-play demo recording that should be loaded if <see
+		/// cref="StartupAction"/> is equal to <see cref="Configs.StartupAction.LoadDemo"/>.
 		/// </summary>
-		public StartupFile StartUpFileKind { get; set; }
+		public string DemoPath
+		{
+			get => this.demoPath;
+			set
+			{
+				if (value == this.demoPath) return;
+				this.demoPath = value;
+				this.OnPropertyChanged();
+			}
+		}
+
+		/// <summary>
+		/// An index of an episode that should be loaded if <see cref="StartupAction"/> is equal to <see
+		/// cref="Configs.StartupAction.LoadMapIndex"/>.
+		/// </summary>
+		public int EpisodeIndex
+		{
+			get => this.episodeIndex;
+			set
+			{
+				if (value.Equals(this.episodeIndex)) return;
+				this.episodeIndex = value;
+				this.OnPropertyChanged();
+			}
+		}
+
+		/// <summary>
+		/// An index of a map that should be loaded if <see cref="StartupAction"/> is equal to <see
+		/// cref="Configs.StartupAction.LoadMapIndex"/>.
+		/// </summary>
+		public int MapIndex
+		{
+			get => this.mapIndex;
+			set
+			{
+				if (value.Equals(this.mapIndex)) return;
+				this.mapIndex = value;
+				this.OnPropertyChanged();
+			}
+		}
+
+		/// <summary>
+		/// Name of the map that should be loaded if <see cref="StartupAction"/> is equal to <see
+		/// cref="Configs.StartupAction.LoadMapName"/>.
+		/// </summary>
+		public string MapName
+		{
+			get => this.mapName;
+			set
+			{
+				if (value == this.mapName) return;
+				this.mapName = value;
+				this.OnPropertyChanged();
+			}
+		}
+
+		/// <summary>
+		/// Indicates how to start the game.
+		/// </summary>
+		public StartupAction StartupAction
+		{
+			get => this.startupAction;
+			set
+			{
+				if (value == this.startupAction) return;
+				this.startupAction = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// Text that is appended to the command line at the end.
 		/// </summary>
-		public string ExtraOptions { get; set; }
+		public string ExtraOptions
+		{
+			get => this.extraOptions;
+			set
+			{
+				if (value == this.extraOptions) return;
+				this.extraOptions = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		#endregion
 
@@ -67,17 +247,72 @@ namespace Launcher.Configs
 		/// <summary>
 		/// Pixel mode.
 		/// </summary>
-		public PixelMode PixelMode { get; set; }
+		public PixelMode PixelMode
+		{
+			get => this.pixelMode;
+			set
+			{
+				if (value == this.pixelMode) return;
+				this.pixelMode = value;
+				this.OnPropertyChanged();
+			}
+		}
+
+		/// <summary>
+		/// Indicates whether custom width should be specified.
+		/// </summary>
+		public bool SpecifyWidth
+		{
+			get => this.specifyWidth;
+			set
+			{
+				if (value == this.specifyWidth) return;
+				this.specifyWidth = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// Width of the window in pixels.
 		/// </summary>
-		public int? Width { get; set; }
+		public int Width
+		{
+			get => this.width;
+			set
+			{
+				if (value == this.width) return;
+				this.width = value;
+				this.OnPropertyChanged();
+			}
+		}
+
+		/// <summary>
+		/// Indicates whether custom height should be specified.
+		/// </summary>
+		public bool SpecifyHeight
+		{
+			get => this.specifyHeight;
+			set
+			{
+				if (value == this.specifyHeight) return;
+				this.specifyHeight = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// Height of the window in pixels.
 		/// </summary>
-		public int? Height { get; set; }
+		public int Height
+		{
+			get => this.height;
+			set
+			{
+				if (value == this.height) return;
+				this.height = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		#endregion
 
@@ -86,7 +321,16 @@ namespace Launcher.Configs
 		/// <summary>
 		/// Flags that indicates which functions to disable.
 		/// </summary>
-		public DisableOptions DisableFlags { get; set; }
+		public DisableOptions DisableFlags
+		{
+			get => this.disableFlags;
+			set
+			{
+				if (value == this.disableFlags) return;
+				this.disableFlags = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		#endregion
 
@@ -95,32 +339,128 @@ namespace Launcher.Configs
 		/// <summary>
 		/// Indicates whether zDoom has to make monsters fast regardless whether the game runs on Nightmare or not.
 		/// </summary>
-		public bool FastMonsters { get; set; }
+		public bool FastMonsters
+		{
+			get => this.fastMonsters;
+			set
+			{
+				if (value == this.fastMonsters) return;
+				this.fastMonsters = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// Indicates whether zDoom has to make monsters not spawn on the level.
 		/// </summary>
-		public bool NoMonsters { get; set; }
+		public bool NoMonsters
+		{
+			get => this.noMonsters;
+			set
+			{
+				if (value == this.noMonsters) return;
+				this.noMonsters = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// Indicates whether zDoom has to make monsters respawn regardless whether the game runs on Nightmare or not.
 		/// </summary>
-		public bool RespawningMonsters { get; set; }
+		public bool RespawningMonsters
+		{
+			get => this.respawningMonsters;
+			set
+			{
+				if (value == this.respawningMonsters) return;
+				this.respawningMonsters = value;
+				this.OnPropertyChanged();
+			}
+		}
+
+		/// <summary>
+		/// Indicates whether a time-limit should be specified.
+		/// </summary>
+		public bool SpecifyTimeLimit
+		{
+			get => this.specifyTimeLimit;
+			set
+			{
+				if (value == this.specifyTimeLimit) return;
+				this.specifyTimeLimit = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// Sets the time limit to specified number of minutes.
 		/// </summary>
-		public int? TimeLimit { get; set; }
+		public int TimeLimit
+		{
+			get => this.timeLimit;
+			set
+			{
+				if (value == this.timeLimit) return;
+				this.timeLimit = value;
+				this.OnPropertyChanged();
+			}
+		}
+
+		/// <summary>
+		/// Indicates whether a turbo-mode should be specified.
+		/// </summary>
+		public bool SpecifyTurboMode
+		{
+			get => this.specifyTurboMode;
+			set
+			{
+				if (value == this.specifyTurboMode) return;
+				this.specifyTurboMode = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// Sets the movement speed of the player to specified value that is a percentage of normal movement speed.
 		/// </summary>
-		public byte? TurboMode { get; set; }
+		public byte TurboMode
+		{
+			get => this.turboMode;
+			set
+			{
+				if (value == this.turboMode) return;
+				this.turboMode = value;
+				this.OnPropertyChanged();
+			}
+		}
+
+		/// <summary>
+		/// Indicates whether a difficulty should be specified.
+		/// </summary>
+		public bool SpecifyDifficulty
+		{
+			get => this.specifyDifficulty;
+			set
+			{
+				if (value == this.specifyDifficulty) return;
+				this.specifyDifficulty = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// Sets difficulty level.
 		/// </summary>
-		public int? Difficulty { get; set; }
+		public int Difficulty
+		{
+			get => this.difficulty;
+			set
+			{
+				if (value == this.difficulty) return;
+				this.difficulty = value;
+				this.OnPropertyChanged();
+			}
+		}
 
 		#endregion
 
@@ -136,10 +476,10 @@ namespace Launcher.Configs
 			var line = new StringBuilder();
 
 			// IWAD.
-			if (!string.IsNullOrWhiteSpace(this.IwadPath))
+			if (this.IwadFile != null && !this.IwadFile.FileName.IsNullOrWhiteSpace())
 			{
 				line.Append("-iwad ");
-				line.Append(this.IwadPath);
+				line.Append(this.IwadFile.FileName);
 			}
 
 			// Config file.
@@ -223,16 +563,16 @@ namespace Launcher.Configs
 					throw new ArgumentOutOfRangeException();
 			}
 
-			if (this.Width.HasValue)
+			if (this.SpecifyWidth)
 			{
 				line.Append(" -width ");
-				line.Append(this.Width.Value);
+				line.Append(this.Width);
 			}
 
-			if (this.Height.HasValue)
+			if (this.SpecifyHeight)
 			{
 				line.Append(" -height ");
-				line.Append(this.Height.Value);
+				line.Append(this.Height);
 			}
 
 			// Some more files.
@@ -247,37 +587,46 @@ namespace Launcher.Configs
 				line.Append(GetValidPath(this.SaveDirectory, exeFolder, false));
 			}
 
-			if (!string.IsNullOrWhiteSpace(this.AutoStartFile))
+			switch (this.StartupAction)
 			{
-				switch (this.StartUpFileKind)
-				{
-					case StartupFile.SaveGame:
+				case StartupAction.LoadGame:
+					if (!this.saveGamePath.IsNullOrWhiteSpace())
+					{
 						line.Append(@" -loadgame ");
-						line.Append(GetValidPath(this.AutoStartFile, exeFolder));
-						break;
+						line.Append(GetValidPath(this.saveGamePath, exeFolder));
+					}
 
-					case StartupFile.Demo:
+					break;
+
+				case StartupAction.LoadDemo:
+					if (!this.demoPath.IsNullOrWhiteSpace())
+					{
 						line.Append(@" -playdemo ");
-						line.Append(GetValidPath(this.AutoStartFile, exeFolder));
-						break;
+						line.Append(GetValidPath(this.demoPath, exeFolder));
+					}
 
-					case StartupFile.Map:
-						line.Append(" -warp ");
-						line.Append(this.AutoStartFile);
-						line.Append(@" -warpwipe");
-						break;
+					break;
 
-					case StartupFile.NamedMap:
+				case StartupAction.LoadMapIndex:
+					line.Append(" -warp ");
+					line.Append($"{this.episodeIndex} {this.mapIndex}");
+					line.Append(@" -warpwipe");
+					break;
+
+				case StartupAction.LoadMapName:
+					if (!this.mapName.IsNullOrWhiteSpace())
+					{
 						line.Append(" +map ");
-						line.Append(this.AutoStartFile);
-						break;
+						line.Append(this.mapName);
+					}
 
-					case StartupFile.None:
-						break;
+					break;
 
-					default:
-						throw new ArgumentOutOfRangeException();
-				}
+				case StartupAction.None:
+					break;
+
+				default:
+					throw new ArgumentOutOfRangeException();
 			}
 
 			// Gameplay options.
@@ -296,22 +645,22 @@ namespace Launcher.Configs
 				line.Append(" -respawn");
 			}
 
-			if (this.TimeLimit.HasValue)
+			if (this.SpecifyTimeLimit)
 			{
 				line.Append(" -timer ");
-				line.Append(this.TimeLimit.Value.ToString(CultureInfo.InvariantCulture));
+				line.Append(this.TimeLimit.ToString(CultureInfo.InvariantCulture));
 			}
 
-			if (this.TurboMode.HasValue)
+			if (this.SpecifyTurboMode)
 			{
 				line.Append(" -turbo ");
-				line.Append(this.TurboMode.Value.ToString(CultureInfo.InvariantCulture));
+				line.Append(this.TurboMode.ToString(CultureInfo.InvariantCulture));
 			}
 
-			if (this.Difficulty.HasValue)
+			if (this.SpecifyDifficulty)
 			{
 				line.Append(" -skill ");
-				line.Append(this.Difficulty.Value.ToString(CultureInfo.InvariantCulture));
+				line.Append(this.Difficulty.ToString(CultureInfo.InvariantCulture));
 			}
 
 			// Disable.
@@ -381,25 +730,7 @@ namespace Launcher.Configs
 		/// </summary>
 		public LaunchConfiguration()
 		{
-			this.Name               = "Default Configuration";
-			this.IwadPath           = "";
-			this.ConfigFile         = "";
-			this.ExtraFiles         = new List<string>();
-			this.IgnoreBlockMap     = false;
-			this.SaveDirectory      = "";
-			this.StartUpFileKind    = StartupFile.None;
-			this.AutoStartFile      = "";
-			this.ExtraOptions       = "";
-			this.Width              = null;
-			this.Height             = null;
-			this.PixelMode          = PixelMode.NoChange;
-			this.DisableFlags       = DisableOptions.EnableAll;
-			this.FastMonsters       = false;
-			this.NoMonsters         = false;
-			this.RespawningMonsters = false;
-			this.TimeLimit          = null;
-			this.TurboMode          = null;
-			this.Difficulty         = null;
+			this.Reset();
 		}
 
 		#endregion
@@ -439,6 +770,38 @@ namespace Launcher.Configs
 		}
 
 		#endregion
+
+		public void Reset()
+		{
+			this.Name               = "Default Configuration";
+			this.IwadFile           = Iwads.SupportedIwads[0];
+			this.ConfigFile         = "";
+			this.ExtraFiles         = new List<string>();
+			this.IgnoreBlockMap     = false;
+			this.SaveDirectory      = "";
+			this.StartupAction      = StartupAction.None;
+			this.SaveGamePath       = "";
+			this.DemoPath           = "";
+			this.EpisodeIndex       = 1;
+			this.MapIndex           = 1;
+			this.MapName            = "";
+			this.ExtraOptions       = "";
+			this.SpecifyWidth       = false;
+			this.Width              = 1280;
+			this.SpecifyHeight      = false;
+			this.Height             = 720;
+			this.PixelMode          = PixelMode.NoChange;
+			this.DisableFlags       = DisableOptions.EnableAll;
+			this.FastMonsters       = false;
+			this.NoMonsters         = false;
+			this.RespawningMonsters = false;
+			this.SpecifyTimeLimit   = false;
+			this.TimeLimit          = 20;
+			this.SpecifyTurboMode   = false;
+			this.TurboMode          = 100;
+			this.SpecifyDifficulty  = false;
+			this.Difficulty         = 0;
+		}
 	}
 
 	/// <summary>
@@ -520,33 +883,33 @@ namespace Launcher.Configs
 	}
 
 	/// <summary>
-	/// Enumeration of kinds of startup files.
+	/// Enumeration of values that indicate how to start the game.
 	/// </summary>
-	public enum StartupFile
+	public enum StartupAction
 	{
 		/// <summary>
-		/// Nothing is done automatically at the start.
+		/// Start the game normally.
 		/// </summary>
 		None,
 
 		/// <summary>
-		/// Save game.
+		/// Start the game and immediately load a save game.
 		/// </summary>
-		SaveGame,
+		LoadGame,
 
 		/// <summary>
-		/// Game play demo.
+		/// Start the game and immediately load a game-play demo.
 		/// </summary>
-		Demo,
+		LoadDemo,
 
 		/// <summary>
-		/// Map.
+		/// Start the game and immediately load a map that was specified by an index.
 		/// </summary>
-		Map,
+		LoadMapIndex,
 
 		/// <summary>
-		/// Map that is indicated with its name, rather then a code.
+		/// Start the game and immediately load a map that was specified by a name.
 		/// </summary>
-		NamedMap
+		LoadMapName
 	}
 }

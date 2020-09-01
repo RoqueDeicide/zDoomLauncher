@@ -5,7 +5,7 @@ namespace Launcher
 	/// <summary>
 	/// Represents an IWAD file.
 	/// </summary>
-	public class IwadFile : IComparable<IwadFile>
+	public class IwadFile : IComparable<IwadFile>, IEquatable<IwadFile>
 	{
 		#region Properties
 
@@ -63,6 +63,67 @@ namespace Launcher
 		public int CompareTo(IwadFile other)
 		{
 			return string.Compare(this.FileName, other.FileName, StringComparison.Ordinal);
+		}
+
+		/// <summary>
+		/// Determines whether this is the same IWAD file as another one.
+		/// </summary>
+		/// <param name="other">An object that represents another IWAD file.</param>
+		/// <returns>
+		/// <c>true</c>, this is the same IWAD file as an <paramref name="other"/> one, otherwise <c>false</c>.
+		/// </returns>
+		public bool Equals(IwadFile other)
+		{
+			if (other is null) return false;
+			if (ReferenceEquals(this, other)) return true;
+			return this.FileName == other.FileName;
+		}
+
+		/// <summary>
+		/// Determines whether the other object is an instance of type <see cref="IwadFile"/> and if it represents the
+		/// same IWAD file as this one.
+		/// </summary>
+		/// <param name="obj">Another object.</param>
+		/// <returns>
+		/// <c>true</c>, this is the same IWAD file as one represented by <paramref name="obj"/>, if the latter is of
+		/// type <see cref="IwadFile"/>, otherwise <c>false</c>.
+		/// </returns>
+		public override bool Equals(object obj)
+		{
+			if (obj is null) return false;
+			if (ReferenceEquals(this, obj)) return true;
+			return obj.GetType() == this.GetType() && this.Equals((IwadFile)obj);
+		}
+
+		/// <summary>
+		/// Calculates a hash code of this IWAD file's name.
+		/// </summary>
+		/// <returns>Hash code of <see cref="FileName"/> property.</returns>
+		public override int GetHashCode()
+		{
+			return (this.FileName != null ? this.FileName.GetHashCode() : 0);
+		}
+
+		/// <summary>
+		/// Determines whether 2 objects of type <see cref="IwadFile"/> are equal.
+		/// </summary>
+		/// <param name="left"> Left object.</param>
+		/// <param name="right">Right object.</param>
+		/// <returns><c>true</c>, if 2 objects are equal, otherwise, <c>false</c>.</returns>
+		public static bool operator ==(IwadFile left, IwadFile right)
+		{
+			return Equals(left, right);
+		}
+
+		/// <summary>
+		/// Determines whether 2 objects of type <see cref="IwadFile"/> are not equal.
+		/// </summary>
+		/// <param name="left"> Left object.</param>
+		/// <param name="right">Right object.</param>
+		/// <returns><c>true</c>, if 2 objects are not equal, otherwise, <c>false</c>.</returns>
+		public static bool operator !=(IwadFile left, IwadFile right)
+		{
+			return !Equals(left, right);
 		}
 
 		#endregion

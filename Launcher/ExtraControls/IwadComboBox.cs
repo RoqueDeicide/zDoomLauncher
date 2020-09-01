@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Launcher
 {
@@ -35,6 +36,19 @@ namespace Launcher
 			Iwads.Updated  += this.DispatchOnUpdated;
 
 			this.Dispatcher.ShutdownStarted += this.Release;
+
+			void BindItemSourceWithFiles(object sender, RoutedEventArgs args)
+			{
+				BindingOperations.SetBinding(this, ItemsSourceProperty,
+											 new Binding("Files")
+											 {
+												 RelativeSource = new RelativeSource(RelativeSourceMode.Self)
+											 });
+
+				this.Loaded -= BindItemSourceWithFiles;
+			}
+
+			this.Loaded += BindItemSourceWithFiles;
 		}
 
 		/// <summary>

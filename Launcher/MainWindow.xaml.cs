@@ -38,7 +38,9 @@ namespace Launcher
 
 		public MainWindow()
 		{
-			this.settingUpStartUp = false;
+			this.config = new LaunchConfiguration();
+
+			this.DataContext = this.config;
 
 			this.InitializeComponent();
 
@@ -82,11 +84,11 @@ namespace Launcher
 
 			if (this.CurrentConfigFile != null && File.Exists(this.CurrentConfigFile))
 			{
-				this.config = this.LoadConfiguration(this.CurrentConfigFile);
+				this.LoadConfiguration(this.CurrentConfigFile);
 			}
 			else
 			{
-				this.config            = new LaunchConfiguration();
+				this.config.Reset();
 				this.CurrentConfigFile = "DefaultConfigFile.xlcf";
 			}
 
@@ -105,27 +107,17 @@ namespace Launcher
 
 		private void SetupInterface()
 		{
-			this.config ??= new LaunchConfiguration();
+			this.config.Reset();
 			// Set the title of the window.
 			this.UpdateWindowTitle();
 			// Set the name of the configuration in the text box.
 			this.ConfigurationNameTextBox.Text = this.config.Name;
 			// Set up a list of extra files.
 			this.SetupExtraFiles();
-			// Save directory.
-			this.SaveDirectoryTextBox.Text = this.config.SaveDirectory;
 			// Pixel mode.
 			this.SetupPixelMode();
-			// Custom resolution.
-			this.SetupResolution();
 			// What to disable?
 			this.SetupDisableOptions();
-			// What to do when starting the game?
-			this.SetupStartUp();
-			// Some extras.
-			this.ExtraOptionsTextBox.Text = this.config.ExtraOptions;
-			// Gameplay.
-			this.SetupGamePlay();
 		}
 
 		#endregion
@@ -186,7 +178,7 @@ namespace Launcher
 
 			if (this.saveConfigurationDialog.ShowDialog(this) == true)
 			{
-				this.config            = null;
+				this.config.Reset();
 				this.CurrentConfigFile = this.saveConfigurationDialog.FileName;
 				this.SetupInterface();
 			}
@@ -212,7 +204,7 @@ namespace Launcher
 		{
 			if (this.openConfigurationDialog.ShowDialog(this) == true)
 			{
-				this.config = this.LoadConfiguration(this.openConfigurationDialog.FileName);
+				this.LoadConfiguration(this.openConfigurationDialog.FileName);
 				this.SetupInterface();
 			}
 		}
@@ -245,7 +237,11 @@ namespace Launcher
 
 		private async void SelectZDoomInstallationFolder(object sender, RoutedEventArgs e)
 		{
-			if (!this.IsCurrentZDoomFolderValid() || sender is MenuItem)
+			static bool IsUi(object obj)
+			{
+				return obj is AppBarButton;
+			}
+			if (!this.IsCurrentZDoomFolderValid() || IsUi(sender))
 			{
 				var dialog = new VistaFolderBrowserDialog
 							 {
@@ -273,7 +269,7 @@ namespace Launcher
 
 					if (result == ContentDialogResult.None)
 					{
-						if (sender is MenuItem)
+						if (IsUi(sender))
 						{
 							return;
 						}
@@ -391,9 +387,9 @@ namespace Launcher
 			this.RefreshExtraFiles();
 		}
 
-		private LaunchConfiguration LoadConfiguration(string configFile)
+		private void LoadConfiguration(string configFile)
 		{
-			LaunchConfiguration loadedConfig = LaunchConfiguration.Load(configFile, this.zDoomFolder);
+			this.config.Load(configFile, this.zDoomFolder);
 
 			string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
 
@@ -407,11 +403,9 @@ namespace Launcher
 				ExtraFilesLookUp.Directories.Add(this.zDoomFolder);
 			}
 
-			this.IwadComboBox.Select(loadedConfig.IwadPath);
+			this.IwadComboBox.Select(this.config.IwadFile.FileName);
 
 			this.CurrentConfigFile = PathIO.ChangeExtension(configFile, ".xlcf");
-
-			return loadedConfig;
 		}
 	}
 }

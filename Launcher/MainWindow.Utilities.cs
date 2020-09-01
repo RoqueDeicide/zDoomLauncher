@@ -4,11 +4,6 @@ namespace Launcher
 {
 	public partial class MainWindow
 	{
-		private bool EpisodicIwadIsSelected()
-		{
-			return this.IwadComboBox.SelectedItem is IwadFile selectedIwad && selectedIwad.Episodic;
-		}
-
 		private static TextContent ToEntryContent(bool condition, string text)
 		{
 			return new TextContent(condition ? text : "Nothing");

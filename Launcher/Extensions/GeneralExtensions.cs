@@ -12,6 +12,19 @@ namespace Launcher
 	public static class GeneralExtensions
 	{
 		/// <summary>
+		/// Determines whether this string is <c>null</c>, or empty, or consists of only the white-space characters.
+		/// </summary>
+		/// <param name="text">This string.</param>
+		/// <returns>
+		/// A boolean value that indicates whether this string is <c>null</c>, or empty, or consists of only the
+		/// white-space characters.
+		/// </returns>
+		public static bool IsNullOrWhiteSpace(this string text)
+		{
+			return string.IsNullOrWhiteSpace(text);
+		}
+
+		/// <summary>
 		/// Indicates whether this collection is null or is empty.
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>

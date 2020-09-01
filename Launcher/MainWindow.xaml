@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:prog="clr-namespace:Launcher"
+        xmlns:configs="clr-namespace:Launcher.Configs"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
@@ -11,7 +12,8 @@
         Closing="MainWindowClosing" Loaded="DealWithWindowPositionSize"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
-        ui:ThemeManager.IsThemeAware="True">
+        ui:ThemeManager.IsThemeAware="True"
+        d:DataContext="{d:DesignInstance configs:LaunchConfiguration}">
 	<Window.Resources>
 		<Style TargetType="{x:Type ListBoxItem}">
 			<Setter Property="Padding" Value="0" />
@@ -20,6 +22,7 @@
 		<Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
 			<Setter Property="Padding" Value="0,-10,0,5" />
 		</Style>
+		<prog:EnumBooleanConverter x:Key="EnumBooleanConverter"></prog:EnumBooleanConverter>
 	</Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -44,8 +47,14 @@
 					</Style.Triggers>
 				</Style>
 			</StackPanel.Style>
-			<TextBlock FontSize="13" VerticalAlignment="Center" Margin="5, 0, 0, 0"
-			           Text="{Binding ElementName=Window, Path=Title}" />
+			<TextBlock FontSize="13" VerticalAlignment="Center" Margin="5, 0, 0, 0">
+				<TextBlock.Text>
+					<MultiBinding StringFormat="zDoom Launcher - {0} - {1}">
+						<Binding Path="Name"></Binding>
+						<Binding ElementName="Window" Path="CurrentConfigFile"></Binding>
+					</MultiBinding>
+				</TextBlock.Text>
+			</TextBlock>
 		</StackPanel>
 		<Grid Grid.Row="1" Background="{DynamicResource CommandBarBackground}">
 			<ui:CommandBar VerticalContentAlignment="Center" HorizontalAlignment="Left"
@@ -67,7 +76,7 @@
 					<StackPanel Orientation="Horizontal">
 						<Label Content="Name" Margin="10,0,0,0" Height="32" VerticalContentAlignment="Center" />
 						<TextBox x:Name="ConfigurationNameTextBox" Width="200" Height="23" Margin="5,0,0,0"
-						         TextChanged="ConfigurationNameChanged" />
+						         Text="{Binding Name}" />
 					</StackPanel>
 				</ui:CommandBar.Content>
 			</ui:CommandBar>
@@ -92,10 +101,7 @@
 				<Grid>
 					<Label Content="IWAD" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="32"
 					       VerticalContentAlignment="Center" />
-					<prog:IwadComboBox Margin="52,10,10,0" VerticalAlignment="Top"
-					                   x:Name="IwadComboBox" DropDownClosed="SelectIwad"
-					                   ItemsSource="{Binding RelativeSource={RelativeSource Self}, Path=Files}"
-					                   HorizontalAlignment="Stretch"
+					<prog:IwadComboBox x:Name="IwadComboBox" Margin="52,10,10,0" SelectedItem="{Binding IwadFile}"
 					                   ToolTip="Select an IWAD file to use as a basis. Not selecting anything will cause zDoom to prompt you with IWAD selection dialog, so selection isn't necessary, however some Start With options will not be accessible.">
 						<prog:IwadComboBox.ItemTemplate>
 							<DataTemplate DataType="prog:IwadFile">
@@ -118,11 +124,11 @@
 					</Grid.ColumnDefinitions>
 					<ListBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="6,5,6,0"
 					         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-						<CheckBox x:Name="NoMonstersIndicator" Content="No Monsters" Click="ToggleNoMonsters"
+						<CheckBox Content="No Monsters" IsChecked="{Binding NoMonsters}"
 						          ToolTip="Check this box to prevent the monsters from spawning in the game." />
-						<CheckBox x:Name="FastMonstersIndicator" Content="Fast Monsters" Click="ToggleFastMonsters"
+						<CheckBox Content="Fast Monsters" IsChecked="{Binding FastMonsters}"
 						          ToolTip="Check this box to make the monsters always be as fast as they are on a nightmare difficulty." />
-						<CheckBox x:Name="RespawningMonstersIndicator" Content="Respawning Monsters" Click="ToggleRespawningMonsters"
+						<CheckBox Content="Respawning Monsters" IsChecked="{Binding RespawningMonsters}"
 						          ToolTip="Check this box to make the monsters respawn some time after death." />
 					</ListBox>
 					<StackPanel Grid.Row="1" Grid.Column="0" SnapsToDevicePixels="True">
@@ -133,11 +139,11 @@
 								<Setter Property="MinWidth" Value="95" />
 							</Style>
 						</StackPanel.Resources>
-						<CheckBox x:Name="TurboIndicator" Content="Turbo" Click="ToggleTurbo"
+						<CheckBox Content="Turbo" IsChecked="{Binding SpecifyTurboMode}"
 						          ToolTip="Check this box to allow changing of the game speed." />
-						<CheckBox x:Name="TimeLimitIndicator" Content="Time-Limit" Click="ToggleTimeLimit"
+						<CheckBox Content="Time-Limit" IsChecked="{Binding SpecifyTimeLimit}"
 						          ToolTip="Check this box to enable the specified time-limit." />
-						<CheckBox x:Name="DifficultyIndicator" Content="Difficulty" Click="ToggleCustomDifficulty"
+						<CheckBox Content="Difficulty" IsChecked="{Binding SpecifyDifficulty}"
 						          ToolTip="Check this box to enforce specific difficulty when using the &quot;Start with&quot; section." />
 					</StackPanel>
 					<StackPanel Grid.Row="1" Grid.Column="1">
@@ -151,14 +157,11 @@
 								<Setter Property="Maximum" Value="255" />
 							</Style>
 						</StackPanel.Resources>
-						<prog:NumberBoxExtended x:Name="TurboValueField"
-						                        Minimum="10" Value="100" ValueChanged="UpdateTurboField"
+						<prog:NumberBoxExtended Value="{Binding TurboMode}" Minimum="10"
 						                        ToolTip="Percentage of normal speed to set the game speed to (ranges from 10% to 255%)." />
-						<prog:NumberBoxExtended x:Name="TimeLimitValueField"
-						                        Value="20" ValueChanged="UpdateTimeLimitField"
+						<prog:NumberBoxExtended Value="{Binding TimeLimit}"
 						                        ToolTip="Number of minutes the player is allowed to be on the level before the game advances to the next level." />
-						<prog:NumberBoxExtended x:Name="DifficultyValueField"
-						                        Maximum="15" Value="0" ValueChanged="UpdateCustomDifficultyField"
+						<prog:NumberBoxExtended Value="{Binding Difficulty}" Maximum="15"
 						                        ToolTip="Zero-based index of the difficulty level." />
 					</StackPanel>
 				</Grid>
@@ -184,7 +187,7 @@
 						          ToolTip="Check this box to disable start-up screens that are used by Heretic, Hexen and Strife." />
 						<CheckBox Content="Sprite Renaming" Name="SpriteRenamingItem" Click="ToggleOption" Tag="64"
 						          ToolTip="Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife." />
-						<CheckBox Content="Block Map Load" Name="IgnoreBlockMapItem" Click="ToggleIgnoreBlockMap"
+						<CheckBox Content="Block Map Load" IsChecked="{Binding IgnoreBlockMap}"
 						          ToolTip="Check this box to have the game generate the block map information instead of loading it." />
 					</ListBox>
 				</StackPanel>
@@ -211,18 +214,15 @@
 							<Setter Property="SpinButtonPlacementMode" Value="Inline" />
 						</Style>
 					</StackPanel.Resources>
-					<CheckBox x:Name="WidthCheckBox" Content="Width" Margin="10,0,0,0"
-					          ToolTip="Check this to be able to change the width of the picture."
-					          Click="ToggleWidthField" Width="120" />
-					<prog:NumberBoxExtended x:Name="WidthValueField"
-					                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
-					                        Value="1280" DefaultValue="1280" ValueChanged="UpdateWidthValue" />
-					<CheckBox x:Name="HeightCheckBox" Content="Height" Margin="10,5,0,0"
+					<CheckBox Content="Width" Margin="10,0,0,0" IsChecked="{Binding SpecifyWidth}"
+					          ToolTip="Check this to be able to change the width of the picture." Width="120" />
+					<prog:NumberBoxExtended Value="{Binding Width}" DefaultValue="1280"
+					                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"/>
+					<CheckBox Content="Height" Margin="10,5,0,0" IsChecked="{Binding SpecifyHeight}"
 					          ToolTip="Check this to be able to change the height of the picture."
-					          Click="ToggleHeightField" Height="32" Width="120" />
-					<prog:NumberBoxExtended x:Name="HeightValueField"
-					                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100"
-					                        Value="720" DefaultValue="720" ValueChanged="UpdateHeightValue" />
+					          Height="32" Width="120" />
+					<prog:NumberBoxExtended Value="{Binding Height}" DefaultValue="720"
+					                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100" />
 					<Label Content="Pixel Mode" />
 					<ComboBox Margin="10,5,0,0" Name="PixelModeComboBox" Width="116">
 						<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen."
@@ -245,6 +245,10 @@
 								<GradientStop Offset="1" Color="Transparent" />
 							</LinearGradientBrush.GradientStops>
 						</LinearGradientBrush>
+						<Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+							<Setter Property="Height" Value="32"></Setter>
+							<Setter Property="MinWidth" Value="40"></Setter>
+						</Style>
 					</Grid.Resources>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="143*" />
@@ -266,11 +270,11 @@
 							</Style>
 						</Grid.Style>
 						<RadioButton Grid.Column="0" x:Name="LoadSaveIndicator" Content="Load"
-						             Height="32" MinWidth="40" Margin="10,2,0,2"
-						             Checked="SwitchToSave" GroupName="StartWithMethodRadioButtonGroup"
+									 IsChecked="{Binding StartupAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LoadGame}"
+						             Margin="10,2,0,2" GroupName="StartWithMethodRadioButtonGroup"
 						             ToolTip="Check this box to have the game load a save file upon start." />
-						<TextBox Grid.Column="1" x:Name="LoadGameTextBox" TextWrapping="Wrap"
-						         ToolTip="Path to the save file." TextChanged="UpdateSaveGameFile" />
+						<TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding SaveGamePath}"
+						         ToolTip="Path to the save file." />
 						<Button Grid.Column="2" Style="{DynamicResource SelectFileButtonStyle}"
 						        Click="SelectSaveGameFile" HorizontalAlignment="Center" />
 					</Grid>
@@ -290,18 +294,18 @@
 							</Style>
 						</Grid.Style>
 						<RadioButton Grid.Column="0" x:Name="LoadDemoIndicator" Content="Demo"
-						             Height="32" MinWidth="40" Margin="10,0,0,0"
-						             Checked="SwitchToDemo" GroupName="StartWithMethodRadioButtonGroup"
+									 IsChecked="{Binding StartupAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LoadDemo}"
+						             Margin="10,0,0,0" GroupName="StartWithMethodRadioButtonGroup"
 						             ToolTip="Check this box to have the game load a demo upon start." />
-						<TextBox Grid.Column="1" x:Name="PlayDemoTextBox" TextWrapping="Wrap"
-						         ToolTip="Path to the demo file." TextChanged="UpdateDemoFile" />
+						<TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding DemoPath}"
+						         ToolTip="Path to the demo file." />
 						<Button Grid.Column="2" Style="{DynamicResource SelectFileButtonStyle}" Click="SelectDemoFile"
 						        HorizontalAlignment="Center" />
 					</Grid>
 					<RadioButton Grid.Column="0" x:Name="LoadNothingIndicator" Content="Nothing"
+					             IsChecked="{Binding StartupAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=None}"
 					             HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top"
-					             Height="32" Width="120"
-					             Checked="SwitchToNothing" IsChecked="True" GroupName="StartWithMethodRadioButtonGroup" />
+					             GroupName="StartWithMethodRadioButtonGroup" />
 					<Grid Grid.Column="1" Height="78" VerticalAlignment="Top">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition SharedSizeGroup="StartRightRadioButtonsGroup" Width="115*" />
@@ -317,20 +321,19 @@
 								</Style.Triggers>
 							</Style>
 						</Grid.Style>
-						<RadioButton x:Name="LoadMapIndicator" Height="32" MinWidth="40"
+						<RadioButton x:Name="LoadMapIndicator"
+						             IsChecked="{Binding StartupAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LoadMapIndex}"
 						             Content="Map" HorizontalAlignment="Left" Margin="10,23,0,23"
-						             Checked="SwitchToMap" GroupName="StartWithMethodRadioButtonGroup"
+						             GroupName="StartWithMethodRadioButtonGroup"
 						             ToolTip="Check this box to have the game load a map specified by the map and/or episode index." />
 						<Label Grid.Column="1" Content="Episode" Height="32" Width="48" HorizontalAlignment="Left"
 						       VerticalContentAlignment="Center" Margin="10,0,0,46" />
-						<prog:NumberBoxExtended Grid.Column="1" x:Name="EpisodeValueField" Margin="10,36,5,10"
-						                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
-						                        ValueChanged="UpdateEpisodeIndex" />
+						<prog:NumberBoxExtended Grid.Column="1" Margin="10,36,5,10" Value="{Binding EpisodeIndex}"
+						                        DefaultValue="0" Minimum="0" Maximum="32" />
 						<Label Grid.Column="2" Content="Map" Height="32" Width="28" HorizontalAlignment="Left"
 						       VerticalContentAlignment="Center" Margin="5,0,0,46" />
-						<prog:NumberBoxExtended Grid.Column="2" x:Name="MapValueField" Margin="5,36,10,10"
-						                        Value="0" DefaultValue="0" Minimum="0" Maximum="32"
-						                        ValueChanged="UpdateMapIndex" />
+						<prog:NumberBoxExtended Grid.Column="2" Margin="5,36,10,10" Value="{Binding MapIndex}"
+						                        DefaultValue="0" Minimum="0" Maximum="32" />
 					</Grid>
 					<Grid Grid.Column="1" Height="36" Margin="0,80,0,0">
 						<Grid.ColumnDefinitions>
@@ -346,28 +349,24 @@
 								</Style.Triggers>
 							</Style>
 						</Grid.Style>
-						<RadioButton Grid.Column="0" x:Name="LoadNamedMapIndicator" Content="Named Map"
-						             Height="32" MinWidth="40" Margin="10,0,0,0"
-						             Checked="SwitchToNamedMap" GroupName="StartWithMethodRadioButtonGroup"
+						<RadioButton Grid.Column="0" x:Name="LoadNamedMapIndicator" Content="Map Name"
+						             IsChecked="{Binding StartupAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LoadMapName}"
+						             Margin="10,0,0,0" GroupName="StartWithMethodRadioButtonGroup"
 						             ToolTip="Check this box to have the game load a map that's specified by the name." />
-						<TextBox Grid.Column="1" x:Name="LoadNamedMapTextBox" Height="32" TextWrapping="Wrap"
-						         ToolTip="Name of the map to load. Useful when loading custom map packs. List of maps can be seen by launching the game and typing &quot;listmaps&quot; command in the console."
-						         TextChanged="UpdateMapName" Margin="10,0" />
+						<TextBox Grid.Column="1" Height="32" TextWrapping="Wrap" Text="{Binding MapName}" Margin="10,0"
+						         ToolTip="Name of the map to load. Useful when loading custom map packs. List of maps can be seen by launching the game and typing &quot;listmaps&quot; command in the console."/>
 					</Grid>
 				</Grid>
 			</GroupBox>
 			<Grid Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
 				<Label Content="Save Directory" VerticalAlignment="Top" HorizontalAlignment="Left" />
-				<TextBox x:Name="SaveDirectoryTextBox" Margin="0,24,47,0" VerticalAlignment="Top"
-				         TextChanged="UpdateSaveDirectory"
+				<TextBox Margin="0,24,47,0" VerticalAlignment="Top" Text="{Binding SaveDirectory}"
 				         ToolTip="Path to the directory where the save files are (to be) stored." />
 				<Label Content="Extra Command-Line Options" Margin="0,122,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
 				<Label Content="zDoom Configuration File" Margin="0,61,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
-				<TextBox x:Name="ConfigFileTextBox" Margin="0,85,47,0" VerticalAlignment="Top"
-				         TextChanged="UpdateConfigFile"
+				<TextBox Margin="0,85,47,0" VerticalAlignment="Top" Text="{Binding ConfigFile}"
 				         ToolTip="Path to the zDoom config file to use." />
-				<TextBox x:Name="ExtraOptionsTextBox" Margin="0,146,10,10"
-				         TextWrapping="Wrap" TextChanged="UpdateExtraOptions"
+				<TextBox Margin="0,146,10,10" Text="{Binding ExtraOptions}" TextWrapping="Wrap"
 				         ToolTip="This text will be appended at the end of the command-line. Use this field to specify arguments that can't set from the rest of this interface." />
 				<Button HorizontalAlignment="Right" Margin="0,24,10,0" VerticalAlignment="Top"
 				        Style="{DynamicResource SelectFolderButtonStyle}" Click="SelectSaveDirectory" />

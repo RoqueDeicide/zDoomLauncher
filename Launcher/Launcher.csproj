@@ -159,6 +159,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Configs\LaunchConfiguration.PropertyChanged.cs" />
+    <Compile Include="MainWindow.Converters.cs" />
     <Compile Include="Window.LaunchIcon.cs" />
     <Page Include="ExtraControls\AccentColorPicker.xaml">
       <SubType>Designer</SubType>
@@ -188,7 +190,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Configs\ILaunchConfiguration.cs" />
     <Compile Include="Configs\LaunchConfiguration.cs" />
     <Compile Include="Configs\LaunchConfiguration.SaveLoad.cs" />
     <Compile Include="Databases\ContentTypeInterfaces.cs" />

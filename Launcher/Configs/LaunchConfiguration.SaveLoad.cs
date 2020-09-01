@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using Launcher.Databases;
 using Launcher.Utilities;
 
@@ -20,59 +19,34 @@ namespace Launcher.Configs
 		{
 			var database = new Database("xlcf", "blcf");
 
-			// Name.
-			database.AddContent(nameof(this.Name), this.Name);
+			database.AddEnum(nameof(this.StartupAction), this.StartupAction);
+			database.AddEnum(nameof(this.PixelMode),     this.PixelMode);
+			database.AddEnum(nameof(this.DisableFlags),  this.DisableFlags);
 
-			// Iwad Path.
-			database.AddContent(nameof(this.IwadPath), this.IwadPath);
-
-			// Config File.
-			database.AddContent(nameof(this.ConfigFile), this.ConfigFile);
-
-			// Ignore block map.
-			database.AddContent(nameof(this.IgnoreBlockMap), this.IgnoreBlockMap);
-
-			// Save directory.
-			database.AddContent(nameof(this.SaveDirectory), this.SaveDirectory);
-
-			// Auto start file.
-			database.AddContent(nameof(this.AutoStartFile), this.AutoStartFile);
-
-			// Start-up file kind.
-			database.AddEnum(nameof(this.StartUpFileKind), this.StartUpFileKind);
-
-			// Extra options.
-			database.AddContent(nameof(this.ExtraOptions), this.ExtraOptions);
-
-			// Pixel mode.
-			database.AddEnum(nameof(this.PixelMode), this.PixelMode);
-
-			// Width.
-			database.AddContent(nameof(this.Width), this.Width);
-
-			// Height.
-			database.AddContent(nameof(this.Height), this.Height);
-
-			// Disable flags.
-			database.AddEnum(nameof(this.DisableFlags), this.DisableFlags);
-
-			// Fast monsters.
-			database.AddContent(nameof(this.FastMonsters), this.FastMonsters);
-
-			// No monsters.
-			database.AddContent(nameof(this.NoMonsters), this.NoMonsters);
-
-			// Respawning monsters.
+			database.AddContent(nameof(this.Name),               this.Name);
+			database.AddContent(nameof(this.IwadFile),           this.IwadFile.FileName);
+			database.AddContent(nameof(this.ConfigFile),         this.ConfigFile);
+			database.AddContent(nameof(this.IgnoreBlockMap),     this.IgnoreBlockMap);
+			database.AddContent(nameof(this.SaveDirectory),      this.SaveDirectory);
+			database.AddContent(nameof(this.SaveGamePath),       this.SaveGamePath);
+			database.AddContent(nameof(this.DemoPath),           this.DemoPath);
+			database.AddContent(nameof(this.EpisodeIndex),       this.EpisodeIndex);
+			database.AddContent(nameof(this.MapIndex),           this.MapIndex);
+			database.AddContent(nameof(this.MapName),            this.MapName);
+			database.AddContent(nameof(this.ExtraOptions),       this.ExtraOptions);
+			database.AddContent(nameof(this.SpecifyWidth),       this.SpecifyWidth);
+			database.AddContent(nameof(this.Width),              this.Width);
+			database.AddContent(nameof(this.SpecifyHeight),      this.SpecifyHeight);
+			database.AddContent(nameof(this.Height),             this.Height);
+			database.AddContent(nameof(this.FastMonsters),       this.FastMonsters);
+			database.AddContent(nameof(this.NoMonsters),         this.NoMonsters);
 			database.AddContent(nameof(this.RespawningMonsters), this.RespawningMonsters);
-
-			// Time limit.
-			database.AddContent(nameof(this.TimeLimit), this.TimeLimit);
-
-			// Turbo mode.
-			database.AddContent(nameof(this.TurboMode), this.TurboMode);
-
-			// Difficulty.
-			database.AddContent(nameof(this.Difficulty), this.Difficulty);
+			database.AddContent(nameof(this.SpecifyTimeLimit),   this.SpecifyTimeLimit);
+			database.AddContent(nameof(this.TimeLimit),          this.TimeLimit);
+			database.AddContent(nameof(this.SpecifyTurboMode),   this.SpecifyTurboMode);
+			database.AddContent(nameof(this.TurboMode),          this.TurboMode);
+			database.AddContent(nameof(this.SpecifyDifficulty),  this.SpecifyDifficulty);
+			database.AddContent(nameof(this.Difficulty),         this.Difficulty);
 
 			this.SaveExtraFiles(database, gameFolder);
 
@@ -108,76 +82,43 @@ namespace Launcher.Configs
 		/// </summary>
 		/// <param name="file">      Path to the file.</param>
 		/// <param name="gameFolder">Path to the folder that contains the executables.</param>
-		public static LaunchConfiguration Load(string file, string gameFolder)
+		public void Load(string file, string gameFolder)
 		{
-			if (Path.GetExtension(file) == ".lcf")
-			{
-				return LoadLegacy(file, gameFolder);
-			}
-
 			var database = new Database("xlcf", "blcf");
 
 			database.Load(file);
 
-			var config = new LaunchConfiguration();
+			string f = database.GetText(nameof(this.IwadFile));
+			this.IwadFile = Iwads.SupportedIwads.Find(x => x.FileName == f);
 
-			// Name.
-			config.Name = database.GetText(nameof(config.Name));
+			this.Name               = database.GetText(nameof(this.Name));
+			this.ConfigFile         = database.GetText(nameof(this.ConfigFile));
+			this.IgnoreBlockMap     = database.GetBool(nameof(this.IgnoreBlockMap));
+			this.SaveDirectory      = database.GetText(nameof(this.SaveDirectory));
+			this.SaveGamePath       = database.GetText(nameof(this.SaveGamePath));
+			this.DemoPath           = database.GetText(nameof(this.DemoPath));
+			this.EpisodeIndex       = database.GetInteger(nameof(this.EpisodeIndex));
+			this.MapIndex           = database.GetInteger(nameof(this.MapIndex));
+			this.MapName            = database.GetText(nameof(this.MapName));
+			this.StartupAction      = database.GetEnum<StartupAction>(nameof(this.StartupAction));
+			this.ExtraOptions       = database.GetText(nameof(this.ExtraOptions));
+			this.PixelMode          = database.GetEnum<PixelMode>(nameof(this.PixelMode));
+			this.SpecifyWidth       = database.GetBool(nameof(this.SpecifyWidth));
+			this.Width              = database.GetInteger(nameof(this.Width));
+			this.SpecifyHeight      = database.GetBool(nameof(this.SpecifyHeight));
+			this.Height             = database.GetInteger(nameof(this.Height));
+			this.DisableFlags       = database.GetEnum<DisableOptions>(nameof(this.DisableFlags));
+			this.FastMonsters       = database.GetBool(nameof(this.FastMonsters));
+			this.NoMonsters         = database.GetBool(nameof(this.NoMonsters));
+			this.RespawningMonsters = database.GetBool(nameof(this.RespawningMonsters));
+			this.SpecifyTimeLimit   = database.GetBool(nameof(this.SpecifyTimeLimit));
+			this.TimeLimit          = database.GetInteger(nameof(this.TimeLimit));
+			this.SpecifyTurboMode   = database.GetBool(nameof(this.SpecifyTurboMode));
+			this.TurboMode          = (byte)database.GetInteger(nameof(this.TurboMode));
+			this.SpecifyDifficulty  = database.GetBool(nameof(this.SpecifyDifficulty));
+			this.Difficulty         = database.GetInteger(nameof(this.Difficulty));
 
-			// Iwad Path.
-			config.IwadPath = database.GetText(nameof(config.IwadPath));
-
-			// Config File.
-			config.ConfigFile = database.GetText(nameof(config.ConfigFile));
-
-			// Ignore block map.
-			config.IgnoreBlockMap = database.GetBool(nameof(config.IgnoreBlockMap));
-
-			// Save directory.
-			config.SaveDirectory = database.GetText(nameof(config.SaveDirectory));
-
-			// Auto start file.
-			config.AutoStartFile = database.GetText(nameof(config.AutoStartFile));
-
-			// Start-up file kind.
-			config.StartUpFileKind = database.GetEnum<StartupFile>(nameof(config.StartUpFileKind));
-
-			// Extra options.
-			config.ExtraOptions = database.GetText(nameof(config.ExtraOptions));
-
-			// Pixel mode.
-			config.PixelMode = database.GetEnum<PixelMode>(nameof(config.PixelMode));
-
-			// Width.
-			config.Width = database.GetInteger(nameof(config.Width));
-
-			// Height.
-			config.Height = database.GetInteger(nameof(config.Height));
-
-			// Disable flags.
-			config.DisableFlags = database.GetEnum<DisableOptions>(nameof(config.DisableFlags));
-
-			// Fast monsters.
-			config.FastMonsters = database.GetBool(nameof(config.FastMonsters));
-
-			// No monsters.
-			config.NoMonsters = database.GetBool(nameof(config.NoMonsters));
-
-			// Respawning monsters.
-			config.RespawningMonsters = database.GetBool(nameof(config.RespawningMonsters));
-
-			// Time limit.
-			config.TimeLimit = database.GetInteger(nameof(config.TimeLimit));
-
-			// Turbo mode.
-			config.TurboMode = (byte?)database.GetInteger(nameof(config.TurboMode));
-
-			// Difficulty.
-			config.Difficulty = database.GetInteger(nameof(config.Difficulty));
-
-			config.LoadExtraFiles(database, gameFolder);
-
-			return config;
+			this.LoadExtraFiles(database, gameFolder);
 		}
 
 		public void LoadExtraFiles(Database database, string gameFolder)
@@ -232,73 +173,6 @@ namespace Launcher.Configs
 				ExtraFilesLookUp.Directories.Add(dir);
 			}
 		}
-
-		/// <summary>
-		/// Loads this configuration from the file.
-		/// </summary>
-		/// <param name="file">      Path to the file.</param>
-		/// <param name="gameFolder">Path to the folder that contains the executables.</param>
-		public static LaunchConfiguration LoadLegacy(string file, string gameFolder)
-		{
-			try
-			{
-				LaunchConfiguration config;
-				using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
-				{
-					var formatter = new BinaryFormatter();
-					config = (LaunchConfiguration)formatter.Deserialize(fs);
-				}
-
-				string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
-
-				// Restore full paths.
-				for (int i = 0; i < config.ExtraFiles.Count; i++)
-				{
-					string relativeFilePath = config.ExtraFiles[i];
-					string path             = Path.Combine(doomWadDir, relativeFilePath);
-					if (File.Exists(path))
-					{
-						config.ExtraFiles[i] = PathUtils.GetLocalPath(path);
-					}
-					else
-					{
-						path = Path.Combine(gameFolder, relativeFilePath);
-						if (File.Exists(path))
-						{
-							config.ExtraFiles[i] = PathUtils.GetLocalPath(path);
-						}
-						else
-						{
-							// File cannot be found so remove it.
-							config.ExtraFiles.RemoveAt(i--);
-						}
-					}
-				}
-
-				// Update directories.
-				var dirs = new List<string>(10);
-				foreach (string dirName in from extraFile in config.ExtraFiles
-										   select Path.GetDirectoryName(extraFile)
-										   into dirName
-										   where !dirs.Contains(dirName)
-										   select dirName)
-				{
-					dirs.Add(dirName);
-				}
-
-				foreach (string dir in dirs.Where(dir => !ExtraFilesLookUp.Directories.Contains(dir)))
-				{
-					ExtraFilesLookUp.Directories.Add(dir);
-				}
-
-				return config;
-			}
-			catch (Exception ex)
-			{
-				Log.Error("{0}: {1}", ex.GetType().FullName, ex.Message);
-				return null;
-			}
-		}
 	}
 
 	internal static class DataBaseExtensions
@@ -328,15 +202,12 @@ namespace Launcher.Configs
 			database.AddEntry(entry);
 		}
 
-		internal static void AddContent(this Database database, string entryName, int? nullableContent)
+		internal static void AddContent(this Database database, string entryName, int number)
 		{
-			if (nullableContent != null)
-			{
-				var content = new IntegerContent(nullableContent.Value);
-				var entry   = new DatabaseEntry(entryName, content);
+			var content = new IntegerContent(number);
+			var entry   = new DatabaseEntry(entryName, content);
 
-				database.AddEntry(entry);
-			}
+			database.AddEntry(entry);
 		}
 
 		internal static string GetText(this Database database, string entryName)
@@ -364,14 +235,18 @@ namespace Launcher.Configs
 			return enumValue;
 		}
 
-		internal static int? GetInteger(this Database database, string entryName)
+		internal static int GetInteger(this Database database, string entryName)
 		{
 			if (database.Contains(entryName, false))
 			{
-				return (int?)database[entryName].GetContent<IntegerContent>()?.Value;
+				var content = database[entryName].GetContent<IntegerContent>();
+				if (content != null)
+				{
+					return (int)database[entryName].GetContent<IntegerContent>().Value;
+				}
 			}
 
-			return null;
+			return 0;
 		}
 	}
 }

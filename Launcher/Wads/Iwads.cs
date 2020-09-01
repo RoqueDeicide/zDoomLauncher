@@ -69,6 +69,7 @@ namespace Launcher
 		{
 			SupportedIwads = new List<IwadFile>
 							 {
+								 new IwadFile("",                null,                                     false),
 								 new IwadFile(@"doom1.wad",      @"Doom Shareware version",                true),
 								 new IwadFile(@"doom.wad",       @"Doom Full version",                     true),
 								 new IwadFile(@"doomu.wad",      @"Ultimate Doom",                         false),
@@ -133,7 +134,7 @@ namespace Launcher
 
 			foreach (IwadFile iwad in SupportedIwads)
 			{
-				iwad.Available = File.Exists(Path.Combine(iwadFolder, iwad.FileName)) ||
+				iwad.Available = iwad.FileName == "" || File.Exists(Path.Combine(iwadFolder, iwad.FileName)) ||
 								 doomWadDir != null && File.Exists(Path.Combine(doomWadDir, iwad.FileName));
 			}
 
