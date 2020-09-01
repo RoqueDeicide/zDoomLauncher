@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Security;
-using Launcher.Logging;
+using Launcher.Utilities;
 
 namespace Launcher
 {

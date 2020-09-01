@@ -233,7 +233,7 @@
     <Compile Include="Extensions\GeneralExtensions.cs" />
     <Compile Include="Wads\IwadFile.cs" />
     <Compile Include="Wads\Iwads.cs" />
-    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Utilities\Log.cs" />
     <Compile Include="MainWindow.Configuration.cs" />
     <Compile Include="MainWindow.Constants.cs" />
     <Compile Include="MainWindow.EventHandlers.cs" />

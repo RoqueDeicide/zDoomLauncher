@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using Launcher.Configs;
-using Launcher.Logging;
+using Launcher.Utilities;
 
 namespace Launcher
 {

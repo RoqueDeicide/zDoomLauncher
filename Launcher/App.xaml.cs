@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Launcher.Logging;
+using Launcher.Utilities;
 using ModernWpf.Controls;
 
 namespace Launcher

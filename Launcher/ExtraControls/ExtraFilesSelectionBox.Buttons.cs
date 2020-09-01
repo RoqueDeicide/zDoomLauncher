@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Launcher.Logging;
+using Launcher.Utilities;
 
 namespace Launcher
 {

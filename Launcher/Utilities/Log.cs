@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Launcher.Annotations;
 
-namespace Launcher.Logging
+namespace Launcher.Utilities
 {
 	/// <summary>
 	/// Defines functions that log text to the log file.

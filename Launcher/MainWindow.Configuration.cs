@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Xml;
 using Launcher.Databases;
-using Launcher.Logging;
+using Launcher.Utilities;
 using ModernWpf;
 
 namespace Launcher

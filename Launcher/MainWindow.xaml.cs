@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Launcher.Annotations;
 using Launcher.Configs;
-using Launcher.Logging;
+using Launcher.Utilities;
 using ModernWpf.Controls;
 using Ookii.Dialogs.Wpf;
 using PathIO = System.IO.Path;
