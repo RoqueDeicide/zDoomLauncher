@@ -12,13 +12,13 @@ namespace Launcher
 	/// cref="NumberBox.ValueChanged"/> event will be fired twice if <see cref="DefaultValue"/> is set to an actual
 	/// number and the first event is raised with an <see cref="double.NaN"/> value.
 	/// </remarks>
-	public class NumberBoxAdvanced : NumberBox
+	public class NumberBoxExtended : NumberBox
 	{
 		/// <summary>
 		/// A <see cref="DependencyProperty"/> that defines a default value for the number box.
 		/// </summary>
 		public static readonly DependencyProperty DefaultValueProperty =
-			DependencyProperty.Register("DefaultValue", typeof(double), typeof(NumberBoxAdvanced),
+			DependencyProperty.Register("DefaultValue", typeof(double), typeof(NumberBoxExtended),
 										new PropertyMetadata(default(double)));
 
 		/// <summary>
@@ -30,16 +30,16 @@ namespace Launcher
 			set => this.SetValue(DefaultValueProperty, value);
 		}
 
-		static NumberBoxAdvanced()
+		static NumberBoxExtended()
 		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(NumberBoxAdvanced),
-													 new FrameworkPropertyMetadata(typeof(NumberBoxAdvanced)));
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(NumberBoxExtended),
+													 new FrameworkPropertyMetadata(typeof(NumberBoxExtended)));
 		}
 
 		/// <summary>
 		/// Creates a default instance of this type.
 		/// </summary>
-		public NumberBoxAdvanced()
+		public NumberBoxExtended()
 		{
 			if (!this.DefaultValue.IsNaN())
 			{

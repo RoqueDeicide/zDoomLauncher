@@ -209,7 +209,7 @@
     </Compile>
     <Compile Include="ExtraControls\ExtraFilesSelectionBox.DragDrop.cs" />
     <Compile Include="ExtraControls\IwadComboBox.cs" />
-    <Compile Include="ExtraControls\NumberBoxAdvanced.cs" />
+    <Compile Include="ExtraControls\NumberBoxExtended.cs" />
     <Compile Include="MainWindow.WindowManagement.cs" />
     <Compile Include="Utilities\Cast.cs" />
     <Compile Include="Utilities\UiSettings.cs" />
