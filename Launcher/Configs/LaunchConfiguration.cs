@@ -51,13 +51,11 @@ namespace Launcher.Configs
 			get => this.name;
 			set
 			{
-				if (this.name == value)
+				if (this.name != value)
 				{
-					return;
+					this.name = value;
+					this.OnPropertyChanged();
 				}
-
-				this.name = value;
-				this.OnPropertyChanged(nameof(this.Name));
 			}
 		}
 
@@ -71,13 +69,11 @@ namespace Launcher.Configs
 			get => this.iwadFile;
 			set
 			{
-				if (this.iwadFile == value)
+				if (this.iwadFile != value)
 				{
-					return;
+					this.iwadFile = value;
+					this.OnPropertyChanged();
 				}
-
-				this.iwadFile = value;
-				this.OnPropertyChanged(nameof(this.IwadFile));
 			}
 		}
 
