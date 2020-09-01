@@ -22,7 +22,8 @@
 		<Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
 			<Setter Property="Padding" Value="0,-10,0,5" />
 		</Style>
-		<prog:EnumBooleanConverter x:Key="EnumBooleanConverter"></prog:EnumBooleanConverter>
+		<prog:EnumBooleanConverter x:Key="EnumBooleanConverter" />
+		<prog:DashPrefixer x:Key="Prefixer" />
 	</Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -35,6 +36,12 @@
 		            Background="{DynamicResource SystemControlBackgroundAccentBrush}"
 		            Height="{Binding ElementName=Window, Path=(ui:TitleBar.Height)}"
 		            Orientation="Horizontal">
+			<StackPanel.Resources>
+				<Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+					<Setter Property="FontSize" Value="13" />
+					<Setter Property="VerticalAlignment" Value="Center" />
+				</Style>
+			</StackPanel.Resources>
 			<StackPanel.Style>
 				<Style TargetType="StackPanel">
 					<Setter Property="TextElement.Foreground"
@@ -47,14 +54,9 @@
 					</Style.Triggers>
 				</Style>
 			</StackPanel.Style>
-			<TextBlock FontSize="13" VerticalAlignment="Center" Margin="5, 0, 0, 0">
-				<TextBlock.Text>
-					<MultiBinding StringFormat="zDoom Launcher - {0} - {1}">
-						<Binding Path="Name"></Binding>
-						<Binding ElementName="Window" Path="CurrentConfigFile"></Binding>
-					</MultiBinding>
-				</TextBlock.Text>
-			</TextBlock>
+			<TextBlock Margin="10, 0, 0, 0" Text="zDoom Launcher" />
+			<TextBlock Text="{Binding Name, Converter={StaticResource Prefixer}}" />
+			<TextBlock Text="{Binding ElementName=Window, Path=CurrentConfigFile, Converter={StaticResource Prefixer}}" />
 		</StackPanel>
 		<Grid Grid.Row="1" Background="{DynamicResource CommandBarBackground}">
 			<ui:CommandBar VerticalContentAlignment="Center" HorizontalAlignment="Left"
@@ -75,8 +77,7 @@
 				<ui:CommandBar.Content>
 					<StackPanel Orientation="Horizontal">
 						<Label Content="Name" Margin="10,0,0,0" Height="32" VerticalContentAlignment="Center" />
-						<TextBox x:Name="ConfigurationNameTextBox" Width="200" Height="23" Margin="5,0,0,0"
-						         Text="{Binding Name}" />
+						<TextBox Width="200" Margin="5,0,0,0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 					</StackPanel>
 				</ui:CommandBar.Content>
 			</ui:CommandBar>

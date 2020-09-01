@@ -53,4 +53,39 @@ namespace Launcher
 		}
 		#endregion
 	}
+	/// <summary>
+	/// Represents a value converter that add " - " to the value.
+	/// </summary>
+	public class DashPrefixer : IValueConverter
+	{
+		/// <summary>
+		/// Adds " - " prefix to a string.
+		/// </summary>
+		/// <param name="value">String to add prefix to.</param>
+		/// <param name="targetType">Ignored.</param>
+		/// <param name="parameter">Ignored.</param>
+		/// <param name="culture">Ignored.</param>
+		/// <returns></returns>
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (value is string text && !text.IsNullOrWhiteSpace())
+			{
+				return $" - {text}";
+			}
+
+			return value?.ToString();
+		}
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="value">Ignored.</param>
+		/// <param name="targetType">Ignored.</param>
+		/// <param name="parameter">Ignored.</param>
+		/// <param name="culture">Ignored.</param>
+		/// <returns>value</returns>
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return value;
+		}
+	}
 }

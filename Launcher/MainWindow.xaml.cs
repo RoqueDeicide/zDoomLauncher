@@ -108,10 +108,6 @@ namespace Launcher
 		private void SetupInterface()
 		{
 			this.config.Reset();
-			// Set the title of the window.
-			this.UpdateWindowTitle();
-			// Set the name of the configuration in the text box.
-			this.ConfigurationNameTextBox.Text = this.config.Name;
 			// Set up a list of extra files.
 			this.SetupExtraFiles();
 			// Pixel mode.
