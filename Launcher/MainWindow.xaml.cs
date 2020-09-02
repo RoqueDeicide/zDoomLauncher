@@ -394,7 +394,10 @@ namespace Launcher
 				ExtraFilesLookUp.Directories.Add(this.zDoomFolder);
 			}
 
-			this.IwadComboBox.Select(this.Config.IwadFile.FileName);
+			if (this.Config.IwadFile != null)
+			{
+				this.IwadComboBox.Select(this.Config.IwadFile.FileName);
+			}
 
 			this.CurrentConfigFile = PathIO.ChangeExtension(configFile, ".xlcf");
 		}
