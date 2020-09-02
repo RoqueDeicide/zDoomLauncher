@@ -543,7 +543,7 @@ namespace Launcher.Configs
 			// Graphics.
 			switch (this.PixelMode)
 			{
-				case PixelMode.NoChange:
+				case PixelMode.Single:
 					break;
 
 				case PixelMode.Double:
@@ -785,7 +785,7 @@ namespace Launcher.Configs
 			this.Width              = 1280;
 			this.SpecifyHeight      = false;
 			this.Height             = 720;
-			this.PixelMode          = PixelMode.NoChange;
+			this.PixelMode          = PixelMode.Single;
 			this.DisableFlags       = DisableOptions.EnableAll;
 			this.FastMonsters       = false;
 			this.NoMonsters         = false;
@@ -807,7 +807,7 @@ namespace Launcher.Configs
 		/// <summary>
 		/// Standard pixels.
 		/// </summary>
-		NoChange,
+		Single,
 
 		/// <summary>
 		/// Doubles picture size dimensions by enabling pixel doubling.
@@ -818,6 +818,51 @@ namespace Launcher.Configs
 		/// Quadruples picture size dimensions by enabling pixel quadrupling.
 		/// </summary>
 		Quad
+	}
+
+	/// <summary>
+	/// Represents objects that contain extra details to be used by the UI when working with <see cref="PixelMode"/>
+	/// enumeration.
+	/// </summary>
+	public class PixelModeUi
+	{
+		/// <summary>
+		/// Gets the object of type <see cref="Configs.PixelMode"/> for which this object provides extra information.
+		/// </summary>
+		public PixelMode PixelMode { get; }
+
+		/// <summary>
+		/// Gets the name of the pixel mode.
+		/// </summary>
+		public string Name { get; }
+
+		/// <summary>
+		/// Gets the description of the pixel mode.
+		/// </summary>
+		public string Description { get; }
+
+		/// <summary>
+		/// Creates a new object of this type.
+		/// </summary>
+		/// <param name="pixelMode">  Pixel mode identifier.</param>
+		/// <param name="name">       Name of the pixel mode.</param>
+		/// <param name="description">Description of the pixel mode.</param>
+		public PixelModeUi(PixelMode pixelMode, string name, string description)
+		{
+			this.PixelMode   = pixelMode;
+			this.Name        = name;
+			this.Description = description;
+		}
+
+		/// <summary>
+		/// An array of objects that describe <see cref="Configs.PixelMode"/> objects.
+		/// </summary>
+		public static readonly PixelModeUi[] Values =
+		{
+			new PixelModeUi(PixelMode.Single, nameof(PixelMode.Single), "Use normal pixel mode."),
+			new PixelModeUi(PixelMode.Double, nameof(PixelMode.Double), "Force renderer to use pixel doubling."),
+			new PixelModeUi(PixelMode.Quad,   nameof(PixelMode.Quad),   "Force renderer to use pixel quadrupling.")
+		};
 	}
 
 	/// <summary>

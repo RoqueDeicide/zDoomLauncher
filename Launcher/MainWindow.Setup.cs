@@ -1,5 +1,4 @@
-﻿using System;
-using Launcher.Configs;
+﻿using Launcher.Configs;
 using Launcher.Utilities;
 
 namespace Launcher
@@ -9,27 +8,6 @@ namespace Launcher
 		private void SetupExtraFiles()
 		{
 			this.ExtraFilesBox.SelectedFiles = this.config.ExtraFiles;
-		}
-
-		private void SetupPixelMode()
-		{
-			switch (this.config.PixelMode)
-			{
-				case PixelMode.NoChange:
-					this.SinglePixelComboBoxItem.IsSelected = true;
-					break;
-
-				case PixelMode.Double:
-					this.DoublePixelComboBoxItem.IsSelected = true;
-					break;
-
-				case PixelMode.Quad:
-					this.QuadPixelComboBoxItem.IsSelected = true;
-					break;
-
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
 		}
 
 		private void SetupDisableOptions()

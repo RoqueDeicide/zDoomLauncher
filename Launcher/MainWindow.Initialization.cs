@@ -108,22 +108,6 @@ namespace Launcher
 										};
 		}
 
-		private void InitializeSomeEventHandlers()
-		{
-			this.PixelModeComboBox.SelectionChanged +=
-				(sender, args) =>
-				{
-					var selectedItem = this.PixelModeComboBox.SelectedItem as ComboBoxItem;
-
-					// Update configuration with a new selection.
-					if (selectedItem?.Tag is IConvertible mode)
-					{
-						this.config.PixelMode =
-							(PixelMode)mode.ToInt32(CultureInfo.InvariantCulture);
-					}
-				};
-		}
-
 		private void SetupThemeMenuItems()
 		{
 			static void SetTheme(ApplicationTheme? theme)

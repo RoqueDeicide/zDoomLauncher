@@ -99,7 +99,6 @@ namespace Launcher
 
 			this.RefreshExeFiles();
 			this.InitializeDialogs();
-			this.InitializeSomeEventHandlers();
 			this.SetupInterface();
 		}
 
@@ -110,8 +109,6 @@ namespace Launcher
 			this.config.Reset();
 			// Set up a list of extra files.
 			this.SetupExtraFiles();
-			// Pixel mode.
-			this.SetupPixelMode();
 			// What to disable?
 			this.SetupDisableOptions();
 		}

@@ -225,14 +225,8 @@
 					<prog:NumberBoxExtended Value="{Binding Height}" DefaultValue="720"
 					                        ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100" />
 					<Label Content="Pixel Mode" />
-					<ComboBox Margin="10,5,0,0" Name="PixelModeComboBox" Width="116">
-						<ComboBoxItem Content="Single" Tag="0" ToolTip="Nothing special is set to happen."
-						              Name="SinglePixelComboBoxItem" />
-						<ComboBoxItem Content="Double" Tag="1" ToolTip="Force renderer to use pixel doubling."
-						              Name="DoublePixelComboBoxItem" />
-						<ComboBoxItem Content="Quad" Tag="2" ToolTip="Force renderer to use pixel quadrupling."
-						              Name="QuadPixelComboBoxItem" />
-					</ComboBox>
+					<ComboBox Margin="10,5,0,0" Width="116" ItemsSource="{x:Static configs:PixelModeUi.Values}"
+					          SelectedValuePath="PixelMode" SelectedValue="{Binding PixelMode}" />
 				</StackPanel>
 			</GroupBox>
 			<GroupBox Header="Start With" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3">
