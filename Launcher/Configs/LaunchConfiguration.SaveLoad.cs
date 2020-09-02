@@ -97,26 +97,27 @@ namespace Launcher.Configs
 			this.SaveDirectory      = database.GetText(nameof(this.SaveDirectory));
 			this.SaveGamePath       = database.GetText(nameof(this.SaveGamePath));
 			this.DemoPath           = database.GetText(nameof(this.DemoPath));
-			this.EpisodeIndex       = database.GetInteger(nameof(this.EpisodeIndex));
-			this.MapIndex           = database.GetInteger(nameof(this.MapIndex));
 			this.MapName            = database.GetText(nameof(this.MapName));
 			this.StartupAction      = database.GetEnum<StartupAction>(nameof(this.StartupAction));
 			this.ExtraOptions       = database.GetText(nameof(this.ExtraOptions));
 			this.PixelMode          = database.GetEnum<PixelMode>(nameof(this.PixelMode));
 			this.SpecifyWidth       = database.GetBool(nameof(this.SpecifyWidth));
-			this.Width              = database.GetInteger(nameof(this.Width));
 			this.SpecifyHeight      = database.GetBool(nameof(this.SpecifyHeight));
-			this.Height             = database.GetInteger(nameof(this.Height));
 			this.DisableFlags       = database.GetEnum<DisableOptions>(nameof(this.DisableFlags));
 			this.FastMonsters       = database.GetBool(nameof(this.FastMonsters));
 			this.NoMonsters         = database.GetBool(nameof(this.NoMonsters));
 			this.RespawningMonsters = database.GetBool(nameof(this.RespawningMonsters));
 			this.SpecifyTimeLimit   = database.GetBool(nameof(this.SpecifyTimeLimit));
-			this.TimeLimit          = database.GetInteger(nameof(this.TimeLimit));
 			this.SpecifyTurboMode   = database.GetBool(nameof(this.SpecifyTurboMode));
-			this.TurboMode          = (byte)database.GetInteger(nameof(this.TurboMode));
 			this.SpecifyDifficulty  = database.GetBool(nameof(this.SpecifyDifficulty));
-			this.Difficulty         = database.GetInteger(nameof(this.Difficulty));
+
+			database.GetInteger(nameof(this.EpisodeIndex), x => this.EpisodeIndex = x);
+			database.GetInteger(nameof(this.MapIndex),     x => this.MapIndex     = x);
+			database.GetInteger(nameof(this.Width),        x => this.Width        = x);
+			database.GetInteger(nameof(this.Height),       x => this.Height       = x);
+			database.GetInteger(nameof(this.TimeLimit),    x => this.TimeLimit    = x);
+			database.GetInteger(nameof(this.TurboMode),    x => this.TurboMode    = (byte)x);
+			database.GetInteger(nameof(this.Difficulty),   x => this.Difficulty   = x);
 
 			this.LoadExtraFiles(database, gameFolder);
 		}
@@ -235,18 +236,16 @@ namespace Launcher.Configs
 			return enumValue;
 		}
 
-		internal static int GetInteger(this Database database, string entryName)
+		internal static void GetInteger(this Database database, string entryName, Action<int> assigner)
 		{
 			if (database.Contains(entryName, false))
 			{
 				var content = database[entryName].GetContent<IntegerContent>();
 				if (content != null)
 				{
-					return (int)database[entryName].GetContent<IntegerContent>().Value;
+					assigner((int)database[entryName].GetContent<IntegerContent>().Value);
 				}
 			}
-
-			return 0;
 		}
 	}
 }
