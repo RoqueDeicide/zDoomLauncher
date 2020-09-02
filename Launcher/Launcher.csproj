@@ -160,6 +160,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Configs\LaunchConfiguration.PropertyChanged.cs" />
+    <Compile Include="ExtraControls\FlagCheckList.xaml.cs">
+      <DependentUpon>FlagCheckList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.Converters.cs" />
     <Compile Include="Window.LaunchIcon.cs" />
     <Page Include="ExtraControls\AccentColorPicker.xaml">
@@ -167,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ExtraControls\ExtraFilesSelectionBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExtraControls\FlagCheckList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

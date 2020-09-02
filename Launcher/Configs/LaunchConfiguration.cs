@@ -865,26 +865,33 @@ namespace Launcher.Configs
 		/// <summary>
 		/// When set instructs zDoom to disable CD audio.
 		/// </summary>
+		[FlagInfo("CD Audio", "Check this box to disable CD audio.")]
 		CompactDiskAudio = 1,
 
 		/// <summary>
 		/// When set instructs zDoom to disable function that lowers zDoom process priority when player alt-tabs away.
 		/// </summary>
+		[FlagInfo(nameof(Idling), "Check this box to prevent zDoom from lowering its priority when minimized.")]
 		Idling = 2,
 
 		/// <summary>
 		/// When set instructs zDoom to disable joy stick control method.
 		/// </summary>
+		[FlagInfo(nameof(JoyStick),
+				  "Check this box to disable joystick support in case non-USB device is plugged in to " +
+				  "stop the game from slowing down by polling the joystick input.")]
 		JoyStick = 4,
 
 		/// <summary>
 		/// When set instructs zDoom to disable music in the game.
 		/// </summary>
+		[FlagInfo("Music", "Check this box to disable music playback.")]
 		Music = 8,
 
 		/// <summary>
 		/// When set instructs zDoom to disable sound effects.
 		/// </summary>
+		[FlagInfo("Sound Effects", "Check this box to disable the sound effects.")]
 		SoundEffects = 16,
 
 		/// <summary>
@@ -895,82 +902,31 @@ namespace Launcher.Configs
 		/// <summary>
 		/// When set instructs zDoom to disable startup screens for Heretic, Hexen and Strife.
 		/// </summary>
+		[FlagInfo("Startup Screens",
+				  "Check this box to disable start-up screens that are used by Heretic, Hexen and Strife.")]
 		StartupScreens = 32,
 
 		/// <summary>
 		/// When set instructs zDoom to disable sprite renaming used in user-created files for Heretic, Hexen or Strife.
 		/// </summary>
+		[FlagInfo("Sprite Renaming",
+				  "Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife.")]
 		SpriteRenaming = 64,
 
 		/// <summary>
 		/// When set instructs zDoom to disable auto-loading files.
 		/// </summary>
+		[FlagInfo("Auto-Load Files",
+				  "Check this box to prevent automatic load of files specified in \"AutoLoad\" section " +
+				  "of the config file, as well as \"zvox.wad\" and files from \"skins\" directory.")]
 		AutoLoad = 128,
 
 		/// <summary>
 		/// When set, instructs zDoom to generate the block map instead of loading it.
 		/// </summary>
+		[FlagInfo("Block Map Load",
+				  "Check this box to have the game generate the block map information instead of loading it.")]
 		BlockMapLoad = 256
-	}
-
-	/// <summary>
-	/// Represents an object
-	/// </summary>
-	public class DisableOptionsUi
-	{
-		/// <summary>
-		/// Gets the object of type <see cref="Configs.DisableOptions"/> for which this object provides extra
-		/// information.
-		/// </summary>
-		public DisableOptions DisableOptions { get; }
-
-		/// <summary>
-		/// Gets the name of the option to disable.
-		/// </summary>
-		public string Name { get; }
-
-		/// <summary>
-		/// Gets the description of the pixel mode.
-		/// </summary>
-		public string Description { get; }
-
-		/// <summary>
-		/// Creates a new object of this type.
-		/// </summary>
-		/// <param name="disableOptions">Options identifier.</param>
-		/// <param name="name">          Name of the pixel mode.</param>
-		/// <param name="description">   Description of the pixel mode.</param>
-		public DisableOptionsUi(DisableOptions disableOptions, string name, string description)
-		{
-			this.DisableOptions = disableOptions;
-			this.Name           = name;
-			this.Description    = description;
-		}
-
-		/// <summary>
-		/// An array of objects that describe values in <see cref="Configs.DisableOptions"/> enumeration.
-		/// </summary>
-		public static readonly DisableOptionsUi[] Values =
-		{
-			new DisableOptionsUi(DisableOptions.AutoLoad, "Auto-Load Files",
-								 "Check this box to prevent automatic load of files specified in \"AutoLoad\" section " +
-								 "of the config file, as well as \"zvox.wad\" and files from \"skins\" directory."),
-			new DisableOptionsUi(DisableOptions.CompactDiskAudio, "CD Audio", "Check this box to disable CD audio."),
-			new DisableOptionsUi(DisableOptions.Idling, nameof(DisableOptions.Idling),
-								 "Check this box to prevent zDoom from lowering its priority when minimized."),
-			new DisableOptionsUi(DisableOptions.SoundEffects, "Sound Effects",
-								 "Check this box to disable the sound effects."),
-			new DisableOptionsUi(DisableOptions.Music, "Music", "Check this box to disable music playback."),
-			new DisableOptionsUi(DisableOptions.JoyStick, nameof(DisableOptions.JoyStick),
-								 "Check this box to disable joystick support in case non-USB device is plugged in to " +
-								 "stop the game from slowing down by polling the joystick input."),
-			new DisableOptionsUi(DisableOptions.StartupScreens, "Startup Screens",
-								 "Check this box to disable start-up screens that are used by Heretic, Hexen and Strife."),
-			new DisableOptionsUi(DisableOptions.SpriteRenaming, "Sprite Renaming",
-								 "Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife."),
-			new DisableOptionsUi(DisableOptions.BlockMapLoad, "Block Map Loading",
-								 "Check this box to have the game generate the block map information instead of loading it."),
-		};
 	}
 
 	/// <summary>

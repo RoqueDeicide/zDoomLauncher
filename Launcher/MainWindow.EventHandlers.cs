@@ -1,30 +1,10 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using Launcher.Configs;
 using ModernWpf.Controls.Primitives;
 
 namespace Launcher
 {
 	public partial class MainWindow
 	{
-		private void ToggleOption(object sender, RoutedEventArgs e)
-		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is DisableOptionsUi option)
-			{
-
-				if (checkBox.IsChecked == true)
-				{
-					// Set the flag.
-					this.Config.DisableFlags |= option.DisableOptions;
-				}
-				else
-				{
-					// Remove the flag.
-					this.Config.DisableFlags &= ~option.DisableOptions;
-				}
-			}
-		}
-
 		private void SelectSaveGameFile(object sender, RoutedEventArgs e)
 		{
 			if (!this.Config.SaveGamePath.IsNullOrWhiteSpace())

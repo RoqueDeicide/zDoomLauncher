@@ -24,7 +24,6 @@
 		</Style>
 		<prog:EnumBooleanConverter x:Key="EnumBooleanConverter" />
 		<prog:DashPrefixer x:Key="Prefixer" />
-		<prog:DisableOptionsChecker x:Key="DisableOptionsChecker" />
 	</Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -169,18 +168,11 @@
 				</Grid>
 			</GroupBox>
 			<GroupBox Grid.Row="0" Grid.Column="2" Header="Disable">
-				<StackPanel Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
-					<ListBox Margin="6,5,6,0" Height="234" ItemsSource="{x:Static configs:DisableOptionsUi.Values}"
-					         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-					         ScrollViewer.VerticalScrollBarVisibility="Visible">
-						<ListBox.ItemTemplate>
-							<DataTemplate DataType="{x:Type configs:DisableOptionsUi}">
-								<CheckBox Content="{Binding Name}" ToolTip="{Binding Description}" Click="ToggleOption"
-								          IsChecked="{Binding DisableOptions, Converter={StaticResource DisableOptionsChecker}, Mode=OneWay}" />
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-				</StackPanel>
+				<ScrollViewer Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+					<prog:FlagCheckList Margin="6,5,6,0" Flags="{Binding DisableFlags}"
+					                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					                    ScrollViewer.VerticalScrollBarVisibility="Visible" />
+				</ScrollViewer>
 			</GroupBox>
 			<GroupBox Grid.Row="0" Grid.Column="3" Header="Resolution Options">
 				<StackPanel Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"

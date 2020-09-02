@@ -96,38 +96,4 @@ namespace Launcher
 			return value;
 		}
 	}
-
-	/// <summary>
-	/// Represents an object that checks whether specified <see cref="DisableOptions"/> flag is set.
-	/// </summary>
-	public class DisableOptionsChecker : IValueConverter
-	{
-		/// <summary>
-		/// Determines whether specified flag is set.
-		/// </summary>
-		/// <param name="value">     Flag to check.</param>
-		/// <param name="targetType">Ignored.</param>
-		/// <param name="parameter"> Ignored.</param>
-		/// <param name="culture">   Ignored.</param>
-		/// <returns></returns>
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			return value is DisableOptions option && Application.Current.MainWindow is MainWindow window &&
-				   window.Config.DisableFlags.HasFlag(option);
-		}
-
-		/// <summary>
-		/// Throws <see cref="NotSupportedException"/>.
-		/// </summary>
-		/// <param name="value">     Ignored.</param>
-		/// <param name="targetType">Ignored.</param>
-		/// <param name="parameter"> Ignored.</param>
-		/// <param name="culture">   Ignored.</param>
-		/// <returns>Nothing.</returns>
-		/// <exception cref="NotSupportedException">This operation is not supported.</exception>
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			throw new NotSupportedException();
-		}
-	}
 }
