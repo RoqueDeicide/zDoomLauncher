@@ -55,7 +55,7 @@
 			</ScrollViewer>
 		</Border>
 		<Border Grid.Row="2" BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}"
-		        BorderThickness="1">
+		        BorderThickness="1,1,1,0">
 			<ScrollViewer HorizontalScrollBarVisibility="Visible" PreviewMouseWheel="ScrollTheViewer"
 			              Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
 				<ListBox x:Name="SelectedFilesListBox" BorderThickness="0"

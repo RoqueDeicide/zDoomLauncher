@@ -94,7 +94,7 @@
 				<ColumnDefinition Width="165" />
 				<ColumnDefinition Width="189*" />
 			</Grid.ColumnDefinitions>
-			<GroupBox Grid.RowSpan="3" Grid.Column="0">
+			<GroupBox Grid.RowSpan="3" Grid.Column="0" Padding="0,-10,0,0">
 				<GroupBox.Header>
 					<TextBlock Margin="10,0,0,0" Text="Files to Load"
 					           FontSize="{DynamicResource GroupBoxHeaderFontSize}" />
@@ -110,7 +110,7 @@
 							</DataTemplate>
 						</prog:IwadComboBox.ItemTemplate>
 					</prog:IwadComboBox>
-					<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="10,47,10,7" />
+					<prog:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="10,47,10,10" />
 				</Grid>
 			</GroupBox>
 			<GroupBox Grid.Row="0" Grid.Column="1" Header="Gameplay Options">
@@ -123,15 +123,14 @@
 						<ColumnDefinition Width="8*" />
 						<ColumnDefinition Width="9*" />
 					</Grid.ColumnDefinitions>
-					<ListBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="6,5,6,0"
-					         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+					<StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="6,5,6,0">
 						<CheckBox Content="No Monsters" IsChecked="{Binding NoMonsters}"
 						          ToolTip="Check this box to prevent the monsters from spawning in the game." />
 						<CheckBox Content="Fast Monsters" IsChecked="{Binding FastMonsters}"
 						          ToolTip="Check this box to make the monsters always be as fast as they are on a nightmare difficulty." />
 						<CheckBox Content="Respawning Monsters" IsChecked="{Binding RespawningMonsters}"
 						          ToolTip="Check this box to make the monsters respawn some time after death." />
-					</ListBox>
+					</StackPanel>
 					<StackPanel Grid.Row="1" Grid.Column="0" SnapsToDevicePixels="True">
 						<StackPanel.Resources>
 							<Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
@@ -299,7 +298,7 @@
 						</Grid.Style>
 						<RadioButton x:Name="LoadMapIndicator"
 						             IsChecked="{Binding StartupAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LoadMapIndex}"
-						             Content="Map" HorizontalAlignment="Left" Margin="10,23,0,23"
+						             Content="Map Index" HorizontalAlignment="Left" Margin="10,23,0,23"
 						             GroupName="StartWithMethodRadioButtonGroup"
 						             ToolTip="Check this box to have the game load a map specified by the map and/or episode index." />
 						<Label Grid.Column="1" Content="Episode" Height="32" Width="48" HorizontalAlignment="Left"
@@ -338,11 +337,14 @@
 				<Label Content="Save Directory" VerticalAlignment="Top" HorizontalAlignment="Left" />
 				<TextBox Margin="0,24,47,0" VerticalAlignment="Top" Text="{Binding SaveDirectory}"
 				         ToolTip="Path to the directory where the save files are (to be) stored." />
-				<Label Content="Extra Command-Line Options" Margin="0,122,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
-				<Label Content="zDoom Configuration File" Margin="0,61,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
+				<Label Content="Extra Command-Line Options" Margin="0,122,0,0"
+				       VerticalAlignment="Top" HorizontalAlignment="Left" />
+				<Label Content="zDoom Configuration File" Margin="0,61,0,0"
+				       VerticalAlignment="Top" HorizontalAlignment="Left" />
 				<TextBox Margin="0,85,47,0" VerticalAlignment="Top" Text="{Binding ConfigFile}"
 				         ToolTip="Path to the zDoom config file to use." />
 				<TextBox Margin="0,146,10,10" Text="{Binding ExtraOptions}" TextWrapping="Wrap"
+				         ui:ControlHelper.CornerRadius="0"
 				         ToolTip="This text will be appended at the end of the command-line. Use this field to specify arguments that can't set from the rest of this interface." />
 				<Button HorizontalAlignment="Right" Margin="0,24,10,0" VerticalAlignment="Top"
 				        Style="{DynamicResource SelectFolderButtonStyle}" Click="SelectSaveDirectory" />
