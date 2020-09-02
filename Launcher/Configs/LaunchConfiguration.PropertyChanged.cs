@@ -10,6 +10,7 @@ namespace Launcher.Configs
 		/// Occurs when the value on one of the properties of this object changes.
 		/// </summary>
 		public event PropertyChangedEventHandler PropertyChanged;
+
 		/// <summary>
 		/// Raises <see cref="PropertyChanged"/> event.
 		/// </summary>

@@ -11,7 +11,6 @@ namespace Launcher.Configs
 	/// <summary>
 	/// Represents a launch configuration.
 	/// </summary>
-	[Serializable]
 	public partial class LaunchConfiguration : INotifyPropertyChanged
 	{
 		private string         name;

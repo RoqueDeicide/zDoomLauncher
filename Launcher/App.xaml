@@ -80,7 +80,7 @@
 									</ui:FontIcon.Foreground>
 								</ui:FontIcon>
 								<ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C3;"
-								             Foreground="{DynamicResource ButtonForeground}"></ui:FontIcon>
+								             Foreground="{DynamicResource ButtonForeground}" />
 							</Grid>
 						</DataTemplate>
 					</Setter.Value>
@@ -102,15 +102,15 @@
 									</ui:FontIcon.Foreground>
 								</ui:FontIcon>
 								<ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED43;"
-								             Foreground="{DynamicResource ButtonForeground}"></ui:FontIcon>
+								             Foreground="{DynamicResource ButtonForeground}" />
 							</Grid>
 						</DataTemplate>
 					</Setter.Value>
 				</Setter>
 			</Style>
 			<Style TargetType="{x:Type local:IwadComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
-				<Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
-				<Setter Property="VerticalAlignment" Value="Top"></Setter>
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="VerticalAlignment" Value="Top" />
 			</Style>
 			<Style TargetType="local:NumberBoxExtended" BasedOn="{StaticResource {x:Type ui:NumberBox}}">
 				<Setter Property="SpinButtonPlacementMode" Value="Compact" />

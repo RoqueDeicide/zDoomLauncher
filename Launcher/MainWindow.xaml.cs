@@ -237,6 +237,7 @@ namespace Launcher
 			{
 				return obj is AppBarButton;
 			}
+
 			if (!this.IsCurrentZDoomFolderValid() || IsUi(sender))
 			{
 				var dialog = new VistaFolderBrowserDialog

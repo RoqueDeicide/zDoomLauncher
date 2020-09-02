@@ -37,6 +37,7 @@ namespace Launcher
 	{
 		WCA_ACCENT_POLICY = 19
 	}
+
 	/// <summary>
 	/// Defines extension methods for objects that are related to WPF.
 	/// </summary>
@@ -119,6 +120,7 @@ namespace Launcher
 
 		[DllImport("user32.dll")]
 		private static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+
 		/// <summary>
 		/// Enables acrylic background effect for the window.
 		/// </summary>
