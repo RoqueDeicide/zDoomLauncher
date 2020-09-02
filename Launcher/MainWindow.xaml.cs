@@ -30,7 +30,7 @@ namespace Launcher
 			get
 			{
 				string appPath              = PathIO.Combine(this.zDoomFolder, this.currentExeFile);
-				string commandLineArguments = this.config.GetCommandLine(this.zDoomFolder);
+				string commandLineArguments = this.Config.GetCommandLine(this.zDoomFolder);
 
 				return (appPath, commandLineArguments);
 			}
@@ -38,9 +38,9 @@ namespace Launcher
 
 		public MainWindow()
 		{
-			this.config = new LaunchConfiguration();
+			this.Config = new LaunchConfiguration();
 
-			this.DataContext = this.config;
+			this.DataContext = this.Config;
 
 			this.InitializeComponent();
 
@@ -88,7 +88,7 @@ namespace Launcher
 			}
 			else
 			{
-				this.config.Reset();
+				this.Config.Reset();
 				this.CurrentConfigFile = "DefaultConfigFile.xlcf";
 			}
 
@@ -106,11 +106,8 @@ namespace Launcher
 
 		private void SetupInterface()
 		{
-			this.config.Reset();
 			// Set up a list of extra files.
 			this.SetupExtraFiles();
-			// What to disable?
-			this.SetupDisableOptions();
 		}
 
 		#endregion
@@ -171,7 +168,7 @@ namespace Launcher
 
 			if (this.saveConfigurationDialog.ShowDialog(this) == true)
 			{
-				this.config.Reset();
+				this.Config.Reset();
 				this.CurrentConfigFile = this.saveConfigurationDialog.FileName;
 				this.SetupInterface();
 			}
@@ -179,7 +176,7 @@ namespace Launcher
 
 		private void SaveConfiguration(object sender, RoutedEventArgs e)
 		{
-			this.config.Save(this.CurrentConfigFile, this.zDoomFolder);
+			this.Config.Save(this.CurrentConfigFile, this.zDoomFolder);
 		}
 
 		private void SaveConfigurationAs(object sender, RoutedEventArgs e)
@@ -189,7 +186,7 @@ namespace Launcher
 			if (this.saveConfigurationDialog.ShowDialog(this) == true)
 			{
 				this.CurrentConfigFile = this.saveConfigurationDialog.FileName;
-				this.config.Save(this.CurrentConfigFile, this.zDoomFolder);
+				this.Config.Save(this.CurrentConfigFile, this.zDoomFolder);
 			}
 		}
 
@@ -366,7 +363,7 @@ namespace Launcher
 
 		private void RefreshExtraFiles()
 		{
-			if (this.config?.ExtraFiles == null || this.ExtraFilesBox == null || this.zDoomFolder == null)
+			if (this.Config?.ExtraFiles == null || this.ExtraFilesBox == null || this.zDoomFolder == null)
 			{
 				return;
 			}
@@ -383,7 +380,7 @@ namespace Launcher
 
 		private void LoadConfiguration(string configFile)
 		{
-			this.config.Load(configFile, this.zDoomFolder);
+			this.Config.Load(configFile, this.zDoomFolder);
 
 			string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
 
@@ -397,7 +394,7 @@ namespace Launcher
 				ExtraFilesLookUp.Directories.Add(this.zDoomFolder);
 			}
 
-			this.IwadComboBox.Select(this.config.IwadFile.FileName);
+			this.IwadComboBox.Select(this.Config.IwadFile.FileName);
 
 			this.CurrentConfigFile = PathIO.ChangeExtension(configFile, ".xlcf");
 		}

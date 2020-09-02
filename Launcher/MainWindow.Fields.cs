@@ -10,7 +10,7 @@ namespace Launcher
 		private string zDoomFolder;
 
 		// ZDoom launch configuration.
-		private LaunchConfiguration config;
+		public LaunchConfiguration Config { get; }
 
 		// Name of the file to execute when launching.
 		private string currentExeFile;

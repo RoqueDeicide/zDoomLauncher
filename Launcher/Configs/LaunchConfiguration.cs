@@ -17,7 +17,6 @@ namespace Launcher.Configs
 		private IwadFile       iwadFile;
 		private List<string>   extraFiles;
 		private string         configFile;
-		private bool           ignoreBlockMap;
 		private string         saveDirectory;
 		private string         saveGamePath;
 		private string         demoPath;
@@ -100,20 +99,6 @@ namespace Launcher.Configs
 			{
 				if (value == this.configFile) return;
 				this.configFile = value;
-				this.OnPropertyChanged();
-			}
-		}
-
-		/// <summary>
-		/// Indicates whether zDoom needs to ignore block map data supplied by the map, and generate it instead.
-		/// </summary>
-		public bool IgnoreBlockMap
-		{
-			get => this.ignoreBlockMap;
-			set
-			{
-				if (value == this.ignoreBlockMap) return;
-				this.ignoreBlockMap = value;
 				this.OnPropertyChanged();
 			}
 		}
@@ -570,12 +555,6 @@ namespace Launcher.Configs
 				line.Append(this.Height);
 			}
 
-			// Some more files.
-			if (this.IgnoreBlockMap)
-			{
-				line.Append(@" -blockmap");
-			}
-
 			if (!string.IsNullOrWhiteSpace(this.SaveDirectory))
 			{
 				line.Append(@" -savedir ");
@@ -696,6 +675,11 @@ namespace Launcher.Configs
 				line.Append(@" -nosound");
 			}
 
+			if (this.disableFlags.HasFlag(DisableOptions.BlockMapLoad))
+			{
+				line.Append(@" -blockmap");
+			}
+
 			if (this.DisableFlags.HasFlag(DisableOptions.SpriteRenaming))
 			{
 				line.Append(@" -oldsprites");
@@ -766,13 +750,15 @@ namespace Launcher.Configs
 
 		#endregion
 
+		/// <summary>
+		/// Resets this object to its default state.
+		/// </summary>
 		public void Reset()
 		{
 			this.Name               = "Default Configuration";
 			this.IwadFile           = Iwads.SupportedIwads[0];
 			this.ConfigFile         = "";
 			this.ExtraFiles         = new List<string>();
-			this.IgnoreBlockMap     = false;
 			this.SaveDirectory      = "";
 			this.StartupAction      = StartupAction.None;
 			this.SaveGamePath       = "";
@@ -919,7 +905,72 @@ namespace Launcher.Configs
 		/// <summary>
 		/// When set instructs zDoom to disable auto-loading files.
 		/// </summary>
-		AutoLoad = 128
+		AutoLoad = 128,
+
+		/// <summary>
+		/// When set, instructs zDoom to generate the block map instead of loading it.
+		/// </summary>
+		BlockMapLoad = 256
+	}
+
+	/// <summary>
+	/// Represents an object
+	/// </summary>
+	public class DisableOptionsUi
+	{
+		/// <summary>
+		/// Gets the object of type <see cref="Configs.DisableOptions"/> for which this object provides extra
+		/// information.
+		/// </summary>
+		public DisableOptions DisableOptions { get; }
+
+		/// <summary>
+		/// Gets the name of the option to disable.
+		/// </summary>
+		public string Name { get; }
+
+		/// <summary>
+		/// Gets the description of the pixel mode.
+		/// </summary>
+		public string Description { get; }
+
+		/// <summary>
+		/// Creates a new object of this type.
+		/// </summary>
+		/// <param name="disableOptions">Options identifier.</param>
+		/// <param name="name">          Name of the pixel mode.</param>
+		/// <param name="description">   Description of the pixel mode.</param>
+		public DisableOptionsUi(DisableOptions disableOptions, string name, string description)
+		{
+			this.DisableOptions = disableOptions;
+			this.Name           = name;
+			this.Description    = description;
+		}
+
+		/// <summary>
+		/// An array of objects that describe values in <see cref="Configs.DisableOptions"/> enumeration.
+		/// </summary>
+		public static readonly DisableOptionsUi[] Values =
+		{
+			new DisableOptionsUi(DisableOptions.AutoLoad, "Auto-Load Files",
+								 "Check this box to prevent automatic load of files specified in \"AutoLoad\" section " +
+								 "of the config file, as well as \"zvox.wad\" and files from \"skins\" directory."),
+			new DisableOptionsUi(DisableOptions.CompactDiskAudio, "CD Audio", "Check this box to disable CD audio."),
+			new DisableOptionsUi(DisableOptions.Idling, nameof(DisableOptions.Idling),
+								 "Check this box to prevent zDoom from lowering its priority when minimized."),
+			new DisableOptionsUi(DisableOptions.SoundEffects, "Sound Effects",
+								 "Check this box to disable the sound effects."),
+			new DisableOptionsUi(DisableOptions.Music, "Music", "Check this box to disable music playback."),
+			new DisableOptionsUi(DisableOptions.JoyStick, nameof(DisableOptions.JoyStick),
+								 "Check this box to disable joystick support in case non-USB device is plugged in to " +
+								 "stop the game from slowing down by polling the joystick input."),
+			new DisableOptionsUi(DisableOptions.StartupScreens, "Startup Screens",
+								 "Check this box to disable start-up screens that are used by Heretic, Hexen and Strife."),
+			new DisableOptionsUi(DisableOptions.SpriteRenaming, "Sprite Renaming",
+								 "Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife."),
+			new DisableOptionsUi(DisableOptions.BlockMapLoad, "Block Map Loading",
+								 "Check this box to have the game generate the block map information instead of loading it."),
+		};
 	}
 
 	/// <summary>

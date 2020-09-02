@@ -26,7 +26,6 @@ namespace Launcher.Configs
 			database.AddContent(nameof(this.Name),               this.Name);
 			database.AddContent(nameof(this.IwadFile),           this.IwadFile.FileName);
 			database.AddContent(nameof(this.ConfigFile),         this.ConfigFile);
-			database.AddContent(nameof(this.IgnoreBlockMap),     this.IgnoreBlockMap);
 			database.AddContent(nameof(this.SaveDirectory),      this.SaveDirectory);
 			database.AddContent(nameof(this.SaveGamePath),       this.SaveGamePath);
 			database.AddContent(nameof(this.DemoPath),           this.DemoPath);
@@ -93,7 +92,6 @@ namespace Launcher.Configs
 
 			this.Name               = database.GetText(nameof(this.Name));
 			this.ConfigFile         = database.GetText(nameof(this.ConfigFile));
-			this.IgnoreBlockMap     = database.GetBool(nameof(this.IgnoreBlockMap));
 			this.SaveDirectory      = database.GetText(nameof(this.SaveDirectory));
 			this.SaveGamePath       = database.GetText(nameof(this.SaveGamePath));
 			this.DemoPath           = database.GetText(nameof(this.DemoPath));
