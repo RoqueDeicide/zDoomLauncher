@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Launcher
 {
@@ -87,6 +88,30 @@ namespace Launcher
 			}
 
 			return ~leftIndex;
+		}
+
+		/// <summary>
+		/// Adds a range of items to an observable collection.
+		/// </summary>
+		/// <typeparam name="T">Type of items in the collection.</typeparam>
+		/// <param name="collection">Collection to add items to.</param>
+		/// <param name="items">     A range of items to add.</param>
+		public static void AddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
+		{
+			if (collection is null)
+			{
+				throw new ArgumentNullException(nameof(collection), @"Cannot add items to a null collection.");
+			}
+
+			if (items is null)
+			{
+				return;
+			}
+
+			foreach (T item in items)
+			{
+				collection.Add(item);
+			}
 		}
 	}
 }

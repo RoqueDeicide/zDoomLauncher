@@ -99,18 +99,9 @@ namespace Launcher
 
 			this.RefreshExeFiles();
 			this.InitializeDialogs();
-			this.SetupInterface();
+
+			this.ExtraFilesBox.SelectedFiles = this.Config.ExtraFiles;
 		}
-
-		#region Setting Up
-
-		private void SetupInterface()
-		{
-			// Set up a list of extra files.
-			this.SetupExtraFiles();
-		}
-
-		#endregion
 
 		private void LaunchTheGame(object sender, RoutedEventArgs e)
 		{
@@ -170,7 +161,6 @@ namespace Launcher
 			{
 				this.Config.Reset();
 				this.CurrentConfigFile = this.saveConfigurationDialog.FileName;
-				this.SetupInterface();
 			}
 		}
 
@@ -195,7 +185,6 @@ namespace Launcher
 			if (this.openConfigurationDialog.ShowDialog(this) == true)
 			{
 				this.LoadConfiguration(this.openConfigurationDialog.FileName);
-				this.SetupInterface();
 			}
 		}
 

@@ -247,7 +247,6 @@
     <Compile Include="MainWindow.EventHandlers.cs" />
     <Compile Include="MainWindow.Fields.cs" />
     <Compile Include="MainWindow.Initialization.cs" />
-    <Compile Include="MainWindow.Setup.cs" />
     <Compile Include="MainWindow.Utilities.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
@@ -13,33 +13,33 @@ namespace Launcher.Configs
 	/// </summary>
 	public partial class LaunchConfiguration : INotifyPropertyChanged
 	{
-		private string         name;
-		private IwadFile       iwadFile;
-		private List<string>   extraFiles;
-		private string         configFile;
-		private string         saveDirectory;
-		private string         saveGamePath;
-		private string         demoPath;
-		private int            episodeIndex;
-		private int            mapIndex;
-		private string         mapName;
-		private StartupAction  startupAction;
-		private string         extraOptions;
-		private PixelMode      pixelMode;
-		private bool           specifyWidth;
-		private int            width;
-		private bool           specifyHeight;
-		private int            height;
-		private DisableOptions disableFlags;
-		private bool           fastMonsters;
-		private bool           noMonsters;
-		private bool           respawningMonsters;
-		private bool           specifyTimeLimit;
-		private int            timeLimit;
-		private bool           specifyTurboMode;
-		private byte           turboMode;
-		private bool           specifyDifficulty;
-		private int            difficulty;
+		private string                       name;
+		private IwadFile                     iwadFile;
+		private ObservableCollection<string> extraFiles;
+		private string                       configFile;
+		private string                       saveDirectory;
+		private string                       saveGamePath;
+		private string                       demoPath;
+		private int                          episodeIndex;
+		private int                          mapIndex;
+		private string                       mapName;
+		private StartupAction                startupAction;
+		private string                       extraOptions;
+		private PixelMode                    pixelMode;
+		private bool                         specifyWidth;
+		private int                          width;
+		private bool                         specifyHeight;
+		private int                          height;
+		private DisableOptions               disableFlags;
+		private bool                         fastMonsters;
+		private bool                         noMonsters;
+		private bool                         respawningMonsters;
+		private bool                         specifyTimeLimit;
+		private int                          timeLimit;
+		private bool                         specifyTurboMode;
+		private byte                         turboMode;
+		private bool                         specifyDifficulty;
+		private int                          difficulty;
 
 		/// <summary>
 		/// Gets or sets the name of this configuration.
@@ -78,7 +78,7 @@ namespace Launcher.Configs
 		/// <summary>
 		/// Paths to extra files to load.
 		/// </summary>
-		public List<string> ExtraFiles
+		public ObservableCollection<string> ExtraFiles
 		{
 			get => this.extraFiles;
 			set
@@ -758,7 +758,7 @@ namespace Launcher.Configs
 			this.Name               = "Default Configuration";
 			this.IwadFile           = Iwads.SupportedIwads[0];
 			this.ConfigFile         = "";
-			this.ExtraFiles         = new List<string>();
+			this.ExtraFiles         = new ObservableCollection<string>();
 			this.SaveDirectory      = "";
 			this.StartupAction      = StartupAction.None;
 			this.SaveGamePath       = "";

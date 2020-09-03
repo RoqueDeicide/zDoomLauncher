@@ -70,49 +70,73 @@ namespace Launcher
 	/// </summary>
 	public partial class ExtraFilesSelectionBox
 	{
-		private List<string> selectedFiles;
+		private ObservableCollection<string> selectedFileNames;
 
 		/// <summary>
 		/// Gets the list of files that are currently selected.
 		/// </summary>
 		[NotNull]
-		public List<string> SelectedFiles
+		public ObservableCollection<string> SelectedFiles
 		{
-			get => this.selectedFiles;
+			get => this.selectedFileNames;
 			set
 			{
-				this.ClearSelection();
-				this.selectedFiles = null;
-
-				var files = ExtraFilesLookUp.LoadableFiles;
-
-				// Add files that are available to the list.
-				foreach (FileDesc file in from filePath in value
-										  let fileDesc = files.FirstOrDefault(x => x.FullPath == filePath)
-										  where fileDesc != null
-										  select fileDesc)
+				if (this.selectedFileNames.Equals(value))
 				{
-					this.FileSelection.Add(file);
-					file.Selected = true;
+					return;
 				}
 
-				this.selectedFiles = value;
-
-				this.UpdateTopBottomSpinners();
+				this.selectedFileNames.CollectionChanged -= this.UpdateSelectionFromOutside;
+				this.selectedFileNames                   =  value;
+				this.selectedFileNames.CollectionChanged += this.UpdateSelectionFromOutside;
+				this.UpdateSelectionFromOutside(this, new NotifyCollectionChangedEventArgs
+													(NotifyCollectionChangedAction.Reset));
 			}
+		}
+
+		private void UpdateSelectionFromOutside(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (this.FileSelection is null) // this.FileSelection is null if update comes from this object.
+			{
+				// Prevent infinite recursion.
+				return;
+			}
+
+			var selectedNames = this.selectedFileNames;
+			this.selectedFileNames = null;
+
+			this.ClearSelection();
+
+			var files = ExtraFilesLookUp.LoadableFiles;
+
+			// Add files that are available to the list.
+			foreach (FileDesc file in from filePath in selectedNames
+									  let fileDesc = files.FirstOrDefault(x => x.FullPath == filePath)
+									  where fileDesc != null
+									  select fileDesc)
+			{
+				this.FileSelection.Add(file);
+				file.Selected = true;
+			}
+
+			this.UpdateTopBottomSpinners();
+
+			this.selectedFileNames = selectedNames;
 		}
 
 		/// <summary>
 		/// Gets the observable collection that contains information about selected files.
 		/// </summary>
-		public ObservableCollection<object> FileSelection { get; }
+		public ObservableCollection<object> FileSelection { get; private set; }
 
 		/// <summary>
 		/// Creates a user control.
 		/// </summary>
 		public ExtraFilesSelectionBox()
 		{
-			this.FileSelection = new ObservableCollection<object>();
+			this.selectedFileNames                   =  new ObservableCollection<string>();
+			this.selectedFileNames.CollectionChanged += this.UpdateSelectionFromOutside;
+			this.FileSelection                       =  new ObservableCollection<object>();
 
 			this.InitializeComponent();
 
@@ -120,20 +144,26 @@ namespace Launcher
 			allFilesCollView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
 
 			ExtraFilesLookUp.LoadableFiles.CollectionChanged += this.RemoveUnavailableSelection;
-			this.FileSelection.CollectionChanged             += this.UpdatedSelectedFiles;
+			this.FileSelection.CollectionChanged             += this.UpdatedSelectionFromInside;
 		}
 
-		private void UpdatedSelectedFiles(object sender, NotifyCollectionChangedEventArgs e)
+		private void UpdatedSelectionFromInside(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			if (this.selectedFiles == null)
+			if (this.selectedFileNames == null) // this.selectedFileNames is null if update comes from outside.
 			{
+				// Prevent infinite recursion.
 				return;
 			}
 
-			this.selectedFiles.Clear();
+			var selectedDescriptions = this.FileSelection;
+			this.FileSelection = null;
 
-			this.selectedFiles.AddRange(from fileDesc in this.FileSelection.OfType<FileDesc>()
-										select fileDesc.FullPath);
+			this.selectedFileNames.Clear();
+
+			this.selectedFileNames.AddRange(from fileDesc in selectedDescriptions.OfType<FileDesc>()
+											select fileDesc.FullPath);
+
+			this.FileSelection = selectedDescriptions;
 		}
 
 		private void ClearSelection()
