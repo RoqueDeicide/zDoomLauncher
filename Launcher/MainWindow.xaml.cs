@@ -159,8 +159,16 @@ namespace Launcher
 
 			if (this.saveConfigurationDialog.ShowDialog(this) == true)
 			{
+				string extraOptions = this.Config.ExtraOptions;
+				int    width        = this.Config.Width;
+				int    height       = this.Config.Height;
+
 				this.Config.Reset();
 				this.CurrentConfigFile = this.saveConfigurationDialog.FileName;
+
+				this.Config.ExtraOptions = extraOptions;
+				this.Config.Width        = width;
+				this.Config.Height       = height;
 			}
 		}
 
