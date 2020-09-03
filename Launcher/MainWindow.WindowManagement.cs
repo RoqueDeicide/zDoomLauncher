@@ -1,4 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using ModernWpf.Controls;
+using Point = System.Windows.Point;
+using Size = System.Windows.Size;
+using SdIcon = System.Drawing.Icon;
 
 namespace Launcher
 {
@@ -85,5 +93,43 @@ namespace Launcher
 		}
 
 		#endregion
+
+		private void UpdateLaunchIcon()
+		{
+			// Detach old image.
+			if (this.LaunchAppButton.Content is Image)
+			{
+				this.PlayIconImage.Source = null;
+			}
+
+			string exePath = Path.Combine(this.zDoomFolder, this.currentExeFile);
+
+			var icon = SdIcon.ExtractAssociatedIcon(exePath);
+			if (icon == null)
+			{
+				this.LaunchAppButton.Content = new SymbolIcon(Symbol.Play);
+			}
+			else
+			{
+				// Cache the icon.
+				const string cacheFileName = "cache.ico";
+				string       cacheFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, cacheFileName);
+
+				using (var stream = new FileStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+				{
+					icon.Save(stream);
+				}
+
+				var bitmap = new BitmapImage();
+				bitmap.BeginInit();
+				bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+				bitmap.CacheOption   = BitmapCacheOption.OnLoad;
+				bitmap.UriSource     = new Uri(cacheFilePath);
+				bitmap.EndInit();
+
+				this.PlayIconImage.Source    = bitmap;
+				this.LaunchAppButton.Content = this.PlayIconImage;
+			}
+		}
 	}
 }

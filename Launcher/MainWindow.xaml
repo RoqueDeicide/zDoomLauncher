@@ -70,8 +70,13 @@
 				<ui:AppBarButton Label="Open" Click="OpenConfiguration" Icon="{StaticResource OpenIcon}"
 				                 ToolTip="Click to open configuration file." />
 				<ui:AppBarSeparator />
-				<ui:AppBarButton x:Name="LaunchAppButton" Icon="Play" Label="Play" Click="LaunchTheGame"
-				                 ToolTip="Click to launch the game using current command line." />
+				<ui:AppBarButton x:Name="LaunchAppButton" Label="Play" Click="LaunchTheGame"
+				                 ToolTip="Click to launch the game using current command line."
+				                 Style="{StaticResource AppBarButtonWithContentIcon}">
+					<ui:AppBarButton.Content>
+						<Image x:Name="PlayIconImage" />
+					</ui:AppBarButton.Content>
+				</ui:AppBarButton>
 				<ui:AppBarButton Icon="Refresh" Label="Refresh" Click="RefreshEverything"
 				                 ToolTip="Click to refresh the lists of files." />
 				<ui:CommandBar.Content>

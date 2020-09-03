@@ -164,7 +164,6 @@
       <DependentUpon>FlagCheckList.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.Converters.cs" />
-    <Compile Include="Window.LaunchIcon.cs" />
     <Page Include="ExtraControls\AccentColorPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
