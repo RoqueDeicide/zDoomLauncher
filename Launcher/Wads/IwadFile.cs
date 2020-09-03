@@ -101,7 +101,7 @@ namespace Launcher
 		/// <returns>Hash code of <see cref="FileName"/> property.</returns>
 		public override int GetHashCode()
 		{
-			return (this.FileName != null ? this.FileName.GetHashCode() : 0);
+			return this.FileName != null ? this.FileName.GetHashCode() : 0;
 		}
 
 		/// <summary>

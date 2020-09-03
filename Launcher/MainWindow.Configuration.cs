@@ -50,8 +50,8 @@ namespace Launcher
 			{
 				content = new VectorContent<double>(2)
 						  {
-							  X = (this.windowSize.Value.Width),
-							  Y = (this.windowSize.Value.Height)
+							  X = this.windowSize.Value.Width,
+							  Y = this.windowSize.Value.Height
 						  };
 				entry = new DatabaseEntry(MainWindowSizeEntryName, content);
 				appConfigurationDatabase.AddEntry(entry);

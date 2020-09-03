@@ -73,7 +73,7 @@ namespace Launcher
 		{
 			if (sender is FrameworkElement element)
 			{
-				var flyout = FlyoutBase.GetAttachedFlyout(element);
+				FlyoutBase flyout = FlyoutBase.GetAttachedFlyout(element);
 
 				flyout.Hide();
 			}

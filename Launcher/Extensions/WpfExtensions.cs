@@ -9,11 +9,11 @@ namespace Launcher
 {
 	internal enum AccentState
 	{
-		ACCENT_DISABLED                   = 1,
-		ACCENT_ENABLE_GRADIENT            = 0,
-		ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
-		ACCENT_ENABLE_BLURBEHIND          = 3,
-		ACCENT_INVALID_STATE              = 4
+		AccentDisabled                  = 1,
+		AccentEnableGradient            = 0,
+		AccentEnableTransparentGradient = 2,
+		AccentEnableBlurBehind          = 3,
+		AccentInvalidState              = 4
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -35,7 +35,7 @@ namespace Launcher
 
 	internal enum WindowCompositionAttribute
 	{
-		WCA_ACCENT_POLICY = 19
+		WcaAccentPolicy = 19
 	}
 
 	/// <summary>
@@ -127,7 +127,7 @@ namespace Launcher
 		/// <param name="window">Window to enable the effect on.</param>
 		public static void EnableAcrylicBackground([NotNull] this Window window)
 		{
-			if (Environment.OSVersion.Platform != PlatformID.Win32NT ||
+			if (Environment.OSVersion.Platform      != PlatformID.Win32NT ||
 				Environment.OSVersion.Version.Major < 10)
 			{
 				return;
@@ -135,7 +135,7 @@ namespace Launcher
 
 			var helper = new WindowInteropHelper(window);
 
-			var accent = new AccentPolicy {AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND};
+			var accent = new AccentPolicy {AccentState = AccentState.AccentEnableBlurBehind};
 
 			int accentSize = Marshal.SizeOf(accent);
 
@@ -147,7 +147,7 @@ namespace Launcher
 
 				var data = new WindowCompositionAttributeData
 						   {
-							   Attribute  = WindowCompositionAttribute.WCA_ACCENT_POLICY,
+							   Attribute  = WindowCompositionAttribute.WcaAccentPolicy,
 							   Data       = accentPtr,
 							   SizeOfData = accentSize
 						   };

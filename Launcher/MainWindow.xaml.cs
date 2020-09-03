@@ -6,7 +6,6 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Launcher.Annotations;
 using Launcher.Utilities;
 using ModernWpf.Controls;
 using Ookii.Dialogs.Wpf;
@@ -17,7 +16,6 @@ namespace Launcher
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	[UsedImplicitly]
 	public partial class MainWindow
 	{
 		private const int CommandLineMaxLength = 2080;
@@ -197,7 +195,7 @@ namespace Launcher
 
 			string commandLine = $"{path} {args}";
 
-			var button = this.CommandLineAppButton;
+			AppBarButton button = this.CommandLineAppButton;
 			button.Resources["CommandLineText"] = commandLine;
 
 			if (commandLine.Length > CommandLineMaxLength)
