@@ -88,7 +88,6 @@ namespace Launcher
 			}
 			else
 			{
-				this.Config.Reset();
 				this.CurrentConfigFile = "DefaultConfigFile.xlcf";
 			}
 
