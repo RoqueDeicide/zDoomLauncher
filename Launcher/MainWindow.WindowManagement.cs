@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using ModernWpf.Controls;
@@ -96,12 +94,6 @@ namespace Launcher
 
 		private void UpdateLaunchIcon()
 		{
-			// Detach old image.
-			if (this.LaunchAppButton.Content is Image)
-			{
-				this.PlayIconImage.Source = null;
-			}
-
 			string exePath = Path.Combine(this.zDoomFolder, this.currentExeFile);
 
 			var icon = SdIcon.ExtractAssociatedIcon(exePath);
@@ -111,23 +103,23 @@ namespace Launcher
 			}
 			else
 			{
-				// Cache the icon.
-				const string cacheFileName = "cache.ico";
-				string       cacheFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, cacheFileName);
+				var       bytes  = new byte[2048];
+				using var stream = new MemoryStream(bytes, true);
 
-				using (var stream = new FileStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
-				{
-					icon.Save(stream);
-				}
+				icon.Save(stream);
 
-				var bitmap = new BitmapImage();
-				bitmap.BeginInit();
-				bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-				bitmap.CacheOption   = BitmapCacheOption.OnLoad;
-				bitmap.UriSource     = new Uri(cacheFilePath);
-				bitmap.EndInit();
+				stream.Seek(0, SeekOrigin.Begin);
 
-				this.PlayIconImage.Source    = bitmap;
+				var image = new BitmapImage();
+
+				image.BeginInit();
+
+				image.CacheOption  = BitmapCacheOption.OnLoad;
+				image.StreamSource = stream;
+
+				image.EndInit();
+
+				this.PlayIconImage.Source    = image;
 				this.LaunchAppButton.Content = this.PlayIconImage;
 			}
 		}
