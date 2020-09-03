@@ -2,10 +2,48 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using Launcher.Configs;
+using ModernWpf;
 
 namespace Launcher
 {
+	/// <summary>
+	/// Determines whether a theme menu button has to be checked.
+	/// </summary>
+	public class ThemeMenuButtonChecker : IValueConverter
+	{
+		/// <summary>
+		/// Creates a value that indicates whether current app theme matches the one specified by the <paramref
+		/// name="parameter"/>.
+		/// </summary>
+		/// <param name="value">     
+		/// An instance of type <see cref="Nullable{ApplicationTheme}"/> that indicates a current application theme.
+		/// </param>
+		/// <param name="targetType">A type of <see cref="bool"/>.</param>
+		/// <param name="parameter"> 
+		/// A <see cref="string"/> value that indicates what menu button the value is created for.
+		/// </param>
+		/// <param name="culture">   Not used.</param>
+		/// <returns>
+		/// A value that indicates whether current app theme matches the one specified by the <paramref
+		/// name="parameter"/>.
+		/// </returns>
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return parameter switch
+				   {
+					   "Light" => value is ApplicationTheme theme && theme == ApplicationTheme.Light,
+					   "Dark"  => value is ApplicationTheme theme && theme == ApplicationTheme.Dark,
+					   "null"  => value == null,
+					   _       => false
+				   };
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return value;
+		}
+	}
+
 	/// <summary>
 	/// Generic converter between any non-flag enumeration and bool.
 	/// </summary>

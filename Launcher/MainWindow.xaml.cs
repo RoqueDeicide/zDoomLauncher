@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Launcher.Annotations;
-using Launcher.Configs;
 using Launcher.Utilities;
 using ModernWpf.Controls;
 using Ookii.Dialogs.Wpf;
@@ -38,8 +37,6 @@ namespace Launcher
 
 		public MainWindow()
 		{
-			this.Config = new LaunchConfiguration();
-
 			this.DataContext = this.Config;
 
 			this.InitializeComponent();
@@ -97,7 +94,6 @@ namespace Launcher
 			}
 
 			this.RefreshExeFiles();
-			this.InitializeDialogs();
 
 			this.ExtraFilesBox.SelectedFiles = this.Config.ExtraFiles;
 		}
