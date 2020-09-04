@@ -95,7 +95,10 @@ namespace Launcher
 
 		private void OpenHelpWindowClick(object sender, RoutedEventArgs e)
 		{
-			new HelpWindow().Show();
+			new HelpWindow
+			{
+				WindowStartupLocation = WindowStartupLocation.CenterScreen
+			}.Show();
 		}
 
 		private void OpenDirectoriesWindowClick(object sender, RoutedEventArgs e)
