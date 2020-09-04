@@ -24,9 +24,9 @@
 				</Paragraph>
 				<Paragraph>
 					Files can be selected by clicking on check boxes next to their names. The order of selected
-					files can be customized in the bottom list. The files at bottom of the list will be loaded after
-					those at the top and may override their content. Because of this the suggested order of selected
-					files is:
+					files can be customized in the bottom list by clicking on arrows or by drag-and-drop. The files
+					at bottom of the list will be loaded after those at the top and may override their content.
+					Because of this the suggested order of selected files is:
 				</Paragraph>
 				<List MarkerStyle="Decimal">
 					<ListItem>
