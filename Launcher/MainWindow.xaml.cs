@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using Launcher.Utilities;
 using ModernWpf.Controls;
 using Ookii.Dialogs.Wpf;
@@ -43,7 +42,7 @@ namespace Launcher
 
 			this.LoadAppConfiguration();
 
-			this.SelectZDoomInstallationFolder(this, null);
+			this.SelectZDoomInstallationFolder();
 
 			if (!this.IsCurrentZDoomFolderValid())
 			{
@@ -96,11 +95,6 @@ namespace Launcher
 			this.ExtraFilesBox.SelectedFiles = this.Config.ExtraFiles;
 		}
 
-		private void LaunchTheGame(object sender, RoutedEventArgs e)
-		{
-			this.Launch(this.currentExeFile);
-		}
-
 		private void Launch(string appFileName)
 		{
 			(string path, string args) = this.CommandLine;
@@ -146,83 +140,21 @@ namespace Launcher
 			}
 		}
 
-		private void CreateNewConfiguration(object sender, RoutedEventArgs e)
-		{
-			this.saveConfigurationDialog.FileName = "";
-
-			if (this.saveConfigurationDialog.ShowDialog(this) == true)
-			{
-				string extraOptions = this.Config.ExtraOptions;
-				int    width        = this.Config.Width;
-				int    height       = this.Config.Height;
-
-				this.Config.Reset();
-				this.CurrentConfigFile = this.saveConfigurationDialog.FileName;
-
-				this.Config.ExtraOptions = extraOptions;
-				this.Config.Width        = width;
-				this.Config.Height       = height;
-			}
-		}
-
-		private void SaveConfiguration(object sender, RoutedEventArgs e)
-		{
-			this.Config.Save(this.CurrentConfigFile, this.zDoomFolder);
-		}
-
-		private void SaveConfigurationAs(object sender, RoutedEventArgs e)
-		{
-			this.saveConfigurationDialog.FileName = this.CurrentConfigFile;
-
-			if (this.saveConfigurationDialog.ShowDialog(this) == true)
-			{
-				this.CurrentConfigFile = this.saveConfigurationDialog.FileName;
-				this.Config.Save(this.CurrentConfigFile, this.zDoomFolder);
-			}
-		}
-
-		private void OpenConfiguration(object sender, RoutedEventArgs e)
-		{
-			if (this.openConfigurationDialog.ShowDialog(this) == true)
-			{
-				this.LoadConfiguration(this.openConfigurationDialog.FileName);
-			}
-		}
-
-		private void UpdateTestCommandLine(object sender, object e)
-		{
-			(string path, string args) = this.CommandLine;
-
-			string commandLine = $"{path} {args}";
-
-			AppBarButton button = this.CommandLineAppButton;
-			button.Resources["CommandLineText"] = commandLine;
-
-			if (commandLine.Length > CommandLineMaxLength)
-			{
-				button.Resources["FlyoutColor"]  = new SolidColorBrush(Colors.Red);
-				button.Resources["FlyoutSymbol"] = Symbol.Cancel;
-			}
-			else
-			{
-				button.Resources["FlyoutColor"]  = new SolidColorBrush(Colors.Green);
-				button.Resources["FlyoutSymbol"] = Symbol.Accept;
-			}
-		}
-
 		private bool IsCurrentZDoomFolderValid()
 		{
 			return this.zDoomFolder != null && Directory.Exists(this.zDoomFolder);
 		}
 
-		private async void SelectZDoomInstallationFolder(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Prompts the user to select the directory where zDoom is installed.
+		/// </summary>
+		/// <param name="reselecting">
+		/// A <see cref="bool"/> value that indicates, whether a valid directory was chosen before, and this call
+		/// shouldn't result in closing of the window, if no valid directory is chosen right now.
+		/// </param>
+		public async void SelectZDoomInstallationFolder(bool reselecting = false)
 		{
-			static bool IsUi(object obj)
-			{
-				return obj is AppBarButton;
-			}
-
-			if (!this.IsCurrentZDoomFolderValid() || IsUi(sender))
+			if (!this.IsCurrentZDoomFolderValid() || reselecting)
 			{
 				var dialog = new VistaFolderBrowserDialog
 							 {
@@ -242,7 +174,7 @@ namespace Launcher
 									 {
 										 Title             = "No folder or invalid one was chosen",
 										 Content           = "Valid folder needs to contain at least one .exe file.",
-										 CloseButtonText   = "Cancel",
+										 CloseButtonText   = reselecting ? "Nevermind" : "Cancel",
 										 PrimaryButtonText = "Choose another"
 									 };
 
@@ -250,7 +182,7 @@ namespace Launcher
 
 					if (result == ContentDialogResult.None)
 					{
-						if (IsUi(sender))
+						if (reselecting)
 						{
 							return;
 						}
@@ -271,18 +203,6 @@ namespace Launcher
 			}
 
 			this.RefreshExeFiles();
-		}
-
-		private void OpenDirectoriesWindow(object sender, RoutedEventArgs e)
-		{
-			var dirs = new Directories();
-
-			dirs.ShowDialog();
-		}
-
-		private void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			this.SaveAppConfiguration();
 		}
 
 		private void RefreshExeFiles()
@@ -330,27 +250,6 @@ namespace Launcher
 			}
 		}
 
-		private void ExeFileSelected(object sender, SelectionChangedEventArgs e)
-		{
-			// Update the field.
-			if (this.ExeFileNameComboBox.SelectedItem is ComboBoxItem selectedItem)
-			{
-				this.currentExeFile = selectedItem.Content as string ?? "";
-
-				this.UpdateLaunchIcon();
-			}
-		}
-
-		private void OpenAboutWindow(object sender, RoutedEventArgs e)
-		{
-			new AboutWindow().Show();
-		}
-
-		private void OpenHelpWindow(object sender, RoutedEventArgs e)
-		{
-			new HelpWindow().Show();
-		}
-
 		private void RefreshExtraFiles()
 		{
 			if (this.Config?.ExtraFiles == null || this.ExtraFilesBox == null || this.zDoomFolder == null)
@@ -360,12 +259,6 @@ namespace Launcher
 
 			// This just triggers a refresh of extra files.
 			ExtraFilesLookUp.Refresh();
-		}
-
-		private void RefreshEverything(object sender, RoutedEventArgs e)
-		{
-			this.RefreshExeFiles();
-			this.RefreshExtraFiles();
 		}
 
 		private void LoadConfiguration(string configFile)

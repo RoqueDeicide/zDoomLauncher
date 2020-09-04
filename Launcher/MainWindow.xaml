@@ -61,23 +61,23 @@
 		<Grid Grid.Row="1" Background="{DynamicResource CommandBarBackground}">
 			<ui:CommandBar VerticalContentAlignment="Center" HorizontalAlignment="Left"
 			               DefaultLabelPosition="Bottom" OverflowButtonVisibility="Collapsed">
-				<ui:AppBarButton Label="New" Click="CreateNewConfiguration" Icon="{StaticResource NewFileIcon}"
+				<ui:AppBarButton Label="New" Click="CreateNewConfigurationClick" Icon="{StaticResource NewFileIcon}"
 				                 ToolTip="Click to create a new configuration." />
-				<ui:AppBarButton Label="Save" Click="SaveConfiguration" Icon="{StaticResource SaveIcon}"
+				<ui:AppBarButton Label="Save" Click="SaveConfigurationClick" Icon="{StaticResource SaveIcon}"
 				                 ToolTip="Click to save this configuration." />
-				<ui:AppBarButton Label="Save as" Click="SaveConfigurationAs" Icon="{StaticResource SaveAsIcon}"
+				<ui:AppBarButton Label="Save as" Click="SaveConfigurationAsClick" Icon="{StaticResource SaveAsIcon}"
 				                 ToolTip="Click to save this configuration into a separate file." />
-				<ui:AppBarButton Label="Open" Click="OpenConfiguration" Icon="{StaticResource OpenIcon}"
+				<ui:AppBarButton Label="Open" Click="OpenConfigurationClick" Icon="{StaticResource OpenIcon}"
 				                 ToolTip="Click to open configuration file." />
 				<ui:AppBarSeparator />
-				<ui:AppBarButton x:Name="LaunchAppButton" Label="Play" Click="LaunchTheGame"
+				<ui:AppBarButton x:Name="LaunchAppButton" Label="Play" Click="LaunchGameButtonClick"
 				                 ToolTip="Click to launch the game using current command line."
 				                 Style="{StaticResource AppBarButtonWithContentIcon}">
 					<ui:AppBarButton.Content>
 						<Image x:Name="PlayIconImage" />
 					</ui:AppBarButton.Content>
 				</ui:AppBarButton>
-				<ui:AppBarButton Icon="Refresh" Label="Refresh" Click="RefreshEverything"
+				<ui:AppBarButton Icon="Refresh" Label="Refresh" Click="RefreshButtonClick"
 				                 ToolTip="Click to refresh the lists of files." />
 				<ui:CommandBar.Content>
 					<StackPanel Orientation="Horizontal">
@@ -371,7 +371,7 @@
 					<system:String x:Key="CommandLineText">Empty</system:String>
 				</ui:AppBarButton.Resources>
 				<ui:AppBarButton.Flyout>
-					<ui:Flyout Placement="TopEdgeAlignedLeft" Opening="UpdateTestCommandLine">
+					<ui:Flyout Placement="TopEdgeAlignedLeft" Opening="UpdateTestCommandLineFlyoutOpening">
 						<ui:Flyout.FlyoutPresenterStyle>
 							<Style TargetType="ui:FlyoutPresenter">
 								<Setter Property="MaxWidth" Value="640" />
@@ -399,14 +399,14 @@
 					</ui:Flyout>
 				</ui:AppBarButton.Flyout>
 			</ui:AppBarButton>
-			<ui:AppBarButton Icon="{StaticResource FolderIcon}" Label="Game Path" Click="SelectZDoomInstallationFolder"
+			<ui:AppBarButton Icon="{StaticResource FolderIcon}" Label="Game Path" Click="GamePathButtonClick"
 			                 ToolTip="Click to change the zDoom installation directory." />
-			<ui:AppBarButton Icon="{StaticResource FoldersIcon}" Label="File Paths" Click="OpenDirectoriesWindow"
+			<ui:AppBarButton Icon="{StaticResource FoldersIcon}" Label="File Paths" Click="OpenDirectoriesWindowClick"
 			                 ToolTip="Click to open a window that manages a list of directories the extra loadable files can found in." />
 			<ui:AppBarSeparator />
-			<ui:AppBarButton Icon="{StaticResource QuestionIcon}" Label="Help" Click="OpenHelpWindow"
+			<ui:AppBarButton Icon="{StaticResource QuestionIcon}" Label="Help" Click="OpenHelpWindowClick"
 			                 ToolTip="Click to open a window with some information that couldn't fit into tool-tips." />
-			<ui:AppBarButton Icon="{StaticResource InfoIcon}" Label="About" Click="OpenAboutWindow"
+			<ui:AppBarButton Icon="{StaticResource InfoIcon}" Label="About" Click="OpenAboutWindowClick"
 			                 ToolTip="Click to open a window with basic information about this program and credits." />
 			<ui:AppBarSeparator />
 			<ui:AppBarButton Icon="{StaticResource WindowIcon}" Label="Window" Width="85">
