@@ -3,17 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ui="http://schemas.modernwpf.com/2019"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="500"
              xmlns:local="clr-namespace:Launcher">
 	<UserControl.Resources>
-		<Style x:Key="FileListItem" TargetType="ListBoxItem">
-			<Setter Property="Height" Value="32" />
+		<Style x:Key="FileListItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
 			<Setter Property="Focusable" Value="False" />
+			<Setter Property="Padding" Value="3,0,0,0" />
 		</Style>
 		<Style x:Key="SelectedFileListItem" TargetType="ListBoxItem"
 		       BasedOn="{StaticResource FileListItem}">
 			<Setter Property="AllowDrop" Value="True" />
+			<Setter Property="Height" Value="32" />
 			<EventSetter Event="PreviewMouseLeftButtonDown" Handler="SaveCurrentMousePosition" />
 			<EventSetter Event="Drop" Handler="MoveDraggedItem" />
 			<EventSetter Event="PreviewDragOver" Handler="UpdateDropLocationIndication" />
@@ -38,10 +38,9 @@
 		        BorderBrush="{Binding BorderBrush, ElementName=FileSelectionUserControl}">
 			<ScrollViewer HorizontalScrollBarVisibility="Visible" PreviewMouseWheel="ScrollTheViewer"
 			              Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
-				<ListBox x:Name="AllFilesListBox"
-				         ItemsSource="{x:Static local:ExtraFilesLookUp.LoadableFiles}"
-				         BorderThickness="0"
-				         ItemContainerStyle="{StaticResource FileListItem}" Margin="0,0,0,16" Background="{x:Null}">
+				<ListBox x:Name="AllFilesListBox" ItemsSource="{x:Static local:ExtraFilesLookUp.LoadableFiles}"
+				         BorderThickness="0" ItemContainerStyle="{StaticResource FileListItem}" Margin="0,0,0,16"
+				         Background="{x:Null}">
 					<ListBox.GroupStyle>
 						<GroupStyle HeaderTemplate="{StaticResource LoadableFilesGroupHeader}" />
 					</ListBox.GroupStyle>
@@ -66,20 +65,17 @@
 						<DataTemplate DataType="local:FileDesc">
 							<Grid>
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="32" />
+									<ColumnDefinition Width="20" />
 									<ColumnDefinition Width="266*" />
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
 									<RowDefinition Height="*" />
 									<RowDefinition Height="*" />
 								</Grid.RowDefinitions>
-								<local:SpinnerButtons Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-								                      x:Name="Spinners"
-								                      ClickUp="MoveSelectedFileUp"
-								                      ClickDown="MoveSelectedFileDown"
-								                      AtTop="{Binding Path=AtTop}"
-								                      AtBottom="{Binding Path=AtBottom}" />
-								<TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+								<local:SpinnerButtons Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" x:Name="Spinners"
+								                      ClickUp="MoveSelectedFileUp" ClickDown="MoveSelectedFileDown"
+								                      AtTop="{Binding Path=AtTop}" AtBottom="{Binding Path=AtBottom}" />
+								<TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="8,0,0,0"
 								           Text="{Binding Path=FileName}" ToolTip="{Binding Path=Directory}"
 								           VerticalAlignment="Center">
 									<TextBlock.ContextMenu>
