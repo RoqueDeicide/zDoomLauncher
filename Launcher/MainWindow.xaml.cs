@@ -252,7 +252,7 @@ namespace Launcher
 
 		private void RefreshExtraFiles()
 		{
-			if (this.Config?.ExtraFiles == null || this.ExtraFilesBox == null || this.zDoomFolder == null)
+			if (this.ExtraFilesBox == null || this.zDoomFolder == null)
 			{
 				return;
 			}
