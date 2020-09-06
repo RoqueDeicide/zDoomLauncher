@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
 using ModernWpf.Controls;
 
 namespace Launcher
@@ -47,6 +48,15 @@ namespace Launcher
 			}
 
 			this.ValueChanged += this.SetToDefaultIfCleared;
+
+			this.PreviewMouseWheel += this.RotateTheValue;
+		}
+
+		private void RotateTheValue(object sender, MouseWheelEventArgs args)
+		{
+			bool large = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
+			int  shift = args.Delta / Math.Abs(args.Delta);
+			this.Value += shift * (large ? this.LargeChange : this.SmallChange);
 		}
 
 		private void SetToDefaultIfCleared(NumberBox sender, NumberBoxValueChangedEventArgs args)
