@@ -162,8 +162,7 @@ namespace Launcher
 		/// <param name="e">Event arguments.</param>
 		protected virtual void OnClickUp(RoutedEventArgs e)
 		{
-			RoutedEventHandler handler = this.ClickUp;
-			handler?.Invoke(this, e);
+			this.ClickUp?.Invoke(this, e);
 		}
 
 		/// <summary>
@@ -172,8 +171,7 @@ namespace Launcher
 		/// <param name="e">Event arguments.</param>
 		protected virtual void OnClickDown(RoutedEventArgs e)
 		{
-			RoutedEventHandler handler = this.ClickDown;
-			handler?.Invoke(this, e);
+			this.ClickDown?.Invoke(this, e);
 		}
 
 		#endregion

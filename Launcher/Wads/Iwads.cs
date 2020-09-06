@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using Launcher.Annotations;
 
 namespace Launcher
@@ -114,10 +115,9 @@ namespace Launcher
 		#region Utilities
 
 		[NotifyPropertyChangedInvocator]
-		private static void OnStaticPropertyChanged(string propertyName = null)
+		private static void OnStaticPropertyChanged([CallerMemberName] string propertyName = null)
 		{
-			var handler = StaticPropertyChanged;
-			handler?.Invoke(null, new PropertyChangedEventArgs(propertyName));
+			StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
 		}
 
 		private static void UpdateAvailableIwads(bool folderChanged = true)
@@ -158,14 +158,12 @@ namespace Launcher
 
 		private static void OnUpdating()
 		{
-			EventHandler handler = Updating;
-			handler?.Invoke(null, EventArgs.Empty);
+			Updating?.Invoke(null, EventArgs.Empty);
 		}
 
 		private static void OnUpdated()
 		{
-			EventHandler handler = Updated;
-			handler?.Invoke(null, EventArgs.Empty);
+			Updated?.Invoke(null, EventArgs.Empty);
 		}
 
 		#endregion
