@@ -88,6 +88,11 @@ namespace Launcher.Configs
 			database.Load(file);
 
 			string f = database.GetText(nameof(this.IwadFile));
+			if (f.IsNullOrWhiteSpace())
+			{
+				// Older format.
+				f = database.GetText("IwadPath");
+			}
 			this.IwadFile = Iwads.SupportedIwads.Find(x => x.FileName == f);
 
 			this.Name               = database.GetText(nameof(this.Name));
