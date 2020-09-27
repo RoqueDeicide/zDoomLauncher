@@ -212,9 +212,6 @@ namespace Launcher
 
 				// Advance to next file in the collection.
 				currentCollectionFileIndex++;
-
-				//// We are advancing to the next enumerated file.
-				//currentEnumeratedFileIndex++;
 			}
 		}
 
