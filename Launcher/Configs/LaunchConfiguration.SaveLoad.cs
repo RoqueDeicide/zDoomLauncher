@@ -146,7 +146,7 @@ namespace Launcher.Configs
 			foreach (string filePath in paths)
 			{
 				string relativeFilePath = filePath;
-				string path             = Path.Combine(doomWadDir, relativeFilePath);
+				string path             = Path.Combine(doomWadDir ?? "", relativeFilePath);
 				if (File.Exists(path))
 				{
 					this.ExtraFiles.Add(PathUtils.GetLocalPath(path));

@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Security;
+using Launcher.Annotations;
 using Launcher.Utilities;
 
 namespace Launcher
@@ -44,6 +45,7 @@ namespace Launcher
 		/// <summary>
 		/// Gets the path to the directory that is mentioned in DOOMWADDIR environment variable.
 		/// </summary>
+		[CanBeNull]
 		public static string DoomWadDirectory
 		{
 			get
