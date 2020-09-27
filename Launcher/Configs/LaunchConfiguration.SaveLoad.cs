@@ -93,6 +93,7 @@ namespace Launcher.Configs
 				// Older format.
 				f = database.GetText("IwadPath");
 			}
+
 			this.IwadFile = Iwads.SupportedIwads.Find(x => x.FileName == f);
 
 			this.Name               = database.GetText(nameof(this.Name));
@@ -127,6 +128,8 @@ namespace Launcher.Configs
 
 		public void LoadExtraFiles(Database database, string gameFolder)
 		{
+			this.ExtraFiles.Clear();
+
 			if (!database.Contains("ExtraFiles", false))
 			{
 				return;
