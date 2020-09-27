@@ -1,0 +1,96 @@
+﻿<ui:Page x:Class="Launcher.SettingsPage"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+         xmlns:local="clr-namespace:Launcher"
+         xmlns:ui="http://schemas.modernwpf.com/2019"
+         mc:Ignorable="d"
+         d:DesignHeight="450" d:DesignWidth="800"
+         Title="SettingsPage">
+	<ui:Page.Resources>
+		<local:ThemeMenuButtonChecker x:Key="ThemeMenuButtonChecker" />
+		<Style TargetType="ui:SimpleStackPanel">
+			<Setter Property="Spacing" Value="8" />
+		</Style>
+	</ui:Page.Resources>
+	<Grid x:Name="RootGrid">
+		<ScrollViewer Height="{Binding ActualHeight, ElementName=RootGrid}">
+			<StackPanel Margin="12">
+
+				<!-- Path to ZDoom installation directory. -->
+
+				<GroupBox Header="ZDoom Installation Directory and Executable">
+					<ui:SimpleStackPanel>
+						<Grid Margin="0,0,8,0">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<TextBox Grid.Column="0" Margin="0,0,8,0" Name="ZDoomDirBox"
+							         Text="{Binding Path=(local:AppSettings.ZDoomDirectory)}">
+								<ui:FlyoutBase.AttachedFlyout>
+									<ui:Flyout>
+										<Border BorderBrush="Red">
+											<TextBlock>Directory with an executable file is required.</TextBlock>
+										</Border>
+									</ui:Flyout>
+								</ui:FlyoutBase.AttachedFlyout>
+							</TextBox>
+							<Button Grid.Column="1" VerticalAlignment="Bottom"
+							        Style="{StaticResource SelectFolderButtonStyle}" Click="ZDoomInstallDirectoryClick" />
+						</Grid>
+						<ComboBox IsReadOnly="True" Width="120" ItemsSource="{x:Static local:ExeManager.AvailableExeFiles}"
+						          ToolTip="The name of the executable file to use. This list can be refreshed with a &quot;Refresh&quot; button on the Config page."
+						          SelectedItem="{Binding Path=(local:AppSettings.CurrentExeFile)}" />
+					</ui:SimpleStackPanel>
+				</GroupBox>
+
+				<!-- Window starting position and size. -->
+
+				<GroupBox Header="Window's Starting Position">
+					<ui:SimpleStackPanel Orientation="Horizontal">
+						<Button Content="Save" Click="SavePositionClick" MinWidth="60" />
+						<Button Content="Reset" Click="ResetPositionClick" MinWidth="60" />
+					</ui:SimpleStackPanel>
+				</GroupBox>
+				<GroupBox Header="Window's Starting Size">
+					<ui:SimpleStackPanel>
+						<ui:SimpleStackPanel Orientation="Horizontal">
+							<Button Content="Save" Click="SaveSizeClick" MinWidth="60" />
+							<Button Content="Reset" Click="ResetSizeClick" MinWidth="60" />
+						</ui:SimpleStackPanel>
+						<CheckBox Content="Start maximized" IsChecked="{Binding Path=(local:AppSettings.StartMaximized)}" />
+					</ui:SimpleStackPanel>
+				</GroupBox>
+
+				<!-- Theme and accent color. -->
+
+				<GroupBox Header="Theme and Accent Color">
+					<ui:SimpleStackPanel>
+						<RadioButton x:Name="SystemSettingThemeRadio" Content="System Setting"
+						             ui:ControlHelper.Header="Theme" GroupName="Theme">
+							<RadioButton.IsChecked>
+								<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
+								         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="null" />
+							</RadioButton.IsChecked>
+						</RadioButton>
+						<RadioButton x:Name="LightThemeRadio" Content="Light" GroupName="Theme">
+							<RadioButton.IsChecked>
+								<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
+								         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Light" />
+							</RadioButton.IsChecked>
+						</RadioButton>
+						<RadioButton x:Name="DarkThemeRadio" Content="Dark" GroupName="Theme">
+							<RadioButton.IsChecked>
+								<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
+								         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Dark" />
+							</RadioButton.IsChecked>
+						</RadioButton>
+						<local:AccentColorPicker HorizontalAlignment="Left" />
+					</ui:SimpleStackPanel>
+				</GroupBox>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</ui:Page>

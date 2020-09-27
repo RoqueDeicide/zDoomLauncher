@@ -1,11 +1,11 @@
 ﻿namespace Launcher
 {
 	/// <summary>
-	/// Interaction logic for HelpWindow.xaml
+	/// Interaction logic for HelpPage.xaml
 	/// </summary>
-	public partial class HelpWindow
+	public partial class HelpPage
 	{
-		public HelpWindow()
+		public HelpPage()
 		{
 			this.InitializeComponent();
 		}

@@ -5,13 +5,13 @@ using Ookii.Dialogs.Wpf;
 namespace Launcher
 {
 	/// <summary>
-	/// Interaction logic for Directories.xaml
+	/// Interaction logic for DirectoriesPage.xaml
 	/// </summary>
-	public partial class Directories
+	public partial class DirectoriesPage
 	{
 		private readonly VistaFolderBrowserDialog dialog;
 
-		public Directories()
+		public DirectoriesPage()
 		{
 			this.dialog = new VistaFolderBrowserDialog
 						  {
@@ -39,30 +39,16 @@ namespace Launcher
 			{
 				string path = this.dialog.SelectedPath;
 
-				AddDirectory(path);
+				ExtraFilesLookUp.AddDirectory(path);
 
 				if (withSubFolders)
 				{
 					foreach (string directory in Directory.EnumerateDirectories(path, "*", SearchOption.AllDirectories))
 					{
-						AddDirectory(directory);
+						ExtraFilesLookUp.AddDirectory(directory);
 					}
 				}
 			}
-		}
-
-		private static void AddDirectory(string directory)
-		{
-			int index = ExtraFilesLookUp.Directories.BinarySearch(directory);
-
-			if (index >= 0)
-			{
-				// We already have it.
-				return;
-			}
-
-			// Insert where necessary to maintain a sorted sequence.
-			ExtraFilesLookUp.Directories.Insert(~index, directory);
 		}
 
 		private void RemoveDirectory(object sender, RoutedEventArgs e)

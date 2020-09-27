@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using Launcher.Utilities;
 using ModernWpf.Controls;
-using Ookii.Dialogs.Wpf;
+using ModernWpf.Media.Animation;
+using Point = System.Windows.Point;
+using Size = System.Windows.Size;
 using PathIO = System.IO.Path;
 
 namespace Launcher
@@ -17,272 +14,116 @@ namespace Launcher
 	/// </summary>
 	public partial class MainWindow
 	{
-		private const int CommandLineMaxLength = 2080;
+		public static MainWindow Current;
 
-		private AccentColorPicker accentColorPicker;
-
-		private (string path, string args) CommandLine
-		{
-			get
-			{
-				string appPath              = PathIO.Combine(this.zDoomFolder, this.currentExeFile);
-				string commandLineArguments = this.Config.GetCommandLine(this.zDoomFolder);
-
-				return (appPath, commandLineArguments);
-			}
-		}
+		private Point defaultWindowPosition;
+		private Size  defaultWindowSize;
 
 		public MainWindow()
 		{
-			this.DataContext = this.Config;
+			Current = this;
 
 			this.InitializeComponent();
-
-			this.SetupThemeMenuItems();
-
-			this.LoadAppConfiguration();
-
-			this.SelectZDoomInstallationFolder();
-
-			if (!this.IsCurrentZDoomFolderValid())
-			{
-				return;
-			}
-
-			try
-			{
-				Log.Message("Getting command line arguments.");
-
-				var args = Environment.GetCommandLineArgs();
-
-				Log.Message("Checking arguments.");
-
-				if (args.Length > 1 && File.Exists(args[1]))
-				{
-					Log.Message("File [{0}] from first slot has been selected.", args[1]);
-
-					this.CurrentConfigFile = args[1];
-				}
-				else if (args.Length > 2 && args[1] == "-file" && File.Exists(args[2]))
-				{
-					Log.Message("File [{0}] from second slot has been selected.", args[2]);
-
-					this.CurrentConfigFile = args[2];
-				}
-
-				Log.Message("Done with arguments.");
-			}
-			catch (NotSupportedException)
-			{
-			}
-
-			if (this.CurrentConfigFile != null && File.Exists(this.CurrentConfigFile))
-			{
-				this.LoadConfiguration(this.CurrentConfigFile);
-			}
-			else
-			{
-				this.CurrentConfigFile = "DefaultConfigFile.xlcf";
-			}
-
-			if (this.zDoomFolder != null)
-			{
-				Iwads.IwadFolder = this.zDoomFolder;
-			}
-
-			this.RefreshExeFiles();
-
-			this.ExtraFilesBox.SelectedFiles = this.Config.ExtraFiles;
-		}
-
-		private void Launch(string appFileName)
-		{
-			(string path, string args) = this.CommandLine;
-
-			bool appExists       = File.Exists(path);
-			bool commandLineFits = path.Length + args.Length + 1 <= CommandLineMaxLength;
-
-			if (appExists && commandLineFits)
-			{
-				Process.Start(path, args);
-			}
-			else
-			{
-				bool multipleErrors = !appExists && !commandLineFits;
-
-				var error = new StringBuilder(100);
-
-				error.AppendLine(multipleErrors
-									 ? "Unable to launch: multiple errors have been found:"
-									 : "Unable to launch: an error has been found:");
-				error.AppendLine();
-
-				if (!appExists)
-				{
-					error.Append("    - Unable to find ");
-					error.Append(appFileName);
-					error.Append(" in ");
-					error.Append(this.zDoomFolder);
-					error.AppendLine(".");
-				}
-
-				if (!commandLineFits)
-				{
-					error.AppendLine("    - Length of the command line exceeds allowed number of characters,");
-					error.AppendLine("      you might have too many extra parameters or too many files that");
-					error.AppendLine("      are not in the same directory as the application.");
-				}
-
-				string errorText = error.ToString();
-				Log.Error(errorText);
-				MessageBox.Show(errorText, "Cannot launch the game", MessageBoxButton.OK,
-								MessageBoxImage.Error, MessageBoxResult.OK);
-			}
-		}
-
-		private bool IsCurrentZDoomFolderValid()
-		{
-			return this.zDoomFolder != null && Directory.Exists(this.zDoomFolder);
 		}
 
 		/// <summary>
-		/// Prompts the user to select the directory where zDoom is installed.
+		/// Resets position of this window to default.
 		/// </summary>
-		/// <param name="reselecting">
-		/// A <see cref="bool"/> value that indicates, whether a valid directory was chosen before, and this call
-		/// shouldn't result in closing of the window, if no valid directory is chosen right now.
-		/// </param>
-		public async void SelectZDoomInstallationFolder(bool reselecting = false)
+		public void ResetPosition()
 		{
-			if (!this.IsCurrentZDoomFolderValid() || reselecting)
-			{
-				var dialog = new VistaFolderBrowserDialog
-							 {
-								 Description            = @"Select folder with zdoom.exe",
-								 UseDescriptionForTitle = true,
-								 ShowNewFolderButton    = false
-							 };
-
-				while (true)
-				{
-					if (dialog.ShowDialog() == true && Directory.EnumerateFiles(dialog.SelectedPath, "*.exe").Any())
-					{
-						break;
-					}
-
-					var messageBox = new ContentDialog
-									 {
-										 Title             = "No folder or invalid one was chosen",
-										 Content           = "Valid folder needs to contain at least one .exe file.",
-										 CloseButtonText   = reselecting ? "Nevermind" : "Cancel",
-										 PrimaryButtonText = "Choose another"
-									 };
-
-					ContentDialogResult result = await messageBox.ShowAsync();
-
-					if (result == ContentDialogResult.None)
-					{
-						if (reselecting)
-						{
-							return;
-						}
-
-						Log.Warning("No folder was selected. Closing.");
-
-						this.Close();
-						return;
-					}
-				}
-
-				this.zDoomFolder = dialog.SelectedPath;
-			}
-
-			if (this.zDoomFolder != null)
-			{
-				Iwads.IwadFolder = this.zDoomFolder;
-			}
-
-			this.RefreshExeFiles();
+			this.Left = this.defaultWindowPosition.X;
+			this.Top  = this.defaultWindowPosition.Y;
 		}
 
-		private void RefreshExeFiles()
+		/// <summary>
+		/// Resets dimensions of this window to default values.
+		/// </summary>
+		public void ResetSize()
 		{
-			if (this.zDoomFolder == null || this.ExeFileNameComboBox == null)
+			this.Width  = this.defaultWindowSize.Width;
+			this.Height = this.defaultWindowSize.Height;
+		}
+
+		private void SetupWindowPositionSize(object sender, RoutedEventArgs routedEventArgs)
+		{
+			// Store design-time dimensions and position as defaults.
+			this.defaultWindowPosition = new Point(this.Left, this.Top);
+			this.defaultWindowSize     = new Size(this.Width, this.Height);
+
+			// Assign new dimensions and position if they were specified in the app configuration.
+			if (AppSettings.StartAtPosition)
 			{
-				return;
+				this.Left = AppSettings.StartingX;
+				this.Top  = AppSettings.StartingY;
 			}
 
-			this.ExeFileNameComboBox.Items.Clear();
-
-			var exeFiles = from exeFile in Directory.EnumerateFiles(this.zDoomFolder, "*.exe")
-						   select new ComboBoxItem
-								  {
-									  Content = PathIO.GetFileName(exeFile)
-								  };
-
-			foreach (ComboBoxItem comboBoxItem in exeFiles)
+			if (AppSettings.StartWithSize)
 			{
-				this.ExeFileNameComboBox.Items.Add(comboBoxItem);
+				this.Width  = AppSettings.StartingWidth;
+				this.Height = AppSettings.StartingHeight;
 			}
 
-			string currentExeFileFullName = PathIO.Combine(this.zDoomFolder, this.currentExeFile ?? "");
-
-			if (this.currentExeFile == null || !File.Exists(currentExeFileFullName))
+			// Maximize the window, if necessary.
+			if (AppSettings.StartMaximized)
 			{
-				// Clear the selected item on ExeFileNameComboBox.
-				this.ExeFileNameComboBox.SelectedItem = null;
-				this.currentExeFile                   = null;
+				this.WindowState = WindowState.Maximized;
 			}
+		}
 
-			if (this.currentExeFile != null && File.Exists(currentExeFileFullName))
+		private void NavViewLoaded(object sender, RoutedEventArgs e)
+		{
+			// Load home page or settings page, if installation directory needs to be specified.
+			var entranceTransition = new EntranceNavigationTransitionInfo();
+			if (AppSettings.ZDoomDirectory.IsNullOrWhiteSpace() ||
+				!Directory.Exists(AppSettings.ZDoomDirectory))
 			{
-				// Select the file in the combo box.
-				this.ExeFileNameComboBox.SelectedValue = this.currentExeFile;
-			}
-
-			if (ExtraFilesLookUp.Directories.Count == 0)
-			{
-				ExtraFilesLookUp.Directories.Add(this.zDoomFolder);
+				this.MainNavigationView.SelectedItem = this.MainNavigationView.SettingsItem;
+				this.NavigateTo(typeof(SettingsPage), entranceTransition);
 			}
 			else
 			{
-				ExtraFilesLookUp.Directories[0] = this.zDoomFolder;
+				this.MainNavigationView.SelectedItem = this.ConfigNavItem;
+				this.NavigateTo(typeof(MainPage), entranceTransition);
 			}
 		}
 
-		private void RefreshExtraFiles()
+		private void NavigationInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
 		{
-			if (this.ExtraFilesBox == null || this.zDoomFolder == null)
+			Type                     pageType       = null;
+			NavigationTransitionInfo transitionInfo = args.RecommendedNavigationTransitionInfo;
+
+			if (args.IsSettingsInvoked)
 			{
-				return;
+				pageType = typeof(SettingsPage);
+			}
+			else if (args.InvokedItemContainer != null)
+			{
+				string tag = args.InvokedItemContainer.Tag.ToString();
+
+				pageType = tag switch
+						   {
+							   "Home"  => typeof(MainPage),
+							   "Dirs"  => typeof(DirectoriesPage),
+							   "Help"  => typeof(HelpPage),
+							   "About" => typeof(AboutPage),
+							   _       => null
+						   };
 			}
 
-			// This just triggers a refresh of extra files.
-			ExtraFilesLookUp.Refresh();
+			if (pageType != null)
+			{
+				this.NavigateTo(pageType, transitionInfo);
+			}
 		}
 
-		private void LoadConfiguration(string configFile)
+		private void NavigateTo(Type type, NavigationTransitionInfo transitionInfo)
 		{
-			this.Config.Load(configFile, this.zDoomFolder);
+			Type currentPage = this.MainFrame.CurrentSourcePageType;
 
-			string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
-
-			if (!string.IsNullOrWhiteSpace(doomWadDir) && !ExtraFilesLookUp.Directories.Contains(doomWadDir))
+			if (type != currentPage)
 			{
-				ExtraFilesLookUp.Directories.Add(doomWadDir);
+				this.MainFrame.Navigate(type, null, transitionInfo);
 			}
-
-			if (!ExtraFilesLookUp.Directories.Contains(this.zDoomFolder))
-			{
-				ExtraFilesLookUp.Directories.Add(this.zDoomFolder);
-			}
-
-			if (this.Config.IwadFile != null)
-			{
-				this.IwadComboBox.Select(this.Config.IwadFile.FileName);
-			}
-
-			this.CurrentConfigFile = PathIO.ChangeExtension(configFile, ".xlcf");
 		}
 	}
 }

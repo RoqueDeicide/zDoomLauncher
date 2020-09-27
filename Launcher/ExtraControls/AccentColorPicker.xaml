@@ -1,21 +1,19 @@
-﻿<ui:ContentDialog x:Class="Launcher.AccentColorPicker"
-                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                  xmlns:local="clr-namespace:Launcher"
-                  xmlns:ui="http://schemas.modernwpf.com/2019"
-                  mc:Ignorable="d"
-                  Title="Choose Window Accent Color"
-                  CloseButtonText="Close"
-                  DefaultButton="Close">
+﻿<UserControl x:Class="Launcher.AccentColorPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Launcher"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             mc:Ignorable="d" Width="384" Height="344">
 	<StackPanel>
 		<Button x:Name="SystemSettingButton" Content="Use system setting" Click="SelectSystemSetting"
-		        Height="36" FontSize="18" Width="170" Margin="10,10,0,10" />
+		        Height="36" FontSize="18" Width="170" Margin="10,10,0,10"
+		        ui:ControlHelper.CornerRadius="0"/>
 		<ui:GridView Padding="0"
 		             SelectionMode="Single" SelectedValuePath="Color"
 		             SelectedValue="{Binding AccentColor, Source={x:Static ui:ThemeManager.Current}}"
-		             ui:ThemeManager.HasThemeResources="True">
+		             ui:ThemeManager.HasThemeResources="True" SnapsToDevicePixels="True">
 			<ui:GridView.ItemsPanel>
 				<ItemsPanelTemplate>
 					<UniformGrid Rows="6" Columns="8" />
@@ -123,4 +121,4 @@
 			</ui:GridView.Resources>
 		</ui:GridView>
 	</StackPanel>
-</ui:ContentDialog>
+</UserControl>

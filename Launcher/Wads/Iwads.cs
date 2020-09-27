@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
-using Launcher.Annotations;
 
 namespace Launcher
 {
@@ -14,7 +11,6 @@ namespace Launcher
 	{
 		#region Fields
 
-		private static          string            iwadFolder;
 		private static readonly FileSystemWatcher Watcher;
 
 		/// <summary>
@@ -24,34 +20,8 @@ namespace Launcher
 
 		#endregion
 
-		#region Properties
-
-		/// <summary>
-		/// Gets or sets the path to the folder where to look for IWAD files.
-		/// </summary>
-		public static string IwadFolder
-		{
-			get => iwadFolder;
-			set
-			{
-				if (iwadFolder != value)
-				{
-					iwadFolder = value;
-					UpdateAvailableIwads();
-					OnStaticPropertyChanged();
-				}
-			}
-		}
-
-		#endregion
-
 		#region Events
-
-		/// <summary>
-		/// Occurs when one of the static properties changes its value.
-		/// </summary>
-		public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
-
+		
 		/// <summary>
 		/// Occurs before this class updates availability status of all IWAD files.
 		/// </summary>
@@ -108,25 +78,34 @@ namespace Launcher
 			Watcher.Renamed += WatcherOnRenamed;
 			Watcher.Created += WatcherOnCreated;
 			Watcher.Deleted += WatcherOnDeleted;
+
+			UpdateAvailableIwads();
+
+			AppSettings.StaticPropertyChanged += (sender, args) =>
+												 {
+													 if (args.PropertyName == nameof(AppSettings.ZDoomDirectory))
+													 {
+														 UpdateAvailableIwads();
+													 }
+												 };
 		}
 
 		#endregion
 
 		#region Utilities
 
-		[NotifyPropertyChangedInvocator]
-		private static void OnStaticPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
-		}
-
 		private static void UpdateAvailableIwads(bool folderChanged = true)
 		{
+			if (!Directory.Exists(AppSettings.ZDoomDirectory))
+			{
+				return;
+			}
+
 			OnUpdating();
 
 			if (folderChanged)
 			{
-				Watcher.Path                = iwadFolder;
+				Watcher.Path                = AppSettings.ZDoomDirectory;
 				Watcher.EnableRaisingEvents = true;
 			}
 
@@ -134,7 +113,8 @@ namespace Launcher
 
 			foreach (IwadFile iwad in SupportedIwads)
 			{
-				iwad.Available = iwad.FileName == "" || File.Exists(Path.Combine(iwadFolder, iwad.FileName)) ||
+				iwad.Available = iwad.FileName == "" ||
+								 File.Exists(Path.Combine(AppSettings.ZDoomDirectory, iwad.FileName)) ||
 								 doomWadDir != null && File.Exists(Path.Combine(doomWadDir, iwad.FileName));
 			}
 

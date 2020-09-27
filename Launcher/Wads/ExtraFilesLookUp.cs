@@ -50,7 +50,7 @@ namespace Launcher
 			{
 				try
 				{
-					return Environment.GetEnvironmentVariable("DOOMWADDIR") ?? "";
+					return Environment.GetEnvironmentVariable("DOOMWADDIR");
 				}
 				catch (SecurityException)
 				{
@@ -66,6 +66,15 @@ namespace Launcher
 		static ExtraFilesLookUp()
 		{
 			Directories.CollectionChanged += RefreshDirectories;
+
+			AppSettings.StaticPropertyChanged +=
+				(sender, args) =>
+				{
+					if (args.PropertyName == nameof(AppSettings.ZDoomDirectory))
+					{
+						AddDirectory(AppSettings.ZDoomDirectory);
+					}
+				};
 		}
 
 		#endregion
@@ -105,6 +114,16 @@ namespace Launcher
 			}
 
 			return enumeration.Where(IsLoadableFile);
+		}
+
+		public static void AddDirectory(string directory)
+		{
+			int index = Directories.BinarySearch(directory);
+
+			if (index < 0)
+			{
+				Directories.Insert(~index, directory);
+			}
 		}
 
 		private static bool IsLoadableFile(string filePath)

@@ -159,9 +159,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppSettings.cs" />
+    <Compile Include="AppSettings.SaveLoad.cs" />
     <Compile Include="Configs\LaunchConfiguration.PropertyChanged.cs" />
+    <Compile Include="ExeManager.cs" />
     <Compile Include="ExtraControls\FlagCheckList.xaml.cs">
       <DependentUpon>FlagCheckList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\DirectoriesPage.xaml.cs">
+      <DependentUpon>DirectoriesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.Converters.cs" />
     <Page Include="ExtraControls\AccentColorPicker.xaml">
@@ -176,15 +182,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExtraWindows\AboutWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExtraWindows\Directories.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ExtraWindows\HelpWindow.xaml">
+    <Page Include="Pages\DirectoriesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -217,7 +215,18 @@
     <Compile Include="ExtraControls\ExtraFilesSelectionBox.DragDrop.cs" />
     <Compile Include="ExtraControls\IwadComboBox.cs" />
     <Compile Include="ExtraControls\NumberBoxExtended.cs" />
-    <Compile Include="MainWindow.WindowManagement.cs" />
+    <Compile Include="Pages\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\HelpPage.xaml.cs">
+      <DependentUpon>HelpPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\Cast.cs" />
     <Compile Include="Utilities\UiSettings.cs" />
     <Compile Include="Wads\ExtraFilesLookUp.cs" />
@@ -228,29 +237,30 @@
     <Compile Include="Wads\FileDesc.cs" />
     <Compile Include="ExtraControls\SpinnerButton.cs" />
     <Compile Include="ExtraControls\SpinnerButtons.cs" />
-    <Compile Include="ExtraWindows\AboutWindow.xaml.cs">
-      <DependentUpon>AboutWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExtraWindows\Directories.xaml.cs">
-      <DependentUpon>Directories.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ExtraWindows\HelpWindow.xaml.cs">
-      <DependentUpon>HelpWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Extensions\GeneralExtensions.cs" />
     <Compile Include="Wads\IwadFile.cs" />
     <Compile Include="Wads\Iwads.cs" />
     <Compile Include="Utilities\Log.cs" />
-    <Compile Include="MainWindow.Configuration.cs" />
-    <Compile Include="MainWindow.Constants.cs" />
-    <Compile Include="MainWindow.EventHandlers.cs" />
-    <Compile Include="MainWindow.Fields.cs" />
-    <Compile Include="MainWindow.Initialization.cs" />
-    <Compile Include="MainWindow.Utilities.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\HelpPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Properties\DesignTimeResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -332,11 +342,9 @@
     <Resource Include="Resources\ice.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\disks-black.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\terminal.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

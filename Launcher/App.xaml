@@ -18,9 +18,6 @@
 			<ui:BitmapIcon x:Shared="False" x:Key="SaveIcon" UriSource="pack://application:,,,/Resources/disk-black.png"
 			               ShowAsMonochrome="False" />
 			<ui:BitmapIcon x:Shared="False" x:Key="SaveIconS" UriSource="pack://application:,,,/Resources/disk-black.png" />
-			<ui:BitmapIcon x:Shared="False" x:Key="SaveAsIcon" UriSource="pack://application:,,,/Resources/disks-black.png"
-			               ShowAsMonochrome="False" />
-			<ui:BitmapIcon x:Shared="False" x:Key="SaveAsIconS" UriSource="pack://application:,,,/Resources/disks-black.png" />
 			<ui:BitmapIcon x:Shared="False" x:Key="NewFileIcon" UriSource="pack://application:,,,/Resources/document.png"
 			               ShowAsMonochrome="False" />
 			<ui:BitmapIcon x:Shared="False" x:Key="NewFileIconS" UriSource="pack://application:,,,/Resources/document.png" />

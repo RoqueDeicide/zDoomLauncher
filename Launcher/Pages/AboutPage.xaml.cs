@@ -6,11 +6,11 @@ using System.Windows.Documents;
 namespace Launcher
 {
 	/// <summary>
-	/// Interaction logic for AboutWindow.xaml
+	/// Interaction logic for AboutPage.xaml
 	/// </summary>
-	public partial class AboutWindow
+	public partial class AboutPage
 	{
-		public AboutWindow()
+		public AboutPage()
 		{
 			this.InitializeComponent();
 

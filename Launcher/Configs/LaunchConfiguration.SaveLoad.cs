@@ -172,9 +172,9 @@ namespace Launcher.Configs
 				dirs.Add(dirName);
 			}
 
-			foreach (string dir in dirs.Where(dir => !ExtraFilesLookUp.Directories.Contains(dir)))
+			foreach (string dir in dirs)
 			{
-				ExtraFilesLookUp.Directories.Add(dir);
+				ExtraFilesLookUp.AddDirectory(dir);
 			}
 		}
 	}

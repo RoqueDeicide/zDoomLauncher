@@ -1,0 +1,363 @@
+﻿<ui:Page x:Class="Launcher.MainPage"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+         xmlns:local="clr-namespace:Launcher"
+         xmlns:ui="http://schemas.modernwpf.com/2019"
+         xmlns:system="clr-namespace:System;assembly=mscorlib"
+         xmlns:configs="clr-namespace:Launcher.Configs"
+         mc:Ignorable="d"
+         d:DesignHeight="850" d:DesignWidth="850"
+         Title="MainPage"
+         d:DataContext="{d:DesignInstance configs:LaunchConfiguration}">
+	<Page.Resources>
+		<Style TargetType="{x:Type ListBoxItem}">
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="Margin" Value="0" />
+		</Style>
+		<Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+			<Setter Property="Padding" Value="0,-10,0,5" />
+		</Style>
+		<local:EnumBooleanConverter x:Key="EnumBooleanConverter" />
+	</Page.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="56" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0" Background="{DynamicResource CommandBarBackground}">
+			<ui:CommandBar VerticalContentAlignment="Center" HorizontalAlignment="Left"
+			               DefaultLabelPosition="Bottom" OverflowButtonVisibility="Collapsed">
+				<ui:AppBarButton Label="New" Click="CreateNewConfigurationClick" Icon="{StaticResource NewFileIcon}"
+				                 ToolTip="Click to create a new configuration." />
+				<ui:AppBarButton Label="Save" Click="SaveConfigurationClick" Icon="{StaticResource SaveIcon}"
+				                 ToolTip="Click to save this configuration." />
+				<ui:AppBarButton Label="Open" Click="OpenConfigurationClick" Icon="{StaticResource OpenIcon}"
+				                 ToolTip="Click to open configuration file." />
+				<ui:AppBarSeparator />
+				<ui:AppBarButton Label="Play" Click="LaunchGameButtonClick"
+				                 Style="{StaticResource AppBarButtonWithContentIcon}"
+				                 ToolTip="Click to launch the game using current command line.">
+					<ui:AppBarButton.Content>
+						<Image x:Name="PlayIconImage" />
+					</ui:AppBarButton.Content>
+				</ui:AppBarButton>
+				<ui:AppBarButton Icon="Refresh" Label="Refresh" Click="RefreshButtonClick"
+				                 ToolTip="Click to refresh the lists of files." />
+				<ui:AppBarButton x:Name="CommandLineAppButton" Icon="{StaticResource CommandLineIcon}"
+				                 Label="Command" Width="100"
+				                 ToolTip="Click to show the full text of the command line that will be used to start the game.">
+					<ui:AppBarButton.Resources>
+						<SolidColorBrush x:Key="FlyoutColor" Color="#FF00FF00" />
+						<ui:Symbol x:Key="FlyoutSymbol">Accept</ui:Symbol>
+						<system:String x:Key="CommandLineText">Empty</system:String>
+					</ui:AppBarButton.Resources>
+					<ui:AppBarButton.Flyout>
+						<ui:Flyout Placement="TopEdgeAlignedLeft" Opening="UpdateTestCommandLineFlyoutOpening">
+							<ui:Flyout.FlyoutPresenterStyle>
+								<Style TargetType="ui:FlyoutPresenter">
+									<Setter Property="MaxWidth" Value="640" />
+								</Style>
+							</ui:Flyout.FlyoutPresenterStyle>
+							<Border BorderThickness="2" BorderBrush="{DynamicResource FlyoutColor}">
+								<Grid>
+									<RichTextBox MaxWidth="600">
+										<FlowDocument>
+											<Paragraph>
+												<Floater HorizontalAlignment="Right" Width="20" Padding="0">
+													<BlockUIContainer>
+														<Border Background="{DynamicResource FlyoutColor}"
+														        Height="20" Width="20">
+															<ui:SymbolIcon Symbol="{DynamicResource FlyoutSymbol}" />
+														</Border>
+													</BlockUIContainer>
+												</Floater>
+												<Run Text="{DynamicResource CommandLineText}" />
+											</Paragraph>
+										</FlowDocument>
+									</RichTextBox>
+								</Grid>
+							</Border>
+						</ui:Flyout>
+					</ui:AppBarButton.Flyout>
+				</ui:AppBarButton>
+				<ui:CommandBar.Content>
+					<StackPanel Orientation="Horizontal">
+						<Label Content="Name" Margin="10,0,0,0" Height="32" VerticalContentAlignment="Center" />
+						<TextBox Width="200" Margin="5,0,0,0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+					</StackPanel>
+				</ui:CommandBar.Content>
+			</ui:CommandBar>
+		</Grid>
+		<Grid Grid.Row="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="272" />
+				<RowDefinition Height="182" />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition MinWidth="250" Width="250*" />
+				<ColumnDefinition Width="238" />
+				<ColumnDefinition Width="165" />
+				<ColumnDefinition Width="189*" />
+			</Grid.ColumnDefinitions>
+			<GroupBox Grid.RowSpan="3" Grid.Column="0" Padding="0,-10,0,0">
+				<GroupBox.Header>
+					<TextBlock Margin="10,0,0,0" Text="Files to Load"
+					           FontSize="{DynamicResource GroupBoxHeaderFontSize}" />
+				</GroupBox.Header>
+				<Grid>
+					<Label Content="IWAD" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="32"
+					       VerticalContentAlignment="Center" />
+					<local:IwadComboBox x:Name="IwadComboBox" Margin="52,10,10,0" SelectedItem="{Binding IwadFile}"
+					                    ToolTip="Select an IWAD file to use as a basis. Not selecting anything will cause zDoom to prompt you with IWAD selection dialog, so selection isn't necessary, however some Start With options will not be accessible.">
+						<local:IwadComboBox.ItemTemplate>
+							<DataTemplate DataType="local:IwadFile">
+								<TextBlock Text="{Binding Name}" />
+							</DataTemplate>
+						</local:IwadComboBox.ItemTemplate>
+					</local:IwadComboBox>
+					<local:ExtraFilesSelectionBox x:Name="ExtraFilesBox" Margin="10,47,10,10" />
+				</Grid>
+			</GroupBox>
+			<GroupBox Grid.Row="0" Grid.Column="1" Header="Gameplay Options">
+				<Grid Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="56*" />
+						<RowDefinition Height="57*" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="8*" />
+						<ColumnDefinition Width="9*" />
+					</Grid.ColumnDefinitions>
+					<StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="6,5,6,0">
+						<CheckBox Content="No Monsters" IsChecked="{Binding NoMonsters}"
+						          ToolTip="Check this box to prevent the monsters from spawning in the game." />
+						<CheckBox Content="Fast Monsters" IsChecked="{Binding FastMonsters}"
+						          ToolTip="Check this box to make the monsters always be as fast as they are on a nightmare difficulty." />
+						<CheckBox Content="Respawning Monsters" IsChecked="{Binding RespawningMonsters}"
+						          ToolTip="Check this box to make the monsters respawn some time after death." />
+					</StackPanel>
+					<StackPanel Grid.Row="1" Grid.Column="0" SnapsToDevicePixels="True">
+						<StackPanel.Resources>
+							<Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+								<Setter Property="Margin" Value="7,5,0,0" />
+								<Setter Property="Height" Value="32" />
+								<Setter Property="MinWidth" Value="95" />
+							</Style>
+						</StackPanel.Resources>
+						<CheckBox Content="Turbo" IsChecked="{Binding SpecifyTurboMode}"
+						          ToolTip="Check this box to allow changing of the game speed." />
+						<CheckBox Content="Time-Limit" IsChecked="{Binding SpecifyTimeLimit}"
+						          ToolTip="Check this box to enable the specified time-limit." />
+						<CheckBox Content="Difficulty" IsChecked="{Binding SpecifyDifficulty}"
+						          ToolTip="Check this box to enforce specific difficulty when using the &quot;Start with&quot; section." />
+					</StackPanel>
+					<StackPanel Grid.Row="1" Grid.Column="1">
+						<StackPanel.Resources>
+							<Style TargetType="local:NumberBoxExtended"
+							       BasedOn="{StaticResource {x:Type local:NumberBoxExtended}}">
+								<Setter Property="Margin" Value="0,5,0,0" />
+								<Setter Property="Width" Value="106" />
+								<Setter Property="Minimum" Value="0" />
+								<Setter Property="Maximum" Value="255" />
+							</Style>
+						</StackPanel.Resources>
+						<local:NumberBoxExtended Value="{Binding TurboMode}" Minimum="10"
+						                         ToolTip="Percentage of normal speed to set the game speed to (ranges from 10% to 255%)." />
+						<local:NumberBoxExtended Value="{Binding TimeLimit}"
+						                         ToolTip="Number of minutes the player is allowed to be on the level before the game advances to the next level." />
+						<local:NumberBoxExtended Value="{Binding Difficulty}" Maximum="15"
+						                         ToolTip="Zero-based index of the difficulty level." />
+					</StackPanel>
+				</Grid>
+			</GroupBox>
+			<GroupBox Grid.Row="0" Grid.Column="2" Header="Disable">
+				<ScrollViewer Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+					<local:FlagCheckList Margin="6,5,6,0" Flags="{Binding DisableFlags}"
+					                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					                     ScrollViewer.VerticalScrollBarVisibility="Visible" />
+				</ScrollViewer>
+			</GroupBox>
+			<GroupBox Grid.Row="0" Grid.Column="3" Header="Resolution Options">
+				<StackPanel Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+				            MinWidth="170" MaxWidth="170" HorizontalAlignment="Left">
+					<StackPanel.Resources>
+						<Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+							<Setter Property="HorizontalAlignment" Value="Left" />
+							<Setter Property="Margin" Value="10,5,0,0" />
+							<Setter Property="Height" Value="19" />
+						</Style>
+						<Style TargetType="local:NumberBoxExtended"
+						       BasedOn="{StaticResource {x:Type local:NumberBoxExtended}}">
+							<Setter Property="Margin" Value="10,5,0,0" />
+							<Setter Property="Height" Value="32" />
+							<Setter Property="Width" Value="150" />
+							<Setter Property="HorizontalAlignment" Value="Left" />
+							<Setter Property="Minimum" Value="360" />
+							<Setter Property="Maximum" Value="3840" />
+							<Setter Property="SmallChange" Value="20" />
+							<Setter Property="LargeChange" Value="100" />
+							<Setter Property="SpinButtonPlacementMode" Value="Inline" />
+						</Style>
+					</StackPanel.Resources>
+					<CheckBox Content="Width" Margin="10,0,0,0" IsChecked="{Binding SpecifyWidth}"
+					          ToolTip="Check this to be able to change the width of the picture." Width="120" />
+					<local:NumberBoxExtended Value="{Binding Width}" DefaultValue="1280"
+					                         ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100" />
+					<CheckBox Content="Height" Margin="10,5,0,0" IsChecked="{Binding SpecifyHeight}"
+					          ToolTip="Check this to be able to change the height of the picture."
+					          Height="32" Width="120" />
+					<local:NumberBoxExtended Value="{Binding Height}" DefaultValue="720"
+					                         ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100" />
+					<Label Content="Pixel Mode" />
+					<ComboBox Margin="10,5,0,0" Width="116" ItemsSource="{x:Static configs:PixelModeUi.Values}"
+					          SelectedValuePath="PixelMode" SelectedValue="{Binding PixelMode}" />
+				</StackPanel>
+			</GroupBox>
+			<GroupBox Header="Start With" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3">
+				<Grid Grid.IsSharedSizeScope="True"
+				      Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+					<Grid.Resources>
+						<LinearGradientBrush x:Key="SelectedStartMethodBrush" Opacity="0.5">
+							<LinearGradientBrush.GradientStops>
+								<GradientStop Offset="0" Color="{DynamicResource SystemAccentColor}" />
+								<GradientStop Offset="0.3" Color="Transparent" />
+								<GradientStop Offset="1" Color="Transparent" />
+							</LinearGradientBrush.GradientStops>
+						</LinearGradientBrush>
+						<Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+							<Setter Property="Height" Value="32" />
+							<Setter Property="MinWidth" Value="40" />
+						</Style>
+					</Grid.Resources>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="143*" />
+						<ColumnDefinition Width="153*" />
+					</Grid.ColumnDefinitions>
+					<Grid Grid.Column="0" Height="36" VerticalAlignment="Top" Margin="0,10,0,0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="80" SharedSizeGroup="StartLeftRadioButtonsGroup" />
+							<ColumnDefinition />
+							<ColumnDefinition Width="48" SharedSizeGroup="StartFileButtonsGroup" MaxWidth="48" />
+						</Grid.ColumnDefinitions>
+						<Grid.Style>
+							<Style TargetType="Grid">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding IsChecked, ElementName=LoadSaveIndicator}" Value="True">
+										<Setter Property="Background" Value="{DynamicResource SelectedStartMethodBrush}" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Grid.Style>
+						<RadioButton Grid.Column="0" x:Name="LoadSaveIndicator" Content="Load"
+						             IsChecked="{Binding StartupAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LoadGame}"
+						             Margin="10,2,0,2" GroupName="StartWithMethodRadioButtonGroup"
+						             ToolTip="Check this box to have the game load a save file upon start." />
+						<TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding SaveGamePath}"
+						         ToolTip="Path to the save file." />
+						<Button Grid.Column="2" Style="{DynamicResource SelectFileButtonStyle}"
+						        Click="SelectSaveGameFile" HorizontalAlignment="Center" />
+					</Grid>
+					<Grid x:Name="LoadDemoGrid" Grid.Column="0" Height="36" VerticalAlignment="Top" Margin="0,51,0,0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition SharedSizeGroup="StartLeftRadioButtonsGroup" />
+							<ColumnDefinition />
+							<ColumnDefinition SharedSizeGroup="StartFileButtonsGroup" />
+						</Grid.ColumnDefinitions>
+						<Grid.Style>
+							<Style TargetType="Grid">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding IsChecked, ElementName=LoadDemoIndicator}" Value="True">
+										<Setter Property="Background" Value="{DynamicResource SelectedStartMethodBrush}" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Grid.Style>
+						<RadioButton Grid.Column="0" x:Name="LoadDemoIndicator" Content="Demo"
+						             IsChecked="{Binding StartupAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LoadDemo}"
+						             Margin="10,0,0,0" GroupName="StartWithMethodRadioButtonGroup"
+						             ToolTip="Check this box to have the game load a demo upon start." />
+						<TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding DemoPath}"
+						         ToolTip="Path to the demo file." />
+						<Button Grid.Column="2" Style="{DynamicResource SelectFileButtonStyle}" Click="SelectDemoFile"
+						        HorizontalAlignment="Center" />
+					</Grid>
+					<RadioButton Grid.Column="0" x:Name="LoadNothingIndicator" Content="Nothing"
+					             IsChecked="{Binding StartupAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=None}"
+					             HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top"
+					             GroupName="StartWithMethodRadioButtonGroup" />
+					<Grid Grid.Column="1" Height="78" VerticalAlignment="Top">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition SharedSizeGroup="StartRightRadioButtonsGroup" Width="115*" />
+							<ColumnDefinition Width="95*" />
+							<ColumnDefinition Width="95*" />
+						</Grid.ColumnDefinitions>
+						<Grid.Style>
+							<Style TargetType="Grid">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding IsChecked, ElementName=LoadMapIndicator}" Value="True">
+										<Setter Property="Background" Value="{DynamicResource SelectedStartMethodBrush}" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Grid.Style>
+						<RadioButton x:Name="LoadMapIndicator"
+						             IsChecked="{Binding StartupAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LoadMapIndex}"
+						             Content="Map Index" HorizontalAlignment="Left" Margin="10,23,0,23"
+						             GroupName="StartWithMethodRadioButtonGroup"
+						             ToolTip="Check this box to have the game load a map specified by the map and/or episode index." />
+						<Label Grid.Column="1" Content="Episode" Height="32" Width="48" HorizontalAlignment="Left"
+						       VerticalContentAlignment="Center" Margin="10,0,0,46" />
+						<local:NumberBoxExtended Grid.Column="1" Margin="10,36,5,10" Value="{Binding EpisodeIndex}"
+						                         DefaultValue="0" Minimum="0" Maximum="32" />
+						<Label Grid.Column="2" Content="Map" Height="32" Width="28" HorizontalAlignment="Left"
+						       VerticalContentAlignment="Center" Margin="5,0,0,46" />
+						<local:NumberBoxExtended Grid.Column="2" Margin="5,36,10,10" Value="{Binding MapIndex}"
+						                         DefaultValue="0" Minimum="0" Maximum="32" />
+					</Grid>
+					<Grid Grid.Column="1" Height="36" Margin="0,80,0,0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition SharedSizeGroup="StartRightRadioButtonsGroup" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<Grid.Style>
+							<Style TargetType="Grid">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding IsChecked, ElementName=LoadNamedMapIndicator}" Value="True">
+										<Setter Property="Background" Value="{DynamicResource SelectedStartMethodBrush}" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Grid.Style>
+						<RadioButton Grid.Column="0" x:Name="LoadNamedMapIndicator" Content="Map Name"
+						             IsChecked="{Binding StartupAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=LoadMapName}"
+						             Margin="10,0,0,0" GroupName="StartWithMethodRadioButtonGroup"
+						             ToolTip="Check this box to have the game load a map that's specified by the name." />
+						<TextBox Grid.Column="1" Height="32" TextWrapping="Wrap" Text="{Binding MapName}" Margin="10,0"
+						         ToolTip="Name of the map to load. Useful when loading custom map packs. List of maps can be seen by launching the game and typing &quot;listmaps&quot; command in the console." />
+					</Grid>
+				</Grid>
+			</GroupBox>
+			<Grid Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
+				<Label Content="Save Directory" VerticalAlignment="Top" HorizontalAlignment="Left" />
+				<TextBox Margin="0,24,47,0" VerticalAlignment="Top" Text="{Binding SaveDirectory}"
+				         ToolTip="Path to the directory where the save files are (to be) stored." />
+				<Label Content="Extra Command-Line Options" Margin="0,122,0,0"
+				       VerticalAlignment="Top" HorizontalAlignment="Left" />
+				<Label Content="zDoom Configuration File" Margin="0,61,0,0"
+				       VerticalAlignment="Top" HorizontalAlignment="Left" />
+				<TextBox Margin="0,85,47,0" VerticalAlignment="Top" Text="{Binding ConfigFile}"
+				         ToolTip="Path to the zDoom config file to use." />
+				<TextBox Margin="0,146,10,10" Text="{Binding ExtraOptions}" TextWrapping="Wrap"
+				         ui:ControlHelper.CornerRadius="0"
+				         ToolTip="This text will be appended at the end of the command-line. Use this field to specify arguments that can't set from the rest of this interface." />
+				<Button HorizontalAlignment="Right" Margin="0,24,10,0" VerticalAlignment="Top"
+				        Style="{DynamicResource SelectFolderButtonStyle}" Click="SelectSaveDirectory" />
+				<Button HorizontalAlignment="Right" Margin="0,85,10,0" VerticalAlignment="Top"
+				        Style="{DynamicResource SelectFolderButtonStyle}" Click="SelectConfigPath" />
+			</Grid>
+		</Grid>
+	</Grid>
+</ui:Page>

@@ -140,7 +140,10 @@ namespace Launcher
 			this.InitializeComponent();
 
 			ICollectionView allFilesCollView = CollectionViewSource.GetDefaultView(this.AllFilesListBox.ItemsSource);
-			allFilesCollView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
+			if (allFilesCollView.GroupDescriptions.OfType<PropertyGroupDescription>().All(x=>x.PropertyName != nameof(FileDesc.Directory)))
+			{
+				allFilesCollView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
+			}
 
 			ExtraFilesLookUp.LoadableFiles.CollectionChanged += this.RemoveUnavailableSelection;
 			this.FileSelection.CollectionChanged             += this.UpdatedSelectionFromInside;
