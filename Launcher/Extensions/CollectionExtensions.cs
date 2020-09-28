@@ -31,6 +31,8 @@ namespace Launcher
 				int middleIndex = (rightIndex - leftIndex) / 2 + leftIndex;
 
 				int comparison = item.CompareTo(list[middleIndex]);
+				// Normalize the comparison result in case of comparator's shenanigans.
+				comparison /= Math.Abs(comparison != 0 ? comparison : 1);
 				switch (comparison)
 				{
 					case 0:
@@ -72,6 +74,8 @@ namespace Launcher
 				int middleIndex = (rightIndex - leftIndex) / 2 + leftIndex;
 
 				int comparison = comparisonFunction(item, list[middleIndex]);
+				// Normalize the comparison result in case of comparator's shenanigans.
+				comparison /= Math.Abs(comparison != 0 ? comparison : 1);
 				switch (comparison)
 				{
 					case 0:
