@@ -65,8 +65,9 @@
 							<Button Content="Reset" Click="ResetSizeClick" MinWidth="60"
 							        ToolTip="Click to make this window use default size on next launch." />
 						</ui:SimpleStackPanel>
-						<CheckBox Content="Start maximized" IsChecked="{Binding Path=(local:AppSettings.StartMaximized)}"
-						          ToolTip="Check to make this app start with a maximized window." />
+						<ui:ToggleSwitch Header="Starting Window State" OnContent="Maximized" OffContent="Normal"
+						                 IsOn="{Binding Path=(local:AppSettings.StartMaximized)}"
+						                 ToolTip="Check to make this app start with a maximized window." />
 					</ui:SimpleStackPanel>
 				</GroupBox>
 
