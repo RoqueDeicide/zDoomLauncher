@@ -33,11 +33,24 @@ namespace Launcher
 
 		public static void RefreshExeFiles()
 		{
-			AvailableExeFiles.Clear();
-
-			foreach (string file in Directory.EnumerateFiles(AppSettings.ZDoomDirectory, "*.exe", SearchOption.TopDirectoryOnly))
+			for (int i = 0; i < AvailableExeFiles.Count; i++)
 			{
-				AvailableExeFiles.Add(Path.GetFileName(file));
+				if (!File.Exists(Path.Combine(AppSettings.ZDoomDirectory, AvailableExeFiles[i])))
+				{
+					AvailableExeFiles.RemoveAt(i--);
+				}
+			}
+
+			foreach (string file in Directory.EnumerateFiles(AppSettings.ZDoomDirectory, "*.exe",
+															 SearchOption.TopDirectoryOnly))
+			{
+				string fileName = Path.GetFileName(file);
+
+				int index = AvailableExeFiles.BinarySearch(fileName);
+				if (index < 0)
+				{
+					AvailableExeFiles.Insert(~index, fileName);
+				}
 			}
 		}
 	}
