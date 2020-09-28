@@ -95,6 +95,80 @@ namespace Launcher
 		}
 
 		/// <summary>
+		/// Adds an <paramref name="item"/> to the <paramref name="sortedList"/> in a way that maintains a sorted
+		/// sequence.
+		/// </summary>
+		/// <typeparam name="T">Type of items in the list.</typeparam>
+		/// <param name="sortedList">A sorted list.</param>
+		/// <param name="item">      Item to add.</param>
+		public static void AddToSorted<T>(this IList<T> sortedList, T item)
+			where T : IComparable<T>
+		{
+			int index = sortedList.BinarySearch(item);
+			if (index < 0)
+			{
+				sortedList.Insert(~index, item);
+			}
+		}
+
+		/// <summary>
+		/// Adds an <paramref name="item"/> to the <paramref name="sortedList"/> in a way that maintains a sorted
+		/// sequence.
+		/// </summary>
+		/// <typeparam name="T">Type of items in the list.</typeparam>
+		/// <param name="sortedList">        A sorted list.</param>
+		/// <param name="item">              Item to add.</param>
+		/// <param name="comparisonFunction">A function to use as a comparator.</param>
+		public static void AddToSorted<T>(this IList<T> sortedList, T item, Func<T, T, int> comparisonFunction)
+		{
+			int index = sortedList.BinarySearch(item, comparisonFunction);
+			if (index < 0)
+			{
+				sortedList.Insert(~index, item);
+			}
+		}
+
+		/// <summary>
+		/// Removes an <paramref name="item"/> from the <paramref name="sortedList"/> by employing binary search
+		/// algorithm.
+		/// </summary>
+		/// <typeparam name="T">Type of items in the list.</typeparam>
+		/// <param name="sortedList">A sorted list.</param>
+		/// <param name="item">      An item to remove.</param>
+		public static void RemoveFromSorted<T>(this IList<T> sortedList, T item)
+			where T : IComparable<T>
+		{
+			int index = sortedList.BinarySearch(item);
+
+			if (index < 0)
+			{
+				return;
+			}
+
+			sortedList.RemoveAt(index);
+		}
+
+		/// <summary>
+		/// Removes an <paramref name="item"/> from the <paramref name="sortedList"/> by employing binary search
+		/// algorithm.
+		/// </summary>
+		/// <typeparam name="T">Type of items in the list.</typeparam>
+		/// <param name="sortedList">        A sorted list.</param>
+		/// <param name="item">              An item to remove.</param>
+		/// <param name="comparisonFunction">A function to use as a comparator.</param>
+		public static void RemoveFromSorted<T>(this IList<T> sortedList, T item, Func<T, T, int> comparisonFunction)
+		{
+			int index = sortedList.BinarySearch(item, comparisonFunction);
+
+			if (index < 0)
+			{
+				return;
+			}
+
+			sortedList.RemoveAt(index);
+		}
+
+		/// <summary>
 		/// Adds a range of items to an observable collection.
 		/// </summary>
 		/// <typeparam name="T">Type of items in the collection.</typeparam>
