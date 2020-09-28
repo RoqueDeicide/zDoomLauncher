@@ -44,6 +44,8 @@ namespace Launcher
 			}
 
 			this.Loaded += BindItemSourceWithFiles;
+
+			this.IwadsOnUpdated();
 		}
 
 		/// <summary>
