@@ -52,7 +52,7 @@
 		<!-- Main Navigation View -->
 
 		<ui:NavigationView Grid.Row="1" Name="MainNavigationView" IsBackButtonVisible="Collapsed"
-		                   Loaded="NavViewLoaded" ItemInvoked="NavigationInvoked">
+		                   Loaded="NavViewLoaded" ItemInvoked="NavigationInvoked" OpenPaneLength="130">
 			<ui:NavigationView.MenuItems>
 				<ui:NavigationViewItem x:Name="ConfigNavItem" Content="Config" Tag="Home">
 					<ui:NavigationViewItem.Icon>
