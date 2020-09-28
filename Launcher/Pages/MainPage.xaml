@@ -164,7 +164,7 @@
 								<Setter Property="Maximum" Value="255" />
 							</Style>
 						</StackPanel.Resources>
-						<local:NumberBoxExtended Value="{Binding TurboMode}" Minimum="10"
+						<local:NumberBoxExtended Value="{Binding TurboMode}" Minimum="10" DefaultValue="100"
 						                         ToolTip="Percentage of normal speed to set the game speed to (ranges from 10% to 255%)." />
 						<local:NumberBoxExtended Value="{Binding TimeLimit}"
 						                         ToolTip="Number of minutes the player is allowed to be on the level before the game advances to the next level." />
