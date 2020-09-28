@@ -67,7 +67,7 @@ namespace Launcher
 
 		static ExtraFilesLookUp()
 		{
-			Directories.CollectionChanged += RefreshDirectories;
+			Directories.CollectionChanged += DirectoriesCollectionChanged;
 
 			AppSettings.StaticPropertyChanged +=
 				(sender, args) =>
@@ -84,9 +84,48 @@ namespace Launcher
 		#region Interface
 
 		/// <summary>
+		/// Adds a directory to <see cref="Directories"/> collection.
+		/// </summary>
+		/// <remarks>
+		/// Insertion is done in manner that forms a sorted sequence.
+		/// </remarks>
+		/// <param name="directory">Full path to the directory.</param>
+		public static void AddDirectory(string directory)
+		{
+#if DEBUG
+			if (!Directory.Exists(directory))
+			{
+				throw new DirectoryNotFoundException("Trying to add a directory that doesn't exist to the list.");
+			}
+#endif
+			int index = Directories.BinarySearch(directory);
+
+			if (index < 0)
+			{
+				Directories.Insert(~index, directory);
+			}
+		}
+
+		/// <summary>
+		/// Removes a directory from <see cref="Directories"/> collection.
+		/// </summary>
+		/// <param name="directory">Full path to the directory to remove.</param>
+		public static void RemoveDirectory(string directory)
+		{
+			int index = Directories.BinarySearch(directory);
+
+			if (index < 0)
+			{
+				return;
+			}
+
+			Directories.RemoveAt(index);
+		}
+
+		/// <summary>
 		/// Looks for the files that can be loaded with the game in the specified folder.
 		/// </summary>
-		/// <param name="folder">Path to the folder to for files in.</param>
+		/// <param name="folder">Path to the folder to look for files in.</param>
 		/// <returns>An object that can be enumerated through for loadable files.</returns>
 		public static IEnumerable<string> GetLoadableFiles(string folder)
 		{
@@ -116,16 +155,6 @@ namespace Launcher
 			}
 
 			return enumeration.Where(IsLoadableFile);
-		}
-
-		public static void AddDirectory(string directory)
-		{
-			int index = Directories.BinarySearch(directory);
-
-			if (index < 0)
-			{
-				Directories.Insert(~index, directory);
-			}
 		}
 
 		private static bool IsLoadableFile(string filePath)
@@ -162,7 +191,7 @@ namespace Launcher
 		/// </summary>
 		public static void Refresh()
 		{
-			// Refresh directories.
+			// Remove directories that don't exist anymore.
 			for (int i = 0; i < Directories.Count; i++)
 			{
 				if (!Directory.Exists(Directories[i]))
@@ -194,26 +223,11 @@ namespace Launcher
 
 		private static void RefreshFilesInDirectory(string directory)
 		{
-			//int currentEnumeratedFileIndex = 0;
-
-			// This should point at the first file from current directory. All files from the same directory should be
-			// in the continuous sequence within the collection.
-			int currentCollectionFileIndex = LoadableFiles.IndexOfToEnd(x => x.Directory == directory);
-
 			var enumeratedFiles = GetLoadableFiles(directory);
 
 			foreach (string enumeratedFile in enumeratedFiles)
 			{
-				if (currentCollectionFileIndex ==
-					LoadableFiles.Count || // Make sure we don't get index out of range error.
-					enumeratedFile != LoadableFiles[currentCollectionFileIndex].FullPath)
-				{
-					// Current enumerated file is a new file that wasn't in the directory before.
-					LoadableFiles.Insert(currentCollectionFileIndex, new FileDesc(enumeratedFile));
-				}
-
-				// Advance to next file in the collection.
-				currentCollectionFileIndex++;
+				LoadableFiles.AddToSorted(new FileDesc(enumeratedFile));
 			}
 		}
 
@@ -221,7 +235,7 @@ namespace Launcher
 
 		#region Utilities
 
-		private static void RefreshDirectories(object sender, NotifyCollectionChangedEventArgs args)
+		private static void DirectoriesCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
 		{
 			var newItems = (args.NewItems ?? new string[0]).OfType<string>();
 			var oldItems = (args.OldItems ?? new string[0]).OfType<string>();
@@ -263,7 +277,7 @@ namespace Launcher
 											from file in GetLoadableFiles(directory)
 											select file)
 			{
-				LoadableFiles.Add(new FileDesc(loadableFile));
+				LoadableFiles.AddToSorted(new FileDesc(loadableFile));
 			}
 		}
 

@@ -192,7 +192,7 @@ namespace Launcher
 
 						Debug.Assert(file != null, "file != null");
 
-						if (!ExtraFilesLookUp.LoadableFiles.Contains(file))
+						if (ExtraFilesLookUp.LoadableFiles.BinarySearch(file) < 0)
 						{
 							file.Selected = false;
 							this.FileSelection.RemoveAt(i--);

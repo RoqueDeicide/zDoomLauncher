@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 
 namespace Launcher
@@ -6,7 +8,7 @@ namespace Launcher
 	/// <summary>
 	/// Represents the description of the file.
 	/// </summary>
-	public class FileDesc : DependencyObject
+	public class FileDesc : DependencyObject, IComparable<FileDesc>, IComparable
 	{
 		#region Fields
 
@@ -132,5 +134,38 @@ namespace Launcher
 		}
 
 		#endregion
+
+		public int CompareTo(FileDesc other)
+		{
+			if (ReferenceEquals(this, other)) return 0;
+			return other is null ? 1 : string.Compare(this.FullPath, other.FullPath, StringComparison.Ordinal);
+		}
+
+		public int CompareTo(object obj)
+		{
+			if (obj is null) return 1;
+			if (ReferenceEquals(this, obj)) return 0;
+			return obj is FileDesc other ? this.CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(FileDesc)}");
+		}
+
+		public static bool operator <(FileDesc left, FileDesc right)
+		{
+			return Comparer<FileDesc>.Default.Compare(left, right) < 0;
+		}
+
+		public static bool operator >(FileDesc left, FileDesc right)
+		{
+			return Comparer<FileDesc>.Default.Compare(left, right) > 0;
+		}
+
+		public static bool operator <=(FileDesc left, FileDesc right)
+		{
+			return Comparer<FileDesc>.Default.Compare(left, right) <= 0;
+		}
+
+		public static bool operator >=(FileDesc left, FileDesc right)
+		{
+			return Comparer<FileDesc>.Default.Compare(left, right) >= 0;
+		}
 	}
 }
