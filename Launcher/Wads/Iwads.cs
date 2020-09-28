@@ -11,7 +11,8 @@ namespace Launcher
 	{
 		#region Fields
 
-		private static readonly FileSystemWatcher Watcher;
+		private static readonly FileSystemWatcher ZDoomDirectoryWatcher;
+		private static readonly FileSystemWatcher DoomWadDirectoryWatcher;
 
 		/// <summary>
 		/// A list of supported IWAD files.
@@ -21,7 +22,7 @@ namespace Launcher
 		#endregion
 
 		#region Events
-		
+
 		/// <summary>
 		/// Occurs before this class updates availability status of all IWAD files.
 		/// </summary>
@@ -70,14 +71,21 @@ namespace Launcher
 							 };
 			SupportedIwads.Sort();
 
-			Watcher = new FileSystemWatcher
-					  {
-						  NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite,
-						  Filter       = "*.wad"
-					  };
-			Watcher.Renamed += WatcherOnRenamed;
-			Watcher.Created += WatcherOnCreated;
-			Watcher.Deleted += WatcherOnDeleted;
+			static void InitializeWatcher(out FileSystemWatcher watcher)
+			{
+				watcher = new FileSystemWatcher
+						  {
+							  NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite,
+							  Filter       = "*.wad"
+						  };
+
+				watcher.Renamed += WatcherOnRenamed;
+				watcher.Created += WatcherOnCreated;
+				watcher.Deleted += WatcherOnDeleted;
+			}
+
+			InitializeWatcher(out ZDoomDirectoryWatcher);
+			InitializeWatcher(out DoomWadDirectoryWatcher);
 
 			UpdateAvailableIwads();
 
@@ -96,25 +104,38 @@ namespace Launcher
 
 		private static void UpdateAvailableIwads(bool folderChanged = true)
 		{
-			if (!Directory.Exists(AppSettings.ZDoomDirectory))
-			{
-				return;
-			}
-
 			OnUpdating();
 
+			string zDoomDir = AppSettings.ZDoomDirectory;
 			if (folderChanged)
 			{
-				Watcher.Path                = AppSettings.ZDoomDirectory;
-				Watcher.EnableRaisingEvents = true;
+				if (Directory.Exists(zDoomDir))
+				{
+					ZDoomDirectoryWatcher.Path                = zDoomDir;
+					ZDoomDirectoryWatcher.EnableRaisingEvents = true;
+				}
+				else
+				{
+					ZDoomDirectoryWatcher.EnableRaisingEvents = false;
+				}
 			}
 
 			string doomWadDir = ExtraFilesLookUp.DoomWadDirectory;
+			if (doomWadDir == null)
+			{
+				DoomWadDirectoryWatcher.EnableRaisingEvents = false;
+			}
+			else if (Directory.Exists(doomWadDir))
+			{
+				DoomWadDirectoryWatcher.Path                = doomWadDir;
+				DoomWadDirectoryWatcher.EnableRaisingEvents = true;
+			}
 
 			foreach (IwadFile iwad in SupportedIwads)
 			{
 				iwad.Available = iwad.FileName == "" ||
-								 File.Exists(Path.Combine(AppSettings.ZDoomDirectory, iwad.FileName)) ||
+								 !zDoomDir.IsNullOrWhiteSpace() && Directory.Exists(zDoomDir) &&
+								 File.Exists(Path.Combine(zDoomDir, iwad.FileName)) ||
 								 doomWadDir != null && File.Exists(Path.Combine(doomWadDir, iwad.FileName));
 			}
 
