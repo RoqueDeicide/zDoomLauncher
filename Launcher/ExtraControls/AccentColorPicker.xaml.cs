@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
-using Windows.UI.ViewManagement;
-using Launcher.Utilities;
 using ModernWpf;
 
 namespace Launcher
@@ -15,16 +13,6 @@ namespace Launcher
 		public AccentColorPicker()
 		{
 			this.InitializeComponent();
-
-			UiSettings.Current.ColorValuesChanged         += (sender, args) => { this.UpdateSystemSettingButton(); };
-			ThemeManager.Current.ActualAccentColorChanged += (sender, args) => { this.UpdateSystemSettingButton(); };
-			this.UpdateSystemSettingButton();
-		}
-
-		private void UpdateSystemSettingButton()
-		{
-			this.SystemSettingButton.Background =
-				new SolidColorBrush(UiSettings.Current.GetColorValue(UIColorType.Accent).ToWpfColor());
 		}
 
 		private void SelectSystemSetting(object sender, RoutedEventArgs e)

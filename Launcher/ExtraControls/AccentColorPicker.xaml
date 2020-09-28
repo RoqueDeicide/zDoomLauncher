@@ -7,9 +7,9 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              mc:Ignorable="d" Width="384" Height="344">
 	<StackPanel>
-		<Button x:Name="SystemSettingButton" Content="Use system setting" Click="SelectSystemSetting"
-		        Height="36" FontSize="18" Width="170" Margin="10,10,0,10"
-		        ui:ControlHelper.CornerRadius="0"/>
+		<Button Content="Use system setting" Click="SelectSystemSetting"
+		        Height="36" FontSize="18" Width="170" Margin="10,10,0,10" ui:ControlHelper.CornerRadius="0"
+		        Background="{DynamicResource SystemControlForegroundAccentBrush}" />
 		<ui:GridView Padding="0"
 		             SelectionMode="Single" SelectedValuePath="Color"
 		             SelectedValue="{Binding AccentColor, Source={x:Static ui:ThemeManager.Current}}"
