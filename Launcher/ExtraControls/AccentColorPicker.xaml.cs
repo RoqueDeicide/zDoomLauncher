@@ -1,10 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using ModernWpf;
 
 namespace Launcher
 {
+	/// <summary>
+	/// Represents an object that creates an appropriate color for the <see cref="Button.Foreground"/> for the "Use
+	/// system setting" button based on its background color.
+	/// </summary>
+	public class AccentButtonForegroundSelector : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (value is SolidColorBrush brush)
+			{
+				Color color      = brush.Color;
+				int   colorValue = new[] {color.R, color.G, color.B}.Max(); // Value in HSV color model.
+
+				return colorValue > 127 ? Brushes.Black : Brushes.White;
+			}
+
+			throw new NotSupportedException();
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
 	/// <summary>
 	/// Interaction logic for AccentColorPicker.xaml
 	/// </summary>

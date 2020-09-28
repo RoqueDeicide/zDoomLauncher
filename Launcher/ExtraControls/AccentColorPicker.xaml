@@ -6,10 +6,14 @@
              xmlns:local="clr-namespace:Launcher"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              mc:Ignorable="d" Width="384" Height="344">
+	<UserControl.Resources>
+		<local:AccentButtonForegroundSelector x:Key="ForegroundSelector" />
+	</UserControl.Resources>
 	<StackPanel>
-		<Button Content="Use system setting" Click="SelectSystemSetting"
-		        Height="36" FontSize="18" Width="170" Margin="10,10,0,10" ui:ControlHelper.CornerRadius="0"
-		        Background="{DynamicResource SystemControlForegroundAccentBrush}" />
+		<Button Content="Use system setting" Click="SelectSystemSetting" Margin="0,10,4,10" Height="36" FontSize="18"
+		        HorizontalAlignment="Stretch" ui:ControlHelper.CornerRadius="0"
+		        Background="{DynamicResource SystemControlForegroundAccentBrush}"
+		        Foreground="{Binding Background, RelativeSource={RelativeSource Self}, Converter={StaticResource ForegroundSelector}}" />
 		<ui:GridView Padding="0"
 		             SelectionMode="Single" SelectedValuePath="Color"
 		             SelectedValue="{Binding AccentColor, Source={x:Static ui:ThemeManager.Current}}"
