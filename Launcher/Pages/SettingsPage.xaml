@@ -28,7 +28,8 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 							<TextBox Grid.Column="0" Margin="0,0,8,0" Name="ZDoomDirBox"
-							         Text="{Binding Path=(local:AppSettings.ZDoomDirectory)}">
+							         Text="{Binding Path=(local:AppSettings.ZDoomDirectory)}"
+							         ToolTip="Path to the directory, zDoom is installed at.">
 								<ui:FlyoutBase.AttachedFlyout>
 									<ui:Flyout>
 										<Border BorderBrush="Red">
@@ -50,17 +51,22 @@
 
 				<GroupBox Header="Window's Starting Position">
 					<ui:SimpleStackPanel Orientation="Horizontal">
-						<Button Content="Save" Click="SavePositionClick" MinWidth="60" />
-						<Button Content="Reset" Click="ResetPositionClick" MinWidth="60" />
+						<Button Content="Save" Click="SavePositionClick" MinWidth="60"
+						        ToolTip="Click to save window's current position for next launch." />
+						<Button Content="Reset" Click="ResetPositionClick" MinWidth="60"
+						        ToolTip="Click to make this window use default position on next launch." />
 					</ui:SimpleStackPanel>
 				</GroupBox>
 				<GroupBox Header="Window's Starting Size">
 					<ui:SimpleStackPanel>
 						<ui:SimpleStackPanel Orientation="Horizontal">
-							<Button Content="Save" Click="SaveSizeClick" MinWidth="60" />
-							<Button Content="Reset" Click="ResetSizeClick" MinWidth="60" />
+							<Button Content="Save" Click="SaveSizeClick" MinWidth="60"
+							        ToolTip="Click to save window's current size for next launch." />
+							<Button Content="Reset" Click="ResetSizeClick" MinWidth="60"
+							        ToolTip="Click to make this window use default size on next launch." />
 						</ui:SimpleStackPanel>
-						<CheckBox Content="Start maximized" IsChecked="{Binding Path=(local:AppSettings.StartMaximized)}" />
+						<CheckBox Content="Start maximized" IsChecked="{Binding Path=(local:AppSettings.StartMaximized)}"
+						          ToolTip="Check to make this app start with a maximized window." />
 					</ui:SimpleStackPanel>
 				</GroupBox>
 
@@ -69,19 +75,22 @@
 				<GroupBox Header="Theme and Accent Color">
 					<ui:SimpleStackPanel>
 						<RadioButton x:Name="SystemSettingThemeRadio" Content="System Setting"
-						             ui:ControlHelper.Header="Theme" GroupName="Theme">
+						             ui:ControlHelper.Header="Theme" GroupName="Theme"
+						             ToolTip="Check to make this app use system-decided theme.">
 							<RadioButton.IsChecked>
 								<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
 								         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="null" />
 							</RadioButton.IsChecked>
 						</RadioButton>
-						<RadioButton x:Name="LightThemeRadio" Content="Light" GroupName="Theme">
+						<RadioButton x:Name="LightThemeRadio" Content="Light" GroupName="Theme"
+						             ToolTip="Check to make this app use light theme.">
 							<RadioButton.IsChecked>
 								<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
 								         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Light" />
 							</RadioButton.IsChecked>
 						</RadioButton>
-						<RadioButton x:Name="DarkThemeRadio" Content="Dark" GroupName="Theme">
+						<RadioButton x:Name="DarkThemeRadio" Content="Dark" GroupName="Theme"
+						             ToolTip="Check to make this app use dark theme.">
 							<RadioButton.IsChecked>
 								<Binding Source="{x:Static ui:ThemeManager.Current}" Path="ApplicationTheme" Mode="OneWay"
 								         Converter="{StaticResource ThemeMenuButtonChecker}" ConverterParameter="Dark" />
