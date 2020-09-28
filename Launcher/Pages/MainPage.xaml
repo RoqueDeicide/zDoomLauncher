@@ -352,7 +352,7 @@
 				         ToolTip="Path to the zDoom config file to use." />
 				<TextBox Margin="0,146,10,10" Text="{Binding ExtraOptions}" TextWrapping="Wrap"
 				         ui:ControlHelper.CornerRadius="0"
-				         ToolTip="This text will be appended at the end of the command-line. Use this field to specify arguments that can't set from the rest of this interface." />
+				         ToolTip="This text will be appended at the end of the command-line. Use this field to specify arguments that can't set from the rest of this interface." FontFamily="Consolas" />
 				<Button HorizontalAlignment="Right" Margin="0,24,10,0" VerticalAlignment="Top"
 				        Style="{DynamicResource SelectFolderButtonStyle}" Click="SelectSaveDirectory" />
 				<Button HorizontalAlignment="Right" Margin="0,85,10,0" VerticalAlignment="Top"
