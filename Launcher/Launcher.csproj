@@ -272,7 +272,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MathExtra.cs" />
+    <Compile Include="Extensions\MathExtra.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
