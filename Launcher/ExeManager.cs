@@ -16,13 +16,8 @@ namespace Launcher
 		static ExeManager()
 		{
 			AvailableExeFiles = new ObservableCollection<string>();
-
-			static bool IsDirectoryValid()
-			{
-				return !AppSettings.ZDoomDirectory.IsNullOrWhiteSpace() && Directory.Exists(AppSettings.ZDoomDirectory);
-			}
-
-			if (IsDirectoryValid())
+			
+			if (AppSettings.DirectoryIsValid)
 			{
 				RefreshExeFiles();
 			}
@@ -30,7 +25,7 @@ namespace Launcher
 			AppSettings.StaticPropertyChanged += (sender, args) =>
 												 {
 													 if (args.PropertyName == nameof(AppSettings.ZDoomDirectory) &&
-														 IsDirectoryValid())
+														 AppSettings.DirectoryIsValid)
 													 {
 														 RefreshExeFiles();
 													 }

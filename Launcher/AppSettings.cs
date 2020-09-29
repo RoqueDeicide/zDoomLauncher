@@ -35,6 +35,10 @@ namespace Launcher
 				OnStaticPropertyChanged();
 			}
 		}
+		/// <summary>
+		/// Indicates whether <see cref="ZDoomDirectory"/> property returns a path to valid directory.
+		/// </summary>
+		public static bool DirectoryIsValid => !ZDoomDirectory.IsNullOrWhiteSpace() && Directory.Exists(ZDoomDirectory);
 
 		/// <summary>
 		/// Gets or sets the path to executable file to use.

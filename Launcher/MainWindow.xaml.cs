@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
 using ModernWpf.Controls;
 using ModernWpf.Media.Animation;
@@ -73,15 +72,9 @@ namespace Launcher
 		private void NavViewLoaded(object sender, RoutedEventArgs e)
 		{
 			// Load home page or settings page, if installation directory needs to be specified.
-			if (AppSettings.ZDoomDirectory.IsNullOrWhiteSpace() ||
-				!Directory.Exists(AppSettings.ZDoomDirectory))
-			{
-				this.MainNavigationView.SelectedItem = this.MainNavigationView.SettingsItem;
-			}
-			else
-			{
-				this.MainNavigationView.SelectedItem = this.ConfigNavItem;
-			}
+			this.MainNavigationView.SelectedItem = AppSettings.DirectoryIsValid
+													   ? this.ConfigNavItem
+													   : this.MainNavigationView.SettingsItem;
 		}
 
 		private void NavSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
