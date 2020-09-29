@@ -75,9 +75,8 @@ namespace Launcher
 				this.ThrowError<Exception>("has its default value set out of range.");
 			}
 #endif
-			double def = MathExtra.Clamp(this.DefaultValue,
-										 double.IsNaN(this.Minimum) ? double.MinValue : this.Minimum,
-										 double.IsNaN(this.Maximum) ? double.MaxValue : this.Maximum);
+			double def = this.DefaultValue.Clamp(double.IsNaN(this.Minimum) ? double.MinValue : this.Minimum,
+												 double.IsNaN(this.Maximum) ? double.MaxValue : this.Maximum);
 			this.Value = def;
 		}
 

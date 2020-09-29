@@ -15,7 +15,8 @@ namespace Launcher
 		/// <param name="min">  Left border of the range.</param>
 		/// <param name="max">  Right border of the range.</param>
 		/// <returns>Clamped value.</returns>
-		public static ComparableType Clamp<ComparableType>(ComparableType value, ComparableType min, ComparableType max)
+		public static ComparableType Clamp<ComparableType>(this ComparableType value, ComparableType min,
+														   ComparableType      max)
 			where ComparableType : IComparable<ComparableType>
 		{
 			return value.CompareTo(min) < 0
@@ -49,7 +50,7 @@ namespace Launcher
 		/// Returns a value that indicates whether the specified value is not a number (System.Double.NaN).
 		/// </summary>
 		/// <param name="number">A double-precision floating-point number.</param>
-		/// <returns><c>true</c> if d evaluates to <see cref="System.Double.NaN"/>; otherwise, <c>false</c>.</returns>
+		/// <returns><c>true</c> if d evaluates to <see cref="double.NaN"/>; otherwise, <c>false</c>.</returns>
 		public static bool IsNaN(this double number)
 		{
 			return double.IsNaN(number);
