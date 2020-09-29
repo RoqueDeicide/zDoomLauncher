@@ -73,32 +73,29 @@ namespace Launcher
 		private void NavViewLoaded(object sender, RoutedEventArgs e)
 		{
 			// Load home page or settings page, if installation directory needs to be specified.
-			var entranceTransition = new EntranceNavigationTransitionInfo();
 			if (AppSettings.ZDoomDirectory.IsNullOrWhiteSpace() ||
 				!Directory.Exists(AppSettings.ZDoomDirectory))
 			{
 				this.MainNavigationView.SelectedItem = this.MainNavigationView.SettingsItem;
-				this.NavigateTo(typeof(SettingsPage), entranceTransition);
 			}
 			else
 			{
 				this.MainNavigationView.SelectedItem = this.ConfigNavItem;
-				this.NavigateTo(typeof(MainPage), entranceTransition);
 			}
 		}
 
-		private void NavigationInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+		private void NavSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
 			Type                     pageType       = null;
 			NavigationTransitionInfo transitionInfo = args.RecommendedNavigationTransitionInfo;
 
-			if (args.IsSettingsInvoked)
+			if (args.IsSettingsSelected)
 			{
 				pageType = typeof(SettingsPage);
 			}
-			else if (args.InvokedItemContainer != null)
+			else if (args.SelectedItemContainer != null)
 			{
-				string tag = args.InvokedItemContainer.Tag.ToString();
+				string tag = args.SelectedItemContainer.Tag.ToString();
 
 				pageType = tag switch
 						   {
