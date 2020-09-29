@@ -203,17 +203,17 @@
 						</Style>
 					</StackPanel.Resources>
 					<CheckBox Content="Width" Margin="10,0,0,0" IsChecked="{Binding SpecifyWidth}"
-					          ToolTip="Check this to be able to change the width of the picture." Width="120" />
+					          ToolTip="Check this to have zDoom use custom width of the picture." Width="120" />
 					<local:NumberBoxExtended Value="{Binding Width}" DefaultValue="1280"
 					                         ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100" />
 					<CheckBox Content="Height" Margin="10,5,0,0" IsChecked="{Binding SpecifyHeight}"
-					          ToolTip="Check this to be able to change the height of the picture."
+					          ToolTip="Check this to have zDoom use custom height of the picture."
 					          Height="32" Width="120" />
 					<local:NumberBoxExtended Value="{Binding Height}" DefaultValue="720"
 					                         ToolTip="Width of the image. Use PgUp and PgDown to change the value by 100" />
-					<Label Content="Pixel Mode" />
-					<ComboBox Margin="10,5,0,0" Width="116" ItemsSource="{x:Static configs:PixelModeUi.Values}"
-					          SelectedValuePath="PixelMode" SelectedValue="{Binding PixelMode}" />
+					<ComboBox Margin="10,5,0,0" Width="116" ui:ControlHelper.Header="Pixel Mode"
+					          ItemsSource="{x:Static configs:PixelModeUi.Values}" SelectedValuePath="PixelMode"
+					          SelectedValue="{Binding PixelMode}" />
 				</StackPanel>
 			</GroupBox>
 			<GroupBox Header="Start With" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3">
@@ -308,13 +308,11 @@
 						             Content="Map Index" HorizontalAlignment="Left" Margin="10,23,0,23"
 						             GroupName="StartWithMethodRadioButtonGroup"
 						             ToolTip="Check this box to have the game load a map specified by the map and/or episode index." />
-						<Label Grid.Column="1" Content="Episode" Height="32" Width="48" HorizontalAlignment="Left"
-						       VerticalContentAlignment="Center" Margin="10,0,0,46" />
-						<local:NumberBoxExtended Grid.Column="1" Margin="10,36,5,10" Value="{Binding EpisodeIndex}"
+						<local:NumberBoxExtended Grid.Column="1" ui:ControlHelper.Header="Episode" Height="Auto"
+						                         Margin="10,10,5,10" Value="{Binding EpisodeIndex}"
 						                         DefaultValue="0" Minimum="0" Maximum="32" />
-						<Label Grid.Column="2" Content="Map" Height="32" Width="28" HorizontalAlignment="Left"
-						       VerticalContentAlignment="Center" Margin="5,0,0,46" />
-						<local:NumberBoxExtended Grid.Column="2" Margin="5,36,10,10" Value="{Binding MapIndex}"
+						<local:NumberBoxExtended Grid.Column="2" ui:ControlHelper.Header="Map" Height="Auto"
+						                         Margin="5,10,10,10" Value="{Binding MapIndex}"
 						                         DefaultValue="0" Minimum="0" Maximum="32" />
 					</Grid>
 					<Grid Grid.Column="1" Height="36" Margin="0,80,0,0">
@@ -341,22 +339,41 @@
 				</Grid>
 			</GroupBox>
 			<Grid Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
-				<Label Content="Save Directory" VerticalAlignment="Top" HorizontalAlignment="Left" />
-				<TextBox Margin="0,24,47,0" VerticalAlignment="Top" Text="{Binding SaveDirectory}"
-				         ToolTip="Path to the directory where the save files are (to be) stored." />
-				<Label Content="Extra Command-Line Options" Margin="0,122,0,0"
-				       VerticalAlignment="Top" HorizontalAlignment="Left" />
-				<Label Content="zDoom Configuration File" Margin="0,61,0,0"
-				       VerticalAlignment="Top" HorizontalAlignment="Left" />
-				<TextBox Margin="0,85,47,0" VerticalAlignment="Top" Text="{Binding ConfigFile}"
-				         ToolTip="Path to the zDoom config file to use." />
-				<TextBox Margin="0,146,10,10" Text="{Binding ExtraOptions}" TextWrapping="Wrap"
-				         ui:ControlHelper.CornerRadius="0"
-				         ToolTip="This text will be appended at the end of the command-line. Use this field to specify arguments that can't set from the rest of this interface." FontFamily="Consolas" />
-				<Button HorizontalAlignment="Right" Margin="0,24,10,0" VerticalAlignment="Top"
-				        Style="{DynamicResource SelectFolderButtonStyle}" Click="SelectSaveDirectory" />
-				<Button HorizontalAlignment="Right" Margin="0,85,10,0" VerticalAlignment="Top"
-				        Style="{DynamicResource SelectFolderButtonStyle}" Click="SelectConfigPath" />
+				<Grid.Resources>
+					<Style TargetType="Button" BasedOn="{StaticResource SelectFolderButtonStyle}">
+						<Setter Property="HorizontalAlignment" Value="Right" />
+						<Setter Property="VerticalAlignment" Value="Bottom" />
+						<Setter Property="Margin" Value="0,0,5,0" />
+					</Style>
+					<Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+						<Setter Property="HorizontalAlignment" Value="Stretch" />
+						<Setter Property="Margin" Value="0,0,42,0" />
+					</Style>
+				</Grid.Resources>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<Grid Grid.Row="0">
+					<TextBox Text="{Binding SaveDirectory}" ui:ControlHelper.Header="Save Directory"
+					         ToolTip="Path to the directory where the save files are (to be) stored." />
+					<Button Click="SelectSaveDirectory" />
+				</Grid>
+				<Grid Grid.Row="1">
+					<TextBox Text="{Binding ConfigFile}" ui:ControlHelper.Header="zDoom Configuration File"
+					         ToolTip="Path to the zDoom config file to use." />
+					<Button Click="SelectConfigPath" />
+				</Grid>
+				<TextBox Grid.Row="2" Text="{Binding ExtraOptions}" TextWrapping="Wrap" FontFamily="Consolas"
+				         ui:ControlHelper.CornerRadius="0" Margin="0,0,5,10" VerticalAlignment="Stretch"
+				         ToolTip="This text will be appended at the end of the command-line. Use this field to specify arguments that can't set from the rest of this interface.">
+					<ui:ControlHelper.HeaderTemplate>
+						<DataTemplate>
+							<TextBlock FontFamily="Segoe UI" Text="Extra Command-Line Options" />
+						</DataTemplate>
+					</ui:ControlHelper.HeaderTemplate>
+				</TextBox>
 			</Grid>
 		</Grid>
 	</Grid>
