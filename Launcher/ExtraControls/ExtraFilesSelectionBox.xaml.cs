@@ -140,7 +140,8 @@ namespace Launcher
 			this.InitializeComponent();
 
 			ICollectionView allFilesCollView = CollectionViewSource.GetDefaultView(this.AllFilesListBox.ItemsSource);
-			if (allFilesCollView.GroupDescriptions.OfType<PropertyGroupDescription>().All(x=>x.PropertyName != nameof(FileDesc.Directory)))
+			if (allFilesCollView.GroupDescriptions.OfType<PropertyGroupDescription>()
+								.All(x => x.PropertyName != nameof(FileDesc.Directory)))
 			{
 				allFilesCollView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
 			}

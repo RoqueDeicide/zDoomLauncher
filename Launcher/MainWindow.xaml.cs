@@ -86,9 +86,7 @@ namespace Launcher
 
 		private void NavSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
-			Type                     pageType       = null;
-			NavigationTransitionInfo transitionInfo = args.RecommendedNavigationTransitionInfo;
-
+			Type pageType = null;
 			if (args.IsSettingsSelected)
 			{
 				pageType = typeof(SettingsPage);
@@ -109,7 +107,7 @@ namespace Launcher
 
 			if (pageType != null)
 			{
-				this.NavigateTo(pageType, transitionInfo);
+				this.NavigateTo(pageType, args.RecommendedNavigationTransitionInfo);
 			}
 		}
 

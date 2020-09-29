@@ -16,6 +16,16 @@ namespace Launcher
 	/// </summary>
 	public class AccentButtonForegroundSelector : IValueConverter
 	{
+		/// <summary>
+		/// Creates an appropriate foreground color based on background one.
+		/// </summary>
+		/// <param name="value">     Background color.</param>
+		/// <param name="targetType">Ignored.</param>
+		/// <param name="parameter"> Ignored.</param>
+		/// <param name="culture">   Ignored.</param>
+		/// <returns>
+		/// <see cref="Brushes.White"/>, if given color is dark, otherwise <see cref="Brushes.Black"/>.
+		/// </returns>
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (value is SolidColorBrush brush)
@@ -29,6 +39,14 @@ namespace Launcher
 			throw new NotSupportedException();
 		}
 
+		/// <summary>
+		/// Not implemented.
+		/// </summary>
+		/// <param name="value">     Ignored.</param>
+		/// <param name="targetType">Ignored.</param>
+		/// <param name="parameter"> Ignored.</param>
+		/// <param name="culture">   Ignored.</param>
+		/// <returns>Nothing.</returns>
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			throw new NotImplementedException();
@@ -40,6 +58,9 @@ namespace Launcher
 	/// </summary>
 	public partial class AccentColorPicker
 	{
+		/// <summary>
+		/// Creates a new instance of this type.
+		/// </summary>
 		public AccentColorPicker()
 		{
 			this.InitializeComponent();
@@ -56,6 +77,9 @@ namespace Launcher
 	/// </summary>
 	public class AccentColors : List<AccentColor>
 	{
+		/// <summary>
+		/// Constructs a list of selectable accent colors.
+		/// </summary>
 		public AccentColors()
 		{
 			this.Add("#FFB900", "Yellow gold");
@@ -108,6 +132,11 @@ namespace Launcher
 			this.Add("#7E735F", "Camouflage");
 		}
 
+		/// <summary>
+		/// Adds a color to the list.
+		/// </summary>
+		/// <param name="colorDescription">Description of the color to use in a tool-tip.</param>
+		/// <param name="colorName">       Name of the color.</param>
 		public void Add(string colorDescription, string colorName)
 		{
 			object o = ColorConverter.ConvertFromString(colorDescription);
