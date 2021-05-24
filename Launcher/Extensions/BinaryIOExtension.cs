@@ -24,7 +24,7 @@ namespace Launcher
 		/// <exception cref="ObjectDisposedException">The stream is closed.</exception>
 		public static long WriteLongString(this BinaryWriter writer, string s, Encoding encoding)
 		{
-			var bytesOfText = encoding.GetBytes(s);
+			byte[] bytesOfText = encoding.GetBytes(s);
 			writer.Write(bytesOfText.LongLength);
 			writer.Write(bytesOfText);
 			return 8 + bytesOfText.LongLength;
@@ -41,8 +41,8 @@ namespace Launcher
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public static long ReadLongString(this BinaryReader reader, out string s, Encoding encoding)
 		{
-			long numberOfBytes = reader.ReadInt64();
-			var  bytesOfText   = new byte[numberOfBytes];
+			long   numberOfBytes = reader.ReadInt64();
+			byte[] bytesOfText   = new byte[numberOfBytes];
 			for (long i = 0; i < numberOfBytes; i++)
 			{
 				bytesOfText[i] = reader.ReadByte();
@@ -62,8 +62,8 @@ namespace Launcher
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		public static string ReadLongString(this BinaryReader reader, Encoding encoding)
 		{
-			long numberOfBytes = reader.ReadInt64();
-			var  bytesOfText   = new byte[numberOfBytes];
+			long   numberOfBytes = reader.ReadInt64();
+			byte[] bytesOfText   = new byte[numberOfBytes];
 			for (long i = 0; i < numberOfBytes; i++)
 			{
 				bytesOfText[i] = reader.ReadByte();

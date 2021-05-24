@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Launcher.Configs;
 using Launcher.Utilities;
 using ModernWpf.Controls;
 using Ookii.Dialogs.Wpf;
@@ -137,7 +138,7 @@ namespace Launcher
 			}
 			else
 			{
-				var       bytes  = new byte[2048];
+				byte[]    bytes  = new byte[2048];
 				using var stream = new MemoryStream(bytes, true);
 
 				icon.Save(stream);
@@ -159,7 +160,7 @@ namespace Launcher
 
 		private void LaunchGameButtonClick(object sender, RoutedEventArgs e)
 		{
-			this.Launch(AppSettings.CurrentExeFile);
+			Launch(AppSettings.CurrentExeFile);
 		}
 
 		private void SelectSaveGameFile(object sender, RoutedEventArgs e)
@@ -226,15 +227,15 @@ namespace Launcher
 
 		private async void CreateNewConfigurationClick(object sender, RoutedEventArgs e)
 		{
-			var choice = await new ContentDialog
-							   {
-								   Title = "How to Create a New Configuration",
-								   Content = "New configuration can be created by clearing the " +
-											 "current one or by making a copy.",
-								   PrimaryButtonText   = "Clear",
-								   SecondaryButtonText = "Copy",
-								   CloseButtonText     = "Cancel"
-							   }.ShowAsync();
+			ContentDialogResult choice = await new ContentDialog
+											   {
+												   Title = "How to Create a New Configuration",
+												   Content = "New configuration can be created by clearing the " +
+															 "current one or by making a copy.",
+												   PrimaryButtonText   = "Clear",
+												   SecondaryButtonText = "Copy",
+												   CloseButtonText     = "Cancel"
+											   }.ShowAsync();
 
 			if (choice != ContentDialogResult.None)
 			{
@@ -244,7 +245,7 @@ namespace Launcher
 
 					if (this.saveConfigurationDialog.ShowDialog() == true)
 					{
-						var config = App.Current.Config;
+						LaunchConfiguration config = App.Current.Config;
 
 						string extraOptions = config.ExtraOptions;
 						int    width        = config.Width;
@@ -305,7 +306,7 @@ namespace Launcher
 			}
 		}
 
-		private void Launch(string appFileName)
+		private static void Launch(string appFileName)
 		{
 			(string path, string args) = CommandLine;
 

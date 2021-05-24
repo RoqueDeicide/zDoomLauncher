@@ -234,7 +234,7 @@ namespace Launcher.Configs
 		{
 			if (!database.Contains(entryName, false)) return default;
 
-			var value = database[entryName].GetContent<IntegerContent>()?.Value;
+			long? value = database[entryName].GetContent<IntegerContent>()?.Value;
 
 			if (value == null) return default;
 

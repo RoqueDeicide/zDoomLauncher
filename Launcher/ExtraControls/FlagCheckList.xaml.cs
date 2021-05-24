@@ -205,7 +205,7 @@ namespace Launcher
 
 		private void ToggleFlag(object sender, RoutedEventArgs e)
 		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is EnumFlagDescriptor descriptor)
+			if (sender is CheckBox {DataContext: EnumFlagDescriptor descriptor})
 			{
 				ulong flagsUlong = (ulong)Convert.ChangeType(this.Flags,       typeof(ulong));
 				ulong valueUlong = (ulong)Convert.ChangeType(descriptor.Value, typeof(ulong));

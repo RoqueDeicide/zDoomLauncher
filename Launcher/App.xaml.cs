@@ -39,7 +39,7 @@ namespace Launcher
 			{
 				Log.Message("Getting command line arguments.");
 
-				var args = Environment.GetCommandLineArgs();
+				string[] args = Environment.GetCommandLineArgs();
 
 				Log.Message("Checking arguments.");
 
