@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -32,13 +31,14 @@ namespace Launcher
 			}
 
 			// Initiate the drag'n'drop.
-			var listBox = sender as ListBox;
-			Debug.Assert(listBox != null);
-
-			var item = (e.OriginalSource as DependencyObject).FindVisualParent<ListBoxItem>();
-			Debug.Assert(item != null, "item != null");
-
-			DragDrop.DoDragDrop(listBox, item.DataContext, DragDropEffects.Move);
+			if(sender is ListBox listBox && e.OriginalSource is DependencyObject dependencyObject)
+			{
+				var item = dependencyObject.FindVisualParent<ListBoxItem>();
+				if (item != null)
+				{
+					DragDrop.DoDragDrop(listBox, item.DataContext, DragDropEffects.Move);
+				}
+			}
 		}
 
 		private void MoveDraggedItem(object sender, DragEventArgs e)
@@ -101,22 +101,23 @@ namespace Launcher
 				return;
 			}
 
-			var cp = item.FindVisualChild<ContentPresenter>();
-			Debug.Assert(cp != null, "cp != null");
-
 			// Check the coordinates of the mouse relative to the ContentPresenter of the list box item.
-			Point position   = e.GetPosition(cp);
-			int   halfHeight = (int)item.ActualHeight / 2; // 0-9: upper half, 10-19: lower half.
+			var cp = item.FindVisualChild<ContentPresenter>();
+			if (cp != null)
+			{
+				Point position   = e.GetPosition(cp);
+				int   halfHeight = (int)item.ActualHeight / 2; // 0-9: upper half, 10-19: lower half.
 
-			if (position.Y < halfHeight)
-			{
-				file.DragOverTop    = Visibility.Visible;
-				file.DragOverBottom = Visibility.Hidden;
-			}
-			else
-			{
-				file.DragOverBottom = Visibility.Visible;
-				file.DragOverTop    = Visibility.Hidden;
+				if (position.Y < halfHeight)
+				{
+					file.DragOverTop    = Visibility.Visible;
+					file.DragOverBottom = Visibility.Hidden;
+				}
+				else
+				{
+					file.DragOverBottom = Visibility.Visible;
+					file.DragOverTop    = Visibility.Hidden;
+				}
 			}
 		}
 
