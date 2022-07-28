@@ -14,19 +14,14 @@ namespace Launcher
 		/// </summary>
 		public static readonly DependencyProperty IsUpProperty =
 			DependencyProperty.Register("IsUp", typeof(bool), typeof(SpinnerButton),
-										new FrameworkPropertyMetadata
-											(default(bool),
-											 FrameworkPropertyMetadataOptions.AffectsRender));
+										new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.AffectsRender));
 
 		/// <summary>
-		/// A dependency property that represents the collection of points that form a polygon that is displayed by the
-		/// button.
+		/// A dependency property that represents the collection of points that form a polygon that is displayed by the button.
 		/// </summary>
 		public static readonly DependencyProperty GeometryProperty =
 			DependencyProperty.Register("Geometry", typeof(PointCollection), typeof(SpinnerButton),
-										new FrameworkPropertyMetadata
-											(default(PointCollection),
-											 FrameworkPropertyMetadataOptions.AffectsRender));
+										new FrameworkPropertyMetadata(default(PointCollection), FrameworkPropertyMetadataOptions.AffectsRender));
 
 		/// <summary>
 		/// Gets or sets the value that indicates whether this button is pointing upwards.
@@ -48,8 +43,7 @@ namespace Launcher
 
 		static SpinnerButton()
 		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(SpinnerButton),
-													 new FrameworkPropertyMetadata(typeof(SpinnerButton)));
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(SpinnerButton), new FrameworkPropertyMetadata(typeof(SpinnerButton)));
 		}
 	}
 }

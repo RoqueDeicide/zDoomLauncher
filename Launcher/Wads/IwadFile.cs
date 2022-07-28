@@ -55,9 +55,8 @@ namespace Launcher
 		/// </summary>
 		/// <returns>
 		/// A value that indicates the relative order of the objects being compared. The return value has the following
-		/// meanings: Value Meaning Less than zero means this object is less than the <paramref name="other"/>
-		/// parameter. Zero means this object is equal to <paramref name="other"/>. Greater than zero means this object
-		/// is greater than <paramref name="other"/>.
+		/// meanings: Value Meaning Less than zero means this object is less than the <paramref name="other"/> parameter. Zero means this object is equal to
+		/// <paramref name="other"/>. Greater than zero means this object is greater than <paramref name="other"/>.
 		/// </returns>
 		/// <param name="other">An object to compare with this object.</param>
 		public int CompareTo(IwadFile other)
@@ -69,9 +68,7 @@ namespace Launcher
 		/// Determines whether this is the same IWAD file as another one.
 		/// </summary>
 		/// <param name="other">An object that represents another IWAD file.</param>
-		/// <returns>
-		/// <c>true</c>, this is the same IWAD file as an <paramref name="other"/> one, otherwise <c>false</c>.
-		/// </returns>
+		/// <returns><c>true</c>, this is the same IWAD file as an <paramref name="other"/> one, otherwise <c>false</c>.</returns>
 		public bool Equals(IwadFile other)
 		{
 			if (other is null) return false;
@@ -80,13 +77,12 @@ namespace Launcher
 		}
 
 		/// <summary>
-		/// Determines whether the other object is an instance of type <see cref="IwadFile"/> and if it represents the
-		/// same IWAD file as this one.
+		/// Determines whether the other object is an instance of type <see cref="IwadFile"/> and if it represents the same IWAD file as this one.
 		/// </summary>
 		/// <param name="obj">Another object.</param>
 		/// <returns>
-		/// <c>true</c>, this is the same IWAD file as one represented by <paramref name="obj"/>, if the latter is of
-		/// type <see cref="IwadFile"/>, otherwise <c>false</c>.
+		/// <c>true</c>, this is the same IWAD file as one represented by <paramref name="obj"/>, if the latter is of type <see cref="IwadFile"/>, otherwise
+		/// <c>false</c>.
 		/// </returns>
 		public override bool Equals(object obj)
 		{

@@ -15,8 +15,7 @@ namespace Launcher
 		/// <param name="min">  Left border of the range.</param>
 		/// <param name="max">  Right border of the range.</param>
 		/// <returns>Clamped value.</returns>
-		public static ComparableType Clamp<ComparableType>(this ComparableType value, ComparableType min,
-														   ComparableType      max)
+		public static ComparableType Clamp<ComparableType>(this ComparableType value, ComparableType min, ComparableType max)
 			where ComparableType : IComparable<ComparableType>
 		{
 			return value.CompareTo(min) < 0

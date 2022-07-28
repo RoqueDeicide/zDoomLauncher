@@ -13,8 +13,8 @@ namespace Launcher
 		/// Writes a text to binary stream.
 		/// </summary>
 		/// <remarks>
-		/// This method writes 64-bit signed integer that represents a number of bytes that represent the text. Text
-		/// encoded in given encoding is written write after the number.
+		/// This method writes 64-bit signed integer that represents a number of bytes that represent the text. Text encoded in given encoding is written write
+		/// after the number.
 		/// </remarks>
 		/// <param name="writer">  <see cref="BinaryWriter"/> object from which name this method is called.</param>
 		/// <param name="s">       Text to write.</param>

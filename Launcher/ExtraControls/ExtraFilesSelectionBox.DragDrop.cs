@@ -7,8 +7,8 @@ namespace Launcher
 {
 	public partial class ExtraFilesSelectionBox
 	{
-		// A point at which the mouse left button is clicked. Used to prevent the drag'n'drop operation from happening
-		// when the user simply clicks on the list box for selected files.
+		// A point at which the mouse left button is clicked. Used to prevent the drag'n'drop operation from happening when the user simply clicks on the list
+		// box for selected files.
 		private Point dragStartPoint;
 
 		private void SaveCurrentMousePosition(object sender, MouseButtonEventArgs e)
@@ -31,7 +31,7 @@ namespace Launcher
 			}
 
 			// Initiate the drag'n'drop.
-			if(sender is ListBox listBox && e.OriginalSource is DependencyObject dependencyObject)
+			if (sender is ListBox listBox && e.OriginalSource is DependencyObject dependencyObject)
 			{
 				var item = dependencyObject.FindVisualParent<ListBoxItem>();
 				if (item != null)
@@ -78,8 +78,7 @@ namespace Launcher
 
 			if (sourceIndex < destinationIndex)
 			{
-				// Removal of the item from the list causes the destination index to point at the item 1 further away
-				// from the start.
+				// Removal of the item from the list causes the destination index to point at the item 1 further away from the start.
 				this.FileSelection.RemoveAt(sourceIndex);
 				this.FileSelection.Insert(destinationIndex - 1, source);
 			}

@@ -20,8 +20,7 @@ namespace Launcher
 
 		static IwadComboBox()
 		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(IwadComboBox),
-													 new FrameworkPropertyMetadata(typeof(IwadComboBox)));
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(IwadComboBox), new FrameworkPropertyMetadata(typeof(IwadComboBox)));
 		}
 
 		/// <summary>

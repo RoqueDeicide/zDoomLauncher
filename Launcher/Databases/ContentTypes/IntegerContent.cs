@@ -8,8 +8,7 @@ namespace Launcher.Databases
 	/// Represents an object that provides access to integer content of database entry.
 	/// </summary>
 	[EntryContent("Integer", typeof(IntegerContent))]
-	public class IntegerContent : DatabaseEntryContent, IEquatableToNumberContent, IEquatableToNumber,
-								  IComparableToNumberContent, IComparableToNumber
+	public class IntegerContent : DatabaseEntryContent, IEquatableToNumberContent, IEquatableToNumber, IComparableToNumberContent, IComparableToNumber
 	{
 		#region Properties
 
@@ -84,8 +83,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="element"><see cref="XmlElement"/> that contains data.</param>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Int64.MinValue"/> or greater than <see
-		/// cref="F:System.Int64.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.
 		/// </exception>
 		public override void FromXml(XmlElement element)
 		{

@@ -124,7 +124,7 @@ namespace Launcher
 		{
 			if (sender is AppBarButton abb && abb.Template.FindName("Content", abb) is ContentPresenter cp)
 			{
-				var binding = new Binding("Content") {Source = abb};
+				var binding = new Binding("Content") { Source = abb };
 				cp.SetBinding(ContentPresenter.ContentProperty, binding);
 			}
 		}

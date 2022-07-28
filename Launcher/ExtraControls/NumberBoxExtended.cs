@@ -9,18 +9,16 @@ namespace Launcher
 	/// A UI Element that represents a text field for input of numbers.
 	/// </summary>
 	/// <remarks>
-	/// This type of number box allows a default value to be used whenever the box is cleared. That means <see
-	/// cref="NumberBox.ValueChanged"/> event will be fired twice if <see cref="DefaultValue"/> is set to an actual
-	/// number and the first event is raised with an <see cref="double.NaN"/> value.
+	/// This type of number box allows a default value to be used whenever the box is cleared. That means <see cref="NumberBox.ValueChanged"/> event will be
+	/// fired twice if <see cref="DefaultValue"/> is set to an actual number and the first event is raised with an <see cref="double.NaN"/> value.
 	/// </remarks>
 	public class NumberBoxExtended : NumberBox
 	{
 		/// <summary>
 		/// A <see cref="DependencyProperty"/> that defines a default value for the number box.
 		/// </summary>
-		public static readonly DependencyProperty DefaultValueProperty =
-			DependencyProperty.Register("DefaultValue", typeof(double), typeof(NumberBoxExtended),
-										new PropertyMetadata(default(double)));
+		public static readonly DependencyProperty DefaultValueProperty = DependencyProperty.Register("DefaultValue", typeof(double), typeof(NumberBoxExtended),
+																									 new PropertyMetadata(default(double)));
 
 		/// <summary>
 		/// Gets or sets a default value of this number box.
@@ -33,8 +31,7 @@ namespace Launcher
 
 		static NumberBoxExtended()
 		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(NumberBoxExtended),
-													 new FrameworkPropertyMetadata(typeof(NumberBoxExtended)));
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(NumberBoxExtended), new FrameworkPropertyMetadata(typeof(NumberBoxExtended)));
 		}
 
 		/// <summary>

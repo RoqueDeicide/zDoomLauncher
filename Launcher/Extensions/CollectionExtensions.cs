@@ -16,9 +16,8 @@ namespace Launcher
 		/// <param name="list">List to perform the binary search on.</param>
 		/// <param name="item">Item to look for.</param>
 		/// <returns>
-		/// If <paramref name="item"/> has been found, a zero-based index of the occurrence is returned, otherwise, a
-		/// bitwise complement of the zero-based index where the item should be inserted to maintain the sorted
-		/// sequence.
+		/// If <paramref name="item"/> has been found, a zero-based index of the occurrence is returned, otherwise, a bitwise complement of the zero-based index
+		/// where the item should be inserted to maintain the sorted sequence.
 		/// </returns>
 		public static int BinarySearch<ItemType>(this IList<ItemType> list, ItemType item)
 			where ItemType : IComparable<ItemType>
@@ -59,9 +58,8 @@ namespace Launcher
 		/// <param name="item">              Item to look for.</param>
 		/// <param name="comparisonFunction">A function to use for comparison of items.</param>
 		/// <returns>
-		/// If <paramref name="item"/> has been found, a zero-based index of the occurrence is returned, otherwise, a
-		/// bitwise complement of the zero-based index where the item should be inserted to maintain the sorted
-		/// sequence.
+		/// If <paramref name="item"/> has been found, a zero-based index of the occurrence is returned, otherwise, a bitwise complement of the zero-based index
+		/// where the item should be inserted to maintain the sorted sequence.
 		/// </returns>
 		public static int BinarySearch<ItemType>(this IList<ItemType>          list, ItemType item,
 												 Func<ItemType, ItemType, int> comparisonFunction)
@@ -95,8 +93,7 @@ namespace Launcher
 		}
 
 		/// <summary>
-		/// Adds an <paramref name="item"/> to the <paramref name="sortedList"/> in a way that maintains a sorted
-		/// sequence.
+		/// Adds an <paramref name="item"/> to the <paramref name="sortedList"/> in a way that maintains a sorted sequence.
 		/// </summary>
 		/// <typeparam name="T">Type of items in the list.</typeparam>
 		/// <param name="sortedList">A sorted list.</param>
@@ -112,8 +109,7 @@ namespace Launcher
 		}
 
 		/// <summary>
-		/// Adds an <paramref name="item"/> to the <paramref name="sortedList"/> in a way that maintains a sorted
-		/// sequence.
+		/// Adds an <paramref name="item"/> to the <paramref name="sortedList"/> in a way that maintains a sorted sequence.
 		/// </summary>
 		/// <typeparam name="T">Type of items in the list.</typeparam>
 		/// <param name="sortedList">        A sorted list.</param>
@@ -129,8 +125,7 @@ namespace Launcher
 		}
 
 		/// <summary>
-		/// Removes an <paramref name="item"/> from the <paramref name="sortedList"/> by employing binary search
-		/// algorithm.
+		/// Removes an <paramref name="item"/> from the <paramref name="sortedList"/> by employing binary search algorithm.
 		/// </summary>
 		/// <typeparam name="T">Type of items in the list.</typeparam>
 		/// <param name="sortedList">A sorted list.</param>
@@ -149,8 +144,7 @@ namespace Launcher
 		}
 
 		/// <summary>
-		/// Removes an <paramref name="item"/> from the <paramref name="sortedList"/> by employing binary search
-		/// algorithm.
+		/// Removes an <paramref name="item"/> from the <paramref name="sortedList"/> by employing binary search algorithm.
 		/// </summary>
 		/// <typeparam name="T">Type of items in the list.</typeparam>
 		/// <param name="sortedList">        A sorted list.</param>

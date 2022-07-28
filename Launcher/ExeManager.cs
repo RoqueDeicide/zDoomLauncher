@@ -16,7 +16,7 @@ namespace Launcher
 		static ExeManager()
 		{
 			AvailableExeFiles = new ObservableCollection<string>();
-			
+
 			if (AppSettings.DirectoryIsValid)
 			{
 				RefreshExeFiles();
@@ -24,8 +24,7 @@ namespace Launcher
 
 			AppSettings.StaticPropertyChanged += (sender, args) =>
 												 {
-													 if (args.PropertyName == nameof(AppSettings.ZDoomDirectory) &&
-														 AppSettings.DirectoryIsValid)
+													 if (args.PropertyName == nameof(AppSettings.ZDoomDirectory) && AppSettings.DirectoryIsValid)
 													 {
 														 RefreshExeFiles();
 													 }
@@ -42,8 +41,7 @@ namespace Launcher
 				}
 			}
 
-			foreach (string file in Directory.EnumerateFiles(AppSettings.ZDoomDirectory, "*.exe",
-															 SearchOption.TopDirectoryOnly))
+			foreach (string file in Directory.EnumerateFiles(AppSettings.ZDoomDirectory, "*.exe", SearchOption.TopDirectoryOnly))
 			{
 				string fileName = Path.GetFileName(file);
 

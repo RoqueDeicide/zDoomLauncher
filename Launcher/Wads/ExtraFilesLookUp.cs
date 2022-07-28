@@ -32,8 +32,7 @@ namespace Launcher
 		public static readonly ObservableCollection<string> Directories = new ObservableCollection<string>();
 
 		/// <summary>
-		/// An observable collection of absolute paths to all loadable files that were found in <see
-		/// cref="Directories"/>.
+		/// An observable collection of absolute paths to all loadable files that were found in <see cref="Directories"/>.
 		/// </summary>
 		public static readonly ObservableCollection<FileDesc> LoadableFiles =
 			new ObservableCollection<FileDesc>();
@@ -86,9 +85,7 @@ namespace Launcher
 		/// <summary>
 		/// Adds a directory to <see cref="Directories"/> collection.
 		/// </summary>
-		/// <remarks>
-		/// Insertion is done in manner that forms a sorted sequence.
-		/// </remarks>
+		/// <remarks>Insertion is done in manner that forms a sorted sequence.</remarks>
 		/// <param name="directory">Full path to the directory.</param>
 		public static void AddDirectory(string directory)
 		{
@@ -181,7 +178,7 @@ namespace Launcher
 			return !isIwad && isLoadable && !isBlacklisted;
 #else
 			return (extension == ".wad" || extension == ".pk3") &&
-				   !WadBlacklist.Contains(fileName) &&
+				   !WadBlacklist.Contains(fileName)             &&
 				   !Iwads.SupportedIwads.Any(Predicate);
 #endif
 		}
@@ -237,8 +234,8 @@ namespace Launcher
 
 		private static void DirectoriesCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
 		{
-			var newItems = (args.NewItems ?? new string[0]).OfType<string>();
-			var oldItems = (args.OldItems ?? new string[0]).OfType<string>();
+			var newItems = (args.NewItems ?? Array.Empty<string>()).OfType<string>();
+			var oldItems = (args.OldItems ?? Array.Empty<string>()).OfType<string>();
 
 			switch (args.Action)
 			{

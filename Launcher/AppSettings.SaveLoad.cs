@@ -21,12 +21,10 @@ namespace Launcher
 		// Extension to use for application configuration file that contains the data in binary format.
 		private const string AppConfigurationBinaryExtension = "binaryConfig";
 
-		// Name of the application configuration entry that contains the path to the folder were Doom source port files
-		// are located.
+		// Name of the application configuration entry that contains the path to the folder were Doom source port files are located.
 		private const string GameFolderEntryName = "zDoomInstallationFolder";
 
-		// Name of the application configuration entry that contains the full name of the file that contains last used
-		// launch configuration.
+		// Name of the application configuration entry that contains the full name of the file that contains last used launch configuration.
 		private const string LastConfigurationFileEntryName = "LastLaunchConfigurationFile";
 
 		// Name of the application configuration entry that contains the name of the last used executable file.
@@ -134,8 +132,7 @@ namespace Launcher
 				content = new TextContent(dir);
 				entry   = new DatabaseEntry(LoadableFilesDirectoryEntryName, content);
 
-				loadableFilesDirectoriesEntry.SubEntries.Add($"{LoadableFilesDirectoryEntryName}{counter++}",
-															 entry);
+				loadableFilesDirectoriesEntry.SubEntries.Add($"{LoadableFilesDirectoryEntryName}{counter++}", entry);
 			}
 
 			appConfigurationDatabase.AddEntry(loadableFilesDirectoriesEntry);
@@ -164,19 +161,17 @@ namespace Launcher
 
 				Log.Message("Loading configuration file.");
 
-				var appConfigurationDatabase = new Database(AppConfigurationXmlExtension,
-															AppConfigurationBinaryExtension);
-				appConfigurationDatabase.Load(AppConfigurationFileName);
+				var configurationDatabase = new Database(AppConfigurationXmlExtension, AppConfigurationBinaryExtension);
+				configurationDatabase.Load(AppConfigurationFileName);
 
-				CurrentConfigFile = TryGetEntryText(appConfigurationDatabase, LastConfigurationFileEntryName);
-				ZDoomDirectory    = TryGetEntryText(appConfigurationDatabase, GameFolderEntryName);
-				CurrentExeFile    = TryGetEntryText(appConfigurationDatabase, LastExeFileEntryName);
+				CurrentConfigFile = TryGetEntryText(configurationDatabase, LastConfigurationFileEntryName);
+				ZDoomDirectory    = TryGetEntryText(configurationDatabase, GameFolderEntryName);
+				CurrentExeFile    = TryGetEntryText(configurationDatabase, LastExeFileEntryName);
 
 				// Load custom size and position of the main window, if available.
-				if (appConfigurationDatabase.Contains(MainWindowPositionEntryName))
+				if (configurationDatabase.Contains(MainWindowPositionEntryName))
 				{
-					var doubles = appConfigurationDatabase[MainWindowPositionEntryName]
-					   .GetContent<VectorContent<double>>();
+					var doubles = configurationDatabase[MainWindowPositionEntryName].GetContent<VectorContent<double>>();
 
 					if (doubles.Count > 2)
 					{
@@ -187,10 +182,9 @@ namespace Launcher
 					StartingY = Convert.ToInt32(doubles.Y);
 				}
 
-				if (appConfigurationDatabase.Contains(MainWindowSizeEntryName))
+				if (configurationDatabase.Contains(MainWindowSizeEntryName))
 				{
-					var doubles = appConfigurationDatabase[MainWindowSizeEntryName]
-					   .GetContent<VectorContent<double>>();
+					var doubles = configurationDatabase[MainWindowSizeEntryName].GetContent<VectorContent<double>>();
 
 					if (doubles.Count > 2)
 					{
@@ -201,30 +195,25 @@ namespace Launcher
 					StartingHeight = Convert.ToInt32(doubles.Y);
 				}
 
-				StartMaximized = appConfigurationDatabase.Contains(MainWindowMaximizedEntryName);
+				StartMaximized = configurationDatabase.Contains(MainWindowMaximizedEntryName);
 
 				// Try getting information about the theme and accent colors.
-				if (appConfigurationDatabase.Contains(PreferredThemeEntryName))
+				if (configurationDatabase.Contains(PreferredThemeEntryName))
 				{
-					ThemeManager.Current.ApplicationTheme =
-						(ApplicationTheme)appConfigurationDatabase[PreferredThemeEntryName]
-										 .GetContent<IntegerContent>()
-										 .Value;
+					ThemeManager.Current.ApplicationTheme = (ApplicationTheme)configurationDatabase[PreferredThemeEntryName].GetContent<IntegerContent>().Value;
 				}
 
-				if (appConfigurationDatabase.Contains(PreferredAccentColorEntryName))
+				if (configurationDatabase.Contains(PreferredAccentColorEntryName))
 				{
-					var bytes = appConfigurationDatabase[PreferredAccentColorEntryName]
-					   .GetContent<VectorContent<byte>>();
+					var bytes = configurationDatabase[PreferredAccentColorEntryName].GetContent<VectorContent<byte>>();
 
-					ThemeManager.Current.AccentColor = new Color {R = bytes.R, G = bytes.G, B = bytes.B, A = bytes.A};
+					ThemeManager.Current.AccentColor = new Color { R = bytes.R, G = bytes.G, B = bytes.B, A = bytes.A };
 				}
 
-				if (appConfigurationDatabase.Contains(LoadableFilesDirectoriesEntryName, false))
+				if (configurationDatabase.Contains(LoadableFilesDirectoriesEntryName, false))
 				{
-					DatabaseEntry loadableFilesDirectoriesEntry =
-						appConfigurationDatabase[LoadableFilesDirectoriesEntryName];
-					string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+					DatabaseEntry loadableFilesDirectoriesEntry = configurationDatabase[LoadableFilesDirectoriesEntryName];
+					string        baseDir                       = AppDomain.CurrentDomain.BaseDirectory;
 
 					foreach (string dir in from subEntry in loadableFilesDirectoriesEntry.SubEntries
 										   let content = subEntry.Value.GetContent<TextContent>()

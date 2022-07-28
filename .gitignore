@@ -29,3 +29,9 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 *.tmp_proj
 *_wpftmp.csproj
+[Bb]in
+[Dd]ebug*/
+obj/
+.vs/
+#Nuget packages folder
+packages/

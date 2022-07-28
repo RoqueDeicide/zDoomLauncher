@@ -44,8 +44,8 @@ namespace Launcher
 	public static class WpfExtensions
 	{
 		/// <summary>
-		/// Looks through the sequence of parents of given dependency object in search for a first occurrence of a
-		/// parent of type <typeparamref name="ParentType"/>.
+		/// Looks through the sequence of parents of given dependency object in search for a first occurrence of a parent of type <typeparamref
+		/// name="ParentType"/>.
 		/// </summary>
 		/// <typeparam name="ParentType">Type of parent to look for.</typeparam>
 		/// <param name="child">A dependency which parents need to be looked through.</param>
@@ -74,8 +74,7 @@ namespace Launcher
 		}
 
 		/// <summary>
-		/// Looks through the visual tree of the given dependency object in search for a child element of specified
-		/// type.
+		/// Looks through the visual tree of the given dependency object in search for a child element of specified type.
 		/// </summary>
 		/// <typeparam name="ChildType">Type of a child element to look for.</typeparam>
 		/// <param name="depObject">Dependency object which visual tree needs to be searched.</param>
@@ -135,7 +134,7 @@ namespace Launcher
 
 			var helper = new WindowInteropHelper(window);
 
-			var accent = new AccentPolicy {AccentState = AccentState.AccentEnableBlurBehind};
+			var accent = new AccentPolicy { AccentState = AccentState.AccentEnableBlurBehind };
 
 			int accentSize = Marshal.SizeOf(accent);
 

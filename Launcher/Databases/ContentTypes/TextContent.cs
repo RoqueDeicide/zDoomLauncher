@@ -13,10 +13,8 @@ namespace Launcher.Databases
 	/// Represents an object that provides access to text content of database entry.
 	/// </summary>
 	[EntryContent("Text", typeof(TextContent))]
-	public class TextContent : DatabaseEntryContent, IEquatableToText,
-							   IEquatableToNumberContent, IEquatableToNumber, IComparableToText,
-							   IComparableToNumberContent, IComparableToNumber, IConvertible,
-							   IEnumerable<char>
+	public class TextContent : DatabaseEntryContent, IEquatableToText, IEquatableToNumberContent, IEquatableToNumber, IComparableToText,
+							   IComparableToNumberContent, IComparableToNumber, IConvertible, IEnumerable<char>
 	{
 		/// <summary>
 		/// Gets or sets text content.
@@ -130,8 +128,7 @@ namespace Launcher.Databases
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Int64.MinValue"/> or greater than <see
-		/// cref="F:System.Int64.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Int64.MinValue"/> or greater than <see cref="F:System.Int64.MaxValue"/>.
 		/// </exception>
 		public bool Equals(IntegerContent other)
 		{
@@ -151,8 +148,7 @@ namespace Launcher.Databases
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Decimal.MinValue"/> or greater than <see
-		/// cref="F:System.Decimal.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Decimal.MinValue"/> or greater than <see cref="F:System.Decimal.MaxValue"/>.
 		/// </exception>
 		public bool Equals(DecimalContent other)
 		{
@@ -172,8 +168,7 @@ namespace Launcher.Databases
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Double.MinValue"/> or greater than <see
-		/// cref="F:System.Double.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Double.MinValue"/> or greater than <see cref="F:System.Double.MaxValue"/>.
 		/// </exception>
 		public bool Equals(DoubleContent other)
 		{
@@ -193,8 +188,7 @@ namespace Launcher.Databases
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Int64.MinValue"/> or greater than <see
-		/// cref="F:System.Int64.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Int64.MinValue"/> or greater than <see cref="F:System.Int64.MaxValue"/>.
 		/// </exception>
 		public bool Equals(long other)
 		{
@@ -214,8 +208,7 @@ namespace Launcher.Databases
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.UInt64.MinValue"/> or greater than <see
-		/// cref="F:System.UInt64.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.UInt64.MinValue"/> or greater than <see cref="F:System.UInt64.MaxValue"/>.
 		/// </exception>
 		public bool Equals(ulong other)
 		{
@@ -235,8 +228,7 @@ namespace Launcher.Databases
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Int32.MinValue"/> or greater than <see
-		/// cref="F:System.Int32.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Int32.MinValue"/> or greater than <see cref="F:System.Int32.MaxValue"/>.
 		/// </exception>
 		public bool Equals(int other)
 		{
@@ -256,8 +248,7 @@ namespace Launcher.Databases
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.UInt32.MinValue"/> or greater than <see
-		/// cref="F:System.UInt32.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.UInt32.MinValue"/> or greater than <see cref="F:System.UInt32.MaxValue"/>.
 		/// </exception>
 		public bool Equals(uint other)
 		{
@@ -277,8 +268,7 @@ namespace Launcher.Databases
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Decimal.MinValue"/> or greater than <see
-		/// cref="F:System.Decimal.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Decimal.MinValue"/> or greater than <see cref="F:System.Decimal.MaxValue"/>.
 		/// </exception>
 		public bool Equals(decimal other)
 		{
@@ -298,8 +288,7 @@ namespace Launcher.Databases
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Single.MinValue"/> or greater than <see
-		/// cref="F:System.Single.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Single.MinValue"/> or greater than <see cref="F:System.Single.MaxValue"/>.
 		/// </exception>
 		public bool Equals(float other)
 		{
@@ -319,8 +308,7 @@ namespace Launcher.Databases
 		/// <param name="other">Another object.</param>
 		/// <returns>True, if this content object equals to other object, otherwise false.</returns>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Double.MinValue"/> or greater than <see
-		/// cref="F:System.Double.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="F:System.Double.MinValue"/> or greater than <see cref="F:System.Double.MaxValue"/>.
 		/// </exception>
 		public bool Equals(double other)
 		{
@@ -558,9 +546,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public bool ToBoolean(IFormatProvider provider)
 		{
 			try
@@ -580,9 +566,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public byte ToByte(IFormatProvider provider)
 		{
 			try
@@ -602,9 +586,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public char ToChar(IFormatProvider provider)
 		{
 			try
@@ -624,9 +606,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public DateTime ToDateTime(IFormatProvider provider)
 		{
 			try
@@ -646,9 +626,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public decimal ToDecimal(IFormatProvider provider)
 		{
 			try
@@ -668,9 +646,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public double ToDouble(IFormatProvider provider)
 		{
 			try
@@ -690,9 +666,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public short ToInt16(IFormatProvider provider)
 		{
 			try
@@ -712,9 +686,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public int ToInt32(IFormatProvider provider)
 		{
 			try
@@ -734,9 +706,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public long ToInt64(IFormatProvider provider)
 		{
 			try
@@ -756,9 +726,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public sbyte ToSByte(IFormatProvider provider)
 		{
 			try
@@ -778,9 +746,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public float ToSingle(IFormatProvider provider)
 		{
 			try
@@ -822,9 +788,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public ushort ToUInt16(IFormatProvider provider)
 		{
 			try
@@ -844,9 +808,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public uint ToUInt32(IFormatProvider provider)
 		{
 			try
@@ -866,9 +828,7 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <param name="provider">Not used.</param>
 		/// <returns>Value of this content object.</returns>
-		/// <exception cref="InvalidCastException">
-		/// The content of the entry doesn't represent the value of appropriate type.
-		/// </exception>
+		/// <exception cref="InvalidCastException">The content of the entry doesn't represent the value of appropriate type.</exception>
 		public ulong ToUInt64(IFormatProvider provider)
 		{
 			try

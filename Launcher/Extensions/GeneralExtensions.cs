@@ -15,10 +15,7 @@ namespace Launcher
 		/// Determines whether this string is <c>null</c>, or empty, or consists of only the white-space characters.
 		/// </summary>
 		/// <param name="text">This string.</param>
-		/// <returns>
-		/// A boolean value that indicates whether this string is <c>null</c>, or empty, or consists of only the
-		/// white-space characters.
-		/// </returns>
+		/// <returns>A boolean value that indicates whether this string is <c>null</c>, or empty, or consists of only the white-space characters.</returns>
 		public static bool IsNullOrWhiteSpace(this string text)
 		{
 			return string.IsNullOrWhiteSpace(text);
@@ -42,8 +39,7 @@ namespace Launcher
 		/// <param name="collection">  Collection itself.</param>
 		/// <param name="minimalCount">Minimal number of elements that must be inside the collection.</param>
 		/// <returns>
-		/// True, if <paramref name="collection"/> is null, or it contains smaller number elements then one defined by
-		/// <paramref name="minimalCount"/> .
+		/// True, if <paramref name="collection"/> is null, or it contains smaller number elements then one defined by <paramref name="minimalCount"/> .
 		/// </returns>
 		public static bool IsNullOrTooSmall<T>(this ICollection<T> collection, int minimalCount)
 		{
@@ -51,8 +47,7 @@ namespace Launcher
 		}
 
 		/// <summary>
-		/// Creates a string that is a list of text representation of all elements of the collection separated by a
-		/// comma.
+		/// Creates a string that is a list of text representation of all elements of the collection separated by a comma.
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">Collection.</param>
@@ -63,8 +58,7 @@ namespace Launcher
 		}
 
 		/// <summary>
-		/// Creates a string that is a list of text representation of all elements of the collection separated by a
-		/// comma.
+		/// Creates a string that is a list of text representation of all elements of the collection separated by a comma.
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">Collection.</param>
@@ -87,8 +81,7 @@ namespace Launcher
 		}
 
 		/// <summary>
-		/// Creates a string that is a list of text representation of all elements of the collection separated by a
-		/// comma.
+		/// Creates a string that is a list of text representation of all elements of the collection separated by a comma.
 		/// </summary>
 		/// <typeparam name="T">Type of elements in the collection.</typeparam>
 		/// <param name="collection">Collection.</param>
@@ -145,9 +138,7 @@ namespace Launcher
 		/// Changes a number with a specified index in the text.
 		/// </summary>
 		/// <param name="text">  Text.</param>
-		/// <param name="index"> 
-		/// Zero-based index of the number that we need in a sequence of numbers in the text.
-		/// </param>
+		/// <param name="index"> Zero-based index of the number that we need in a sequence of numbers in the text.</param>
 		/// <param name="number">New value to assign.</param>
 		/// <returns>Text with a new number.</returns>
 		/// <exception cref="Exception">Unable to find the number with the specified index.</exception>
@@ -161,8 +152,8 @@ namespace Launcher
 			bool foundOurNumber        = false; // Did we find the number we needed?
 			while (currentCharacterIndex < text.Length)
 			{
-				// Check the current character. If its a digit, then we are going through or into a number, otherwise we
-				// either finished going through the number or we are going through the plain text.
+				// Check the current character. If its a digit, then we are going through or into a number, otherwise we either finished going through the
+				// number or we are going through the plain text.
 				if (char.IsDigit(text[currentCharacterIndex]))
 				{
 					if (!goingThroughTheNumber)
@@ -287,9 +278,7 @@ namespace Launcher
 		/// <typeparam name="ElementType">Type of elements of the collection.</typeparam>
 		/// <param name="collection">Collection to look for the element in.</param>
 		/// <param name="predicate"> An object that represents the condition the element must satisfy.</param>
-		/// <returns>
-		/// Zero-based index of the first element that satisfies a condition, or -1 if no such element was found.
-		/// </returns>
+		/// <returns>Zero-based index of the first element that satisfies a condition, or -1 if no such element was found.</returns>
 		public static int IndexOf<ElementType>(this IEnumerable<ElementType> collection,
 											   Func<ElementType, bool>       predicate)
 		{
@@ -314,8 +303,8 @@ namespace Launcher
 		/// <param name="collection">Collection to look for the element in.</param>
 		/// <param name="predicate"> An object that represents the condition the element must satisfy.</param>
 		/// <returns>
-		/// Zero-based index of the first element that satisfies a condition, or number of elements in the collection
-		/// (that can be used for insertion) if no such element was found.
+		/// Zero-based index of the first element that satisfies a condition, or number of elements in the collection (that can be used for insertion) if no
+		/// such element was found.
 		/// </returns>
 		public static int IndexOfToEnd<ElementType>(this IEnumerable<ElementType> collection,
 													Func<ElementType, bool>       predicate)

@@ -49,16 +49,13 @@ namespace Launcher
 					ApplicationTheme osTheme = color == Colors.Black ? ApplicationTheme.Dark : ApplicationTheme.Light;
 
 					string osThemeName = osTheme.GetName();
-					this.SystemSettingThemeRadio.Content  = $"System Set ({osThemeName} theme)";
+					this.SystemSettingThemeRadio.Content = $"System Set ({osThemeName} theme)";
 				}
 
 				UpdateOSThemeMenuItem();
 
 				UiSettings.Current.ColorValuesChanged +=
-					(sender, args) =>
-					{
-						this.Dispatcher.BeginInvoke((Action)UpdateOSThemeMenuItem);
-					};
+					(sender, args) => { this.Dispatcher.BeginInvoke((Action)UpdateOSThemeMenuItem); };
 
 				ThemeManager.AddActualThemeChangedHandler(this, (sender, args) => UpdateOSThemeMenuItem());
 				this.SystemSettingThemeRadio.Click += (sender, args) => SetTheme(null);

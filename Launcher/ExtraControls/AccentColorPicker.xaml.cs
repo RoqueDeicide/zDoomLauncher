@@ -11,8 +11,8 @@ using ModernWpf;
 namespace Launcher
 {
 	/// <summary>
-	/// Represents an object that creates an appropriate color for the <see cref="Button.Foreground"/> for the "Use
-	/// system setting" button based on its background color.
+	/// Represents an object that creates an appropriate color for the <see cref="Button.Foreground"/> for the "Use system setting" button based on its
+	/// background color.
 	/// </summary>
 	public class AccentButtonForegroundSelector : IValueConverter
 	{
@@ -23,15 +23,13 @@ namespace Launcher
 		/// <param name="targetType">Ignored.</param>
 		/// <param name="parameter"> Ignored.</param>
 		/// <param name="culture">   Ignored.</param>
-		/// <returns>
-		/// <see cref="Brushes.White"/>, if given color is dark, otherwise <see cref="Brushes.Black"/>.
-		/// </returns>
+		/// <returns><see cref="Brushes.White"/>, if given color is dark, otherwise <see cref="Brushes.Black"/>.</returns>
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (value is SolidColorBrush brush)
 			{
 				Color color      = brush.Color;
-				int   colorValue = new[] {color.R, color.G, color.B}.Max(); // Value in HSV color model.
+				int   colorValue = new[] { color.R, color.G, color.B }.Max(); // Value in HSV color model.
 
 				return colorValue > 127 ? Brushes.Black : Brushes.White;
 			}

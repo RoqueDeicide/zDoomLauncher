@@ -70,8 +70,8 @@ namespace Launcher
 		/// </summary>
 		/// <param name="folderPath">Path to the folder.</param>
 		/// <returns>
-		/// If <paramref name="folderPath"/> ends with a backslash, then it gets returned as is, otherwise a new string
-		/// that represents <paramref name="folderPath"/> with an appended backslash is returned.
+		/// If <paramref name="folderPath"/> ends with a backslash, then it gets returned as is, otherwise a new string that represents <paramref
+		/// name="folderPath"/> with an appended backslash is returned.
 		/// </returns>
 		/// <exception cref="ArgumentException">Cannot make a path to the file end with a backslash.</exception>
 		public static string EndWithBackSlash(string folderPath)
@@ -86,9 +86,7 @@ namespace Launcher
 
 		private static string EndWithBackSlashInternal(string folderPath)
 		{
-			return folderPath.EndsWith("\\")
-					   ? folderPath
-					   : $"{folderPath}\\";
+			return folderPath.EndsWith("\\") ? folderPath : $"{folderPath}\\";
 		}
 	}
 }

@@ -9,8 +9,7 @@ namespace Launcher.Databases
 	/// Represents an object that provides access to decimal content of database entry.
 	/// </summary>
 	[EntryContent("Decimal", typeof(DecimalContent))]
-	public class DecimalContent : DatabaseEntryContent, IEquatableToNumberContent, IEquatableToNumber,
-								  IComparableToNumberContent, IComparableToNumber
+	public class DecimalContent : DatabaseEntryContent, IEquatableToNumberContent, IEquatableToNumber, IComparableToNumberContent, IComparableToNumber
 	{
 		#region Properties
 
@@ -87,8 +86,7 @@ namespace Launcher.Databases
 		/// <param name="element"><see cref="XmlElement"/> that contains data.</param>
 		/// <exception cref="FormatException">Value is not a number in a valid format.</exception>
 		/// <exception cref="OverflowException">
-		/// Value represents a number that is less than <see cref="F:System.Decimal.MinValue"/> or greater than <see
-		/// cref="F:System.Decimal.MaxValue"/>.
+		/// Value represents a number that is less than <see cref="decimal.MinValue"/> or greater than <see cref="decimal.MaxValue"/>.
 		/// </exception>
 		public override void FromXml(XmlElement element)
 		{

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
@@ -118,8 +119,8 @@ namespace Launcher.Configs
 		}
 
 		/// <summary>
-		/// Path to the file that contains a saved game that should be loaded if <see cref="StartupAction"/> is equal to
-		/// <see cref="Configs.StartupAction.LoadGame"/>.
+		/// Path to the file that contains a saved game that should be loaded if <see cref="StartupAction"/> is equal to <see
+		/// cref="Configs.StartupAction.LoadGame"/>.
 		/// </summary>
 		public string SaveGamePath
 		{
@@ -133,8 +134,8 @@ namespace Launcher.Configs
 		}
 
 		/// <summary>
-		/// Path to the file that contains a game-play demo recording that should be loaded if <see
-		/// cref="StartupAction"/> is equal to <see cref="Configs.StartupAction.LoadDemo"/>.
+		/// Path to the file that contains a game-play demo recording that should be loaded if <see cref="StartupAction"/> is equal to <see
+		/// cref="Configs.StartupAction.LoadDemo"/>.
 		/// </summary>
 		public string DemoPath
 		{
@@ -148,8 +149,7 @@ namespace Launcher.Configs
 		}
 
 		/// <summary>
-		/// An index of an episode that should be loaded if <see cref="StartupAction"/> is equal to <see
-		/// cref="Configs.StartupAction.LoadMapIndex"/>.
+		/// An index of an episode that should be loaded if <see cref="StartupAction"/> is equal to <see cref="Configs.StartupAction.LoadMapIndex"/>.
 		/// </summary>
 		public int EpisodeIndex
 		{
@@ -163,8 +163,7 @@ namespace Launcher.Configs
 		}
 
 		/// <summary>
-		/// An index of a map that should be loaded if <see cref="StartupAction"/> is equal to <see
-		/// cref="Configs.StartupAction.LoadMapIndex"/>.
+		/// An index of a map that should be loaded if <see cref="StartupAction"/> is equal to <see cref="Configs.StartupAction.LoadMapIndex"/>.
 		/// </summary>
 		public int MapIndex
 		{
@@ -178,8 +177,7 @@ namespace Launcher.Configs
 		}
 
 		/// <summary>
-		/// Name of the map that should be loaded if <see cref="StartupAction"/> is equal to <see
-		/// cref="Configs.StartupAction.LoadMapName"/>.
+		/// Name of the map that should be loaded if <see cref="StartupAction"/> is equal to <see cref="Configs.StartupAction.LoadMapName"/>.
 		/// </summary>
 		public string MapName
 		{
@@ -446,6 +444,29 @@ namespace Launcher.Configs
 
 		#region Command Line
 
+		private static void AppendExtraFileList(StringBuilder commandLine, IEnumerable<string> files, string argument, string exeFolder,
+												string        requiredExtension = null)
+		{
+			var fileListString = new StringBuilder(100);
+
+			var selectedFiles = from extraFile in files
+								let extension = Path.GetExtension(extraFile)
+								where requiredExtension == null ? extension != ".bex" && extension != ".deh" : extension == requiredExtension
+								select extraFile;
+
+			foreach (string selectedFile in selectedFiles)
+			{
+				fileListString.Append(" ");
+				fileListString.Append(GetValidPath(selectedFile, exeFolder));
+			}
+
+			if (fileListString.Length > 0)
+			{
+				commandLine.Append(argument);
+				commandLine.Append(fileListString);
+			}
+		}
+
 		/// <summary>
 		/// Gets command line that can be used to launch zDoom with this configuration.
 		/// </summary>
@@ -472,57 +493,9 @@ namespace Launcher.Configs
 			// Extras.
 			if (this.ExtraFiles.Count > 0)
 			{
-				// Wads.
-				var wads = this.ExtraFiles
-							   .Where(x => Path.GetExtension(x) != ".bex" && Path.GetExtension(x) != ".deh")
-							   .GetEnumerator();
-
-				using (wads)
-				{
-					if (wads.MoveNext())
-					{
-						line.Append(" -file ");
-						line.Append(GetValidPath(wads.Current, exeFolder));
-						while (wads.MoveNext())
-						{
-							line.Append(" ");
-							line.Append(GetValidPath(wads.Current, exeFolder));
-						}
-					}
-				}
-
-				// Patches.
-				var bexPatches = this.ExtraFiles.Where(x => Path.GetExtension(x) == ".bex").GetEnumerator();
-
-				using (bexPatches)
-				{
-					if (bexPatches.MoveNext())
-					{
-						line.Append(" -bex ");
-						line.Append(GetValidPath(bexPatches.Current, exeFolder));
-						while (bexPatches.MoveNext())
-						{
-							line.Append(" ");
-							line.Append(GetValidPath(bexPatches.Current, exeFolder));
-						}
-					}
-				}
-
-				var dehPatches = this.ExtraFiles.Where(x => Path.GetExtension(x) == ".deh").GetEnumerator();
-
-				using (dehPatches)
-				{
-					if (dehPatches.MoveNext())
-					{
-						line.Append(" -deh ");
-						line.Append(GetValidPath(dehPatches.Current, exeFolder));
-						while (dehPatches.MoveNext())
-						{
-							line.Append(" ");
-							line.Append(GetValidPath(dehPatches.Current, exeFolder));
-						}
-					}
-				}
+				AppendExtraFileList(line, this.extraFiles, " -file", exeFolder);
+				AppendExtraFileList(line, this.extraFiles, " -bex",  exeFolder, ".bex");
+				AppendExtraFileList(line, this.extraFiles, " -deh",  exeFolder, ".deh");
 			}
 
 			// Graphics.
@@ -716,8 +689,7 @@ namespace Launcher.Configs
 
 		#region Utilities
 
-		// Creates a string that represents a path to the file that is properly recognized by the command line
-		// interpreter.
+		// Creates a string that represents a path to the file that is properly recognized by the command line interpreter.
 		private static string GetValidPath(string file, string exeFolder, bool toRelative = true)
 		{
 			string path = null;
@@ -807,8 +779,7 @@ namespace Launcher.Configs
 	}
 
 	/// <summary>
-	/// Represents objects that contain extra details to be used by the UI when working with <see cref="PixelMode"/>
-	/// enumeration.
+	/// Represents objects that contain extra details to be used by the UI when working with <see cref="PixelMode"/> enumeration.
 	/// </summary>
 	public class PixelModeUi
 	{
@@ -877,9 +848,8 @@ namespace Launcher.Configs
 		/// <summary>
 		/// When set instructs zDoom to disable joy stick control method.
 		/// </summary>
-		[FlagInfo(nameof(JoyStick),
-				  "Check this box to disable joystick support in case non-USB device is plugged in to " +
-				  "stop the game from slowing down by polling the joystick input.")]
+		[FlagInfo(nameof(JoyStick), "Check this box to disable joystick support in case non-USB device is plugged in to stop the game from slowing down by " +
+									"polling the joystick input.")]
 		JoyStick = 4,
 
 		/// <summary>
@@ -902,30 +872,26 @@ namespace Launcher.Configs
 		/// <summary>
 		/// When set instructs zDoom to disable startup screens for Heretic, Hexen and Strife.
 		/// </summary>
-		[FlagInfo("Startup Screens",
-				  "Check this box to disable start-up screens that are used by Heretic, Hexen and Strife.")]
+		[FlagInfo("Startup Screens", "Check this box to disable start-up screens that are used by Heretic, Hexen and Strife.")]
 		StartupScreens = 32,
 
 		/// <summary>
 		/// When set instructs zDoom to disable sprite renaming used in user-created files for Heretic, Hexen or Strife.
 		/// </summary>
-		[FlagInfo("Sprite Renaming",
-				  "Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife.")]
+		[FlagInfo("Sprite Renaming", "Check this box to disable sprite renaming that's used by mods for Heretic, Hexen or Strife.")]
 		SpriteRenaming = 64,
 
 		/// <summary>
 		/// When set instructs zDoom to disable auto-loading files.
 		/// </summary>
-		[FlagInfo("Auto-Load Files",
-				  "Check this box to prevent automatic load of files specified in \"AutoLoad\" section " +
-				  "of the config file, as well as \"zvox.wad\" and files from \"skins\" directory.")]
+		[FlagInfo("Auto-Load Files", "Check this box to prevent automatic load of files specified in \"AutoLoad\" section of the config file, as well " +
+									 "as \"zvox.wad\" and files from \"skins\" directory.")]
 		AutoLoad = 128,
 
 		/// <summary>
 		/// When set, instructs zDoom to generate the block map instead of loading it.
 		/// </summary>
-		[FlagInfo("Block Map Load",
-				  "Check this box to have the game generate the block map information instead of loading it.")]
+		[FlagInfo("Block Map Load", "Check this box to have the game generate the block map information instead of loading it.")]
 		BlockMapLoad = 256
 	}
 

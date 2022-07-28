@@ -12,21 +12,13 @@ namespace Launcher
 	public class ThemeMenuButtonChecker : IValueConverter
 	{
 		/// <summary>
-		/// Creates a value that indicates whether current app theme matches the one specified by the <paramref
-		/// name="parameter"/>.
+		/// Creates a value that indicates whether current app theme matches the one specified by the <paramref name="parameter"/>.
 		/// </summary>
-		/// <param name="value">     
-		/// An instance of type <see cref="Nullable{ApplicationTheme}"/> that indicates a current application theme.
-		/// </param>
+		/// <param name="value">     An instance of type <see cref="Nullable{ApplicationTheme}"/> that indicates a current application theme.</param>
 		/// <param name="targetType">A type of <see cref="bool"/>.</param>
-		/// <param name="parameter"> 
-		/// A <see cref="string"/> value that indicates what menu button the value is created for.
-		/// </param>
+		/// <param name="parameter"> A <see cref="string"/> value that indicates what menu button the value is created for.</param>
 		/// <param name="culture">   Not used.</param>
-		/// <returns>
-		/// A value that indicates whether current app theme matches the one specified by the <paramref
-		/// name="parameter"/>.
-		/// </returns>
+		/// <returns>A value that indicates whether current app theme matches the one specified by the <paramref name="parameter"/>.</returns>
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			return parameter switch
@@ -84,9 +76,7 @@ namespace Launcher
 		/// <param name="targetType">target type</param>
 		/// <param name="parameter"> enum to return if bool is true</param>
 		/// <param name="culture">   Ignored.</param>
-		/// <returns>
-		/// <see cref="DependencyProperty.UnsetValue"/> or <paramref name="parameter"/> parsed as enum.
-		/// </returns>
+		/// <returns><see cref="DependencyProperty.UnsetValue"/> or <paramref name="parameter"/> parsed as enum.</returns>
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (!(parameter is string parameterString))

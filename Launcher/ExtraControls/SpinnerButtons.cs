@@ -12,48 +12,37 @@ namespace Launcher
 		#region Fields
 
 		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when they are
-		/// moused over.
+		/// A dependency property that represents the brush that is used to render the spinner buttons when they are moused over.
 		/// </summary>
 		public static readonly DependencyProperty HighlightedBrushProperty =
 			DependencyProperty.Register("HighlightedBrush", typeof(Brush), typeof(SpinnerButtons),
-										new FrameworkPropertyMetadata
-											(default(Brush),
-											 FrameworkPropertyMetadataOptions.AffectsRender));
+										new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender));
 
 		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when they are
-		/// pressed.
+		/// A dependency property that represents the brush that is used to render the spinner buttons when they are pressed.
 		/// </summary>
 		public static readonly DependencyProperty PressedBrushProperty =
 			DependencyProperty.Register("PressedBrush", typeof(Brush), typeof(SpinnerButtons),
-										new FrameworkPropertyMetadata
-											(default(Brush),
-											 FrameworkPropertyMetadataOptions.AffectsRender));
+										new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender));
 
 		/// <summary>
-		/// A dependency property that represents the brush that is used to render the spinner buttons when they are
-		/// disabled.
+		/// A dependency property that represents the brush that is used to render the spinner buttons when they are disabled.
 		/// </summary>
 		public static readonly DependencyProperty DisabledBrushProperty =
 			DependencyProperty.Register("DisabledBrush", typeof(Brush), typeof(SpinnerButtons),
-										new FrameworkPropertyMetadata
-											(default(Brush),
-											 FrameworkPropertyMetadataOptions.AffectsRender));
+										new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.AffectsRender));
 
 		/// <summary>
 		/// A dependency property that indicates whether Down button is disabled.
 		/// </summary>
 		public static readonly DependencyProperty AtBottomProperty =
-			DependencyProperty.Register("AtBottom", typeof(bool), typeof(SpinnerButtons),
-										new PropertyMetadata(default(bool)));
+			DependencyProperty.Register("AtBottom", typeof(bool), typeof(SpinnerButtons), new PropertyMetadata(default(bool)));
 
 		/// <summary>
 		/// A dependency property that indicates whether Up button is disabled.
 		/// </summary>
 		public static readonly DependencyProperty AtTopProperty =
-			DependencyProperty.Register("AtTop", typeof(bool), typeof(SpinnerButtons),
-										new PropertyMetadata(default(bool)));
+			DependencyProperty.Register("AtTop", typeof(bool), typeof(SpinnerButtons), new PropertyMetadata(default(bool)));
 
 		private SpinnerButton upButton;
 		private SpinnerButton downButton;
@@ -127,8 +116,7 @@ namespace Launcher
 
 		static SpinnerButtons()
 		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(SpinnerButtons),
-													 new FrameworkPropertyMetadata(typeof(SpinnerButtons)));
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(SpinnerButtons), new FrameworkPropertyMetadata(typeof(SpinnerButtons)));
 		}
 
 		#endregion

@@ -20,23 +20,21 @@ namespace Launcher.Databases
 	[EntryContent("VectorSingle",  typeof(VectorContent<float>))]
 	[EntryContent("VectorDouble",  typeof(VectorContent<double>))]
 	[EntryContent("VectorDecimal", typeof(VectorContent<decimal>))]
-	public class VectorContent<ComponentType> : DatabaseEntryContent,
-												IEnumerable<ComponentType>,
-												IEquatable<VectorContent<ComponentType>>
+	public class VectorContent<ComponentType> : DatabaseEntryContent, IEnumerable<ComponentType>, IEquatable<VectorContent<ComponentType>>
 		where ComponentType : IEquatable<ComponentType>
 	{
 		#region Fields
 
 		private ComponentType[] components;
 
-		private static readonly string[]                            ComponentNames = {"X", "Y", "Z", "W"};
+		private static readonly string[]                            ComponentNames = { "X", "Y", "Z", "W" };
 		private static readonly MethodInfo                          ParseMethod;
 		private static readonly Action<BinaryWriter, ComponentType> Write;
 		private static readonly Func<BinaryReader, ComponentType>   Read;
 
 		static VectorContent()
 		{
-			ParseMethod = typeof(ComponentType).GetMethod("Parse", new[] {typeof(string)});
+			ParseMethod = typeof(ComponentType).GetMethod("Parse", new[] { typeof(string) });
 			if (ParseMethod == null)
 			{
 				throw new Exception($"{typeof(ComponentType).FullName} type doesn't have static Parse method.");
@@ -193,7 +191,7 @@ namespace Launcher.Databases
 		/// <param name="count">Number of components in the vector.</param>
 		public VectorContent(int count)
 		{
-			this.components = new ComponentType [count];
+			this.components = new ComponentType[count];
 		}
 
 		/// <summary>
@@ -240,15 +238,13 @@ namespace Launcher.Databases
 		/// Reads Xml representation of this content from the <see cref="XmlElement"/>.
 		/// </summary>
 		/// <param name="element"><see cref="XmlElement"/> that will contain data.</param>
-		/// <exception cref="Exception">
-		/// Thrown when <typeparamref name="ComponentType"/> has no static method named Parse.
-		/// </exception>
+		/// <exception cref="Exception">Thrown when <typeparamref name="ComponentType"/> has no static method named Parse.</exception>
 		public override void FromXml(XmlElement element)
 		{
 			var list = new List<ComponentType>(ComponentNames.Length);
 			list.AddRange(from t in ComponentNames
 						  where element.HasAttribute(t)
-						  select (ComponentType)ParseMethod.Invoke(null, new object[] {element.GetAttribute(t)}));
+						  select (ComponentType)ParseMethod.Invoke(null, new object[] { element.GetAttribute(t) }));
 
 			this.components = list.ToArray();
 		}

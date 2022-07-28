@@ -35,6 +35,7 @@ namespace Launcher
 				OnStaticPropertyChanged();
 			}
 		}
+
 		/// <summary>
 		/// Indicates whether <see cref="ZDoomDirectory"/> property returns a path to valid directory.
 		/// </summary>
@@ -125,8 +126,7 @@ namespace Launcher
 		}
 
 		/// <summary>
-		/// Gets or sets the value that indicates whether this application should position its window at specific
-		/// location upon start.
+		/// Gets or sets the value that indicates whether this application should position its window at specific location upon start.
 		/// </summary>
 		public static bool StartAtPosition
 		{
@@ -175,9 +175,7 @@ namespace Launcher
 		/// <summary>
 		/// Raises <see cref="StaticPropertyChanged"/> event.
 		/// </summary>
-		/// <param name="propertyName">
-		/// Name of the property that had been changed. If not provided, the calling property's name is used.
-		/// </param>
+		/// <param name="propertyName">Name of the property that had been changed. If not provided, the calling property's name is used.</param>
 		[NotifyPropertyChangedInvocator]
 		private static void OnStaticPropertyChanged([CallerMemberName] string propertyName = null)
 		{

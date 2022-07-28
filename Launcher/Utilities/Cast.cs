@@ -10,8 +10,7 @@ namespace Launcher.Utilities
 	public static class Cast<ResultType>
 	{
 		/// <summary>
-		/// Converts a value from <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>. This function
-		/// avoids boxing for value types.
+		/// Converts a value from <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>. This function avoids boxing for value types.
 		/// </summary>
 		/// <typeparam name="InitialType">Initial type of the value.</typeparam>
 		/// <param name="value">Value to convert to <typeparamref name="ResultType"/>.</param>
@@ -34,8 +33,8 @@ namespace Launcher.Utilities
 		}
 
 		/// <summary>
-		/// Converts a value from <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/> and checks for
-		/// overflow. This function avoids boxing for value types.
+		/// Converts a value from <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/> and checks for overflow. This function avoids boxing
+		/// for value types.
 		/// </summary>
 		/// <typeparam name="InitialType">Initial type of the value.</typeparam>
 		/// <param name="value">Value to convert to <typeparamref name="ResultType"/>.</param>
@@ -44,8 +43,7 @@ namespace Launcher.Utilities
 		/// Unable to convert object of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>.
 		/// </exception>
 		/// <exception cref="OverflowException">
-		/// An object of type <typeparamref name="InitialType"/> cannot fit into object of type <typeparamref
-		/// name="ResultType"/>.
+		/// An object of type <typeparamref name="InitialType"/> cannot fit into object of type <typeparamref name="ResultType"/>.
 		/// </exception>
 		public static ResultType FromChecked<InitialType>(InitialType value)
 		{
@@ -67,8 +65,8 @@ namespace Launcher.Utilities
 		}
 
 		/// <summary>
-		/// Attempts to convert a value of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>.
-		/// This function avoids boxing for value types.
+		/// Attempts to convert a value of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>. This function avoids boxing for value
+		/// types.
 		/// </summary>
 		/// <typeparam name="InitialType">Initial type of the value.</typeparam>
 		/// <param name="value"> Value to convert to <typeparamref name="ResultType"/>.</param>
@@ -89,8 +87,8 @@ namespace Launcher.Utilities
 		}
 
 		/// <summary>
-		/// Attempts to convert a value of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/>
-		/// and checks for overflow. This function avoids boxing for value types.
+		/// Attempts to convert a value of type <typeparamref name="InitialType"/> to <typeparamref name="ResultType"/> and checks for overflow. This function
+		/// avoids boxing for value types.
 		/// </summary>
 		/// <typeparam name="InitialType">Initial type of the value.</typeparam>
 		/// <param name="value"> Value to convert to <typeparamref name="ResultType"/>.</param>

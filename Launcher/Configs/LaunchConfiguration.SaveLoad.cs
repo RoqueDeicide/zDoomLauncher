@@ -67,8 +67,7 @@ namespace Launcher.Configs
 				var content = new TextContent(Path.GetDirectoryName(filePath) == doomWadDir
 												  ? Path.GetFileName(filePath)
 												  : PathUtils.ToRelativePath(filePath, folderUri));
-				var entry = new DatabaseEntry($"ExtraFile{i.ToString($"D{digitCount}")}",
-											  content);
+				var entry = new DatabaseEntry($"ExtraFile{i.ToString($"D{digitCount}")}", content);
 
 				filesEntry.SubEntries.Add(entry.Name, entry);
 			}

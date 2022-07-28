@@ -17,20 +17,17 @@ namespace Launcher.Databases
 	public static class DatabaseGlobals
 	{
 		/// <summary>
-		/// <see cref="int"/> instance that indicates beginning of group of sub-entries in binary representation of
-		/// database entry.
+		/// <see cref="int"/> instance that indicates beginning of group of sub-entries in binary representation of database entry.
 		/// </summary>
 		public static readonly int SubEntriesStartMarker = 132383;
 
 		/// <summary>
-		/// <see cref="int"/> instance that indicates end of group of sub-entries in binary representation of database
-		/// entry.
+		/// <see cref="int"/> instance that indicates end of group of sub-entries in binary representation of database entry.
 		/// </summary>
 		public static readonly int SubEntriesEndMarker = 172383;
 
 		/// <summary>
-		/// <see cref="int"/> instance that indicates beginning of database entry in binary representation of database
-		/// entry.
+		/// <see cref="int"/> instance that indicates beginning of database entry in binary representation of database entry.
 		/// </summary>
 		public static readonly int EntryStartMarker = 1731;
 
@@ -60,8 +57,7 @@ namespace Launcher.Databases
 		public static readonly int BinaryDatabaseFileEndMarker = 2959;
 
 		/// <summary>
-		/// Gets the list of attributes that designate registered classes derived from <see
-		/// cref="DatabaseEntryContent"/>.
+		/// Gets the list of attributes that designate registered classes derived from <see cref="DatabaseEntryContent"/>.
 		/// </summary>
 		[NotNull] public static List<EntryContentAttribute> RegisteredContentTypes;
 
@@ -201,9 +197,7 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Determines whether this database contains an entry with specified name.
 		/// </summary>
-		/// <param name="name">             
-		/// Name of the entry which presence in this database needs to be determined.
-		/// </param>
+		/// <param name="name">             Name of the entry which presence in this database needs to be determined.</param>
 		/// <param name="searchLowerLevels">Indicates whether to search in sub-entries.</param>
 		/// <returns>True, if this database contains an entry with specified name, otherwise returns false.</returns>
 		public bool Contains(string name, bool searchLowerLevels)
@@ -226,9 +220,7 @@ namespace Launcher.Databases
 		/// <exception cref="UnauthorizedAccessException">
 		/// The caller does not have the required permission.-or- path specified a file that is read-only.
 		/// </exception>
-		/// <exception cref="DirectoryNotFoundException">
-		/// The specified path is invalid (for example, it is on an unmapped drive).
-		/// </exception>
+		/// <exception cref="DirectoryNotFoundException">The specified path is invalid (for example, it is on an unmapped drive).</exception>
 		/// <exception cref="IOException">An I/O error occurred while creating the file.</exception>
 		/// <exception cref="ArgumentException">Unable to recognize file extension.</exception>
 		public void Save(string file)
@@ -458,8 +450,8 @@ namespace Launcher.Databases
 		/// </summary>
 		/// <typeparam name="T">Type of the content.</typeparam>
 		/// <returns>
-		/// Content of this entry if <typeparamref name="T"/> matches the type of content of this entry. Otherwise
-		/// returns default value of <typeparamref name="T"/>.
+		/// Content of this entry if <typeparamref name="T"/> matches the type of content of this entry. Otherwise returns default value of <typeparamref
+		/// name="T"/>.
 		/// </returns>
 		public T GetContent<T>() where T : DatabaseEntryContent
 		{
@@ -494,8 +486,7 @@ namespace Launcher.Databases
 		/// Creates binary representation of this entry and its sub-entries.
 		/// </summary>
 		/// <param name="bw">
-		/// <see cref="BinaryWriter"/> object that provides access to binary stream to which binary representation of
-		/// this entry is written to.
+		/// <see cref="BinaryWriter"/> object that provides access to binary stream to which binary representation of this entry is written to.
 		/// </param>
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		/// <exception cref="ObjectDisposedException">The stream is closed.</exception>
@@ -532,24 +523,18 @@ namespace Launcher.Databases
 		/// Parses given binary data into database entry.
 		/// </summary>
 		/// <param name="br">
-		/// <see cref="BinaryReader"/> object that provides access to binary stream which contains binary representation
-		/// of database entry.
+		/// <see cref="BinaryReader"/> object that provides access to binary stream which contains binary representation of database entry.
 		/// </param>
 		/// <exception cref="EndOfStreamException">The end of the stream is reached.</exception>
 		/// <exception cref="IOException">An I/O error occurs.</exception>
 		/// <exception cref="ObjectDisposedException">The stream is closed.</exception>
-		/// <exception cref="MemberAccessException">
-		/// The class is abstract.-or- The constructor is a class initializer.
-		/// </exception>
+		/// <exception cref="MemberAccessException">The class is abstract.-or- The constructor is a class initializer.</exception>
 		/// <exception cref="MethodAccessException">
-		/// The constructor is private or protected, and the caller lacks <see
-		/// cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess"/>.
+		/// The constructor is private or protected, and the caller lacks <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess"/>.
 		/// </exception>
 		/// <exception cref="TargetInvocationException">The invoked constructor throws an exception.</exception>
 		/// <exception cref="TargetParameterCountException">An incorrect number of parameters was passed.</exception>
-		/// <exception cref="SecurityException">
-		/// The caller does not have the necessary code access permission.
-		/// </exception>
+		/// <exception cref="SecurityException">The caller does not have the necessary code access permission.</exception>
 		public void FromBinary(BinaryReader br)
 		{
 			this.Name = br.ReadLongString(Encoding.UTF8);
@@ -590,12 +575,8 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Records Xml representation of this entry to given <see cref="XmlElement"/> object.
 		/// </summary>
-		/// <param name="document">   
-		/// <see cref="XmlDocument"/> object that will store Xml representation of this entry.
-		/// </param>
-		/// <param name="hostElement">
-		/// <see cref="XmlElement"/> object that will store Xml representation of this entry.
-		/// </param>
+		/// <param name="document">   <see cref="XmlDocument"/> object that will store Xml representation of this entry.</param>
+		/// <param name="hostElement"><see cref="XmlElement"/> object that will store Xml representation of this entry.</param>
 		/// <exception cref="XmlException">The specified name contains an invalid character.</exception>
 		/// <exception cref="ArgumentException">The node is read-only.</exception>
 		public void ToXml(XmlDocument document, XmlElement hostElement)
@@ -628,22 +609,14 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Parses given Xml data as representation of the <see cref="DatabaseEntry"/> instance.
 		/// </summary>
-		/// <param name="element">
-		/// <see cref="XmlElement"/> object that provides access to Xml representation of this <see
-		/// cref="DatabaseEntry"/> object.
-		/// </param>
-		/// <exception cref="MemberAccessException">
-		/// The class is abstract.-or- The constructor is a class initializer.
-		/// </exception>
+		/// <param name="element"><see cref="XmlElement"/> object that provides access to Xml representation of this <see cref="DatabaseEntry"/> object.</param>
+		/// <exception cref="MemberAccessException">The class is abstract.-or- The constructor is a class initializer.</exception>
 		/// <exception cref="MethodAccessException">
-		/// The constructor is private or protected, and the caller lacks <see
-		/// cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess"/>.
+		/// The constructor is private or protected, and the caller lacks <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess"/>.
 		/// </exception>
 		/// <exception cref="TargetInvocationException">The invoked constructor throws an exception.</exception>
 		/// <exception cref="TargetParameterCountException">An incorrect number of parameters was passed.</exception>
-		/// <exception cref="SecurityException">
-		/// The caller does not have the necessary code access permission.
-		/// </exception>
+		/// <exception cref="SecurityException">The caller does not have the necessary code access permission.</exception>
 		public void FromXml(XmlElement element)
 		{
 			this.Name = element.Name;
@@ -704,20 +677,15 @@ namespace Launcher.Databases
 		/// <summary>
 		/// Records Xml representation of this entry content to given <see cref="XmlElement"/> object.
 		/// </summary>
-		/// <param name="document">
-		/// <see cref="XmlDocument"/> object that will store Xml representation of this entry content.
-		/// </param>
-		/// <param name="element"> 
-		/// <see cref="XmlElement"/> object that will store Xml representation of this entry content.
-		/// </param>
+		/// <param name="document"><see cref="XmlDocument"/> object that will store Xml representation of this entry content.</param>
+		/// <param name="element"> <see cref="XmlElement"/> object that will store Xml representation of this entry content.</param>
 		public abstract void ToXml(XmlDocument document, XmlElement element);
 
 		/// <summary>
 		/// Parses given Xml data as representation of the <see cref="DatabaseEntryContent"/> instance.
 		/// </summary>
 		/// <param name="element">
-		/// <see cref="XmlElement"/> object that provides access to Xml representation of this <see
-		/// cref="DatabaseEntryContent"/> object.
+		/// <see cref="XmlElement"/> object that provides access to Xml representation of this <see cref="DatabaseEntryContent"/> object.
 		/// </param>
 		public abstract void FromXml(XmlElement element);
 	}
@@ -749,8 +717,7 @@ namespace Launcher.Databases
 		/// <param name="name">The name of the type of content.</param>
 		/// <param name="type">Class to which this attribute is applied.</param>
 		/// <exception cref="Exception">
-		/// Unable to register database entry content type with name that has the same hash value as one of the existing
-		/// ones.
+		/// Unable to register database entry content type with name that has the same hash value as one of the existing ones.
 		/// </exception>
 		public EntryContentAttribute(string name, Type type)
 		{

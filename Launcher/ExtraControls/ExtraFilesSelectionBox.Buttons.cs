@@ -50,9 +50,7 @@ namespace Launcher
 				return;
 			}
 
-			object temp = this.FileSelection[index - 1];
-			this.FileSelection[index - 1] = this.FileSelection[index];
-			this.FileSelection[index]     = temp;
+			(this.FileSelection[index - 1], this.FileSelection[index]) = (this.FileSelection[index], this.FileSelection[index - 1]);
 
 			this.UpdateTopBottomSpinners();
 		}
@@ -72,9 +70,7 @@ namespace Launcher
 				return;
 			}
 
-			object temp = this.FileSelection[index + 1];
-			this.FileSelection[index + 1] = this.FileSelection[index];
-			this.FileSelection[index]     = temp;
+			(this.FileSelection[index + 1], this.FileSelection[index]) = (this.FileSelection[index], this.FileSelection[index + 1]);
 
 			this.UpdateTopBottomSpinners();
 		}

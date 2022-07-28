@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -25,17 +24,10 @@ namespace Launcher
 		/// <param name="targetType">The object that is supposed to represent <see cref="string"/> type.</param>
 		/// <param name="parameter"> Ignored.</param>
 		/// <param name="culture">   Ignored.</param>
-		/// <returns>
-		/// If operation was a success, then the name of the directory is returned, otherwise <c>null</c> is returned.
-		/// </returns>
+		/// <returns>If operation was a success, then the name of the directory is returned, otherwise <c>null</c> is returned.</returns>
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (value == null)
-			{
-				return null;
-			}
-
-			if (targetType != typeof(string))
+			if (value == null || targetType != typeof(string))
 			{
 				return null;
 			}
@@ -88,8 +80,7 @@ namespace Launcher
 				this.selectedFileNames.CollectionChanged -= this.UpdateSelectionFromOutside;
 				this.selectedFileNames                   =  value;
 				this.selectedFileNames.CollectionChanged += this.UpdateSelectionFromOutside;
-				this.UpdateSelectionFromOutside(this, new NotifyCollectionChangedEventArgs
-													(NotifyCollectionChangedAction.Reset));
+				this.UpdateSelectionFromOutside(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			}
 		}
 
@@ -189,11 +180,7 @@ namespace Launcher
 
 					for (int i = 0; i < this.FileSelection.Count; i++)
 					{
-						var file = this.FileSelection[i] as FileDesc;
-
-						Debug.Assert(file != null, "file != null");
-
-						if (ExtraFilesLookUp.LoadableFiles.BinarySearch(file) < 0)
+						if (this.FileSelection[i] is FileDesc file && ExtraFilesLookUp.LoadableFiles.BinarySearch(file) < 0)
 						{
 							file.Selected = false;
 							this.FileSelection.RemoveAt(i--);
