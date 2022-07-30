@@ -228,6 +228,7 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Cast.cs" />
+    <Compile Include="Utilities\CommandLineArgumentsBuilder.cs" />
     <Compile Include="Utilities\UiSettings.cs" />
     <Compile Include="Wads\ExtraFilesLookUp.cs" />
     <Compile Include="ExtraControls\ExtraFilesSelectionBox.Buttons.cs" />
