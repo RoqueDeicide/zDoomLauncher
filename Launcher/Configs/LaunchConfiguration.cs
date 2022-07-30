@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
+using Launcher.Utilities;
 
 namespace Launcher.Configs
 {
@@ -444,26 +444,19 @@ namespace Launcher.Configs
 
 		#region Command Line
 
-		private static void AppendExtraFileList(StringBuilder commandLine, IEnumerable<string> files, string argument, string exeFolder,
-												string        requiredExtension = null)
+		private static void AppendExtraFileList(CommandLineArgumentsBuilder commandLine, IEnumerable<string> files, string argument, string exeFolder,
+												string                      requiredExtension = null)
 		{
-			var fileListString = new StringBuilder(100);
+			var selectedFiles = (from extraFile in files
+								 let extension = Path.GetExtension(extraFile)
+								 where requiredExtension == null ? extension != ".bex" && extension != ".deh" : extension == requiredExtension
+								 select extraFile).ToList();
 
-			var selectedFiles = from extraFile in files
-								let extension = Path.GetExtension(extraFile)
-								where requiredExtension == null ? extension != ".bex" && extension != ".deh" : extension == requiredExtension
-								select extraFile;
+			commandLine.AddIf(argument, selectedFiles.Count > 0);
 
 			foreach (string selectedFile in selectedFiles)
 			{
-				fileListString.Append(" ");
-				fileListString.Append(GetValidPath(selectedFile, exeFolder));
-			}
-
-			if (fileListString.Length > 0)
-			{
-				commandLine.Append(argument);
-				commandLine.Append(fileListString);
+				commandLine.Add(GetValidPath(selectedFile, exeFolder));
 			}
 		}
 
@@ -474,28 +467,20 @@ namespace Launcher.Configs
 		/// <exception cref="ArgumentOutOfRangeException">Unknown enumeration value.</exception>
 		public string GetCommandLine(string exeFolder)
 		{
-			var line = new StringBuilder();
+			var line = new CommandLineArgumentsBuilder();
 
 			// IWAD.
-			if (this.IwadFile != null && !this.IwadFile.FileName.IsNullOrWhiteSpace())
-			{
-				line.Append("-iwad ");
-				line.Append(this.IwadFile.FileName);
-			}
+			line.AddIf("-iwad", this.IwadFile.FileName, this.IwadFile != null && !this.IwadFile.FileName.IsNullOrWhiteSpace());
 
 			// Config file.
-			if (!string.IsNullOrWhiteSpace(this.ConfigFile))
-			{
-				line.Append(" -config ");
-				line.Append(GetValidPath(this.ConfigFile, exeFolder, false));
-			}
+			line.AddIf("-config", GetValidPath(this.ConfigFile, exeFolder, false), !this.configFile.IsNullOrWhiteSpace());
 
 			// Extras.
 			if (this.ExtraFiles.Count > 0)
 			{
-				AppendExtraFileList(line, this.extraFiles, " -file", exeFolder);
-				AppendExtraFileList(line, this.extraFiles, " -bex",  exeFolder, ".bex");
-				AppendExtraFileList(line, this.extraFiles, " -deh",  exeFolder, ".deh");
+				AppendExtraFileList(line, this.extraFiles, "-file", exeFolder);
+				AppendExtraFileList(line, this.extraFiles, "-bex",  exeFolder, ".bex");
+				AppendExtraFileList(line, this.extraFiles, "-deh",  exeFolder, ".deh");
 			}
 
 			// Graphics.
@@ -505,68 +490,38 @@ namespace Launcher.Configs
 					break;
 
 				case PixelMode.Double:
-					line.Append(" -2");
+					line.Add("-2");
 					break;
 
 				case PixelMode.Quad:
-					line.Append(" -4");
+					line.Add("-4");
 					break;
 
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
 
-			if (this.SpecifyWidth)
-			{
-				line.Append(" -width ");
-				line.Append(this.Width);
-			}
+			line.AddIf("-width",  this.width.ToString(),  this.specifyWidth);
+			line.AddIf("-height", this.height.ToString(), this.specifyHeight);
 
-			if (this.SpecifyHeight)
-			{
-				line.Append(" -height ");
-				line.Append(this.Height);
-			}
-
-			if (!string.IsNullOrWhiteSpace(this.SaveDirectory))
-			{
-				line.Append(@" -savedir ");
-				line.Append(GetValidPath(this.SaveDirectory, exeFolder, false));
-			}
+			line.AddIf("-savedir", GetValidPath(this.SaveDirectory, exeFolder, false), !this.saveDirectory.IsNullOrWhiteSpace());
 
 			switch (this.StartupAction)
 			{
 				case StartupAction.LoadGame:
-					if (!this.saveGamePath.IsNullOrWhiteSpace())
-					{
-						line.Append(@" -loadgame ");
-						line.Append(GetValidPath(this.saveGamePath, exeFolder));
-					}
-
+					line.AddIf("-loadgame", GetValidPath(this.saveGamePath, exeFolder), !this.saveGamePath.IsNullOrWhiteSpace());
 					break;
 
 				case StartupAction.LoadDemo:
-					if (!this.demoPath.IsNullOrWhiteSpace())
-					{
-						line.Append(@" -playdemo ");
-						line.Append(GetValidPath(this.demoPath, exeFolder));
-					}
-
+					line.AddIf("-playdemo", GetValidPath(this.demoPath, exeFolder), !this.demoPath.IsNullOrWhiteSpace());
 					break;
 
 				case StartupAction.LoadMapIndex:
-					line.Append(" -warp ");
-					line.Append($"{this.episodeIndex} {this.mapIndex}");
-					line.Append(@" -warpwipe");
+					line.Add("-warp", this.iwadFile == null || this.iwadFile.Episodic ? $"{this.episodeIndex}" : null, $"{this.mapIndex}", "-warpwipe");
 					break;
 
 				case StartupAction.LoadMapName:
-					if (!this.mapName.IsNullOrWhiteSpace())
-					{
-						line.Append(" +map ");
-						line.Append(this.mapName);
-					}
-
+					line.AddIf("+map", this.mapName, !this.mapName.IsNullOrWhiteSpace());
 					break;
 
 				case StartupAction.None:
@@ -577,97 +532,38 @@ namespace Launcher.Configs
 			}
 
 			// Gameplay options.
-			if (this.FastMonsters)
-			{
-				line.Append(" -fast");
-			}
+			line.AddIf("-fast",       this.FastMonsters);
+			line.AddIf("-nomonsters", this.NoMonsters);
+			line.AddIf("-respawn",    this.RespawningMonsters);
 
-			if (this.NoMonsters)
-			{
-				line.Append(@" -nomonsters");
-			}
-
-			if (this.RespawningMonsters)
-			{
-				line.Append(" -respawn");
-			}
-
-			if (this.SpecifyTimeLimit)
-			{
-				line.Append(" -timer ");
-				line.Append(this.TimeLimit.ToString(CultureInfo.InvariantCulture));
-			}
-
-			if (this.SpecifyTurboMode)
-			{
-				line.Append(" -turbo ");
-				line.Append(this.TurboMode.ToString(CultureInfo.InvariantCulture));
-			}
-
-			if (this.SpecifyDifficulty)
-			{
-				line.Append(" -skill ");
-				line.Append(this.Difficulty.ToString(CultureInfo.InvariantCulture));
-			}
+			line.AddIf("-timer", this.TimeLimit.ToString(CultureInfo.InvariantCulture),  this.SpecifyTimeLimit);
+			line.AddIf("-turbo", this.TurboMode.ToString(CultureInfo.InvariantCulture),  this.specifyTurboMode);
+			line.AddIf("-skill", this.Difficulty.ToString(CultureInfo.InvariantCulture), this.specifyDifficulty);
 
 			// Disable.
-			if (this.DisableFlags.HasFlag(DisableOptions.AutoLoad))
-			{
-				line.Append(@" -noautoload");
-			}
-
-			if (this.DisableFlags.HasFlag(DisableOptions.CompactDiskAudio))
-			{
-				line.Append(@" -nocdaudio");
-			}
-
-			if (this.DisableFlags.HasFlag(DisableOptions.Idling))
-			{
-				line.Append(@" -noidle");
-			}
-
-			if (this.DisableFlags.HasFlag(DisableOptions.JoyStick))
-			{
-				line.Append(@" -nojoy");
-			}
+			line.AddIf(@"-noautoload", this.DisableFlags.HasFlag(DisableOptions.AutoLoad));
+			line.AddIf(@"-nocdaudio",  this.DisableFlags.HasFlag(DisableOptions.CompactDiskAudio));
+			line.AddIf(@"-noidle",     this.DisableFlags.HasFlag(DisableOptions.Idling));
+			line.AddIf(@"-nojoy",      this.DisableFlags.HasFlag(DisableOptions.JoyStick));
 
 			if (!this.DisableFlags.HasFlag(DisableOptions.Sound))
 			{
-				if (this.DisableFlags.HasFlag(DisableOptions.Music))
-				{
-					line.Append(@" -nomusic");
-				}
-
-				if (this.DisableFlags.HasFlag(DisableOptions.SoundEffects))
-				{
-					line.Append(@" -nosfx");
-				}
+				line.AddIf(@"-nomusic", this.DisableFlags.HasFlag(DisableOptions.Music));
+				line.AddIf(@"-nosfx",   this.DisableFlags.HasFlag(DisableOptions.SoundEffects));
 			}
 			else
 			{
-				line.Append(@" -nosound");
+				line.Add(@"-nosound");
 			}
 
-			if (this.disableFlags.HasFlag(DisableOptions.BlockMapLoad))
-			{
-				line.Append(@" -blockmap");
-			}
-
-			if (this.DisableFlags.HasFlag(DisableOptions.SpriteRenaming))
-			{
-				line.Append(@" -oldsprites");
-			}
-
-			if (this.DisableFlags.HasFlag(DisableOptions.StartupScreens))
-			{
-				line.Append(@" -nostartup");
-			}
+			line.AddIf(@"-blockmap",   this.disableFlags.HasFlag(DisableOptions.BlockMapLoad));
+			line.AddIf(@"-oldsprites", this.DisableFlags.HasFlag(DisableOptions.SpriteRenaming));
+			line.AddIf(@"-nostartup",  this.DisableFlags.HasFlag(DisableOptions.StartupScreens));
 
 			// Last thing.
 			if (!string.IsNullOrWhiteSpace(this.ExtraOptions))
 			{
-				line.Append(" ");
-				line.Append(this.ExtraOptions);
+				line.LineBuilder.Append($" {this.ExtraOptions}");
 			}
 
 			return line.ToString();
@@ -689,9 +585,14 @@ namespace Launcher.Configs
 
 		#region Utilities
 
-		// Creates a string that represents a path to the file that is properly recognized by the command line interpreter.
+		// Converts between relative and absolute paths.
 		private static string GetValidPath(string file, string exeFolder, bool toRelative = true)
 		{
+			if (file.IsNullOrWhiteSpace())
+			{
+				return file;
+			}
+
 			string path = null;
 
 			if (toRelative)
@@ -717,7 +618,7 @@ namespace Launcher.Configs
 						   : PathUtils.GetLocalPath(Path.Combine(exeFolder, file));
 			}
 
-			return path != null && path.Any(char.IsWhiteSpace) ? "\"" + path + "\"" : path;
+			return path;
 		}
 
 		#endregion
