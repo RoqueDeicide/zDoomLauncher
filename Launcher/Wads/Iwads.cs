@@ -41,7 +41,7 @@ namespace Launcher
 		{
 			SupportedIwads = new List<IwadFile>
 							 {
-								 new IwadFile("",                @"Choose IWAD at launch",                 false),
+								 new IwadFile("",                @"Choose IWAD at launch",                 true),
 								 new IwadFile(@"doom1.wad",      @"Doom Shareware version",                true),
 								 new IwadFile(@"doom.wad",       @"Doom Full version",                     true),
 								 new IwadFile(@"doomu.wad",      @"Ultimate Doom",                         false),
