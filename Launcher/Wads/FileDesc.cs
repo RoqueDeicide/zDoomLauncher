@@ -131,7 +131,7 @@ namespace Launcher
 		public int CompareTo(FileDesc other)
 		{
 			if (ReferenceEquals(this, other)) return 0;
-			return other is null ? 1 : string.Compare(this.FullPath, other.FullPath, StringComparison.Ordinal);
+			return other is null ? 1 : string.Compare(this.FullPath, other.FullPath, StringComparison.InvariantCulture);
 		}
 
 		public int CompareTo(object obj)
