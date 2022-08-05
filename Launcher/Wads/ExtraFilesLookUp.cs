@@ -224,13 +224,18 @@ namespace Launcher
 
 			foreach (string enumeratedFile in enumeratedFiles)
 			{
-				LoadableFiles.AddToSorted(new FileDesc(enumeratedFile));
+				AddLoadableFile(enumeratedFile);
 			}
 		}
 
 		#endregion
 
 		#region Utilities
+
+		private static void AddLoadableFile(string file)
+		{
+			LoadableFiles.AddToSorted(new FileDesc(file));
+		}
 
 		private static void DirectoriesCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
 		{
@@ -274,7 +279,7 @@ namespace Launcher
 											from file in GetLoadableFiles(directory)
 											select file)
 			{
-				LoadableFiles.AddToSorted(new FileDesc(loadableFile));
+				AddLoadableFile(loadableFile);
 			}
 		}
 
