@@ -128,12 +128,31 @@ namespace Launcher
 
 		#endregion
 
+		#region Comparison
+
+		/// <summary>
+		/// Determines position of this object relative to another in a sequence that is sorted in ascending order.
+		/// </summary>
+		/// <param name="other">Another object to compare this one against.</param>
+		/// <returns>
+		/// An integer that, if negative, indicates that this object must precede another, if positive, indicates that this object must succeed another,
+		/// otherwise, that objects are equal.
+		/// </returns>
 		public int CompareTo(FileDesc other)
 		{
 			if (ReferenceEquals(this, other)) return 0;
 			return other is null ? 1 : string.Compare(this.FullPath, other.FullPath, StringComparison.InvariantCulture);
 		}
 
+		/// <summary>
+		/// Determines position of this object relative to another in a sequence that is sorted in ascending order.
+		/// </summary>
+		/// <param name="obj">Another object to compare this one against.</param>
+		/// <returns>
+		/// An integer that, if negative, indicates that this object must precede another, if positive, indicates that this object must succeed another,
+		/// otherwise, that objects are equal.
+		/// </returns>
+		/// <exception cref="ArgumentException">Object must be of type <see cref="FileDesc"/>.</exception>
 		public int CompareTo(object obj)
 		{
 			if (obj is null) return 1;
@@ -141,24 +160,50 @@ namespace Launcher
 			return obj is FileDesc other ? this.CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(FileDesc)}");
 		}
 
+		/// <summary>
+		/// Indicates whether left object of type <see cref="FileDesc"/> must precede the one on the right.
+		/// </summary>
+		/// <param name="left"> Left object</param>
+		/// <param name="right">Right object.</param>
+		/// <returns><c>true</c>, if left object of type <see cref="FileDesc"/> must precede the one on the right, otherwise <c>false</c>.</returns>
 		public static bool operator <(FileDesc left, FileDesc right)
 		{
 			return Comparer<FileDesc>.Default.Compare(left, right) < 0;
 		}
 
+		/// <summary>
+		/// Indicates whether left object of type <see cref="FileDesc"/> must succeed the one on the right.
+		/// </summary>
+		/// <param name="left"> Left object</param>
+		/// <param name="right">Right object.</param>
+		/// <returns><c>true</c>, if left object of type <see cref="FileDesc"/> must succeed the one on the right, otherwise <c>false</c>.</returns>
 		public static bool operator >(FileDesc left, FileDesc right)
 		{
 			return Comparer<FileDesc>.Default.Compare(left, right) > 0;
 		}
 
+		/// <summary>
+		/// Indicates whether left object of type <see cref="FileDesc"/> must not succeed the one on the right.
+		/// </summary>
+		/// <param name="left"> Left object</param>
+		/// <param name="right">Right object.</param>
+		/// <returns><c>true</c>, if left object of type <see cref="FileDesc"/> must not succeed the one on the right, otherwise <c>false</c>.</returns>
 		public static bool operator <=(FileDesc left, FileDesc right)
 		{
 			return Comparer<FileDesc>.Default.Compare(left, right) <= 0;
 		}
 
+		/// <summary>
+		/// Indicates whether left object of type <see cref="FileDesc"/> must not precede the one on the right.
+		/// </summary>
+		/// <param name="left"> Left object</param>
+		/// <param name="right">Right object.</param>
+		/// <returns><c>true</c>, if left object of type <see cref="FileDesc"/> must not precede the one on the right, otherwise <c>false</c>.</returns>
 		public static bool operator >=(FileDesc left, FileDesc right)
 		{
 			return Comparer<FileDesc>.Default.Compare(left, right) >= 0;
 		}
+
+		#endregion
 	}
 }
