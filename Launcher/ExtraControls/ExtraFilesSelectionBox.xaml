@@ -46,8 +46,12 @@
 					</ListBox.GroupStyle>
 					<ListBox.ItemTemplate>
 						<DataTemplate>
-							<CheckBox Content="{Binding FileName}" ToolTip="{Binding Directory}"
-							          Click="ToggleFileSelection" IsChecked="{Binding Selected, Mode=OneWay}" />
+							<CheckBox ToolTip="{Binding Directory}"
+							          Click="ToggleFileSelection" IsChecked="{Binding Selected, Mode=OneWay}">
+								<CheckBox.Content>
+									<TextBlock Text="{Binding FileName}" />
+								</CheckBox.Content>
+							</CheckBox>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
