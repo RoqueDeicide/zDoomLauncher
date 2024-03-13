@@ -50,7 +50,7 @@ namespace Launcher
 		/// <param name="targetType">Type.</param>
 		/// <param name="parameter"> Parameter.</param>
 		/// <param name="culture">   Ignored.</param>
-		/// <returns>If <paramref name="value"/> equals <paramref name="parameter"/></returns>
+		/// <returns>If <paramref name="value"/> equals <paramref name="parameter"/>.</returns>
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (!(parameter is string parameterString))

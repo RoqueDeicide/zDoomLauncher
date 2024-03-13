@@ -17,7 +17,7 @@ namespace Launcher
 		/// <summary>
 		/// A <see cref="DependencyProperty"/> that defines a default value for the number box.
 		/// </summary>
-		public static readonly DependencyProperty DefaultValueProperty = DependencyProperty.Register("DefaultValue", typeof(double), typeof(NumberBoxExtended),
+		public static readonly DependencyProperty DefaultValueProperty = DependencyProperty.Register(nameof(DefaultValue), typeof(double), typeof(NumberBoxExtended),
 																									 new PropertyMetadata(default(double)));
 
 		/// <summary>

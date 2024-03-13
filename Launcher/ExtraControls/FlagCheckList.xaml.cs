@@ -115,7 +115,7 @@ namespace Launcher
 		/// Backing field for <see cref="Flags"/> property.
 		/// </summary>
 		public static readonly DependencyProperty FlagsProperty =
-			DependencyProperty.Register("Flags", typeof(Enum), typeof(FlagCheckList),
+			DependencyProperty.Register(nameof(Flags), typeof(Enum), typeof(FlagCheckList),
 										new FrameworkPropertyMetadata(default(Enum), UpdateTheFlagList)
 										{
 											BindsTwoWayByDefault       = true,
