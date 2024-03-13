@@ -79,6 +79,11 @@ namespace Launcher
 		/// <returns><see cref="DependencyProperty.UnsetValue"/> or <paramref name="parameter"/> parsed as enum.</returns>
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
+			if (value is bool b && !b)
+			{
+				return Binding.DoNothing;
+			}
+
 			if (!(parameter is string parameterString))
 				return DependencyProperty.UnsetValue;
 
