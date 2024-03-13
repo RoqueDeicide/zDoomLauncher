@@ -232,5 +232,10 @@ namespace Launcher
 
 			e.Handled = true;
 		}
+
+		private void UnregisterEventHandlersWhenUnloaded(object sender, System.Windows.RoutedEventArgs e)
+		{
+			this.selectedFileNames.CollectionChanged -= this.UpdateSelectionFromOutside;
+		}
 	}
 }
